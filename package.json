@@ -6,8 +6,7 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
-    "lint": "eslint ./src --ext ts",
-    "all": "npm run build && npm run lint"
+    "lint": "eslint ./src --ext ts"
   },
   "repository": {
     "type": "git",
