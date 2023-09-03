@@ -1,0 +1,97 @@
+name: setup-pixi
+description: Install the pixi package manager
+author: Pavel Zwerschke
+branding:
+  icon: package
+  color: yellow
+
+inputs:
+  condarc-file:
+    description: |
+      Path to a condarc file to use
+  condarc:
+    description: |
+      Contents of a condarc file to use.
+  environment-file:
+    description: |
+      Path to the `environment.yml` or `.lock` file for the environment.
+  environment-name:
+    description: |
+      Name of the environment to create. Overrides the name in the environment file.
+  create-args:
+    description: |
+      Extra arguments to pass to `micromamba create`.
+      Also possible to list extra specs to install into the environment.
+      For multiple packages, separate using spaces or use multiline syntax:
+      ```yml
+      create-args: package1 package2
+      # or
+      create-args: >-
+        package1
+        package2
+      ```
+  log-level:
+    description: |
+      Log level for micromamba.
+      One of `'trace'`, `'debug'`, `'info'`, `'warning'`, `'error'`, `'critical'`, `'off'`.
+  micromamba-version:
+    description: |
+      Version of micromamba to install.
+      Must match with a micromamba version from the https://github.com/mamba-org/micromamba-releases repository or 'latest'.
+  micromamba-url:
+    description: |
+      URL to download micromamba from.
+  init-shell:
+    description: |
+      Which shells to initialize micromamba in.
+      Also possible to list multiple shells using spaces or use multiline syntax:
+      ```yml
+      init-shell: bash cmd.exe powershell
+      # or
+      init-shell: >-
+        bash
+        cmd.exe
+        powershell
+      ```
+      To initialize no shell, use `'none'`.
+      Also supports other shells than bash, cmd.exe and powershell, but they are not tested.
+  generate-run-shell:
+    description: |
+      Whether to generate a custom shell script that allows to use it in the workflow file using `run: micromamba-shell {0}`
+  cache-downloads:
+    description: |
+      Whether to cache downloads or not.
+  cache-downloads-key:
+    description: |
+      Cache key to use for caching.
+  cache-environment:
+    description: |
+      Whether to cache the environment or not.
+  cache-environment-key:
+    description: |
+      Cache key to use for caching.
+  post-cleanup:
+    description: |
+      Which kind of cleanup to do after the action.
+      `'none'` - do not cleanup anything.
+      `'shell-init'` - cleanup only the shell initialization scripts.
+      `'environment'` - cleanup the installed environment and shell initialization scripts.
+      `'all'` - cleanup everything including the whole micromamba root folder and the micromamba binary.
+  micromamba-root-path:
+    description: |
+      Path to the micromamba root folder.
+      Defaults to `~/micromamba`.
+  micromamba-binary-path:
+    description: |
+      Path to the micromamba binary.
+      Defaults to `~/micromamba-bin/micromamba`.
+      Also specifies the path to the custom condarc which is located in the same folder as the micromamba binary.
+
+outputs:
+  environment-path:
+    description: Path to the created environment. Only populated if environment was created, i.e., `environment-file` or `environment-name` was specified.
+
+runs:
+  using: node20
+  main: dist/index.js
+  post: dist/post.js
