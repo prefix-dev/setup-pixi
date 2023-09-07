@@ -16,6 +16,8 @@ jobs:
         run: mv test/default/* .
       - uses: ./
       - run: |
+          set -x
+          pixi info
           pixi info | grep -q "environment : test"
           test -f .pixi/env/bin/python
           ./pixi/env/bin/python --version | grep -q 3.11
