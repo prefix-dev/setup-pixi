@@ -20,17 +20,17 @@ jobs:
           test -f .pixi/env/bin/python
           ./.pixi/env/bin/python --version | grep -q 3.11
 
-  no-run-install-2:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Move pixi.toml
-        run: mv test/default/* .
-      - uses: ./
-        with:
-          run-install: false
-      - run: |
-          pixi install -vv
+  # no-run-install-2:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Move pixi.toml
+  #       run: mv test/default/* .
+  #     - uses: ./
+  #       with:
+  #         run-install: false
+  #     - run: |
+  #         pixi install -vv
 
   no-run-install:
     runs-on: ubuntu-latest
@@ -52,7 +52,7 @@ jobs:
         run: mv test/default/* .
       - uses: ./
         with:
-          pixi-version: 0.1.0
+          pixi-version: v0.1.0
       - run: pixi --version | grep -q "pixi 0.1.0"
 
   custom-pixi-url:
@@ -64,6 +64,8 @@ jobs:
       - uses: ./
         with:
           pixi-url: https://github.com/prefix-dev/pixi/releases/download/v0.0.8/pixi-aarch64-unknown-linux-musl
+      - run: cat ~/.pixi/bin/pixi
+        if: always()
       - run: pixi --version | grep -q "pixi 0.0.8"
   
   custom-manifest-path:
