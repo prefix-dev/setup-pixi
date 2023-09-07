@@ -20,18 +20,6 @@ jobs:
           test -f .pixi/env/bin/python
           ./.pixi/env/bin/python --version | grep -q 3.11
 
-  no-run-install-2:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Move pixi.toml
-        run: mv test/default/* .
-      - uses: ./
-        with:
-          run-install: false
-      - run: |
-          pixi install --manifest-path pixi.toml -v
-
   no-run-install:
     runs-on: ubuntu-latest
     steps:
@@ -70,8 +58,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Move pixi.toml
-        run: mv test/default/* .
       - uses: ./
         with:
           manifest-path: test/default/pixi.toml
