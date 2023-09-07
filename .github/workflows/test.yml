@@ -63,9 +63,7 @@ jobs:
         run: mv test/default/* .
       - uses: ./
         with:
-          pixi-url: https://github.com/prefix-dev/pixi/releases/download/v0.0.8/pixi-aarch64-unknown-linux-musl
-      - run: ls -l ~/.pixi/bin/pixi
-        if: always()
+          pixi-url: https://github.com/prefix-dev/pixi/releases/download/v0.0.8/pixi-x86_64-unknown-linux-musl
       - run: pixi --version | grep -q "pixi 0.0.8"
   
   custom-manifest-path:
