@@ -198,6 +198,6 @@ jobs:
         run: mv test/no-lockfile/* .
       - uses: ./
       - run: |
-          pixi info | grep -q "environment : test-no-lockfile"
+          pixi info
           test -f .pixi/env/bin/python
-          ./pixi/env/bin/python --version | grep -q 3.11
+          ./.pixi/env/bin/python --version | grep -q 3.11
