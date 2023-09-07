@@ -61127,7 +61127,7 @@ var getOptions = () => {
     cache: parseOrUndefinedJSON("cache", booleanType()),
     cacheKey: parseOrUndefined("cache-key", stringType()),
     pixiBinPath: parseOrUndefined("micromamba-binary-path", stringType()),
-    authHost: parseOrUndefined("auth-host", stringType().url()),
+    authHost: parseOrUndefined("auth-host", stringType()),
     authToken: parseOrUndefined("auth-token", stringType()),
     authUsername: parseOrUndefined("auth-username", stringType()),
     authPassword: parseOrUndefined("auth-password", stringType()),

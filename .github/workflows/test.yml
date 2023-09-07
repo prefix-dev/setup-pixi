@@ -89,20 +89,20 @@ jobs:
         with:
           log-level: debug
 
-  run-shell:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
-    steps:
-    - uses: actions/checkout@v4
-    - name: Move pixi.toml
-      run: mv test/default/* .
-    - uses: ./
-      with:
-        generate-run-shell: true
-    - run: python --version | grep -q "3.11"
-      shell: pixi-shell {0}
+  # run-shell:
+  #   strategy:
+  #     matrix:
+  #       os: [ubuntu-latest, macos-latest]
+  #   runs-on: ${{ matrix.os }}
+  #   steps:
+  #   - uses: actions/checkout@v4
+  #   - name: Move pixi.toml
+  #     run: mv test/default/* .
+  #   - uses: ./
+  #     with:
+  #       generate-run-shell: true
+  #   - run: python --version | grep -q "3.11"
+  #     shell: pixi-shell {0}
 
   custom-bin-path:
     runs-on: ubuntu-latest

@@ -178,7 +178,7 @@ const getOptions = () => {
     cache: parseOrUndefinedJSON('cache', z.boolean()),
     cacheKey: parseOrUndefined('cache-key', z.string()),
     pixiBinPath: parseOrUndefined('micromamba-binary-path', z.string()),
-    authHost: parseOrUndefined('auth-host', z.string().url()),
+    authHost: parseOrUndefined('auth-host', z.string()),
     authToken: parseOrUndefined('auth-token', z.string()),
     authUsername: parseOrUndefined('auth-username', z.string()),
     authPassword: parseOrUndefined('auth-password', z.string()),
