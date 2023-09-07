@@ -18,7 +18,7 @@ jobs:
       - run: |
           pixi info
           test -f .pixi/env/bin/python
-          ./pixi/env/bin/python --version | grep -q 3.11
+          ./.pixi/env/bin/python --version | grep -q 3.11
 
   no-run-install-2:
     runs-on: ubuntu-latest
