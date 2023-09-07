@@ -123,7 +123,11 @@ const validateInputs = (inputs: Inputs): void => {
 
 const inferOptions = (inputs: Inputs): Options => {
   const runInstall = inputs.runInstall ?? true
-  const pixiSource = inputs.pixiVersion ? { version: inputs.pixiVersion } : { url: inputs.pixiUrl! }
+  const pixiSource = inputs.pixiVersion
+    ? { version: inputs.pixiVersion }
+    : inputs.pixiUrl
+    ? { url: inputs.pixiUrl }
+    : { version: 'latest' }
   const logLevel = inputs.logLevel ?? (core.isDebug() ? 'debug' : 'info')
   const manifestPath = inputs.manifestPath ?? 'pixi.toml'
   const pixiLockFile = path.basename(manifestPath).replace(/\.toml$/, '.lock')

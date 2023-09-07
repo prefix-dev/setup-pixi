@@ -61089,7 +61089,7 @@ var validateInputs = (inputs) => {
 };
 var inferOptions = (inputs) => {
   const runInstall = inputs.runInstall ?? true;
-  const pixiSource = inputs.pixiVersion ? { version: inputs.pixiVersion } : { url: inputs.pixiUrl };
+  const pixiSource = inputs.pixiVersion ? { version: inputs.pixiVersion } : inputs.pixiUrl ? { url: inputs.pixiUrl } : { version: "latest" };
   const logLevel = inputs.logLevel ?? (core2.isDebug() ? "debug" : "info");
   const manifestPath = inputs.manifestPath ?? "pixi.toml";
   const pixiLockFile = import_path.default.basename(manifestPath).replace(/\.toml$/, ".lock");
