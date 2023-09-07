@@ -90,7 +90,7 @@ const parseOrUndefinedJSON = <T>(key: string, schema: z.ZodSchema<T>): T | undef
 }
 
 const validateInputs = (inputs: Inputs): void => {
-  if (!inputs.pixiVersion && !inputs.pixiUrl) {
+  if (inputs.pixiVersion && inputs.pixiUrl) {
     throw new Error('You need to specify either pixi-version or pixi-url')
   }
   if (inputs.cacheKey !== undefined && inputs.cache === false) {

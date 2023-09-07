@@ -61061,7 +61061,7 @@ var parseOrUndefinedJSON = (key, schema) => {
   return schema.parse(JSON.parse(input));
 };
 var validateInputs = (inputs) => {
-  if (!inputs.pixiVersion && !inputs.pixiUrl) {
+  if (inputs.pixiVersion && inputs.pixiUrl) {
     throw new Error("You need to specify either pixi-version or pixi-url");
   }
   if (inputs.cacheKey !== void 0 && inputs.cache === false) {
