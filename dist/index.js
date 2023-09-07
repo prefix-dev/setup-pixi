@@ -61004,7 +61004,7 @@ var getPixiUrlFromVersion = (version3) => {
   if (version3 === "latest") {
     return `https://github.com/prefix-dev/pixi/releases/latest/download/${pixiFile}`;
   }
-  return `https://github.com/mamba-org/micromamba-releases/releases/download/${version3}/${pixiFile}`;
+  return `https://github.com/prefix-dev/pixi/releases/download/${version3}/${pixiFile}`;
 };
 var sha256 = (s) => {
   return (0, import_crypto4.createHash)("sha256").update(s).digest("hex");
@@ -61041,7 +61041,7 @@ var pixiCmd = (command, withManifestPath = true) => {
 var logLevelSchema = enumType(["quiet", "warn", "info", "debug", "trace"]);
 var postCleanupSchema = enumType(["none", "environment", "all"]);
 var PATHS = {
-  pixiBin: import_path.default.join(import_os.default.homedir(), ".pixi", "bin", "pixi"),
+  pixiBin: import_path.default.join(import_os.default.homedir(), ".pixi", "bin", `pixi${import_os.default.platform() === "win32" ? ".exe" : ""}`),
   pixiRunShellScript: import_path.default.join(import_os.default.homedir(), ".pixi", "bin", "pixi-shell"),
   bashProfile: import_path.default.join(import_os.default.homedir(), ".bash_profile"),
   bashrc: import_path.default.join(import_os.default.homedir(), ".bashrc")
@@ -61061,7 +61061,7 @@ var parseOrUndefinedJSON = (key, schema) => {
   return schema.parse(JSON.parse(input));
 };
 var validateInputs = (inputs) => {
-  if (!inputs.pixiVersion && !inputs.pixiUrl) {
+  if (inputs.pixiVersion && inputs.pixiUrl) {
     throw new Error("You need to specify either pixi-version or pixi-url");
   }
   if (inputs.cacheKey !== void 0 && inputs.cache === false) {
@@ -61089,8 +61089,8 @@ var validateInputs = (inputs) => {
 };
 var inferOptions = (inputs) => {
   const runInstall = inputs.runInstall ?? true;
-  const pixiSource = inputs.pixiVersion ? { version: inputs.pixiVersion } : { url: inputs.pixiUrl };
-  const logLevel = inputs.logLevel ?? (core2.isDebug() ? "debug" : "info");
+  const pixiSource = inputs.pixiVersion ? { version: inputs.pixiVersion } : inputs.pixiUrl ? { url: inputs.pixiUrl } : { version: "latest" };
+  const logLevel = inputs.logLevel ?? (core2.isDebug() ? "debug" : "warn");
   const manifestPath = inputs.manifestPath ?? "pixi.toml";
   const pixiLockFile = import_path.default.basename(manifestPath).replace(/\.toml$/, ".lock");
   const generateRunShell = inputs.generateRunShell ?? runInstall;
@@ -61121,7 +61121,7 @@ var assertOptions = (_options) => {
 };
 var getOptions = () => {
   const inputs = {
-    pixiVersion: parseOrUndefined("pixi-version", unionType([literalType("latest"), stringType().regex(/^\d+\.\d+\.\d+$/)])),
+    pixiVersion: parseOrUndefined("pixi-version", unionType([literalType("latest"), stringType().regex(/^v\d+\.\d+\.\d+$/)])),
     pixiUrl: parseOrUndefined("pixi-url", stringType().url()),
     logLevel: parseOrUndefined("log-level", logLevelSchema),
     manifestPath: parseOrUndefined("manifest-path", stringType()),
@@ -61130,7 +61130,7 @@ var getOptions = () => {
     cache: parseOrUndefinedJSON("cache", booleanType()),
     cacheKey: parseOrUndefined("cache-key", stringType()),
     pixiBinPath: parseOrUndefined("micromamba-binary-path", stringType()),
-    authHost: parseOrUndefined("auth-host", stringType().url()),
+    authHost: parseOrUndefined("auth-host", stringType()),
     authToken: parseOrUndefined("auth-token", stringType()),
     authUsername: parseOrUndefined("auth-username", stringType()),
     authPassword: parseOrUndefined("auth-password", stringType()),

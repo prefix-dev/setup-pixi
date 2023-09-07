@@ -50,6 +50,7 @@ inputs:
       If `none`, no cleanup is done.
       If `environment`, the pixi environment is removed.
       If `all`, the pixi environment, the pixi CLI are removed and the rattler cache is cleared.
+      Defaults to `all`.
 
 runs:
   using: node20

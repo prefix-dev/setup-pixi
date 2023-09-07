@@ -65,7 +65,7 @@ const postCleanupSchema = z.enum(['none', 'environment', 'all'])
 export type PostCleanup = z.infer<typeof postCleanupSchema>
 
 export const PATHS = {
-  pixiBin: path.join(os.homedir(), '.pixi', 'bin', 'pixi'),
+  pixiBin: path.join(os.homedir(), '.pixi', 'bin', `pixi${os.platform() === 'win32' ? '.exe' : ''}`),
   pixiRunShellScript: path.join(os.homedir(), '.pixi', 'bin', 'pixi-shell'),
   bashProfile: path.join(os.homedir(), '.bash_profile'),
   bashrc: path.join(os.homedir(), '.bashrc')
@@ -90,7 +90,7 @@ const parseOrUndefinedJSON = <T>(key: string, schema: z.ZodSchema<T>): T | undef
 }
 
 const validateInputs = (inputs: Inputs): void => {
-  if (!inputs.pixiVersion && !inputs.pixiUrl) {
+  if (inputs.pixiVersion && inputs.pixiUrl) {
     throw new Error('You need to specify either pixi-version or pixi-url')
   }
   if (inputs.cacheKey !== undefined && inputs.cache === false) {
@@ -123,8 +123,12 @@ const validateInputs = (inputs: Inputs): void => {
 
 const inferOptions = (inputs: Inputs): Options => {
   const runInstall = inputs.runInstall ?? true
-  const pixiSource = inputs.pixiVersion ? { version: inputs.pixiVersion } : { url: inputs.pixiUrl! }
-  const logLevel = inputs.logLevel ?? (core.isDebug() ? 'debug' : 'info')
+  const pixiSource = inputs.pixiVersion
+    ? { version: inputs.pixiVersion }
+    : inputs.pixiUrl
+    ? { url: inputs.pixiUrl }
+    : { version: 'latest' }
+  const logLevel = inputs.logLevel ?? (core.isDebug() ? 'debug' : 'warn')
   const manifestPath = inputs.manifestPath ?? 'pixi.toml'
   const pixiLockFile = path.basename(manifestPath).replace(/\.toml$/, '.lock')
   const generateRunShell = inputs.generateRunShell ?? runInstall
@@ -165,7 +169,7 @@ const assertOptions = (_options: Options) => {
 
 const getOptions = () => {
   const inputs: Inputs = {
-    pixiVersion: parseOrUndefined('pixi-version', z.union([z.literal('latest'), z.string().regex(/^\d+\.\d+\.\d+$/)])),
+    pixiVersion: parseOrUndefined('pixi-version', z.union([z.literal('latest'), z.string().regex(/^v\d+\.\d+\.\d+$/)])),
     pixiUrl: parseOrUndefined('pixi-url', z.string().url()),
     logLevel: parseOrUndefined('log-level', logLevelSchema),
     manifestPath: parseOrUndefined('manifest-path', z.string()),
@@ -174,7 +178,7 @@ const getOptions = () => {
     cache: parseOrUndefinedJSON('cache', z.boolean()),
     cacheKey: parseOrUndefined('cache-key', z.string()),
     pixiBinPath: parseOrUndefined('micromamba-binary-path', z.string()),
-    authHost: parseOrUndefined('auth-host', z.string().url()),
+    authHost: parseOrUndefined('auth-host', z.string()),
     authToken: parseOrUndefined('auth-token', z.string()),
     authUsername: parseOrUndefined('auth-username', z.string()),
     authPassword: parseOrUndefined('auth-password', z.string()),

@@ -57,7 +57,7 @@ export const getPixiUrlFromVersion = (version: string) => {
   if (version === 'latest') {
     return `https://github.com/prefix-dev/pixi/releases/latest/download/${pixiFile}`
   }
-  return `https://github.com/mamba-org/micromamba-releases/releases/download/${version}/${pixiFile}`
+  return `https://github.com/prefix-dev/pixi/releases/download/${version}/${pixiFile}`
 }
 
 export const sha256 = (s: BinaryLike) => {
