@@ -169,7 +169,7 @@ const assertOptions = (_options: Options) => {
 
 const getOptions = () => {
   const inputs: Inputs = {
-    pixiVersion: parseOrUndefined('pixi-version', z.union([z.literal('latest'), z.string().regex(/^\d+\.\d+\.\d+$/)])),
+    pixiVersion: parseOrUndefined('pixi-version', z.union([z.literal('latest'), z.string().regex(/^v\d+\.\d+\.\d+$/)])),
     pixiUrl: parseOrUndefined('pixi-url', z.string().url()),
     logLevel: parseOrUndefined('log-level', logLevelSchema),
     manifestPath: parseOrUndefined('manifest-path', z.string()),

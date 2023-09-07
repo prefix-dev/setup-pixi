@@ -61015,9 +61015,6 @@ var execute = (cmd) => {
 };
 var pixiCmd = (command, withManifestPath = true) => {
   let commandArray = [options.pixiBinPath].concat(command.split(" "));
-  if (withManifestPath) {
-    commandArray = commandArray.concat(["--manifest-path", options.manifestPath]);
-  }
   switch (options.logLevel) {
     case "trace":
       commandArray = commandArray.concat(["-vvv"]);
@@ -61121,7 +61118,7 @@ var assertOptions = (_options) => {
 };
 var getOptions = () => {
   const inputs = {
-    pixiVersion: parseOrUndefined("pixi-version", unionType([literalType("latest"), stringType().regex(/^\d+\.\d+\.\d+$/)])),
+    pixiVersion: parseOrUndefined("pixi-version", unionType([literalType("latest"), stringType().regex(/^v\d+\.\d+\.\d+$/)])),
     pixiUrl: parseOrUndefined("pixi-url", stringType().url()),
     logLevel: parseOrUndefined("log-level", logLevelSchema),
     manifestPath: parseOrUndefined("manifest-path", stringType()),

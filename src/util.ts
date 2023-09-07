@@ -75,9 +75,9 @@ export const execute = (cmd: string[]) => {
 
 export const pixiCmd = (command: string, withManifestPath = true) => {
   let commandArray = [options.pixiBinPath].concat(command.split(' '))
-  if (withManifestPath) {
-    commandArray = commandArray.concat(['--manifest-path', options.manifestPath])
-  }
+  // if (withManifestPath) {
+  //   commandArray = commandArray.concat(['--manifest-path', options.manifestPath])
+  // }
   switch (options.logLevel) {
     case 'trace':
       commandArray = commandArray.concat(['-vvv'])
