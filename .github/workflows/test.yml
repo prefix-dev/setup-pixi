@@ -30,7 +30,7 @@ jobs:
         with:
           run-install: false
       - run: |
-          pixi install --manifest-path pixi.toml -vv
+          pixi install pixi.toml -vv
 
   no-run-install:
     runs-on: ubuntu-latest
