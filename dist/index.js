@@ -61041,7 +61041,7 @@ var pixiCmd = (command, withManifestPath = true) => {
 var logLevelSchema = enumType(["quiet", "warn", "info", "debug", "trace"]);
 var postCleanupSchema = enumType(["none", "environment", "all"]);
 var PATHS = {
-  pixiBin: import_path.default.join(import_os.default.homedir(), ".pixi", "bin", "pixi"),
+  pixiBin: import_path.default.join(import_os.default.homedir(), ".pixi", "bin", `pixi${import_os.default.platform() === "win32" ? ".exe" : ""}`),
   pixiRunShellScript: import_path.default.join(import_os.default.homedir(), ".pixi", "bin", "pixi-shell"),
   bashProfile: import_path.default.join(import_os.default.homedir(), ".bash_profile"),
   bashrc: import_path.default.join(import_os.default.homedir(), ".bashrc")

@@ -65,7 +65,7 @@ const postCleanupSchema = z.enum(['none', 'environment', 'all'])
 export type PostCleanup = z.infer<typeof postCleanupSchema>
 
 export const PATHS = {
-  pixiBin: path.join(os.homedir(), '.pixi', 'bin', 'pixi'),
+  pixiBin: path.join(os.homedir(), '.pixi', 'bin', `pixi${os.platform() === 'win32' ? '.exe' : ''}`),
   pixiRunShellScript: path.join(os.homedir(), '.pixi', 'bin', 'pixi-shell'),
   bashProfile: path.join(os.homedir(), '.bash_profile'),
   bashrc: path.join(os.homedir(), '.bashrc')
