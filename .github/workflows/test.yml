@@ -144,6 +144,8 @@ jobs:
           auth-conda-token: TODO
 
   post-cleanup:
+    # not implemented yet
+    if: false
     name: post-cleanup ${{ matrix.post-cleanup }}
     runs-on: ubuntu-latest
     strategy:
