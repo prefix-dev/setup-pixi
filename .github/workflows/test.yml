@@ -29,7 +29,8 @@ jobs:
       - uses: ./
         with:
           run-install: false
-      - run: ! test -d .pixi
+      - run: |
+          ! test -d .pixi
 
   custom-pixi-version:
     runs-on: ubuntu-latest
