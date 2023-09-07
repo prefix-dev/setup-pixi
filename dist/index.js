@@ -61004,7 +61004,7 @@ var getPixiUrlFromVersion = (version3) => {
   if (version3 === "latest") {
     return `https://github.com/prefix-dev/pixi/releases/latest/download/${pixiFile}`;
   }
-  return `https://github.com/mamba-org/micromamba-releases/releases/download/${version3}/${pixiFile}`;
+  return `https://github.com/prefix-dev/pixi/releases/download/${version3}/${pixiFile}`;
 };
 var sha256 = (s) => {
   return (0, import_crypto4.createHash)("sha256").update(s).digest("hex");
