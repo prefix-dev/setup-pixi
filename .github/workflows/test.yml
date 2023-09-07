@@ -64,7 +64,7 @@ jobs:
       - uses: ./
         with:
           pixi-url: https://github.com/prefix-dev/pixi/releases/download/v0.0.8/pixi-aarch64-unknown-linux-musl
-      - run: cat ~/.pixi/bin/pixi
+      - run: ls -l ~/.pixi/bin/pixi
         if: always()
       - run: pixi --version | grep -q "pixi 0.0.8"
   
