@@ -61015,6 +61015,9 @@ var execute = (cmd) => {
 };
 var pixiCmd = (command, withManifestPath = true) => {
   let commandArray = [options.pixiBinPath].concat(command.split(" "));
+  if (withManifestPath) {
+    commandArray = commandArray.concat(["--manifest-path", options.manifestPath]);
+  }
   switch (options.logLevel) {
     case "trace":
       commandArray = commandArray.concat(["-vvv"]);
