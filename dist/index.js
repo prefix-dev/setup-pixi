@@ -61015,6 +61015,9 @@ var execute = (cmd) => {
 };
 var pixiCmd = (command, withManifestPath = true) => {
   let commandArray = [options.pixiBinPath].concat(command.split(" "));
+  if (withManifestPath) {
+    commandArray = commandArray.concat(["--manifest-path", options.manifestPath]);
+  }
   switch (options.logLevel) {
     case "trace":
       commandArray = commandArray.concat(["-vvv"]);
@@ -61087,7 +61090,7 @@ var validateInputs = (inputs) => {
 var inferOptions = (inputs) => {
   const runInstall = inputs.runInstall ?? true;
   const pixiSource = inputs.pixiVersion ? { version: inputs.pixiVersion } : inputs.pixiUrl ? { url: inputs.pixiUrl } : { version: "latest" };
-  const logLevel = inputs.logLevel ?? (core2.isDebug() ? "debug" : "info");
+  const logLevel = inputs.logLevel ?? (core2.isDebug() ? "debug" : "warn");
   const manifestPath = inputs.manifestPath ?? "pixi.toml";
   const pixiLockFile = import_path.default.basename(manifestPath).replace(/\.toml$/, ".lock");
   const generateRunShell = inputs.generateRunShell ?? runInstall;

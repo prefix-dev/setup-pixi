@@ -128,7 +128,7 @@ const inferOptions = (inputs: Inputs): Options => {
     : inputs.pixiUrl
     ? { url: inputs.pixiUrl }
     : { version: 'latest' }
-  const logLevel = inputs.logLevel ?? (core.isDebug() ? 'debug' : 'info')
+  const logLevel = inputs.logLevel ?? (core.isDebug() ? 'debug' : 'warn')
   const manifestPath = inputs.manifestPath ?? 'pixi.toml'
   const pixiLockFile = path.basename(manifestPath).replace(/\.toml$/, '.lock')
   const generateRunShell = inputs.generateRunShell ?? runInstall
