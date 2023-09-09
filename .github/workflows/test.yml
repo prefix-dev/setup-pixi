@@ -22,6 +22,7 @@ jobs:
           pixi info
           test -f .pixi/env/bin/python
           ./.pixi/env/bin/python${{ matrix.os == 'windows-latest' && '.exe' || '' }} --version | grep -q 3.11
+        shell: bash
 
   no-run-install:
     strategy:
