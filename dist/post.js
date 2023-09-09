@@ -5950,7 +5950,7 @@ var cleanupPixiBin = () => {
   return import_promises.default.rm(options.pixiBinPath).then(() => import_promises.default.readdir(pixiBinDir)).then((files) => {
     if (files.length === 0) {
       core2.debug(`Removing empty directory ${pixiBinDir}.`);
-      return import_promises.default.rm(pixiBinDir);
+      return import_promises.default.rm(pixiBinDir, { recursive: true });
     }
     return Promise.resolve();
   });

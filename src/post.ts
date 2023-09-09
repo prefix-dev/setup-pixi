@@ -14,7 +14,7 @@ const cleanupPixiBin = () => {
     .then((files) => {
       if (files.length === 0) {
         core.debug(`Removing empty directory ${pixiBinDir}.`)
-        return fs.rm(pixiBinDir)
+        return fs.rm(pixiBinDir, { recursive: true })
       }
       return Promise.resolve()
     })
