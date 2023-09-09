@@ -10,7 +10,6 @@ type Inputs = {
   logLevel?: LogLevel
   manifestPath?: string
   runInstall?: boolean
-  generateRunShell?: boolean
   cache?: boolean
   cacheKey?: string
   cacheWrite?: boolean
@@ -57,7 +56,6 @@ export type Options = Readonly<{
   manifestPath: string
   pixiLockFile: string
   runInstall: boolean
-  generateRunShell: boolean
   cache?: Cache
   pixiBinPath: string
   pixiRunShell: string
@@ -135,7 +133,6 @@ const inferOptions = (inputs: Inputs): Options => {
   const logLevel = inputs.logLevel ?? (core.isDebug() ? 'debug' : 'warn')
   const manifestPath = inputs.manifestPath ? path.resolve(untildify(inputs.manifestPath)) : 'pixi.toml'
   const pixiLockFile = path.join(path.dirname(manifestPath), path.basename(manifestPath).replace(/\.toml$/, '.lock'))
-  const generateRunShell = inputs.generateRunShell ?? runInstall
   const cache = inputs.cacheKey
     ? { cacheKeyPrefix: inputs.cacheKey, cacheWrite: inputs.cacheWrite ?? true }
     : inputs.cache
@@ -167,7 +164,6 @@ const inferOptions = (inputs: Inputs): Options => {
     manifestPath,
     pixiLockFile,
     runInstall,
-    generateRunShell,
     cache,
     pixiBinPath,
     pixiRunShell,
@@ -192,7 +188,6 @@ const getOptions = () => {
     logLevel: parseOrUndefined('log-level', logLevelSchema),
     manifestPath: parseOrUndefined('manifest-path', z.string()),
     runInstall: parseOrUndefinedJSON('run-install', z.boolean()),
-    generateRunShell: parseOrUndefinedJSON('generate-run-shell', z.boolean()),
     cache: parseOrUndefinedJSON('cache', z.boolean()),
     cacheKey: parseOrUndefined('cache-key', z.string()),
     cacheWrite: parseOrUndefinedJSON('cache-write', z.boolean()),

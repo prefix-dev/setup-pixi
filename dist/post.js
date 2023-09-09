@@ -5882,7 +5882,6 @@ var inferOptions = (inputs) => {
   const logLevel = inputs.logLevel ?? (core.isDebug() ? "debug" : "warn");
   const manifestPath = inputs.manifestPath ? import_path.default.resolve(untildify(inputs.manifestPath)) : "pixi.toml";
   const pixiLockFile = import_path.default.join(import_path.default.dirname(manifestPath), import_path.default.basename(manifestPath).replace(/\.toml$/, ".lock"));
-  const generateRunShell = inputs.generateRunShell ?? runInstall;
   const cache = inputs.cacheKey ? { cacheKeyPrefix: inputs.cacheKey, cacheWrite: inputs.cacheWrite ?? true } : inputs.cache ? { cacheKeyPrefix: "pixi-", cacheWrite: true } : void 0;
   const pixiBinPath = inputs.pixiBinPath ? import_path.default.resolve(untildify(inputs.pixiBinPath)) : PATHS.pixiBin;
   const pixiRunShell = import_path.default.join(import_path.default.dirname(pixiBinPath), "pixi-shell");
@@ -5904,7 +5903,6 @@ var inferOptions = (inputs) => {
     manifestPath,
     pixiLockFile,
     runInstall,
-    generateRunShell,
     cache,
     pixiBinPath,
     pixiRunShell,
@@ -5921,7 +5919,6 @@ var getOptions = () => {
     logLevel: parseOrUndefined("log-level", logLevelSchema),
     manifestPath: parseOrUndefined("manifest-path", stringType()),
     runInstall: parseOrUndefinedJSON("run-install", booleanType()),
-    generateRunShell: parseOrUndefinedJSON("generate-run-shell", booleanType()),
     cache: parseOrUndefinedJSON("cache", booleanType()),
     cacheKey: parseOrUndefined("cache-key", stringType()),
     cacheWrite: parseOrUndefinedJSON("cache-write", booleanType()),
