@@ -81,6 +81,32 @@ This form of authentication (token is encoded in URL: `https://my-quetz-instance
     conda-token: ${{ secrets.CONDA_TOKEN }}
 ```
 
+### Custom shell wrapper
+
+`setup-pixi` allows you to run command inside of the pixi environment by specifying a custom shell wrapper with `shell: pixi run bash {0}`.
+This can be useful if you want to run commands inside of the pixi environment, but don't want to use the `pixi run` command for each command.
+
+```yml
+- run: | # everything here will be run inside of the pixi environment
+    python --version
+    pip install -e --no-deps .
+  shell: pixi run bash {0}
+```
+
+You can even run python scripts like this:
+
+```yml
+- run: | # everything here will be run inside of the pixi environment
+    import my_package
+    print("Hello world!")
+  shell: pixi run python {0}
+```
+
+> [!NOTE]
+> Under the hood, the `shell: xyz {0}` option is implemented by creating a temporary script file and calling `xyz` with that script file as an argument.
+> This file does not have the executable bit set, so you cannot use `shell: pixi run {0}` directly but instead have to use `shell: pixi run bash {0}`.
+> See the [official documentation](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#custom-shell) and [ADR 0277](https://github.com/actions/runner/blob/main/docs/adrs/0277-run-action-shell-options.md) for more information about how the `shell:` input works in GitHub Actions.
+
 ### Debugging
 
 There are two types of debug logging that you can enable.
