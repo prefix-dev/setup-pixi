@@ -4,20 +4,26 @@ import * as os from 'os'
 import * as core from '@actions/core'
 import { options } from './options'
 
+const removeEmptyParentDirs = (dirPath: string): Promise<void> => {
+  return fs.readdir(dirPath).then((files) => {
+    if (files.length === 0) {
+      core.debug(`Removing empty directory ${dirPath}.`)
+      return fs.rm(dirPath, { recursive: true }).then(() => {
+        const parentDir = path.dirname(dirPath)
+        if (parentDir !== dirPath) {
+          return removeEmptyParentDirs(parentDir)
+        }
+      })
+    }
+    return Promise.resolve()
+  })
+}
+
 const cleanupPixiBin = () => {
   const pixiBinPath = options.pixiBinPath
   const pixiBinDir = path.dirname(pixiBinPath)
   core.debug(`Cleaning up pixi binary ${pixiBinPath}.`)
-  return fs
-    .rm(options.pixiBinPath)
-    .then(() => fs.readdir(pixiBinDir))
-    .then((files) => {
-      if (files.length === 0) {
-        core.debug(`Removing empty directory ${pixiBinDir}.`)
-        return fs.rm(pixiBinDir, { recursive: true })
-      }
-      return Promise.resolve()
-    })
+  return fs.rm(pixiBinPath).then(() => removeEmptyParentDirs(pixiBinDir))
 }
 
 const cleanupEnv = () => {

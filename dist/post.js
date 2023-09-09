@@ -5943,17 +5943,25 @@ var getOptions = () => {
 var options = getOptions();
 
 // src/post.ts
+var removeEmptyParentDirs = (dirPath) => {
+  return import_promises.default.readdir(dirPath).then((files) => {
+    if (files.length === 0) {
+      core2.debug(`Removing empty directory ${dirPath}.`);
+      return import_promises.default.rm(dirPath, { recursive: true }).then(() => {
+        const parentDir = import_path2.default.dirname(dirPath);
+        if (parentDir !== dirPath) {
+          return removeEmptyParentDirs(parentDir);
+        }
+      });
+    }
+    return Promise.resolve();
+  });
+};
 var cleanupPixiBin = () => {
   const pixiBinPath = options.pixiBinPath;
   const pixiBinDir = import_path2.default.dirname(pixiBinPath);
   core2.debug(`Cleaning up pixi binary ${pixiBinPath}.`);
-  return import_promises.default.rm(options.pixiBinPath).then(() => import_promises.default.readdir(pixiBinDir)).then((files) => {
-    if (files.length === 0) {
-      core2.debug(`Removing empty directory ${pixiBinDir}.`);
-      return import_promises.default.rm(pixiBinDir, { recursive: true });
-    }
-    return Promise.resolve();
-  });
+  return import_promises.default.rm(pixiBinPath).then(() => removeEmptyParentDirs(pixiBinDir));
 };
 var cleanupEnv = () => {
   if (!options.runInstall) {
