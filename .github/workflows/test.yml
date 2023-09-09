@@ -21,7 +21,8 @@ jobs:
       - run: |
           set -o pipefail
           pixi info
-          ls -lah .pixi
+          ls -lah .pixi/env
+          ls -lah .pixi/env/bin
           test -f .pixi/env/bin/python
           ./.pixi/env/bin/python${{ matrix.os == 'windows-latest' && '.exe' || '' }} --version | grep -q 3.11
         shell: bash
