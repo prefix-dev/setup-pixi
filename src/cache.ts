@@ -46,7 +46,6 @@ export const saveCache = () => {
     core.debug('Skipping pixi cache save.')
     return Promise.resolve(undefined)
   }
-  const cacheHit = core.getState('cache-hit')
   if (cacheHit) {
     core.debug('Skipping pixi cache save because cache was restored.')
     return Promise.resolve(undefined)

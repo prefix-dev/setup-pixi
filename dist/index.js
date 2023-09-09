@@ -2210,10 +2210,10 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       command_1.issueCommand("save-state", { name }, utils_1.toCommandValue(value));
     }
     exports.saveState = saveState;
-    function getState2(name) {
+    function getState(name) {
       return process.env[`STATE_${name}`] || "";
     }
-    exports.getState = getState2;
+    exports.getState = getState;
     function getIDToken(aud) {
       return __awaiter(this, void 0, void 0, function* () {
         return yield oidc_utils_1.OidcClient.getIDToken(aud);
@@ -61201,8 +61201,7 @@ var saveCache2 = () => {
     core3.debug("Skipping pixi cache save.");
     return Promise.resolve(void 0);
   }
-  const cacheHit2 = core3.getState("cache-hit");
-  if (cacheHit2) {
+  if (cacheHit) {
     core3.debug("Skipping pixi cache save because cache was restored.");
     return Promise.resolve(void 0);
   }
