@@ -201,6 +201,20 @@ jobs:
         # https://github.com/prefix-dev/pixi/issues/330
         if: matrix.os == 'ubuntu-latest'
 
+  pixi-shell:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi.toml
+        run: mv test/default/* .
+      - uses: ./
+      - run: |
+          python --version | grep -q "3.11"
+        shell: pixi run bash {0}
+
   post-cleanup:
     # not implemented yet
     if: false
