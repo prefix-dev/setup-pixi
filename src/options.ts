@@ -3,6 +3,7 @@ import os from 'os'
 import * as core from '@actions/core'
 import * as z from 'zod'
 import { getCondaArch } from './util'
+import untildify from 'untildify'
 
 type Inputs = {
   pixiVersion?: string
@@ -131,7 +132,7 @@ const inferOptions = (inputs: Inputs): Options => {
   const pixiLockFile = path.basename(manifestPath).replace(/\.toml$/, '.lock')
   const generateRunShell = inputs.generateRunShell ?? runInstall
   const cacheKey = inputs.cacheKey ?? (inputs.cache ? `pixi-${getCondaArch()}` : undefined)
-  const pixiBinPath = inputs.pixiBinPath ?? PATHS.pixiBin
+  const pixiBinPath = inputs.pixiBinPath ? path.resolve(untildify(inputs.pixiBinPath)) : PATHS.pixiBin
   const pixiRunShell = path.join(path.dirname(pixiBinPath), 'pixi-shell')
   const auth = !inputs.authHost
     ? undefined

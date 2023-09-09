@@ -99,11 +99,11 @@ var require_command = __commonJS({
     };
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.issue = exports.issueCommand = void 0;
-    var os6 = __importStar(require("os"));
+    var os7 = __importStar(require("os"));
     var utils_1 = require_utils();
     function issueCommand(command, properties, message) {
       const cmd = new Command(command, properties, message);
-      process.stdout.write(cmd.toString() + os6.EOL);
+      process.stdout.write(cmd.toString() + os7.EOL);
     }
     exports.issueCommand = issueCommand;
     function issue(name, message = "") {
@@ -535,7 +535,7 @@ var require_file_command = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.prepareKeyValueMessage = exports.issueFileCommand = void 0;
     var fs4 = __importStar(require("fs"));
-    var os6 = __importStar(require("os"));
+    var os7 = __importStar(require("os"));
     var uuid_1 = (init_esm_node(), __toCommonJS(esm_node_exports));
     var utils_1 = require_utils();
     function issueFileCommand(command, message) {
@@ -546,7 +546,7 @@ var require_file_command = __commonJS({
       if (!fs4.existsSync(filePath)) {
         throw new Error(`Missing file at path: ${filePath}`);
       }
-      fs4.appendFileSync(filePath, `${utils_1.toCommandValue(message)}${os6.EOL}`, {
+      fs4.appendFileSync(filePath, `${utils_1.toCommandValue(message)}${os7.EOL}`, {
         encoding: "utf8"
       });
     }
@@ -560,7 +560,7 @@ var require_file_command = __commonJS({
       if (convertedValue.includes(delimiter2)) {
         throw new Error(`Unexpected input: value should not contain the delimiter "${delimiter2}"`);
       }
-      return `${key}<<${delimiter2}${os6.EOL}${convertedValue}${os6.EOL}${delimiter2}`;
+      return `${key}<<${delimiter2}${os7.EOL}${convertedValue}${os7.EOL}${delimiter2}`;
     }
     exports.prepareKeyValueMessage = prepareKeyValueMessage;
   }
@@ -2076,7 +2076,7 @@ var require_core = __commonJS({
     var command_1 = require_command();
     var file_command_1 = require_file_command();
     var utils_1 = require_utils();
-    var os6 = __importStar(require("os"));
+    var os7 = __importStar(require("os"));
     var path4 = __importStar(require("path"));
     var oidc_utils_1 = require_oidc_utils();
     var ExitCode;
@@ -2144,7 +2144,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       if (filePath) {
         return file_command_1.issueFileCommand("OUTPUT", file_command_1.prepareKeyValueMessage(name, value));
       }
-      process.stdout.write(os6.EOL);
+      process.stdout.write(os7.EOL);
       command_1.issueCommand("set-output", { name }, utils_1.toCommandValue(value));
     }
     exports.setOutput = setOutput;
@@ -2178,7 +2178,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
     }
     exports.notice = notice;
     function info3(message) {
-      process.stdout.write(message + os6.EOL);
+      process.stdout.write(message + os7.EOL);
     }
     exports.info = info3;
     function startGroup(name) {
@@ -3886,12 +3886,12 @@ var require_manifest = __commonJS({
     exports._readLinuxVersionFile = exports._getOsVersion = exports._findMatch = void 0;
     var semver = __importStar(require_semver());
     var core_1 = require_core();
-    var os6 = require("os");
+    var os7 = require("os");
     var cp = require("child_process");
     var fs4 = require("fs");
     function _findMatch(versionSpec, stable, candidates, archFilter) {
       return __awaiter(this, void 0, void 0, function* () {
-        const platFilter = os6.platform();
+        const platFilter = os7.platform();
         let result;
         let match;
         let file;
@@ -3928,7 +3928,7 @@ var require_manifest = __commonJS({
     }
     exports._findMatch = _findMatch;
     function _getOsVersion() {
-      const plat = os6.platform();
+      const plat = os7.platform();
       let version3 = "";
       if (plat === "darwin") {
         version3 = cp.execSync("sw_vers -productVersion").toString();
@@ -4101,7 +4101,7 @@ var require_toolrunner = __commonJS({
     };
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.argStringToArray = exports.ToolRunner = void 0;
-    var os6 = __importStar(require("os"));
+    var os7 = __importStar(require("os"));
     var events = __importStar(require("events"));
     var child = __importStar(require("child_process"));
     var path4 = __importStar(require("path"));
@@ -4156,12 +4156,12 @@ var require_toolrunner = __commonJS({
       _processLineBuffer(data, strBuffer, onLine) {
         try {
           let s = strBuffer + data.toString();
-          let n = s.indexOf(os6.EOL);
+          let n = s.indexOf(os7.EOL);
           while (n > -1) {
             const line = s.substring(0, n);
             onLine(line);
-            s = s.substring(n + os6.EOL.length);
-            n = s.indexOf(os6.EOL);
+            s = s.substring(n + os7.EOL.length);
+            n = s.indexOf(os7.EOL);
           }
           return s;
         } catch (err) {
@@ -4330,7 +4330,7 @@ var require_toolrunner = __commonJS({
             }
             const optionsNonNull = this._cloneExecOptions(this.options);
             if (!optionsNonNull.silent && optionsNonNull.outStream) {
-              optionsNonNull.outStream.write(this._getCommandString(optionsNonNull) + os6.EOL);
+              optionsNonNull.outStream.write(this._getCommandString(optionsNonNull) + os7.EOL);
             }
             const state = new ExecState(optionsNonNull, this.toolPath);
             state.on("debug", (message) => {
@@ -4816,7 +4816,7 @@ var require_tool_cache = __commonJS({
     var io = __importStar(require_io());
     var fs4 = __importStar(require("fs"));
     var mm = __importStar(require_manifest());
-    var os6 = __importStar(require("os"));
+    var os7 = __importStar(require("os"));
     var path4 = __importStar(require("path"));
     var httpm = __importStar(require_lib());
     var semver = __importStar(require_semver());
@@ -5095,7 +5095,7 @@ var require_tool_cache = __commonJS({
     function cacheDir(sourceDir, tool, version3, arch3) {
       return __awaiter(this, void 0, void 0, function* () {
         version3 = semver.clean(version3) || version3;
-        arch3 = arch3 || os6.arch();
+        arch3 = arch3 || os7.arch();
         core5.debug(`Caching tool ${tool} ${version3} ${arch3}`);
         core5.debug(`source dir: ${sourceDir}`);
         if (!fs4.statSync(sourceDir).isDirectory()) {
@@ -5114,7 +5114,7 @@ var require_tool_cache = __commonJS({
     function cacheFile(sourceFile, targetFile, tool, version3, arch3) {
       return __awaiter(this, void 0, void 0, function* () {
         version3 = semver.clean(version3) || version3;
-        arch3 = arch3 || os6.arch();
+        arch3 = arch3 || os7.arch();
         core5.debug(`Caching tool ${tool} ${version3} ${arch3}`);
         core5.debug(`source file: ${sourceFile}`);
         if (!fs4.statSync(sourceFile).isFile()) {
@@ -5136,7 +5136,7 @@ var require_tool_cache = __commonJS({
       if (!versionSpec) {
         throw new Error("versionSpec parameter is required");
       }
-      arch3 = arch3 || os6.arch();
+      arch3 = arch3 || os7.arch();
       if (!isExplicitVersion(versionSpec)) {
         const localVersions = findAllVersions(toolName, arch3);
         const match = evaluateVersions(localVersions, versionSpec);
@@ -5159,7 +5159,7 @@ var require_tool_cache = __commonJS({
     exports.find = find2;
     function findAllVersions(toolName, arch3) {
       const versions = [];
-      arch3 = arch3 || os6.arch();
+      arch3 = arch3 || os7.arch();
       const toolPath = path4.join(_getCacheDirectory(), toolName);
       if (fs4.existsSync(toolPath)) {
         const children2 = fs4.readdirSync(toolPath);
@@ -5210,7 +5210,7 @@ var require_tool_cache = __commonJS({
       });
     }
     exports.getManifestFromRepo = getManifestFromRepo;
-    function findFromManifest(versionSpec, stable, manifest, archFilter = os6.arch()) {
+    function findFromManifest(versionSpec, stable, manifest, archFilter = os7.arch()) {
       return __awaiter(this, void 0, void 0, function* () {
         const match = yield mm._findMatch(versionSpec, stable, manifest, archFilter);
         return match;
@@ -6554,7 +6554,7 @@ var require_internal_pattern = __commonJS({
     };
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Pattern = void 0;
-    var os6 = __importStar(require("os"));
+    var os7 = __importStar(require("os"));
     var path4 = __importStar(require("path"));
     var pathHelper = __importStar(require_internal_path_helper());
     var assert_1 = __importDefault(require("assert"));
@@ -6647,7 +6647,7 @@ var require_internal_pattern = __commonJS({
         if (pattern === "." || pattern.startsWith(`.${path4.sep}`)) {
           pattern = _Pattern.globEscape(process.cwd()) + pattern.substr(1);
         } else if (pattern === "~" || pattern.startsWith(`~${path4.sep}`)) {
-          homedir = homedir || os6.homedir();
+          homedir = homedir || os7.homedir();
           assert_1.default(homedir, "Unable to determine HOME directory");
           assert_1.default(pathHelper.hasAbsoluteRoot(homedir), `Expected HOME directory to be a rooted path. Actual '${homedir}'`);
           pattern = _Pattern.globEscape(homedir) + pattern.substr(1);
@@ -29300,15 +29300,15 @@ function getPlatformSpecificData() {
   };
   const osInfo = {
     key: "OS",
-    value: `(${os3.arch()}-${os3.type()}-${os3.release()})`
+    value: `(${os4.arch()}-${os4.type()}-${os4.release()})`
   };
   return [runtimeInfo, osInfo];
 }
-var os3;
+var os4;
 var init_msRestUserAgentPolicy = __esm({
   "node_modules/.pnpm/@azure+core-http@3.0.3/node_modules/@azure/core-http/dist-esm/src/policies/msRestUserAgentPolicy.js"() {
     "use strict";
-    os3 = __toESM(require("os"));
+    os4 = __toESM(require("os"));
     init_constants();
   }
 });
@@ -46078,12 +46078,12 @@ var init_TelemetryPolicy = __esm({
 });
 
 // node_modules/.pnpm/@azure+storage-blob@12.15.0/node_modules/@azure/storage-blob/dist-esm/storage-blob/src/TelemetryPolicyFactory.js
-var os4, TelemetryPolicyFactory;
+var os5, TelemetryPolicyFactory;
 var init_TelemetryPolicyFactory = __esm({
   "node_modules/.pnpm/@azure+storage-blob@12.15.0/node_modules/@azure/storage-blob/dist-esm/storage-blob/src/TelemetryPolicyFactory.js"() {
     "use strict";
     init_src6();
-    os4 = __toESM(require("os"));
+    os5 = __toESM(require("os"));
     init_TelemetryPolicy();
     init_constants2();
     TelemetryPolicyFactory = class {
@@ -46105,8 +46105,8 @@ var init_TelemetryPolicyFactory = __esm({
             userAgentInfo.push(libInfo);
           }
           let runtimeInfo = `(NODE-VERSION ${process.version})`;
-          if (os4) {
-            runtimeInfo = `(NODE-VERSION ${process.version}; ${os4.type()} ${os4.release()})`;
+          if (os5) {
+            runtimeInfo = `(NODE-VERSION ${process.version}; ${os5.type()} ${os5.release()})`;
           }
           if (userAgentInfo.indexOf(runtimeInfo) === -1) {
             userAgentInfo.push(runtimeInfo);
@@ -61037,6 +61037,16 @@ var pixiCmd = (command, withManifestPath = true) => {
   return commandArray;
 };
 
+// node_modules/.pnpm/untildify@5.0.0/node_modules/untildify/index.js
+var import_node_os = __toESM(require("os"), 1);
+var homeDirectory = import_node_os.default.homedir();
+function untildify(pathWithTilde) {
+  if (typeof pathWithTilde !== "string") {
+    throw new TypeError(`Expected a string, got ${typeof pathWithTilde}`);
+  }
+  return homeDirectory ? pathWithTilde.replace(/^~(?=$|\/|\\)/, homeDirectory) : pathWithTilde;
+}
+
 // src/options.ts
 var logLevelSchema = enumType(["quiet", "warn", "info", "debug", "trace"]);
 var postCleanupSchema = enumType(["none", "environment", "all"]);
@@ -61092,7 +61102,7 @@ var inferOptions = (inputs) => {
   const pixiLockFile = import_path.default.basename(manifestPath).replace(/\.toml$/, ".lock");
   const generateRunShell = inputs.generateRunShell ?? runInstall;
   const cacheKey = inputs.cacheKey ?? (inputs.cache ? `pixi-${getCondaArch()}` : void 0);
-  const pixiBinPath = inputs.pixiBinPath ?? PATHS.pixiBin;
+  const pixiBinPath = inputs.pixiBinPath ? import_path.default.resolve(untildify(inputs.pixiBinPath)) : PATHS.pixiBin;
   const pixiRunShell = import_path.default.join(import_path.default.dirname(pixiBinPath), "pixi-shell");
   const auth = !inputs.authHost ? void 0 : inputs.authToken ? {
     host: inputs.authHost,
