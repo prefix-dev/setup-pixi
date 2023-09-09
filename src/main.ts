@@ -27,6 +27,7 @@ const pixiLogin = () => {
     core.debug('Skipping pixi login.')
     return Promise.resolve(0)
   }
+  core.debug(`auth keys: ${Object.keys(auth)}`)
   return core.group('Logging in to private channel', () => {
     // tokens get censored in the logs as long as they are a github secret
     if ('token' in auth) {

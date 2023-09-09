@@ -61210,6 +61210,7 @@ var pixiLogin = () => {
     core4.debug("Skipping pixi login.");
     return Promise.resolve(0);
   }
+  core4.debug(`auth keys: ${Object.keys(auth)}`);
   return core4.group("Logging in to private channel", () => {
     if ("token" in auth) {
       core4.debug(`Logging in to ${auth.host} with token`);
