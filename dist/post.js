@@ -5958,10 +5958,11 @@ var cleanupPixiBin = () => {
 var cleanupEnv = () => {
   if (!options.runInstall) {
     core2.debug("Skipping cleanup of .pixi directory.");
+    return Promise.resolve();
   }
   const envDir = import_path2.default.join(import_path2.default.dirname(options.manifestPath), ".pixi");
   core2.debug(`Cleaning up .pixi directory ${envDir}.`);
-  import_promises.default.rm(envDir, { recursive: true });
+  return import_promises.default.rm(envDir, { recursive: true });
 };
 var cleanupRattler = () => {
   const rattlerPath = import_path2.default.join(os3.homedir(), ".rattler");

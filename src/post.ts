@@ -23,10 +23,11 @@ const cleanupPixiBin = () => {
 const cleanupEnv = () => {
   if (!options.runInstall) {
     core.debug('Skipping cleanup of .pixi directory.')
+    return Promise.resolve()
   }
   const envDir = path.join(path.dirname(options.manifestPath), '.pixi')
   core.debug(`Cleaning up .pixi directory ${envDir}.`)
-  fs.rm(envDir, { recursive: true })
+  return fs.rm(envDir, { recursive: true })
 }
 
 const cleanupRattler = () => {
