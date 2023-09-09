@@ -14,6 +14,7 @@ type Inputs = {
   generateRunShell?: boolean
   cache?: boolean
   cacheKey?: string
+  cacheWrite?: boolean
   pixiBinPath?: string
   authHost?: string
   authToken?: string
@@ -46,6 +47,11 @@ type Auth = {
     }
 )
 
+type Cache = {
+  cacheKeyPrefix: string
+  cacheWrite: boolean
+}
+
 export type Options = Readonly<{
   pixiSource: PixiSource
   logLevel: LogLevel
@@ -53,7 +59,7 @@ export type Options = Readonly<{
   pixiLockFile: string
   runInstall: boolean
   generateRunShell: boolean
-  cacheKey?: string // undefined if cache is false
+  cache?: Cache
   pixiBinPath: string
   pixiRunShell: string
   auth?: Auth
@@ -118,6 +124,9 @@ const validateInputs = (inputs: Inputs): void => {
       throw new Error('You need to specify auth-host')
     }
   }
+  if (inputs.cacheWrite && !inputs.cacheKey && !inputs.cache) {
+    throw new Error('cache-write is only valid with cache-key or cache specified.')
+  }
 }
 
 const inferOptions = (inputs: Inputs): Options => {
@@ -131,7 +140,11 @@ const inferOptions = (inputs: Inputs): Options => {
   const manifestPath = inputs.manifestPath ? path.resolve(untildify(inputs.manifestPath)) : 'pixi.toml'
   const pixiLockFile = path.join(path.dirname(manifestPath), path.basename(manifestPath).replace(/\.toml$/, '.lock'))
   const generateRunShell = inputs.generateRunShell ?? runInstall
-  const cacheKey = inputs.cacheKey ?? (inputs.cache ? `pixi-${getCondaArch()}` : undefined)
+  const cache = inputs.cacheKey
+    ? { cacheKeyPrefix: inputs.cacheKey, cacheWrite: inputs.cacheWrite ?? true }
+    : inputs.cache
+    ? { cacheKeyPrefix: 'pixi-', cacheWrite: true }
+    : undefined
   const pixiBinPath = inputs.pixiBinPath ? path.resolve(untildify(inputs.pixiBinPath)) : PATHS.pixiBin
   const pixiRunShell = path.join(path.dirname(pixiBinPath), 'pixi-shell')
   const auth = !inputs.authHost
@@ -159,7 +172,7 @@ const inferOptions = (inputs: Inputs): Options => {
     pixiLockFile,
     runInstall,
     generateRunShell,
-    cacheKey,
+    cache,
     pixiBinPath,
     pixiRunShell,
     auth,

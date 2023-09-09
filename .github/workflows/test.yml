@@ -280,7 +280,8 @@ jobs:
       - uses: ./
         with:
           cache: true
-          cache-key: test-cache-${{ github.sha }}-${{ github.run_attempt }}
+          cache-key: test-cache-${{ github.sha }}-${{ github.run_attempt }}-
+      # check the action logs to see if the cache was written
       - run: |
           test -f .pixi/env/bin/python
 
@@ -300,12 +301,18 @@ jobs:
       - uses: ./
         with:
           cache: true
-          cache-key: test-cache-${{ github.sha }}-${{ github.run_attempt }}
-      - name: test environment name
-        run: |
+          cache-key: test-cache-${{ github.sha }}-${{ github.run_attempt }}-
+      # check the action logs to see if the cache was restored
+      - run: |
           test -f .pixi/env/bin/python
+        if: matrix.os != 'windows-latest'
+      - run: |
+          test -f .pixi/env/python.exe
+        if: matrix.os == 'windows-latest'
 
-  test-cache-fail-no-lockfile:
+  test-cache-no-write:
+    name: Test cache no write
+    timeout-minutes: 10
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -314,10 +321,30 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Move pixi files
-        run: mv test/no-lockfile/* .
+        run: mv test/default/* .
       - uses: ./
         with:
           cache: true
-          cache-key: test-cache-no-lockfile-${{ github.sha }}-${{ github.run_attempt }}
-      - run: exit 1
-        if: success()
+          cache-write: false
+          cache-key: test-cache-${{ github.sha }}-${{ github.run_attempt }}-
+      # check the action logs to see if the cache write was skipped
+
+  # not properly testable
+  # https://github.com/actions/runner/issues/2347
+  # https://github.com/orgs/community/discussions/15452
+  # test-cache-fail-no-lockfile:
+  #   runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       os: [windows-latest, ubuntu-latest, macos-latest]
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Move pixi files
+  #       run: mv test/no-lockfile/* .
+  #     - uses: ./
+  #       with:
+  #         cache: true
+  #         cache-key: test-cache-no-lockfile-${{ github.sha }}-${{ github.run_attempt }}-
+  #     - run: exit 1
+  #       if: success()

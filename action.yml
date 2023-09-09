@@ -26,7 +26,10 @@ inputs:
   cache-key:
     description: |
       Cache key prefix to use for caching the pixi environment.
-      Defaults to `pixi-{conda-arch}`.
+      Defaults to `pixi-`. The full cache key is `<cache-key><conda-arch>-<sha-256-of-pixi-lock>`.
+  cache-write:
+    description: |
+      Whether to write to the cache or only read from it. Defaults to `true`.
   pixi-bin-path:
     description: |
       Path to the pixi binary to use. Defaults to `~/.pixi/bin/pixi`.

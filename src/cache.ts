@@ -16,13 +16,13 @@ export const generateCacheKey = async (cacheKeyPrefix: string) =>
 const cachePath = path.join(path.dirname(options.pixiLockFile), '.pixi')
 
 export const tryRestoreCache = (): Promise<string | undefined> => {
-  const cacheKeyPrefix = options.cacheKey
-  if (!cacheKeyPrefix) {
+  const cache_ = options.cache
+  if (!cache_) {
     core.debug('Skipping pixi cache restore.')
     return Promise.resolve(undefined)
   }
   return core.group('Restoring pixi cache', () =>
-    generateCacheKey(cacheKeyPrefix).then((cacheKey) => {
+    generateCacheKey(cache_.cacheKeyPrefix).then((cacheKey) => {
       core.debug(`Cache key: ${cacheKey}`)
       core.debug(`Cache path: ${cachePath}`)
       return cache.restoreCache([cachePath], cacheKey, undefined, undefined, false).then((key) => {
@@ -38,13 +38,13 @@ export const tryRestoreCache = (): Promise<string | undefined> => {
 }
 
 export const saveCache = () => {
-  const cacheKeyPrefix = options.cacheKey
-  if (!cacheKeyPrefix) {
+  const cache_ = options.cache
+  if (!cache_) {
     core.debug('Skipping pixi cache save.')
     return Promise.resolve(undefined)
   }
   return core.group('Saving pixi cache', () =>
-    generateCacheKey(cacheKeyPrefix).then((cacheKey) =>
+    generateCacheKey(cache_.cacheKeyPrefix).then((cacheKey) =>
       cache
         .saveCache([cachePath], cacheKey, undefined, false)
         .then((cacheId) => {

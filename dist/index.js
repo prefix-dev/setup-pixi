@@ -18941,12 +18941,12 @@ var init_sanitizer = __esm({
 });
 
 // node_modules/.pnpm/@azure+core-http@3.0.3/node_modules/@azure/core-http/dist-esm/src/util/inspect.js
-var import_util2, custom;
+var import_util, custom;
 var init_inspect = __esm({
   "node_modules/.pnpm/@azure+core-http@3.0.3/node_modules/@azure/core-http/dist-esm/src/util/inspect.js"() {
     "use strict";
-    import_util2 = require("util");
-    custom = import_util2.inspect.custom;
+    import_util = require("util");
+    custom = import_util.inspect.custom;
   }
 });
 
@@ -18983,14 +18983,14 @@ var init_restError = __esm({
 
 // node_modules/.pnpm/@azure+logger@1.0.4/node_modules/@azure/logger/dist-esm/src/log.js
 function log(message, ...args) {
-  process.stderr.write(`${import_util3.default.format(message, ...args)}${import_os2.EOL}`);
+  process.stderr.write(`${import_util2.default.format(message, ...args)}${import_os2.EOL}`);
 }
-var import_os2, import_util3;
+var import_os2, import_util2;
 var init_log = __esm({
   "node_modules/.pnpm/@azure+logger@1.0.4/node_modules/@azure/logger/dist-esm/src/log.js"() {
     "use strict";
     import_os2 = require("os");
-    import_util3 = __toESM(require("util"));
+    import_util2 = __toESM(require("util"));
   }
 });
 
@@ -57383,7 +57383,7 @@ var import_tool_cache = __toESM(require_tool_cache());
 // src/options.ts
 var import_path = __toESM(require("path"));
 var import_os = __toESM(require("os"));
-var core2 = __toESM(require_core());
+var core = __toESM(require_core());
 
 // node_modules/.pnpm/zod@3.22.2/node_modules/zod/lib/index.mjs
 var util;
@@ -60960,93 +60960,6 @@ function untildify(pathWithTilde) {
   return homeDirectory ? pathWithTilde.replace(/^~(?=$|\/|\\)/, homeDirectory) : pathWithTilde;
 }
 
-// src/util.ts
-var import_crypto4 = require("crypto");
-var os2 = __toESM(require("os"));
-var core = __toESM(require_core());
-var import_exec = __toESM(require_exec());
-var getCondaArch = () => {
-  const archDict = {
-    "darwin-x64": "osx-64",
-    "darwin-arm64": "osx-arm64",
-    "linux-x64": "linux-64",
-    "linux-arm64": "linux-aarch64",
-    "linux-ppc64": "linux-ppc64le",
-    "win32-x64": "win-64"
-  };
-  const arch3 = archDict[`${os2.platform()}-${os2.arch()}`];
-  if (!arch3) {
-    throw new Error(`Unsupported platform: ${os2.platform()}-${os2.arch()}`);
-  }
-  return arch3;
-};
-var getPlatform = () => {
-  const platform2 = os2.platform();
-  switch (platform2) {
-    case "darwin":
-      return "apple-darwin";
-    case "linux":
-      return "unknown-linux-musl";
-    case "win32":
-      return "pc-windows-msvc";
-    default:
-      throw new Error(`Unsupported architecture: ${platform2}`);
-  }
-};
-var getArch = () => {
-  const arch3 = os2.arch();
-  switch (arch3) {
-    case "x64":
-      return "x86_64";
-    case "arm64":
-      return "aarch64";
-    default:
-      throw new Error(`Unsupported architecture: ${arch3}`);
-  }
-};
-var getPixiUrlFromVersion = (version3) => {
-  const arch3 = getArch();
-  const platform2 = getPlatform();
-  const pixiFile = `pixi-${arch3}-${platform2}${platform2 === "pc-windows-msvc" ? ".exe" : ""}`;
-  if (arch3 === "aarch64" && platform2 === "pc-windows-msvc") {
-    throw new Error("Windows on ARM is currently not supported");
-  }
-  if (version3 === "latest") {
-    return `https://github.com/prefix-dev/pixi/releases/latest/download/${pixiFile}`;
-  }
-  return `https://github.com/prefix-dev/pixi/releases/download/${version3}/${pixiFile}`;
-};
-var sha256 = (s) => {
-  return (0, import_crypto4.createHash)("sha256").update(s).digest("hex");
-};
-var execute = (cmd) => {
-  core.debug(`Executing: ${cmd.join(" ")}`);
-  return (0, import_exec.exec)(cmd[0], cmd.slice(1));
-};
-var pixiCmd = (command, withManifestPath = true) => {
-  let commandArray = [options.pixiBinPath].concat(command.split(" "));
-  if (withManifestPath) {
-    commandArray = commandArray.concat(["--manifest-path", options.manifestPath]);
-  }
-  switch (options.logLevel) {
-    case "trace":
-      commandArray = commandArray.concat(["-vvv"]);
-      break;
-    case "debug":
-      commandArray = commandArray.concat(["-vv"]);
-      break;
-    case "info":
-      commandArray = commandArray.concat(["-v"]);
-      break;
-    case "warn":
-      break;
-    case "quiet":
-      commandArray = commandArray.concat(["-q"]);
-      break;
-  }
-  return commandArray;
-};
-
 // src/options.ts
 var logLevelSchema = enumType(["quiet", "warn", "info", "debug", "trace"]);
 var postCleanupSchema = enumType(["none", "environment", "all"]);
@@ -61054,14 +60967,14 @@ var PATHS = {
   pixiBin: import_path.default.join(import_os.default.homedir(), ".pixi", "bin", `pixi${import_os.default.platform() === "win32" ? ".exe" : ""}`)
 };
 var parseOrUndefined = (key, schema) => {
-  const input = core2.getInput(key);
+  const input = core.getInput(key);
   if (input === "") {
     return void 0;
   }
   return schema.parse(input);
 };
 var parseOrUndefinedJSON = (key, schema) => {
-  const input = core2.getInput(key);
+  const input = core.getInput(key);
   if (input === "") {
     return void 0;
   }
@@ -61093,15 +61006,18 @@ var validateInputs = (inputs) => {
       throw new Error("You need to specify auth-host");
     }
   }
+  if (inputs.cacheWrite && !inputs.cacheKey && !inputs.cache) {
+    throw new Error("cache-write is only valid with cache-key or cache specified.");
+  }
 };
 var inferOptions = (inputs) => {
   const runInstall = inputs.runInstall ?? true;
   const pixiSource = inputs.pixiVersion ? { version: inputs.pixiVersion } : inputs.pixiUrl ? { url: inputs.pixiUrl } : { version: "latest" };
-  const logLevel = inputs.logLevel ?? (core2.isDebug() ? "debug" : "warn");
+  const logLevel = inputs.logLevel ?? (core.isDebug() ? "debug" : "warn");
   const manifestPath = inputs.manifestPath ? import_path.default.resolve(untildify(inputs.manifestPath)) : "pixi.toml";
   const pixiLockFile = import_path.default.join(import_path.default.dirname(manifestPath), import_path.default.basename(manifestPath).replace(/\.toml$/, ".lock"));
   const generateRunShell = inputs.generateRunShell ?? runInstall;
-  const cacheKey = inputs.cacheKey ?? (inputs.cache ? `pixi-${getCondaArch()}` : void 0);
+  const cache2 = inputs.cacheKey ? { cacheKeyPrefix: inputs.cacheKey, cacheWrite: inputs.cacheWrite ?? true } : inputs.cache ? { cacheKeyPrefix: "pixi-", cacheWrite: true } : void 0;
   const pixiBinPath = inputs.pixiBinPath ? import_path.default.resolve(untildify(inputs.pixiBinPath)) : PATHS.pixiBin;
   const pixiRunShell = import_path.default.join(import_path.default.dirname(pixiBinPath), "pixi-shell");
   const auth = !inputs.authHost ? void 0 : inputs.authToken ? {
@@ -61123,7 +61039,7 @@ var inferOptions = (inputs) => {
     pixiLockFile,
     runInstall,
     generateRunShell,
-    cacheKey,
+    cache: cache2,
     pixiBinPath,
     pixiRunShell,
     auth,
@@ -61150,14 +61066,101 @@ var getOptions = () => {
     authCondaToken: parseOrUndefined("auth-conda-token", stringType()),
     postCleanup: parseOrUndefined("post-cleanup", postCleanupSchema)
   };
-  core2.debug(`Inputs: ${JSON.stringify(inputs)}`);
+  core.debug(`Inputs: ${JSON.stringify(inputs)}`);
   validateInputs(inputs);
   const options2 = inferOptions(inputs);
-  core2.debug(`Inferred options: ${JSON.stringify(options2)}`);
+  core.debug(`Inferred options: ${JSON.stringify(options2)}`);
   assertOptions(options2);
   return options2;
 };
 var options = getOptions();
+
+// src/util.ts
+var import_crypto4 = require("crypto");
+var os3 = __toESM(require("os"));
+var core2 = __toESM(require_core());
+var import_exec = __toESM(require_exec());
+var getCondaArch = () => {
+  const archDict = {
+    "darwin-x64": "osx-64",
+    "darwin-arm64": "osx-arm64",
+    "linux-x64": "linux-64",
+    "linux-arm64": "linux-aarch64",
+    "linux-ppc64": "linux-ppc64le",
+    "win32-x64": "win-64"
+  };
+  const arch3 = archDict[`${os3.platform()}-${os3.arch()}`];
+  if (!arch3) {
+    throw new Error(`Unsupported platform: ${os3.platform()}-${os3.arch()}`);
+  }
+  return arch3;
+};
+var getPlatform = () => {
+  const platform2 = os3.platform();
+  switch (platform2) {
+    case "darwin":
+      return "apple-darwin";
+    case "linux":
+      return "unknown-linux-musl";
+    case "win32":
+      return "pc-windows-msvc";
+    default:
+      throw new Error(`Unsupported architecture: ${platform2}`);
+  }
+};
+var getArch = () => {
+  const arch3 = os3.arch();
+  switch (arch3) {
+    case "x64":
+      return "x86_64";
+    case "arm64":
+      return "aarch64";
+    default:
+      throw new Error(`Unsupported architecture: ${arch3}`);
+  }
+};
+var getPixiUrlFromVersion = (version3) => {
+  const arch3 = getArch();
+  const platform2 = getPlatform();
+  const pixiFile = `pixi-${arch3}-${platform2}${platform2 === "pc-windows-msvc" ? ".exe" : ""}`;
+  if (arch3 === "aarch64" && platform2 === "pc-windows-msvc") {
+    throw new Error("Windows on ARM is currently not supported");
+  }
+  if (version3 === "latest") {
+    return `https://github.com/prefix-dev/pixi/releases/latest/download/${pixiFile}`;
+  }
+  return `https://github.com/prefix-dev/pixi/releases/download/${version3}/${pixiFile}`;
+};
+var sha256 = (s) => {
+  return (0, import_crypto4.createHash)("sha256").update(s).digest("hex");
+};
+var execute = (cmd) => {
+  core2.debug(`Executing: ${cmd.join(" ")}`);
+  return (0, import_exec.exec)(cmd[0], cmd.slice(1));
+};
+var pixiCmd = (command, withManifestPath = true) => {
+  let commandArray = [options.pixiBinPath].concat(command.split(" "));
+  if (withManifestPath) {
+    commandArray = commandArray.concat(["--manifest-path", options.manifestPath]);
+  }
+  switch (options.logLevel) {
+    case "trace":
+      commandArray = commandArray.concat(["-vvv"]);
+      break;
+    case "debug":
+      commandArray = commandArray.concat(["-vv"]);
+      break;
+    case "info":
+      commandArray = commandArray.concat(["-v"]);
+      break;
+    case "warn":
+      break;
+    case "quiet":
+      commandArray = commandArray.concat(["-q"]);
+      break;
+  }
+  return commandArray;
+};
 
 // src/cache.ts
 var import_promises = __toESM(require("fs/promises"));
@@ -61169,14 +61172,14 @@ var generateCacheKey = async (cacheKeyPrefix) => import_promises.default.readFil
 });
 var cachePath = import_path2.default.join(import_path2.default.dirname(options.pixiLockFile), ".pixi");
 var tryRestoreCache = () => {
-  const cacheKeyPrefix = options.cacheKey;
-  if (!cacheKeyPrefix) {
+  const cache_ = options.cache;
+  if (!cache_) {
     core3.debug("Skipping pixi cache restore.");
     return Promise.resolve(void 0);
   }
   return core3.group(
     "Restoring pixi cache",
-    () => generateCacheKey(cacheKeyPrefix).then((cacheKey) => {
+    () => generateCacheKey(cache_.cacheKeyPrefix).then((cacheKey) => {
       core3.debug(`Cache key: ${cacheKey}`);
       core3.debug(`Cache path: ${cachePath}`);
       return cache.restoreCache([cachePath], cacheKey, void 0, void 0, false).then((key) => {
@@ -61191,14 +61194,14 @@ var tryRestoreCache = () => {
   );
 };
 var saveCache2 = () => {
-  const cacheKeyPrefix = options.cacheKey;
-  if (!cacheKeyPrefix) {
+  const cache_ = options.cache;
+  if (!cache_) {
     core3.debug("Skipping pixi cache save.");
     return Promise.resolve(void 0);
   }
   return core3.group(
     "Saving pixi cache",
-    () => generateCacheKey(cacheKeyPrefix).then(
+    () => generateCacheKey(cache_.cacheKeyPrefix).then(
       (cacheKey) => cache.saveCache([cachePath], cacheKey, void 0, false).then((cacheId) => {
         core3.info(`Saved cache with ID \`${cacheId}\``);
       }).catch((err) => {
