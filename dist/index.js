@@ -2202,18 +2202,18 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       });
     }
     exports.group = group3;
-    function saveState(name, value) {
+    function saveState2(name, value) {
       const filePath = process.env["GITHUB_STATE"] || "";
       if (filePath) {
         return file_command_1.issueFileCommand("STATE", file_command_1.prepareKeyValueMessage(name, value));
       }
       command_1.issueCommand("save-state", { name }, utils_1.toCommandValue(value));
     }
-    exports.saveState = saveState;
-    function getState(name) {
+    exports.saveState = saveState2;
+    function getState2(name) {
       return process.env[`STATE_${name}`] || "";
     }
-    exports.getState = getState;
+    exports.getState = getState2;
     function getIDToken(aud) {
       return __awaiter(this, void 0, void 0, function* () {
         return yield oidc_utils_1.OidcClient.getIDToken(aud);
@@ -61185,8 +61185,10 @@ var tryRestoreCache = () => {
       return cache.restoreCache([cachePath], cacheKey, void 0, void 0, false).then((key) => {
         if (key) {
           core3.info(`Restored cache with key \`${key}\``);
+          core3.saveState("cache-hit", "true");
         } else {
           core3.info(`Cache miss`);
+          core3.saveState("cache-hit", "false");
         }
         return key;
       });
@@ -61197,6 +61199,11 @@ var saveCache2 = () => {
   const cache_ = options.cache;
   if (!cache_ || !cache_.cacheWrite) {
     core3.debug("Skipping pixi cache save.");
+    return Promise.resolve(void 0);
+  }
+  const cacheHit = core3.getState("cache-hit");
+  if (cacheHit === "true") {
+    core3.debug("Skipping pixi cache save because cache was restored.");
     return Promise.resolve(void 0);
   }
   return core3.group(

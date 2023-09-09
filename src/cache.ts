@@ -28,8 +28,10 @@ export const tryRestoreCache = (): Promise<string | undefined> => {
       return cache.restoreCache([cachePath], cacheKey, undefined, undefined, false).then((key) => {
         if (key) {
           core.info(`Restored cache with key \`${key}\``)
+          core.saveState('cache-hit', 'true')
         } else {
           core.info(`Cache miss`)
+          core.saveState('cache-hit', 'false')
         }
         return key
       })
@@ -41,6 +43,11 @@ export const saveCache = () => {
   const cache_ = options.cache
   if (!cache_ || !cache_.cacheWrite) {
     core.debug('Skipping pixi cache save.')
+    return Promise.resolve(undefined)
+  }
+  const cacheHit = core.getState('cache-hit')
+  if (cacheHit === 'true') {
+    core.debug('Skipping pixi cache save because cache was restored.')
     return Promise.resolve(undefined)
   }
   return core.group('Saving pixi cache', () =>

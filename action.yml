@@ -48,7 +48,7 @@ inputs:
     description: Conda token to use for authentication.
   post-cleanup:
     description: |
-      If the action should clean up after itself.
+      If the action should clean up after itself. Defaults to `true`.
       If `true`, the pixi environment, the pixi binary and the rattler files in ~/.rattler and ~/.cache/rattler are removed.
 
 runs:
