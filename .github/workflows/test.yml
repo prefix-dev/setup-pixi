@@ -284,6 +284,10 @@ jobs:
       # check the action logs to see if the cache was written
       - run: |
           test -f .pixi/env/bin/python
+        if: matrix.os != 'windows-latest'
+      - run: |
+          test -f .pixi/env/python.exe
+        if: matrix.os == 'windows-latest'
 
   test-cache2:
     name: Test cache 2/2
