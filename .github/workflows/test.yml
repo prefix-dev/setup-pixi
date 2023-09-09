@@ -213,7 +213,7 @@ jobs:
       - uses: ./
       - run: |
           python --version | grep -q "3.11"
-        shell: pixi run bash {0}
+        shell: pixi shell {0}
 
   post-cleanup:
     # not implemented yet
