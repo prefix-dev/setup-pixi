@@ -144,10 +144,11 @@ jobs:
         run: mv test/default/* .
       - uses: ./
         with:
-          auth-host: TODO
-          auth-token: TODO
-      # TODO
-      # - run:
+          auth-host: https://custom-conda-registry.com
+          auth-token: custom-token
+      - run: |
+          grep -q "custom-conda-registry.com" ~/.rattler/auth.json
+          grep -q "custom-token" ~/.rattler/auth.json
 
   auth-username-password:
     strategy:
@@ -160,9 +161,13 @@ jobs:
         run: mv test/default/* .
       - uses: ./
         with:
-          auth-host: TODO
-          auth-username: TODO
-          auth-password: TODO
+          auth-host: https://custom-conda-registry.com
+          auth-username: custom-username
+          auth-password: custom-password
+      - run: |
+          grep -q "custom-conda-registry.com" ~/.rattler/auth.json
+          grep -q "custom-username" ~/.rattler/auth.json
+          grep -q "custom-password" ~/.rattler/auth.json
 
   auth-conda-token:
     strategy:
@@ -175,8 +180,11 @@ jobs:
         run: mv test/default/* .
       - uses: ./
         with:
-          auth-host: TODO
-          auth-conda-token: TODO
+          auth-host: https://custom-conda-registry.com
+          auth-conda-token: custom-conda-token
+      - run: |
+          grep -q "custom-conda-registry.com" ~/.rattler/auth.json
+          grep -q "custom-conda-token" ~/.rattler/auth.json
 
   post-cleanup:
     # not implemented yet
