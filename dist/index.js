@@ -61096,13 +61096,17 @@ var inferOptions = (inputs) => {
   const generateRunShell = inputs.generateRunShell ?? runInstall;
   const cacheKey = inputs.cacheKey ?? (inputs.cache ? `pixi-${getCondaArch()}` : void 0);
   const pixiBinPath = inputs.pixiBinPath ?? PATHS.pixiBin;
-  const auth = inputs.authHost ? {
+  const auth = !inputs.authHost ? void 0 : inputs.authToken ? {
     host: inputs.authHost,
-    token: inputs.authToken,
-    username: inputs.authUsername,
-    password: inputs.authPassword,
+    token: inputs.authToken
+  } : inputs.authCondaToken ? {
+    host: inputs.authHost,
     condaToken: inputs.authCondaToken
-  } : void 0;
+  } : {
+    host: inputs.authHost,
+    username: inputs.authUsername,
+    password: inputs.authPassword
+  };
   const postCleanup = inputs.postCleanup ?? "all";
   return {
     pixiSource,
