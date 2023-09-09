@@ -60962,7 +60962,6 @@ function untildify(pathWithTilde) {
 
 // src/options.ts
 var logLevelSchema = enumType(["quiet", "warn", "info", "debug", "trace"]);
-var postCleanupSchema = enumType(["none", "environment", "all"]);
 var PATHS = {
   pixiBin: import_path.default.join(import_os.default.homedir(), ".pixi", "bin", `pixi${import_os.default.platform() === "win32" ? ".exe" : ""}`)
 };
@@ -61031,7 +61030,7 @@ var inferOptions = (inputs) => {
     username: inputs.authUsername,
     password: inputs.authPassword
   };
-  const postCleanup = inputs.postCleanup ?? "all";
+  const postCleanup = inputs.postCleanup ?? true;
   return {
     pixiSource,
     logLevel,
@@ -61065,7 +61064,7 @@ var getOptions = () => {
     authUsername: parseOrUndefined("auth-username", stringType()),
     authPassword: parseOrUndefined("auth-password", stringType()),
     authCondaToken: parseOrUndefined("auth-conda-token", stringType()),
-    postCleanup: parseOrUndefined("post-cleanup", postCleanupSchema)
+    postCleanup: parseOrUndefinedJSON("post-cleanup", booleanType())
   };
   core.debug(`Inputs: ${JSON.stringify(inputs)}`);
   validateInputs(inputs);

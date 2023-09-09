@@ -20,7 +20,7 @@ type Inputs = {
   authUsername?: string
   authPassword?: string
   authCondaToken?: string
-  postCleanup?: PostCleanup
+  postCleanup?: boolean
 }
 
 export type PixiSource =
@@ -62,14 +62,11 @@ export type Options = Readonly<{
   pixiBinPath: string
   pixiRunShell: string
   auth?: Auth
-  postCleanup: PostCleanup
+  postCleanup: boolean
 }>
 
 const logLevelSchema = z.enum(['quiet', 'warn', 'info', 'debug', 'trace'])
 export type LogLevel = z.infer<typeof logLevelSchema>
-
-const postCleanupSchema = z.enum(['none', 'environment', 'all'])
-export type PostCleanup = z.infer<typeof postCleanupSchema>
 
 export const PATHS = {
   pixiBin: path.join(os.homedir(), '.pixi', 'bin', `pixi${os.platform() === 'win32' ? '.exe' : ''}`)
@@ -163,7 +160,7 @@ const inferOptions = (inputs: Inputs): Options => {
             username: inputs.authUsername!,
             password: inputs.authPassword!
           }) as Auth)
-  const postCleanup = inputs.postCleanup ?? 'all'
+  const postCleanup = inputs.postCleanup ?? true
   return {
     pixiSource,
     logLevel,
@@ -205,7 +202,7 @@ const getOptions = () => {
     authUsername: parseOrUndefined('auth-username', z.string()),
     authPassword: parseOrUndefined('auth-password', z.string()),
     authCondaToken: parseOrUndefined('auth-conda-token', z.string()),
-    postCleanup: parseOrUndefined('post-cleanup', postCleanupSchema)
+    postCleanup: parseOrUndefinedJSON('post-cleanup', z.boolean())
   }
   core.debug(`Inputs: ${JSON.stringify(inputs)}`)
   validateInputs(inputs)
