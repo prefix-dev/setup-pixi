@@ -21,7 +21,7 @@ jobs:
       - run: |
           pixi info
           test -f .pixi/env/bin/python
-          ./.pixi/env/bin/python --version | grep -q 3.11
+          ./.pixi/env/bin/python${{ matrix.os == 'windows-latest' && '.exe' || '' }} --version | grep -q 3.11
 
   no-run-install:
     strategy:
@@ -37,6 +37,7 @@ jobs:
           run-install: false
       - run: |
           ! test -d .pixi
+        shell: bash
 
   custom-pixi-version:
     strategy:
@@ -213,4 +214,4 @@ jobs:
       - run: |
           pixi info
           test -f .pixi/env/bin/python
-          ./.pixi/env/bin/python --version | grep -q 3.11
+          ./.pixi/env/bin/python${{ matrix.os == 'windows-latest' && '.exe' || '' }}  --version | grep -q 3.11
