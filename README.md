@@ -1,6 +1,22 @@
-# setup-pixi 📦
+<h1 align="center">
 
-[![CI](https://github.com/pavelzw/setup-pixi/actions/workflows/test.yml/badge.svg)](https://github.com/pavelzw/setup-pixi/actions/workflows/test.yml)
+[![License][license-badge]][license]
+[![CI][build-badge]][build]
+[![Latest release][latest-release-badge]][releases]
+[![Project Chat][chat-badge]][chat-url]
+
+[license-badge]: https://img.shields.io/github/license/pavelzw/setup-pixi?style=flat-square
+[license]: ./LICENSE
+[build-badge]: https://img.shields.io/github/actions/workflow/status/pavelzw/setup-pixi/test.yml?style=flat-square
+[build]: https://github.com/pavelzw/setup-pixi/actions/
+[latest-release-badge]: https://img.shields.io/github/v/tag/pavelzw/setup-pixi?style=flat-square&label=latest&sort=semver
+[releases]: https://github.com/pavelzw/setup-pixi/releases
+[chat-badge]: https://img.shields.io/discord/1082332781146800168.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2&style=flat-square
+[chat-url]: https://discord.gg/kKV8ZxyzY4
+
+</h1>
+
+# setup-pixi 📦
 
 GitHub Action to set up the [pixi](https://github.com/prefix-dev/pixi) package manager.
 
