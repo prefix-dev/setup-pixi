@@ -61133,7 +61133,7 @@ var getOptions = () => {
     generateRunShell: parseOrUndefinedJSON("generate-run-shell", booleanType()),
     cache: parseOrUndefinedJSON("cache", booleanType()),
     cacheKey: parseOrUndefined("cache-key", stringType()),
-    pixiBinPath: parseOrUndefined("micromamba-binary-path", stringType()),
+    pixiBinPath: parseOrUndefined("pixi-bin-path", stringType()),
     authHost: parseOrUndefined("auth-host", stringType()),
     authToken: parseOrUndefined("auth-token", stringType()),
     authUsername: parseOrUndefined("auth-username", stringType()),

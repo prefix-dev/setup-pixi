@@ -185,7 +185,7 @@ const getOptions = () => {
     generateRunShell: parseOrUndefinedJSON('generate-run-shell', z.boolean()),
     cache: parseOrUndefinedJSON('cache', z.boolean()),
     cacheKey: parseOrUndefined('cache-key', z.string()),
-    pixiBinPath: parseOrUndefined('micromamba-binary-path', z.string()),
+    pixiBinPath: parseOrUndefined('pixi-bin-path', z.string()),
     authHost: parseOrUndefined('auth-host', z.string()),
     authToken: parseOrUndefined('auth-token', z.string()),
     authUsername: parseOrUndefined('auth-username', z.string()),
