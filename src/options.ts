@@ -65,7 +65,7 @@ export type Options = Readonly<{
   postCleanup: boolean
 }>
 
-const logLevelSchema = z.enum(['quiet', 'warn', 'info', 'debug', 'trace'])
+const logLevelSchema = z.enum(['q', 'default', 'v', 'vv', 'vvv'])
 export type LogLevel = z.infer<typeof logLevelSchema>
 
 export const PATHS = {
@@ -132,7 +132,7 @@ const inferOptions = (inputs: Inputs): Options => {
     : inputs.pixiUrl
     ? { url: inputs.pixiUrl }
     : { version: 'latest' }
-  const logLevel = inputs.logLevel ?? (core.isDebug() ? 'debug' : 'warn')
+  const logLevel = inputs.logLevel ?? (core.isDebug() ? 'vv' : 'default')
   const manifestPath = inputs.manifestPath ? path.resolve(untildify(inputs.manifestPath)) : 'pixi.toml'
   const pixiLockFile = path.join(path.dirname(manifestPath), path.basename(manifestPath).replace(/\.toml$/, '.lock'))
   const generateRunShell = inputs.generateRunShell ?? runInstall

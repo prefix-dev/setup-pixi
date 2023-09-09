@@ -79,18 +79,18 @@ export const pixiCmd = (command: string, withManifestPath = true) => {
     commandArray = commandArray.concat(['--manifest-path', options.manifestPath])
   }
   switch (options.logLevel) {
-    case 'trace':
+    case 'vvv':
       commandArray = commandArray.concat(['-vvv'])
       break
-    case 'debug':
+    case 'vv':
       commandArray = commandArray.concat(['-vv'])
       break
-    case 'info':
+    case 'v':
       commandArray = commandArray.concat(['-v'])
       break
-    case 'warn':
+    case 'default':
       break
-    case 'quiet':
+    case 'q':
       commandArray = commandArray.concat(['-q'])
       break
   }
