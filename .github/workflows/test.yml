@@ -313,73 +313,73 @@ jobs:
           pixi run python --version | grep -q 3.11
           pixi run test | grep -q "Hello world"
 
-  # test-cache1:
-  #   name: Test cache 1/2
-  #   timeout-minutes: 10
-  #   runs-on: ${{ matrix.os }}
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       os: [windows-latest, ubuntu-latest, macos-latest]
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - name: Move pixi files
-  #       run: mv test/default/* .
-  #     - uses: ./
-  #       with:
-  #         cache: true
-  #         cache-key: test-cache-${{ github.sha }}-${{ github.run_attempt }}-
-  #     # check the action logs to see if the cache was written
-  #     - run: |
-  #         test -f .pixi/env/bin/python
-  #       if: matrix.os != 'windows-latest'
-  #     - run: |
-  #         test -f .pixi/env/python.exe
-  #       if: matrix.os == 'windows-latest'
+  test-cache1:
+    name: Test cache 1/2
+    timeout-minutes: 10
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi files
+        run: mv test/default/* .
+      - uses: ./
+        with:
+          cache: true
+          cache-key: test-cache-${{ github.sha }}-${{ github.run_attempt }}-
+      # check the action logs to see if the cache was written
+      - run: |
+          test -f .pixi/env/bin/python
+        if: matrix.os != 'windows-latest'
+      - run: |
+          test -f .pixi/env/python.exe
+        if: matrix.os == 'windows-latest'
 
-  # test-cache2:
-  #   name: Test cache 2/2
-  #   timeout-minutes: 10
-  #   needs: test-cache1
-  #   runs-on: ${{ matrix.os }}
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       os: [windows-latest, ubuntu-latest, macos-latest]
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - name: Move pixi files
-  #       run: mv test/default/* .
-  #     - uses: ./
-  #       with:
-  #         cache: true
-  #         cache-key: test-cache-${{ github.sha }}-${{ github.run_attempt }}-
-  #     # check the action logs to see if the cache was restored
-  #     - run: |
-  #         test -f .pixi/env/bin/python
-  #       if: matrix.os != 'windows-latest'
-  #     - run: |
-  #         test -f .pixi/env/python.exe
-  #       if: matrix.os == 'windows-latest'
+  test-cache2:
+    name: Test cache 2/2
+    timeout-minutes: 10
+    needs: test-cache1
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi files
+        run: mv test/default/* .
+      - uses: ./
+        with:
+          cache: true
+          cache-key: test-cache-${{ github.sha }}-${{ github.run_attempt }}-
+      # check the action logs to see if the cache was restored
+      - run: |
+          test -f .pixi/env/bin/python
+        if: matrix.os != 'windows-latest'
+      - run: |
+          test -f .pixi/env/python.exe
+        if: matrix.os == 'windows-latest'
 
-  # test-cache-no-write:
-  #   name: Test cache no write
-  #   timeout-minutes: 10
-  #   runs-on: ${{ matrix.os }}
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       os: [windows-latest, ubuntu-latest, macos-latest]
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - name: Move pixi files
-  #       run: mv test/default/* .
-  #     - uses: ./
-  #       with:
-  #         cache: true
-  #         cache-write: false
-  #         cache-key: test-cache-${{ github.sha }}-${{ github.run_attempt }}-
-  #     # check the action logs to see if the cache write was skipped
+  test-cache-no-write:
+    name: Test cache no write
+    timeout-minutes: 10
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi files
+        run: mv test/default/* .
+      - uses: ./
+        with:
+          cache: true
+          cache-write: false
+          cache-key: test-cache-${{ github.sha }}-${{ github.run_attempt }}-
+      # check the action logs to see if the cache write was skipped
 
   # not properly testable
   # https://github.com/actions/runner/issues/2347
