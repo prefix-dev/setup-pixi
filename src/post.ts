@@ -18,13 +18,21 @@ const cleanupPixiBin = () => {
     })
 }
 
-const cleanupEnv = () => fs.rm(path.join(path.dirname(options.manifestPath), '.pixi'), { recursive: true })
+const cleanupEnv = () => {
+  if (!options.runInstall) {
+    core.debug('Skipping cleanup of .pixi directory.')
+  }
+  fs.rm(path.join(path.dirname(options.manifestPath), '.pixi'), { recursive: true })
+}
 
-const cleanupRattler = () =>
-  Promise.all([
-    fs.rm(path.join(os.homedir(), '.rattler'), { recursive: true }),
-    fs.rm(path.join(os.homedir(), '.cache', 'rattler'), { recursive: true })
+const cleanupRattler = () => {
+  const rattlerPath = path.join(os.homedir(), '.rattler')
+  const rattlerCachePath = path.join(os.homedir(), '.cache', 'rattler')
+  return Promise.all([
+    fs.rm(rattlerPath, { recursive: true, force: true }),
+    fs.rm(rattlerCachePath, { recursive: true, force: true })
   ])
+}
 
 const run = () => {
   const postCleanup = options.postCleanup

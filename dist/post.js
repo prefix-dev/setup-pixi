@@ -5953,11 +5953,20 @@ var cleanupPixiBin = () => {
     return Promise.resolve();
   });
 };
-var cleanupEnv = () => import_promises.default.rm(import_path2.default.join(import_path2.default.dirname(options.manifestPath), ".pixi"), { recursive: true });
-var cleanupRattler = () => Promise.all([
-  import_promises.default.rm(import_path2.default.join(os3.homedir(), ".rattler"), { recursive: true }),
-  import_promises.default.rm(import_path2.default.join(os3.homedir(), ".cache", "rattler"), { recursive: true })
-]);
+var cleanupEnv = () => {
+  if (!options.runInstall) {
+    core2.debug("Skipping cleanup of .pixi directory.");
+  }
+  import_promises.default.rm(import_path2.default.join(import_path2.default.dirname(options.manifestPath), ".pixi"), { recursive: true });
+};
+var cleanupRattler = () => {
+  const rattlerPath = import_path2.default.join(os3.homedir(), ".rattler");
+  const rattlerCachePath = import_path2.default.join(os3.homedir(), ".cache", "rattler");
+  return Promise.all([
+    import_promises.default.rm(rattlerPath, { recursive: true, force: true }),
+    import_promises.default.rm(rattlerCachePath, { recursive: true, force: true })
+  ]);
+};
 var run = () => {
   const postCleanup = options.postCleanup;
   if (postCleanup) {
