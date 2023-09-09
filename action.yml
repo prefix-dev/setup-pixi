@@ -13,7 +13,7 @@ inputs:
   log-level:
     description: |
       Log level for the pixi CLI.
-      One of `quiet`, `warn`, `info`, `debug`, or `trace`.
+      One of `q`, `default`, `v`, `vv`, or `vvv`.
   manifest-path:
     description: Path to the manifest file (i.e., `pixi.toml`) to use for the pixi CLI. Defaults to `pixi.toml`.
   run-install:
