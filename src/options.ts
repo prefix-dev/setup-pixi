@@ -128,8 +128,8 @@ const inferOptions = (inputs: Inputs): Options => {
     ? { url: inputs.pixiUrl }
     : { version: 'latest' }
   const logLevel = inputs.logLevel ?? (core.isDebug() ? 'debug' : 'warn')
-  const manifestPath = inputs.manifestPath ?? 'pixi.toml'
-  const pixiLockFile = path.basename(manifestPath).replace(/\.toml$/, '.lock')
+  const manifestPath = inputs.manifestPath ? path.resolve(untildify(inputs.manifestPath)) : 'pixi.toml'
+  const pixiLockFile = path.join(path.dirname(manifestPath), path.basename(manifestPath).replace(/\.toml$/, '.lock'))
   const generateRunShell = inputs.generateRunShell ?? runInstall
   const cacheKey = inputs.cacheKey ?? (inputs.cache ? `pixi-${getCondaArch()}` : undefined)
   const pixiBinPath = inputs.pixiBinPath ? path.resolve(untildify(inputs.pixiBinPath)) : PATHS.pixiBin
