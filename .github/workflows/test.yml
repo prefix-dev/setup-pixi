@@ -131,8 +131,10 @@ jobs:
       with:
         pixi-bin-path: bin/pixi
     - run: |
+        pixi --help
+        echo $PATH
         which pixi
-        which pixi | grep -q "adwdwdw"
+        which pixi | grep -q "awdwd"
 
   auth-token:
     strategy:
@@ -151,6 +153,8 @@ jobs:
           grep -q "BearerToken" ~/.rattler/rattler_auth_store.json
           grep -q "custom-conda-registry.com" ~/.rattler/rattler_auth_store.json
           grep -q "custom-token" ~/.rattler/rattler_auth_store.json
+        # all other platforms have the credentials stored in the keychain
+        # https://github.com/prefix-dev/pixi/issues/330
         if: matrix.os == 'ubuntu-latest'
 
   auth-username-password:
@@ -172,6 +176,8 @@ jobs:
           grep -q "custom-conda-registry.com" ~/.rattler/rattler_auth_store.json
           grep -q "custom-username" ~/.rattler/rattler_auth_store.json
           grep -q "custom-password" ~/.rattler/rattler_auth_store.json
+        # all other platforms have the credentials stored in the keychain
+        # https://github.com/prefix-dev/pixi/issues/330
         if: matrix.os == 'ubuntu-latest'
 
   auth-conda-token:
@@ -192,6 +198,8 @@ jobs:
           cat ~/.rattler/rattler_auth_store.json
           grep -q "custom-conda-registry.com" ~/.rattler/rattler_auth_store.json
           grep -q "custom-conda-token" ~/.rattler/rattler_auth_store.json
+        # all other platforms have the credentials stored in the keychain
+        # https://github.com/prefix-dev/pixi/issues/330
         if: matrix.os == 'ubuntu-latest'
 
   post-cleanup:
