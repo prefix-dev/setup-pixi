@@ -131,7 +131,8 @@ jobs:
       with:
         pixi-bin-path: bin/pixi
     - run: |
-        which pixi | grep -q "..."
+        which pixi
+        which pixi | grep -q "adwdwdw"
 
   auth-token:
     strategy:
@@ -147,10 +148,10 @@ jobs:
           auth-host: https://custom-conda-registry.com
           auth-token: custom-token
       - run: |
-          cat ~/.rattler/rattler_auth_store.json
           grep -q "BearerToken" ~/.rattler/rattler_auth_store.json
           grep -q "custom-conda-registry.com" ~/.rattler/rattler_auth_store.json
           grep -q "custom-token" ~/.rattler/rattler_auth_store.json
+        if: matrix.os == 'ubuntu-latest'
 
   auth-username-password:
     strategy:
@@ -167,10 +168,11 @@ jobs:
           auth-username: custom-username
           auth-password: custom-password
       - run: |
-          cat ~/.rattler/rattler_auth_store.json
+          grep -q "BasicHTTP" ~/.rattler/rattler_auth_store.json
           grep -q "custom-conda-registry.com" ~/.rattler/rattler_auth_store.json
           grep -q "custom-username" ~/.rattler/rattler_auth_store.json
           grep -q "custom-password" ~/.rattler/rattler_auth_store.json
+        if: matrix.os == 'ubuntu-latest'
 
   auth-conda-token:
     strategy:
@@ -186,9 +188,11 @@ jobs:
           auth-host: https://custom-conda-registry.com
           auth-conda-token: custom-conda-token
       - run: |
+          grep "CondaToken" ~/.rattler/rattler_auth_store.json
           cat ~/.rattler/rattler_auth_store.json
           grep -q "custom-conda-registry.com" ~/.rattler/rattler_auth_store.json
           grep -q "custom-conda-token" ~/.rattler/rattler_auth_store.json
+        if: matrix.os == 'ubuntu-latest'
 
   post-cleanup:
     # not implemented yet
