@@ -61041,10 +61041,7 @@ var pixiCmd = (command, withManifestPath = true) => {
 var logLevelSchema = enumType(["quiet", "warn", "info", "debug", "trace"]);
 var postCleanupSchema = enumType(["none", "environment", "all"]);
 var PATHS = {
-  pixiBin: import_path.default.join(import_os.default.homedir(), ".pixi", "bin", `pixi${import_os.default.platform() === "win32" ? ".exe" : ""}`),
-  pixiRunShellScript: import_path.default.join(import_os.default.homedir(), ".pixi", "bin", "pixi-shell"),
-  bashProfile: import_path.default.join(import_os.default.homedir(), ".bash_profile"),
-  bashrc: import_path.default.join(import_os.default.homedir(), ".bashrc")
+  pixiBin: import_path.default.join(import_os.default.homedir(), ".pixi", "bin", `pixi${import_os.default.platform() === "win32" ? ".exe" : ""}`)
 };
 var parseOrUndefined = (key, schema) => {
   const input = core2.getInput(key);
@@ -61096,6 +61093,7 @@ var inferOptions = (inputs) => {
   const generateRunShell = inputs.generateRunShell ?? runInstall;
   const cacheKey = inputs.cacheKey ?? (inputs.cache ? `pixi-${getCondaArch()}` : void 0);
   const pixiBinPath = inputs.pixiBinPath ?? PATHS.pixiBin;
+  const pixiRunShell = import_path.default.join(import_path.default.dirname(pixiBinPath), "pixi-shell");
   const auth = !inputs.authHost ? void 0 : inputs.authToken ? {
     host: inputs.authHost,
     token: inputs.authToken
@@ -61117,6 +61115,7 @@ var inferOptions = (inputs) => {
     generateRunShell,
     cacheKey,
     pixiBinPath,
+    pixiRunShell,
     auth,
     postCleanup
   };
@@ -61253,17 +61252,16 @@ chmod +x $1
 pixi run $1
 `;
   return core4.group("Generating pixi run shell", () => {
-    core4.debug(`Writing pixi run shell to ${PATHS.pixiRunShellScript}`);
+    core4.debug(`Writing pixi run shell to ${options.pixiRunShell}`);
     core4.debug(`File contents:
 "${pixiRunShellContents}"`);
-    return import_promises2.default.writeFile(PATHS.pixiRunShellScript, pixiRunShellContents, { encoding: "utf8", mode: 493 });
+    return import_promises2.default.writeFile(options.pixiRunShell, pixiRunShellContents, { encoding: "utf8", mode: 493 });
   });
 };
 var generateInfo = () => core4.group("pixi info", () => execute(pixiCmd("info")));
 var run = async () => {
   core4.debug(`process.env.HOME: ${process.env.HOME}`);
   core4.debug(`os.homedir(): ${import_os3.default.homedir()}`);
-  core4.debug(`bashProfile ${PATHS.bashProfile}`);
   await downloadPixi(options.pixiSource);
   addPixiToPath();
   await pixiLogin();

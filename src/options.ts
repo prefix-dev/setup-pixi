@@ -54,6 +54,7 @@ export type Options = Readonly<{
   generateRunShell: boolean
   cacheKey?: string // undefined if cache is false
   pixiBinPath: string
+  pixiRunShell: string
   auth?: Auth
   postCleanup: PostCleanup
 }>
@@ -65,10 +66,7 @@ const postCleanupSchema = z.enum(['none', 'environment', 'all'])
 export type PostCleanup = z.infer<typeof postCleanupSchema>
 
 export const PATHS = {
-  pixiBin: path.join(os.homedir(), '.pixi', 'bin', `pixi${os.platform() === 'win32' ? '.exe' : ''}`),
-  pixiRunShellScript: path.join(os.homedir(), '.pixi', 'bin', 'pixi-shell'),
-  bashProfile: path.join(os.homedir(), '.bash_profile'),
-  bashrc: path.join(os.homedir(), '.bashrc')
+  pixiBin: path.join(os.homedir(), '.pixi', 'bin', `pixi${os.platform() === 'win32' ? '.exe' : ''}`)
 }
 
 const parseOrUndefined = <T>(key: string, schema: z.ZodSchema<T>): T | undefined => {
@@ -134,6 +132,7 @@ const inferOptions = (inputs: Inputs): Options => {
   const generateRunShell = inputs.generateRunShell ?? runInstall
   const cacheKey = inputs.cacheKey ?? (inputs.cache ? `pixi-${getCondaArch()}` : undefined)
   const pixiBinPath = inputs.pixiBinPath ?? PATHS.pixiBin
+  const pixiRunShell = path.join(path.dirname(pixiBinPath), 'pixi-shell')
   const auth = !inputs.authHost
     ? undefined
     : ((inputs.authToken
@@ -161,6 +160,7 @@ const inferOptions = (inputs: Inputs): Options => {
     generateRunShell,
     cacheKey,
     pixiBinPath,
+    pixiRunShell,
     auth,
     postCleanup
   }
