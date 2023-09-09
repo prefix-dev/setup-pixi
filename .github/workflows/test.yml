@@ -275,6 +275,8 @@ jobs:
         os: [windows-latest, ubuntu-latest, macos-latest]
     steps:
       - uses: actions/checkout@v4
+      - name: Move pixi files
+        run: mv test/no-lockfile/* .
       - uses: ./
         with:
           cache: true
@@ -294,6 +296,8 @@ jobs:
         os: [windows-latest, ubuntu-latest, macos-latest]
     steps:
       - uses: actions/checkout@v4
+      - name: Move pixi files
+        run: mv test/no-lockfile/* .
       - uses: ./
         with:
           cache: true
