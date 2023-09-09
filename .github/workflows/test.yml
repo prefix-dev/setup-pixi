@@ -129,12 +129,11 @@ jobs:
       run: mkdir bin
     - uses: ./
       with:
-        pixi-bin-path: bin/pixi
+        pixi-bin-path: custom-bin/pixi
     - run: |
+        test -f custom-bin/pixi
         pixi --help
-        echo $PATH
-        which pixi
-        which pixi | grep -q "awdwd"
+        which pixi | grep -q custom-bin/pixi
 
   auth-token:
     strategy:
