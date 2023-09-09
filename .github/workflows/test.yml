@@ -35,6 +35,7 @@ jobs:
           test -f .pixi/env/python.exe
           ./.pixi/env/python.exe --version | grep -q 3.11
         shell: bash
+        if: matrix.os == 'windows-latest'
       - run: pixi run test | grep -q "Hello world"
 
   no-run-install:
