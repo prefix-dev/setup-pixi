@@ -264,3 +264,43 @@ jobs:
       - run: |
           pixi run python --version | grep -q 3.11
           pixi run test | grep -q "Hello world"
+
+  test-cache1:
+    name: Test cache 1/2
+    timeout-minutes: 10
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        with:
+          cache: true
+          cache-key: test-cache-${{ github.sha }}-${{ github.run_attempt }}
+      - run: |
+          set -o pipefail
+          test -f .pixi/env/bin/python
+
+  test-cache2:
+    name: Test cache 2/2
+    timeout-minutes: 10
+    needs: test-cache1
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        with:
+          cache: true
+          cache-key: test-cache-${{ github.sha }}-${{ github.run_attempt }}
+      - name: test environment name
+        run: |
+          set -o pipefail
+          test -f .pixi/env/bin/python
+
+        
