@@ -17,7 +17,7 @@ GitHub Action to set up the [pixi](https://github.com/prefix-dev/pixi) package m
 ```
 
 > [!WARNING]
-> Since pixi is still not stable, the API of this action may change between minor versions.
+> Since pixi is not yet stable, the API of this action may change between minor versions.
 > Please pin the versions of this action to a specific version (i.e., `pavelzw/setup-pixi@v0.1.2`) to avoid breaking changes.
 > You can automatically update the version of this action by using [Dependabot](https://docs.github.com/en/code-security/dependabot/working-with-dependabot/keeping-your-actions-up-to-date-with-dependabot).
 
