@@ -1,4 +1,4 @@
-# setup-pixi
+# setup-pixi 📦
 
 [![CI](https://github.com/pavelzw/setup-pixi/actions/workflows/test.yml/badge.svg)](https://github.com/pavelzw/setup-pixi/actions/workflows/test.yml)
 
