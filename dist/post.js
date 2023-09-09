@@ -5974,7 +5974,8 @@ var cleanupEnv = () => {
 };
 var cleanupRattler = () => {
   const rattlerPath = import_path2.default.join(os3.homedir(), ".rattler");
-  const rattlerCachePath = import_path2.default.join(os3.homedir(), ".cache", "rattler");
+  const xdgCacheHome = os3.platform() !== "win32" ? import_path2.default.join(os3.homedir(), ".cache") : process.env.TEMP;
+  const rattlerCachePath = import_path2.default.join(xdgCacheHome, "rattler");
   core2.debug(`Cleaning up rattler directories ${rattlerPath} and ${rattlerCachePath}.`);
   return Promise.all([
     import_promises.default.rm(rattlerPath, { recursive: true, force: true }),

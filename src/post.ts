@@ -38,7 +38,8 @@ const cleanupEnv = () => {
 
 const cleanupRattler = () => {
   const rattlerPath = path.join(os.homedir(), '.rattler')
-  const rattlerCachePath = path.join(os.homedir(), '.cache', 'rattler')
+  const xdgCacheHome = os.platform() !== 'win32' ? path.join(os.homedir(), '.cache') : process.env.TEMP!
+  const rattlerCachePath = path.join(xdgCacheHome, 'rattler')
   core.debug(`Cleaning up rattler directories ${rattlerPath} and ${rattlerCachePath}.`)
   return Promise.all([
     fs.rm(rattlerPath, { recursive: true, force: true }),
