@@ -57,27 +57,6 @@ const pixiInstall = async () => {
     .then(saveCache)
 }
 
-const generatePixiRunShell = () => {
-  if (!options.generateRunShell) {
-    core.debug('Skipping pixi run shell generation.')
-    return Promise.resolve()
-  }
-  if (os.platform() === 'win32') {
-    core.info('Skipping pixi run shell on Windows.')
-    return Promise.resolve()
-  }
-  core.info('Generating pixi run shell.')
-  const pixiRunShellContents = `#!/usr/bin/env sh
-chmod +x $1
-pixi run $1
-`
-  return core.group('Generating pixi run shell', () => {
-    core.debug(`Writing pixi run shell to ${options.pixiRunShell}`)
-    core.debug(`File contents:\n"${pixiRunShellContents}"`)
-    return fs.writeFile(options.pixiRunShell, pixiRunShellContents, { encoding: 'utf8', mode: 0o755 })
-  })
-}
-
 const generateInfo = () => core.group('pixi info', () => execute(pixiCmd('info')))
 
 const run = async () => {
@@ -87,7 +66,6 @@ const run = async () => {
   addPixiToPath()
   await pixiLogin()
   await pixiInstall()
-  await generatePixiRunShell()
   await generateInfo()
 }
 

@@ -61015,7 +61015,6 @@ var inferOptions = (inputs) => {
   const logLevel = inputs.logLevel ?? (core.isDebug() ? "vv" : "default");
   const manifestPath = inputs.manifestPath ? import_path.default.resolve(untildify(inputs.manifestPath)) : "pixi.toml";
   const pixiLockFile = import_path.default.join(import_path.default.dirname(manifestPath), import_path.default.basename(manifestPath).replace(/\.toml$/, ".lock"));
-  const generateRunShell = inputs.generateRunShell ?? runInstall;
   const cache2 = inputs.cacheKey ? { cacheKeyPrefix: inputs.cacheKey, cacheWrite: inputs.cacheWrite ?? true } : inputs.cache ? { cacheKeyPrefix: "pixi-", cacheWrite: true } : void 0;
   const pixiBinPath = inputs.pixiBinPath ? import_path.default.resolve(untildify(inputs.pixiBinPath)) : PATHS.pixiBin;
   const pixiRunShell = import_path.default.join(import_path.default.dirname(pixiBinPath), "pixi-shell");
@@ -61037,7 +61036,6 @@ var inferOptions = (inputs) => {
     manifestPath,
     pixiLockFile,
     runInstall,
-    generateRunShell,
     cache: cache2,
     pixiBinPath,
     pixiRunShell,
@@ -61054,7 +61052,6 @@ var getOptions = () => {
     logLevel: parseOrUndefined("log-level", logLevelSchema),
     manifestPath: parseOrUndefined("manifest-path", stringType()),
     runInstall: parseOrUndefinedJSON("run-install", booleanType()),
-    generateRunShell: parseOrUndefinedJSON("generate-run-shell", booleanType()),
     cache: parseOrUndefinedJSON("cache", booleanType()),
     cacheKey: parseOrUndefined("cache-key", stringType()),
     cacheWrite: parseOrUndefinedJSON("cache-write", booleanType()),
@@ -61256,27 +61253,6 @@ var pixiInstall = async () => {
   }
   return tryRestoreCache().then((_cacheKey) => execute(pixiCmd("install"))).then(saveCache2);
 };
-var generatePixiRunShell = () => {
-  if (!options.generateRunShell) {
-    core4.debug("Skipping pixi run shell generation.");
-    return Promise.resolve();
-  }
-  if (import_os3.default.platform() === "win32") {
-    core4.info("Skipping pixi run shell on Windows.");
-    return Promise.resolve();
-  }
-  core4.info("Generating pixi run shell.");
-  const pixiRunShellContents = `#!/usr/bin/env sh
-chmod +x $1
-pixi run $1
-`;
-  return core4.group("Generating pixi run shell", () => {
-    core4.debug(`Writing pixi run shell to ${options.pixiRunShell}`);
-    core4.debug(`File contents:
-"${pixiRunShellContents}"`);
-    return import_promises2.default.writeFile(options.pixiRunShell, pixiRunShellContents, { encoding: "utf8", mode: 493 });
-  });
-};
 var generateInfo = () => core4.group("pixi info", () => execute(pixiCmd("info")));
 var run = async () => {
   core4.debug(`process.env.HOME: ${process.env.HOME}`);
@@ -61285,7 +61261,6 @@ var run = async () => {
   addPixiToPath();
   await pixiLogin();
   await pixiInstall();
-  await generatePixiRunShell();
   await generateInfo();
 };
 run().catch((error2) => core4.setFailed(error2.message));

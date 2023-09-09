@@ -18,9 +18,6 @@ inputs:
     description: Path to the manifest file (i.e., `pixi.toml`) to use for the pixi CLI. Defaults to `pixi.toml`.
   run-install:
     description: Whether to run `pixi install` after setting up the environment. Defaults to `true`.
-  generate-run-shell:
-    description: |
-      Whether to generate a custom shell script that allows to use it in the workflow file using `run: pixi-shell {0}`.
   cache:
     description: Whether to cache the pixi environment. Defaults to `true`. Only works if `pixi.lock` is present.
   cache-key:
