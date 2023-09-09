@@ -39,7 +39,7 @@ export const tryRestoreCache = (): Promise<string | undefined> => {
 
 export const saveCache = () => {
   const cache_ = options.cache
-  if (!cache_) {
+  if (!cache_ || !cache_.cacheWrite) {
     core.debug('Skipping pixi cache save.')
     return Promise.resolve(undefined)
   }

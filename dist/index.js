@@ -61195,7 +61195,7 @@ var tryRestoreCache = () => {
 };
 var saveCache2 = () => {
   const cache_ = options.cache;
-  if (!cache_) {
+  if (!cache_ || !cache_.cacheWrite) {
     core3.debug("Skipping pixi cache save.");
     return Promise.resolve(void 0);
   }
