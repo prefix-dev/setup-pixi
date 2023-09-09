@@ -217,14 +217,13 @@ jobs:
             ${{ matrix.post-cleanup == 'true' && '! ' || '' }}test -d .pixi
             ${{ matrix.post-cleanup == 'true' && '! ' || '' }}test -d ~/.rattler
             ${{ matrix.post-cleanup == 'true' && '! ' || '' }}test -d ~/.cache/rattler
-            ${{ matrix.post-cleanup == 'true' && '! ' || '' }}test -f ~/.pixi/
+            ${{ matrix.post-cleanup == 'true' && '! ' || '' }}test -f ~/.pixi/bin/pixi
       - uses: ./
         with:
           post-cleanup: ${{ matrix.post-cleanup }}
       - run: |
           mkdir -p ~/.rattler
-          mkdir -p ~/.cache/rattler
-        # 
+        # ~/.rattler is only created if the user has logged in and os is linux
         shell: bash
     
   no-lockfile:
