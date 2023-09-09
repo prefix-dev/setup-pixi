@@ -2,8 +2,8 @@ import path from 'path'
 import os from 'os'
 import * as core from '@actions/core'
 import * as z from 'zod'
-import { getCondaArch } from './util'
 import untildify from 'untildify'
+import { getCondaArch } from './util'
 
 type Inputs = {
   pixiVersion?: string

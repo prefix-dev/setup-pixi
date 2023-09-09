@@ -60950,9 +60950,19 @@ var nullableType = ZodNullable.create;
 var preprocessType = ZodEffects.createWithPreprocess;
 var pipelineType = ZodPipeline.create;
 
+// node_modules/.pnpm/untildify@5.0.0/node_modules/untildify/index.js
+var import_node_os = __toESM(require("os"), 1);
+var homeDirectory = import_node_os.default.homedir();
+function untildify(pathWithTilde) {
+  if (typeof pathWithTilde !== "string") {
+    throw new TypeError(`Expected a string, got ${typeof pathWithTilde}`);
+  }
+  return homeDirectory ? pathWithTilde.replace(/^~(?=$|\/|\\)/, homeDirectory) : pathWithTilde;
+}
+
 // src/util.ts
 var import_crypto4 = require("crypto");
-var os = __toESM(require("os"));
+var os2 = __toESM(require("os"));
 var core = __toESM(require_core());
 var import_exec = __toESM(require_exec());
 var getCondaArch = () => {
@@ -60964,14 +60974,14 @@ var getCondaArch = () => {
     "linux-ppc64": "linux-ppc64le",
     "win32-x64": "win-64"
   };
-  const arch3 = archDict[`${os.platform()}-${os.arch()}`];
+  const arch3 = archDict[`${os2.platform()}-${os2.arch()}`];
   if (!arch3) {
-    throw new Error(`Unsupported platform: ${os.platform()}-${os.arch()}`);
+    throw new Error(`Unsupported platform: ${os2.platform()}-${os2.arch()}`);
   }
   return arch3;
 };
 var getPlatform = () => {
-  const platform2 = os.platform();
+  const platform2 = os2.platform();
   switch (platform2) {
     case "darwin":
       return "apple-darwin";
@@ -60984,7 +60994,7 @@ var getPlatform = () => {
   }
 };
 var getArch = () => {
-  const arch3 = os.arch();
+  const arch3 = os2.arch();
   switch (arch3) {
     case "x64":
       return "x86_64";
@@ -61036,16 +61046,6 @@ var pixiCmd = (command, withManifestPath = true) => {
   }
   return commandArray;
 };
-
-// node_modules/.pnpm/untildify@5.0.0/node_modules/untildify/index.js
-var import_node_os = __toESM(require("os"), 1);
-var homeDirectory = import_node_os.default.homedir();
-function untildify(pathWithTilde) {
-  if (typeof pathWithTilde !== "string") {
-    throw new TypeError(`Expected a string, got ${typeof pathWithTilde}`);
-  }
-  return homeDirectory ? pathWithTilde.replace(/^~(?=$|\/|\\)/, homeDirectory) : pathWithTilde;
-}
 
 // src/options.ts
 var logLevelSchema = enumType(["quiet", "warn", "info", "debug", "trace"]);
