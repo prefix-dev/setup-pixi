@@ -3,7 +3,6 @@ import os from 'os'
 import * as core from '@actions/core'
 import * as z from 'zod'
 import untildify from 'untildify'
-import { getCondaArch } from './util'
 
 type Inputs = {
   pixiVersion?: string
@@ -199,6 +198,7 @@ const getOptions = () => {
     generateRunShell: parseOrUndefinedJSON('generate-run-shell', z.boolean()),
     cache: parseOrUndefinedJSON('cache', z.boolean()),
     cacheKey: parseOrUndefined('cache-key', z.string()),
+    cacheWrite: parseOrUndefinedJSON('cache-write', z.boolean()),
     pixiBinPath: parseOrUndefined('pixi-bin-path', z.string()),
     authHost: parseOrUndefined('auth-host', z.string()),
     authToken: parseOrUndefined('auth-token', z.string()),

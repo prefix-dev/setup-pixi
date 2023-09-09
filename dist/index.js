@@ -61058,6 +61058,7 @@ var getOptions = () => {
     generateRunShell: parseOrUndefinedJSON("generate-run-shell", booleanType()),
     cache: parseOrUndefinedJSON("cache", booleanType()),
     cacheKey: parseOrUndefined("cache-key", stringType()),
+    cacheWrite: parseOrUndefinedJSON("cache-write", booleanType()),
     pixiBinPath: parseOrUndefined("pixi-bin-path", stringType()),
     authHost: parseOrUndefined("auth-host", stringType()),
     authToken: parseOrUndefined("auth-token", stringType()),
