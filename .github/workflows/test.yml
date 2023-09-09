@@ -101,21 +101,6 @@ jobs:
         with:
           log-level: debug
 
-  # run-shell:
-  #   strategy:
-  #     matrix:
-  #       os: [ubuntu-latest, macos-latest]
-  #   runs-on: ${{ matrix.os }}
-  #   steps:
-  #   - uses: actions/checkout@v4
-  #   - name: Move pixi.toml
-  #     run: mv test/default/* .
-  #   - uses: ./
-  #     with:
-  #       generate-run-shell: true
-  #   - run: python --version | grep -q "3.11"
-  #     shell: pixi-shell {0}
-
   custom-bin-path:
     strategy:
       matrix:
@@ -216,26 +201,16 @@ jobs:
         shell: pixi run bash {0}
 
   post-cleanup:
-    # not implemented yet
-    if: false
     name: post-cleanup ${{ matrix.post-cleanup }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         include:
-          - post-cleanup: 'none'
-            env-exists: ''
-            cache-exists: ''
-            pixi-dir-exists: ''
-          - post-cleanup: 'environment'
-            env-exists: '! '
-            cache-exists: ''
-            pixi-dir-exists: ''
-          - post-cleanup: 'all'
-            env-exists: '! '
-            cache-exists: '! '
-            pixi-dir-exists: '! '
+          - post-cleanup: 'true'
+            invert-condition: ''
+          - post-cleanup: 'false'
+            invert-condition: '! '
     steps:
       - uses: actions/checkout@v4
       - name: Move pixi.toml
@@ -244,9 +219,9 @@ jobs:
         with:
           run: |
             set -euxo pipefail
-            ${{ matrix.env-exists }}test -d .pixi
-            ${{ matrix.cache-exists }}test -d ~/.cache/rattler
-            ${{ matrix.pixi-dir-exists }}test -f ~/.pixi
+            ${{ matrix.invert-condition }}test -d .pixi
+            ${{ matrix.invert-condition }}test -d ~/.cache/rattler
+            ${{ matrix.invert-condition }}test -f ~/.pixi
       - uses: ./
         with:
           post-cleanup: ${{ matrix.post-cleanup }}

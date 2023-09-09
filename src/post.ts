@@ -12,18 +12,18 @@ const cleanupPixiBin = () => {
     .then(() => fs.readdir(pixiBinDir))
     .then((files) => {
       if (files.length === 0) {
-        return fs.rmdir(pixiBinDir)
+        return fs.rm(pixiBinDir)
       }
       return Promise.resolve()
     })
 }
 
-const cleanupEnv = () => fs.rmdir(path.join(path.dirname(options.manifestPath), '.pixi'), { recursive: true })
+const cleanupEnv = () => fs.rm(path.join(path.dirname(options.manifestPath), '.pixi'), { recursive: true })
 
 const cleanupRattler = () =>
   Promise.all([
-    fs.rmdir(path.join(os.homedir(), '.rattler'), { recursive: true }),
-    fs.rmdir(path.join(os.homedir(), '.cache', 'rattler'), { recursive: true })
+    fs.rm(path.join(os.homedir(), '.rattler'), { recursive: true }),
+    fs.rm(path.join(os.homedir(), '.cache', 'rattler'), { recursive: true })
   ])
 
 const run = () => {
