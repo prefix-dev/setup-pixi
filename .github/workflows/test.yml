@@ -21,10 +21,8 @@ jobs:
       - run: |
           set -o pipefail
           pixi info
-          ls -lah .pixi/env
-          ls -lah .pixi/env/
           test -f .pixi/env/bin/python
-          ./.pixi/env/bin/python${{ matrix.os == 'windows-latest' && '.exe' || '' }} --version | grep -q 3.11
+          ./.pixi/env/bin/python --version | grep -q 3.11
         shell: bash
         if: matrix.os != 'windows-latest'
       - run: |
@@ -34,7 +32,9 @@ jobs:
           ./.pixi/env/python.exe --version | grep -q 3.11
         shell: bash
         if: matrix.os == 'windows-latest'
-      - run: pixi run test | grep -q "Hello world"
+      - run: |
+          pixi run python --version | grep -q 3.11
+          pixi run test | grep -q "Hello world"
 
   no-run-install:
     strategy:
@@ -227,10 +227,8 @@ jobs:
       - run: |
           set -o pipefail
           pixi info
-          ls -lah .pixi/env
-          ls -lah .pixi/env/
           test -f .pixi/env/bin/python
-          ./.pixi/env/bin/python${{ matrix.os == 'windows-latest' && '.exe' || '' }} --version | grep -q 3.11
+          ./.pixi/env/bin/python --version | grep -q 3.11
         shell: bash
         if: matrix.os != 'windows-latest'
       - run: |
@@ -240,4 +238,6 @@ jobs:
           ./.pixi/env/python.exe --version | grep -q 3.11
         shell: bash
         if: matrix.os == 'windows-latest'
-      - run: pixi run test | grep -q "Hello world"
+      - run: |
+          pixi run python --version | grep -q 3.11
+          pixi run test | grep -q "Hello world"
