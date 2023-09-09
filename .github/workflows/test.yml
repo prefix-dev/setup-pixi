@@ -129,9 +129,9 @@ jobs:
       run: mkdir bin
     - uses: ./
       with:
-        pixi-bin-path: custom-bin/pixi
+        pixi-bin-path: custom-bin/pixi${{ matrix.os == 'windows-latest' && '.exe' || '' }}
     - run: |
-        test -f custom-bin/pixi
+        test -f custom-bin/pixi${{ matrix.os == 'windows-latest' && '.exe' || '' }}
         pixi --help
         which pixi | grep -q custom-bin/pixi
 
