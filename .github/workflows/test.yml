@@ -134,7 +134,6 @@ jobs:
         which pixi | grep -q custom-bin/pixi
         # which pixi should be absolute
         which pixi | grep -q "^/"
-        which pixi
 
   auth-token:
     strategy:
