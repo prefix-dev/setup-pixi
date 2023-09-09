@@ -201,7 +201,6 @@ jobs:
         shell: pixi run bash {0}
 
   post-cleanup:
-    name: post-cleanup ${{ matrix.post-cleanup }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
