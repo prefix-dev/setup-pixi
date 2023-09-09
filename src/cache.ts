@@ -15,6 +15,8 @@ export const generateCacheKey = async (cacheKeyPrefix: string) =>
 
 const cachePath = path.join(path.dirname(options.pixiLockFile), '.pixi')
 
+let cacheHit = false
+
 export const tryRestoreCache = (): Promise<string | undefined> => {
   const cache_ = options.cache
   if (!cache_) {
@@ -28,10 +30,9 @@ export const tryRestoreCache = (): Promise<string | undefined> => {
       return cache.restoreCache([cachePath], cacheKey, undefined, undefined, false).then((key) => {
         if (key) {
           core.info(`Restored cache with key \`${key}\``)
-          core.saveState('cache-hit', 'true')
+          cacheHit = true
         } else {
           core.info(`Cache miss`)
-          core.saveState('cache-hit', 'false')
         }
         return key
       })
@@ -46,7 +47,7 @@ export const saveCache = () => {
     return Promise.resolve(undefined)
   }
   const cacheHit = core.getState('cache-hit')
-  if (cacheHit === 'true') {
+  if (cacheHit) {
     core.debug('Skipping pixi cache save because cache was restored.')
     return Promise.resolve(undefined)
   }

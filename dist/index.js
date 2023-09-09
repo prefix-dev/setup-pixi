@@ -2202,14 +2202,14 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       });
     }
     exports.group = group3;
-    function saveState2(name, value) {
+    function saveState(name, value) {
       const filePath = process.env["GITHUB_STATE"] || "";
       if (filePath) {
         return file_command_1.issueFileCommand("STATE", file_command_1.prepareKeyValueMessage(name, value));
       }
       command_1.issueCommand("save-state", { name }, utils_1.toCommandValue(value));
     }
-    exports.saveState = saveState2;
+    exports.saveState = saveState;
     function getState2(name) {
       return process.env[`STATE_${name}`] || "";
     }
@@ -61171,6 +61171,7 @@ var generateCacheKey = async (cacheKeyPrefix) => import_promises.default.readFil
   throw new Error(`Failed to generate cache key: ${err}`);
 });
 var cachePath = import_path2.default.join(import_path2.default.dirname(options.pixiLockFile), ".pixi");
+var cacheHit = false;
 var tryRestoreCache = () => {
   const cache_ = options.cache;
   if (!cache_) {
@@ -61185,10 +61186,9 @@ var tryRestoreCache = () => {
       return cache.restoreCache([cachePath], cacheKey, void 0, void 0, false).then((key) => {
         if (key) {
           core3.info(`Restored cache with key \`${key}\``);
-          core3.saveState("cache-hit", "true");
+          cacheHit = true;
         } else {
           core3.info(`Cache miss`);
-          core3.saveState("cache-hit", "false");
         }
         return key;
       });
@@ -61201,8 +61201,8 @@ var saveCache2 = () => {
     core3.debug("Skipping pixi cache save.");
     return Promise.resolve(void 0);
   }
-  const cacheHit = core3.getState("cache-hit");
-  if (cacheHit === "true") {
+  const cacheHit2 = core3.getState("cache-hit");
+  if (cacheHit2) {
     core3.debug("Skipping pixi cache save because cache was restored.");
     return Promise.resolve(void 0);
   }
