@@ -165,6 +165,7 @@ jobs:
           auth-username: custom-username
           auth-password: custom-password
       - run: |
+          cat ~/.rattler/rattler_auth_store.json
           grep -q "custom-conda-registry.com" ~/.rattler/rattler_auth_store.json
           grep -q "custom-username" ~/.rattler/rattler_auth_store.json
           grep -q "custom-password" ~/.rattler/rattler_auth_store.json
