@@ -147,8 +147,8 @@ jobs:
           auth-host: https://custom-conda-registry.com
           auth-token: custom-token
       - run: |
-          grep -q "custom-conda-registry.com" ~/.rattler/auth.json
-          grep -q "custom-token" ~/.rattler/auth.json
+          grep -q "custom-conda-registry.com" ~/.rattler/rattler_auth_store.json
+          grep -q "custom-token" ~/.rattler/rattler_auth_store.json
 
   auth-username-password:
     strategy:
@@ -165,9 +165,9 @@ jobs:
           auth-username: custom-username
           auth-password: custom-password
       - run: |
-          grep -q "custom-conda-registry.com" ~/.rattler/auth.json
-          grep -q "custom-username" ~/.rattler/auth.json
-          grep -q "custom-password" ~/.rattler/auth.json
+          grep -q "custom-conda-registry.com" ~/.rattler/rattler_auth_store.json
+          grep -q "custom-username" ~/.rattler/rattler_auth_store.json
+          grep -q "custom-password" ~/.rattler/rattler_auth_store.json
 
   auth-conda-token:
     strategy:
@@ -183,8 +183,8 @@ jobs:
           auth-host: https://custom-conda-registry.com
           auth-conda-token: custom-conda-token
       - run: |
-          grep -q "custom-conda-registry.com" ~/.rattler/auth.json
-          grep -q "custom-conda-token" ~/.rattler/auth.json
+          grep -q "custom-conda-registry.com" ~/.rattler/rattler_auth_store.json
+          grep -q "custom-conda-token" ~/.rattler/rattler_auth_store.json
 
   post-cleanup:
     # not implemented yet
