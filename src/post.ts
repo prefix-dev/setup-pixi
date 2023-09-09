@@ -7,11 +7,13 @@ import { options } from './options'
 const cleanupPixiBin = () => {
   const pixiBinPath = options.pixiBinPath
   const pixiBinDir = path.dirname(pixiBinPath)
+  core.debug(`Cleaning up pixi binary ${pixiBinPath}.`)
   return fs
     .rm(options.pixiBinPath)
     .then(() => fs.readdir(pixiBinDir))
     .then((files) => {
       if (files.length === 0) {
+        core.debug(`Removing empty directory ${pixiBinDir}.`)
         return fs.rm(pixiBinDir)
       }
       return Promise.resolve()
@@ -22,12 +24,15 @@ const cleanupEnv = () => {
   if (!options.runInstall) {
     core.debug('Skipping cleanup of .pixi directory.')
   }
-  fs.rm(path.join(path.dirname(options.manifestPath), '.pixi'), { recursive: true })
+  const envDir = path.join(path.dirname(options.manifestPath), '.pixi')
+  core.debug(`Cleaning up .pixi directory ${envDir}.`)
+  fs.rm(envDir, { recursive: true })
 }
 
 const cleanupRattler = () => {
   const rattlerPath = path.join(os.homedir(), '.rattler')
   const rattlerCachePath = path.join(os.homedir(), '.cache', 'rattler')
+  core.debug(`Cleaning up rattler directories ${rattlerPath} and ${rattlerCachePath}.`)
   return Promise.all([
     fs.rm(rattlerPath, { recursive: true, force: true }),
     fs.rm(rattlerCachePath, { recursive: true, force: true })

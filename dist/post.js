@@ -5946,8 +5946,10 @@ var options = getOptions();
 var cleanupPixiBin = () => {
   const pixiBinPath = options.pixiBinPath;
   const pixiBinDir = import_path2.default.dirname(pixiBinPath);
+  core2.debug(`Cleaning up pixi binary ${pixiBinPath}.`);
   return import_promises.default.rm(options.pixiBinPath).then(() => import_promises.default.readdir(pixiBinDir)).then((files) => {
     if (files.length === 0) {
+      core2.debug(`Removing empty directory ${pixiBinDir}.`);
       return import_promises.default.rm(pixiBinDir);
     }
     return Promise.resolve();
@@ -5957,11 +5959,14 @@ var cleanupEnv = () => {
   if (!options.runInstall) {
     core2.debug("Skipping cleanup of .pixi directory.");
   }
-  import_promises.default.rm(import_path2.default.join(import_path2.default.dirname(options.manifestPath), ".pixi"), { recursive: true });
+  const envDir = import_path2.default.join(import_path2.default.dirname(options.manifestPath), ".pixi");
+  core2.debug(`Cleaning up .pixi directory ${envDir}.`);
+  import_promises.default.rm(envDir, { recursive: true });
 };
 var cleanupRattler = () => {
   const rattlerPath = import_path2.default.join(os3.homedir(), ".rattler");
   const rattlerCachePath = import_path2.default.join(os3.homedir(), ".cache", "rattler");
+  core2.debug(`Cleaning up rattler directories ${rattlerPath} and ${rattlerCachePath}.`);
   return Promise.all([
     import_promises.default.rm(rattlerPath, { recursive: true, force: true }),
     import_promises.default.rm(rattlerCachePath, { recursive: true, force: true })
