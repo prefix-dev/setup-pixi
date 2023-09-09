@@ -36,10 +36,21 @@ const cleanupEnv = () => {
   return fs.rm(envDir, { recursive: true })
 }
 
+const determineCacheDir = () => {
+  // rattler uses dirs::cache_dir https://docs.rs/dirs/latest/dirs/fn.cache_dir.html
+  if (os.platform() === 'win32') {
+    return process.env.LOCALAPPDATA!
+  }
+  if (os.platform() === 'linux') {
+    return process.env.XDG_CACHE_HOME ?? path.join(os.homedir(), '.cache')
+  }
+  return path.join(os.homedir(), 'Library', 'Caches')
+}
+
 const cleanupRattler = () => {
   const rattlerPath = path.join(os.homedir(), '.rattler')
-  const xdgCacheHome = os.platform() !== 'win32' ? path.join(os.homedir(), '.cache') : process.env.TEMP!
-  const rattlerCachePath = path.join(xdgCacheHome, 'rattler')
+  const cacheDir = determineCacheDir()
+  const rattlerCachePath = path.join(cacheDir, 'rattler')
   core.debug(`Cleaning up rattler directories ${rattlerPath} and ${rattlerCachePath}.`)
   return Promise.all([
     fs.rm(rattlerPath, { recursive: true, force: true }),

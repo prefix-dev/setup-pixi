@@ -5972,10 +5972,19 @@ var cleanupEnv = () => {
   core2.debug(`Cleaning up .pixi directory ${envDir}.`);
   return import_promises.default.rm(envDir, { recursive: true });
 };
+var determineCacheDir = () => {
+  if (os3.platform() === "win32") {
+    return process.env.LOCALAPPDATA;
+  }
+  if (os3.platform() === "linux") {
+    return process.env.XDG_CACHE_HOME ?? import_path2.default.join(os3.homedir(), ".cache");
+  }
+  return import_path2.default.join(os3.homedir(), "Library", "Caches");
+};
 var cleanupRattler = () => {
   const rattlerPath = import_path2.default.join(os3.homedir(), ".rattler");
-  const xdgCacheHome = os3.platform() !== "win32" ? import_path2.default.join(os3.homedir(), ".cache") : process.env.TEMP;
-  const rattlerCachePath = import_path2.default.join(xdgCacheHome, "rattler");
+  const cacheDir = determineCacheDir();
+  const rattlerCachePath = import_path2.default.join(cacheDir, "rattler");
   core2.debug(`Cleaning up rattler directories ${rattlerPath} and ${rattlerCachePath}.`);
   return Promise.all([
     import_promises.default.rm(rattlerPath, { recursive: true, force: true }),
