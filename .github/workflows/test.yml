@@ -125,8 +125,6 @@ jobs:
     - uses: actions/checkout@v4
     - name: Move pixi.toml
       run: mv test/default/* .
-    - name: Create bin directory
-      run: mkdir bin
     - uses: ./
       with:
         pixi-bin-path: custom-bin/pixi${{ matrix.os == 'windows-latest' && '.exe' || '' }}
@@ -134,6 +132,8 @@ jobs:
         test -f custom-bin/pixi${{ matrix.os == 'windows-latest' && '.exe' || '' }}
         pixi --help
         which pixi | grep -q custom-bin/pixi
+        # which pixi should be absolute
+        which pixi | grep -q "^/home"
 
   auth-token:
     strategy:
