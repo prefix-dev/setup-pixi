@@ -19,7 +19,9 @@ jobs:
         run: mv test/default/* .
       - uses: ./
       - run: |
+          set -o pipefail
           pixi info
+          tree .pixi
           test -f .pixi/env/bin/python
           ./.pixi/env/bin/python${{ matrix.os == 'windows-latest' && '.exe' || '' }} --version | grep -q 3.11
         shell: bash
