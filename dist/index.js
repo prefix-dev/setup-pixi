@@ -61167,7 +61167,7 @@ var cache = __toESM(require_cache());
 var generateCacheKey = async (cacheKeyPrefix) => import_promises.default.readFile(options.pixiLockFile, "utf-8").then((content) => `${cacheKeyPrefix}${sha256(content)}`).catch((err) => {
   throw new Error(`Failed to generate cache key: ${err}`);
 });
-var cachePath = import_path2.default.join(import_path2.default.basename(options.manifestPath), ".pixi");
+var cachePath = import_path2.default.join(import_path2.default.dirname(options.pixiLockFile), ".pixi");
 var tryRestoreCache = () => {
   const cacheKeyPrefix = options.cacheKey;
   if (!cacheKeyPrefix) {

@@ -13,7 +13,7 @@ export const generateCacheKey = async (cacheKeyPrefix: string) =>
       throw new Error(`Failed to generate cache key: ${err}`)
     })
 
-const cachePath = path.join(path.basename(options.manifestPath), '.pixi')
+const cachePath = path.join(path.dirname(options.pixiLockFile), '.pixi')
 
 export const tryRestoreCache = (): Promise<string | undefined> => {
   const cacheKeyPrefix = options.cacheKey
