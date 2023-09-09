@@ -276,7 +276,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Move pixi files
-        run: mv test/no-lockfile/* .
+        run: mv test/default/* .
       - uses: ./
         with:
           cache: true
@@ -297,7 +297,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Move pixi files
-        run: mv test/no-lockfile/* .
+        run: mv test/default/* .
       - uses: ./
         with:
           cache: true
