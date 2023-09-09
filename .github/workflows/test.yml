@@ -220,6 +220,30 @@ jobs:
       - uses: ./
         with:
           post-cleanup: ${{ matrix.post-cleanup }}
+          # ~/.rattler is only created if the user has logged in
+          auth-host: https://custom-conda-registry.com
+          auth-token: custom-token
+
+  post-cleanup-linux-no-login:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        post-cleanup: ['true', 'false']
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi.toml
+        run: mv test/default/* .
+      - uses: lisanna-dettwyler/action-post-run@d053b9b43d788b87a409f6cdb3b6fc87c6c8a4fe
+        with:
+          run: |
+            set -euxo pipefail
+            ${{ matrix.post-cleanup == 'true' && '! ' || '' }}test -d .pixi
+            ! test -d ~/.rattler
+            ${{ matrix.post-cleanup == 'true' && '! ' || '' }}test -d ~/.cache/rattler
+            ${{ matrix.post-cleanup == 'true' && '! ' || '' }}test -f ~/.pixi/bin/pixi
+      - uses: ./
+        with:
+          post-cleanup: ${{ matrix.post-cleanup }}
 
   post-cleanup-macos:
     runs-on: macos-latest
