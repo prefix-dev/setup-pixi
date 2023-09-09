@@ -1,6 +1,15 @@
 # setup-pixi 📦
 
-[![CI](https://github.com/pavelzw/setup-pixi/actions/workflows/test.yml/badge.svg)](https://github.com/pavelzw/setup-pixi/actions/workflows/test.yml)
+[![License][license-badge]][license]
+[![CI][build-badge]][build]
+[![Latest release][latest-release-badge]][releases]
+
+[license-badge]: https://img.shields.io/github/license/pavelzw/setup-pixi?style=flat-square
+[license]: ./LICENSE
+[build-badge]: https://img.shields.io/github/actions/workflow/status/pavelzw/setup-pixi/test.yml?style=flat-square
+[build]: https://github.com/pavelzw/setup-pixi/actions/
+[latest-release-badge]: https://img.shields.io/github/v/tag/pavelzw/setup-pixi?style=flat-square&label=latest&sort=semver
+[releases]: https://github.com/pavelzw/setup-pixi/releases
 
 GitHub Action to set up the [pixi](https://github.com/prefix-dev/pixi) package manager.
 
