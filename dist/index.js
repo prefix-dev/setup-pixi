@@ -60961,7 +60961,7 @@ function untildify(pathWithTilde) {
 }
 
 // src/options.ts
-var logLevelSchema = enumType(["quiet", "warn", "info", "debug", "trace"]);
+var logLevelSchema = enumType(["q", "default", "v", "vv", "vvv"]);
 var PATHS = {
   pixiBin: import_path.default.join(import_os.default.homedir(), ".pixi", "bin", `pixi${import_os.default.platform() === "win32" ? ".exe" : ""}`)
 };
@@ -61012,7 +61012,7 @@ var validateInputs = (inputs) => {
 var inferOptions = (inputs) => {
   const runInstall = inputs.runInstall ?? true;
   const pixiSource = inputs.pixiVersion ? { version: inputs.pixiVersion } : inputs.pixiUrl ? { url: inputs.pixiUrl } : { version: "latest" };
-  const logLevel = inputs.logLevel ?? (core.isDebug() ? "debug" : "warn");
+  const logLevel = inputs.logLevel ?? (core.isDebug() ? "vv" : "default");
   const manifestPath = inputs.manifestPath ? import_path.default.resolve(untildify(inputs.manifestPath)) : "pixi.toml";
   const pixiLockFile = import_path.default.join(import_path.default.dirname(manifestPath), import_path.default.basename(manifestPath).replace(/\.toml$/, ".lock"));
   const generateRunShell = inputs.generateRunShell ?? runInstall;
@@ -61144,18 +61144,18 @@ var pixiCmd = (command, withManifestPath = true) => {
     commandArray = commandArray.concat(["--manifest-path", options.manifestPath]);
   }
   switch (options.logLevel) {
-    case "trace":
+    case "vvv":
       commandArray = commandArray.concat(["-vvv"]);
       break;
-    case "debug":
+    case "vv":
       commandArray = commandArray.concat(["-vv"]);
       break;
-    case "info":
+    case "v":
       commandArray = commandArray.concat(["-v"]);
       break;
-    case "warn":
+    case "default":
       break;
-    case "quiet":
+    case "q":
       commandArray = commandArray.concat(["-q"]);
       break;
   }

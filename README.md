@@ -9,7 +9,7 @@ GitHub Action to set up the [pixi](https://github.com/prefix-dev/pixi) package m
 ```yml
 - uses: pavelzw/setup-pixi@v0.1.2
   with:
-    pixi-version: '0.1.0'
+    pixi-version: '0.2.0'
     cache: true
     auth-host: prefix.dev
     auth-token: ${{ secrets.PREFIX_DEV_TOKEN }}
@@ -52,8 +52,6 @@ This form of authentication (bearer token in the request headers) is mainly used
 ```yml
 - uses: pavelzw/setup-pixi@v0.1.2
   with:
-    pixi-version: '0.1.0'
-    cache: true
     auth-host: prefix.dev
     auth-token: ${{ secrets.PREFIX_DEV_TOKEN }}
 ```
@@ -66,9 +64,7 @@ This form of authentication (HTTP Basic Auth) is used in some enterprise environ
 ```yml
 - uses: pavelzw/setup-pixi@v0.1.2
   with:
-    pixi-version: '0.1.0'
-    cache: true
-    auth-host: prefix.dev
+    auth-host: custom-artifactory.com
     auth-username: ${{ secrets.PIXI_USERNAME }}
     auth-password: ${{ secrets.PIXI_PASSWORD }}
 ```
@@ -76,14 +72,12 @@ This form of authentication (HTTP Basic Auth) is used in some enterprise environ
 #### Conda-token
 
 Specify the conda-token using the `conda-token` input argument.
-This form of authentication (token is encoded in URL: `https://custom-server.com/t/<token>/get/custom-channel`) is used at [anaconda.org](https://anaconda.org) or with [quetz instances](https://github.com/mamba-org/quetz).
+This form of authentication (token is encoded in URL: `https://my-quetz-instance.com/t/<token>/get/custom-channel`) is used at [anaconda.org](https://anaconda.org) or with [quetz instances](https://github.com/mamba-org/quetz).
 
 ```yml
 - uses: pavelzw/setup-pixi@v0.1.2
   with:
-    pixi-version: '0.1.0'
-    cache: true
-    auth-host: custom-server.com
+    auth-host: anaconda.org # or my-quetz-instance.com
     conda-token: ${{ secrets.CONDA_TOKEN }}
 ```
 
