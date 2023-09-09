@@ -305,4 +305,19 @@ jobs:
         run: |
           test -f .pixi/env/bin/python
 
-        
+  test-cache-fail-no-lockfile:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi files
+        run: mv test/no-lockfile/* .
+      - uses: ./
+        with:
+          cache: true
+          cache-key: test-cache-no-lockfile-${{ github.sha }}-${{ github.run_attempt }}
+      - run: exit 1
+        if: success()

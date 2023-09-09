@@ -3,12 +3,12 @@ import path from 'path'
 import * as core from '@actions/core'
 import * as cache from '@actions/cache'
 import { options } from './options'
-import { sha256 } from './util'
+import { getCondaArch, sha256 } from './util'
 
 export const generateCacheKey = async (cacheKeyPrefix: string) =>
   fs
     .readFile(options.pixiLockFile, 'utf-8')
-    .then((content) => `${cacheKeyPrefix}${sha256(content)}`)
+    .then((content) => `${cacheKeyPrefix}${getCondaArch()}-${sha256(content)}`)
     .catch((err) => {
       throw new Error(`Failed to generate cache key: ${err}`)
     })
