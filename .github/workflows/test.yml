@@ -22,10 +22,20 @@ jobs:
           set -o pipefail
           pixi info
           ls -lah .pixi/env
-          ls -lah .pixi/env/bin
+          ls -lah .pixi/env/
           test -f .pixi/env/bin/python
           ./.pixi/env/bin/python${{ matrix.os == 'windows-latest' && '.exe' || '' }} --version | grep -q 3.11
         shell: bash
+        if: matrix.os != 'windows-latest'
+      - run: |
+          set -o pipefail
+          pixi info
+          ls -lah .pixi/env
+          ls -lah .pixi/env/Scripts
+          test -f .pixi/env/python.exe
+          ./.pixi/env/python.exe --version | grep -q 3.11
+        shell: bash
+      - run: pixi run test | grep -q "Hello world"
 
   no-run-install:
     strategy:

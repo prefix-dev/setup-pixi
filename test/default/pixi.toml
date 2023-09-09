@@ -7,6 +7,7 @@ channels = ["conda-forge"]
 platforms = ["linux-64", "osx-64", "win-64"]
 
 [tasks]
+test = "python -c 'print(\"Hello world!\")'"
 
 [dependencies]
 python = "3.11.*"
