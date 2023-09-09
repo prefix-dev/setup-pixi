@@ -3,31 +3,34 @@ import path from 'path'
 import * as core from '@actions/core'
 import * as cache from '@actions/cache'
 import { options } from './options'
-import { sha256 } from './util'
+import { getCondaArch, sha256 } from './util'
 
 export const generateCacheKey = async (cacheKeyPrefix: string) =>
   fs
     .readFile(options.pixiLockFile, 'utf-8')
-    .then((content) => `${cacheKeyPrefix}${sha256(content)}`)
+    .then((content) => `${cacheKeyPrefix}${getCondaArch()}-${sha256(content)}`)
     .catch((err) => {
       throw new Error(`Failed to generate cache key: ${err}`)
     })
 
-const cachePath = path.join(path.basename(options.manifestPath), '.pixi')
+const cachePath = path.join(path.dirname(options.pixiLockFile), '.pixi')
+
+let cacheHit = false
 
 export const tryRestoreCache = (): Promise<string | undefined> => {
-  const cacheKeyPrefix = options.cacheKey
-  if (!cacheKeyPrefix) {
+  const cache_ = options.cache
+  if (!cache_) {
     core.debug('Skipping pixi cache restore.')
     return Promise.resolve(undefined)
   }
   return core.group('Restoring pixi cache', () =>
-    generateCacheKey(cacheKeyPrefix).then((cacheKey) => {
+    generateCacheKey(cache_.cacheKeyPrefix).then((cacheKey) => {
       core.debug(`Cache key: ${cacheKey}`)
       core.debug(`Cache path: ${cachePath}`)
       return cache.restoreCache([cachePath], cacheKey, undefined, undefined, false).then((key) => {
         if (key) {
           core.info(`Restored cache with key \`${key}\``)
+          cacheHit = true
         } else {
           core.info(`Cache miss`)
         }
@@ -38,13 +41,17 @@ export const tryRestoreCache = (): Promise<string | undefined> => {
 }
 
 export const saveCache = () => {
-  const cacheKeyPrefix = options.cacheKey
-  if (!cacheKeyPrefix) {
+  const cache_ = options.cache
+  if (!cache_ || !cache_.cacheWrite) {
     core.debug('Skipping pixi cache save.')
     return Promise.resolve(undefined)
   }
+  if (cacheHit) {
+    core.debug('Skipping pixi cache save because cache was restored.')
+    return Promise.resolve(undefined)
+  }
   return core.group('Saving pixi cache', () =>
-    generateCacheKey(cacheKeyPrefix).then((cacheKey) =>
+    generateCacheKey(cache_.cacheKeyPrefix).then((cacheKey) =>
       cache
         .saveCache([cachePath], cacheKey, undefined, false)
         .then((cacheId) => {

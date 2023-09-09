@@ -4,7 +4,7 @@ import path from 'path'
 import * as core from '@actions/core'
 import { downloadTool } from '@actions/tool-cache'
 import type { PixiSource } from './options'
-import { PATHS, options } from './options'
+import { options } from './options'
 import { execute, getPixiUrlFromVersion, pixiCmd } from './util'
 import { saveCache, tryRestoreCache } from './cache'
 
@@ -27,6 +27,7 @@ const pixiLogin = () => {
     core.debug('Skipping pixi login.')
     return Promise.resolve(0)
   }
+  core.debug(`auth keys: ${Object.keys(auth)}`)
   return core.group('Logging in to private channel', () => {
     // tokens get censored in the logs as long as they are a github secret
     if ('token' in auth) {
@@ -71,9 +72,9 @@ chmod +x $1
 pixi run $1
 `
   return core.group('Generating pixi run shell', () => {
-    core.debug(`Writing pixi run shell to ${PATHS.pixiRunShellScript}`)
+    core.debug(`Writing pixi run shell to ${options.pixiRunShell}`)
     core.debug(`File contents:\n"${pixiRunShellContents}"`)
-    return fs.writeFile(PATHS.pixiRunShellScript, pixiRunShellContents, { encoding: 'utf8', mode: 0o755 })
+    return fs.writeFile(options.pixiRunShell, pixiRunShellContents, { encoding: 'utf8', mode: 0o755 })
   })
 }
 
@@ -82,7 +83,6 @@ const generateInfo = () => core.group('pixi info', () => execute(pixiCmd('info')
 const run = async () => {
   core.debug(`process.env.HOME: ${process.env.HOME}`)
   core.debug(`os.homedir(): ${os.homedir()}`)
-  core.debug(`bashProfile ${PATHS.bashProfile}`)
   await downloadPixi(options.pixiSource)
   addPixiToPath()
   await pixiLogin()

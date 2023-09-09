@@ -9,19 +9,38 @@ on:
 
 jobs:
   default:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - name: Move pixi.toml
         run: mv test/default/* .
       - uses: ./
       - run: |
+          set -o pipefail
           pixi info
           test -f .pixi/env/bin/python
           ./.pixi/env/bin/python --version | grep -q 3.11
+        shell: bash
+        if: matrix.os != 'windows-latest'
+      - run: |
+          set -o pipefail
+          pixi info
+          test -f .pixi/env/python.exe
+          ./.pixi/env/python.exe --version | grep -q 3.11
+        shell: bash
+        if: matrix.os == 'windows-latest'
+      - run: |
+          pixi run python --version | grep -q 3.11
+          pixi run test | grep -q "Hello world"
 
   no-run-install:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - name: Move pixi.toml
@@ -31,9 +50,13 @@ jobs:
           run-install: false
       - run: |
           ! test -d .pixi
+        shell: bash
 
   custom-pixi-version:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - name: Move pixi.toml
@@ -55,7 +78,10 @@ jobs:
       - run: pixi --version | grep -q "pixi 0.0.8"
   
   custom-manifest-path:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./
@@ -65,7 +91,7 @@ jobs:
   different-log-level:
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -75,47 +101,45 @@ jobs:
         with:
           log-level: debug
 
-  # run-shell:
-  #   strategy:
-  #     matrix:
-  #       os: [ubuntu-latest, macos-latest]
-  #   runs-on: ${{ matrix.os }}
-  #   steps:
-  #   - uses: actions/checkout@v4
-  #   - name: Move pixi.toml
-  #     run: mv test/default/* .
-  #   - uses: ./
-  #     with:
-  #       generate-run-shell: true
-  #   - run: python --version | grep -q "3.11"
-  #     shell: pixi-shell {0}
-
   custom-bin-path:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v4
     - name: Move pixi.toml
       run: mv test/default/* .
-    - name: Create bin directory
-      run: mkdir bin
     - uses: ./
       with:
-        pixi-bin-path: bin/pixi
+        pixi-bin-path: custom-bin/pixi${{ matrix.os == 'windows-latest' && '.exe' || '' }}
     - run: |
-        which pixi | grep -q "..."
+        test -f custom-bin/pixi${{ matrix.os == 'windows-latest' && '.exe' || '' }}
+        pixi --help
+        which pixi | grep -q custom-bin/pixi
+        # which pixi should be absolute
+        which pixi | grep -q "^/"
 
   auth-token:
-    runs-on: windows-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - name: Move pixi.toml
         run: mv test/default/* .
       - uses: ./
         with:
-          auth-host: TODO
-          auth-token: TODO
-      # TODO
-      # - run:
+          auth-host: https://custom-conda-registry.com
+          auth-token: custom-token
+      - run: |
+          grep -q "BearerToken" ~/.rattler/rattler_auth_store.json
+          grep -q "custom-conda-registry.com" ~/.rattler/rattler_auth_store.json
+          grep -q "custom-token" ~/.rattler/rattler_auth_store.json
+        # all other platforms have the credentials stored in the keychain
+        # https://github.com/prefix-dev/pixi/issues/330
+        if: matrix.os == 'ubuntu-latest'
 
   auth-username-password:
     strategy:
@@ -128,41 +152,59 @@ jobs:
         run: mv test/default/* .
       - uses: ./
         with:
-          auth-host: TODO
-          auth-username: TODO
-          auth-password: TODO
+          auth-host: https://custom-conda-registry.com
+          auth-username: custom-username
+          auth-password: custom-password
+      - run: |
+          grep -q "BasicHTTP" ~/.rattler/rattler_auth_store.json
+          grep -q "custom-conda-registry.com" ~/.rattler/rattler_auth_store.json
+          grep -q "custom-username" ~/.rattler/rattler_auth_store.json
+          grep -q "custom-password" ~/.rattler/rattler_auth_store.json
+        # all other platforms have the credentials stored in the keychain
+        # https://github.com/prefix-dev/pixi/issues/330
+        if: matrix.os == 'ubuntu-latest'
 
   auth-conda-token:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - name: Move pixi.toml
         run: mv test/default/* .
       - uses: ./
         with:
-          auth-host: TODO
-          auth-conda-token: TODO
+          auth-host: https://custom-conda-registry.com
+          auth-conda-token: custom-conda-token
+      - run: |
+          grep "CondaToken" ~/.rattler/rattler_auth_store.json
+          cat ~/.rattler/rattler_auth_store.json
+          grep -q "custom-conda-registry.com" ~/.rattler/rattler_auth_store.json
+          grep -q "custom-conda-token" ~/.rattler/rattler_auth_store.json
+        # all other platforms have the credentials stored in the keychain
+        # https://github.com/prefix-dev/pixi/issues/330
+        if: matrix.os == 'ubuntu-latest'
 
-  post-cleanup:
-    # not implemented yet
-    if: false
-    name: post-cleanup ${{ matrix.post-cleanup }}
+  pixi-shell:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi.toml
+        run: mv test/default/* .
+      - uses: ./
+      - run: |
+          python --version | grep -q "3.11"
+        shell: pixi run bash {0}
+
+  post-cleanup-linux:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        include:
-          - post-cleanup: 'none'
-            env-exists: ''
-            cache-exists: ''
-            pixi-dir-exists: ''
-          - post-cleanup: 'environment'
-            env-exists: '! '
-            cache-exists: ''
-            pixi-dir-exists: ''
-          - post-cleanup: 'all'
-            env-exists: '! '
-            cache-exists: '! '
-            pixi-dir-exists: '! '
+        post-cleanup: ['true', 'false']
     steps:
       - uses: actions/checkout@v4
       - name: Move pixi.toml
@@ -171,21 +213,190 @@ jobs:
         with:
           run: |
             set -euxo pipefail
-            ${{ matrix.env-exists }}test -d .pixi
-            ${{ matrix.cache-exists }}test -d ~/.cache/rattler
-            ${{ matrix.pixi-dir-exists }}test -f ~/.pixi
+            ${{ matrix.post-cleanup == 'true' && '! ' || '' }}test -d .pixi
+            ${{ matrix.post-cleanup == 'true' && '! ' || '' }}test -d ~/.rattler
+            ${{ matrix.post-cleanup == 'true' && '! ' || '' }}test -d ~/.cache/rattler
+            ${{ matrix.post-cleanup == 'true' && '! ' || '' }}test -f ~/.pixi/bin/pixi
+      - uses: ./
+        with:
+          post-cleanup: ${{ matrix.post-cleanup }}
+          # ~/.rattler is only created if the user has logged in
+          auth-host: https://custom-conda-registry.com
+          auth-token: custom-token
+
+  post-cleanup-linux-no-login:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        post-cleanup: ['true', 'false']
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi.toml
+        run: mv test/default/* .
+      - uses: lisanna-dettwyler/action-post-run@d053b9b43d788b87a409f6cdb3b6fc87c6c8a4fe
+        with:
+          run: |
+            set -euxo pipefail
+            ${{ matrix.post-cleanup == 'true' && '! ' || '' }}test -d .pixi
+            ! test -d ~/.rattler
+            ${{ matrix.post-cleanup == 'true' && '! ' || '' }}test -d ~/.cache/rattler
+            ${{ matrix.post-cleanup == 'true' && '! ' || '' }}test -f ~/.pixi/bin/pixi
+      - uses: ./
+        with:
+          post-cleanup: ${{ matrix.post-cleanup }}
+
+  post-cleanup-macos:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        post-cleanup: ['true', 'false']
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi.toml
+        run: mv test/default/* .
+      - uses: lisanna-dettwyler/action-post-run@d053b9b43d788b87a409f6cdb3b6fc87c6c8a4fe
+        with:
+          run: |
+            set -euxo pipefail
+            ${{ matrix.post-cleanup == 'true' && '! ' || '' }}test -d .pixi
+            ${{ matrix.post-cleanup == 'true' && '! ' || '' }}test -d ~/Library/Caches/rattler
+            ${{ matrix.post-cleanup == 'true' && '! ' || '' }}test -f ~/.pixi/bin/pixi
+      - uses: ./
+        with:
+          post-cleanup: ${{ matrix.post-cleanup }}
+
+  post-cleanup-windows:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        post-cleanup: ['true', 'false']
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi.toml
+        run: mv test/default/* .
+      - uses: lisanna-dettwyler/action-post-run@d053b9b43d788b87a409f6cdb3b6fc87c6c8a4fe
+        with:
+          run: |
+            set -euxo pipefail
+            ${{ matrix.post-cleanup == 'true' && '! ' || '' }}test -d .pixi
+            ${{ matrix.post-cleanup == 'true' && '! ' || '' }}test -d "$LOCALAPPDATA/rattler"
+            ${{ matrix.post-cleanup == 'true' && '! ' || '' }}test -f ~/.pixi/bin/pixi
       - uses: ./
         with:
           post-cleanup: ${{ matrix.post-cleanup }}
     
   no-lockfile:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - name: Move pixi.toml
         run: mv test/no-lockfile/* .
       - uses: ./
       - run: |
+          set -o pipefail
           pixi info
           test -f .pixi/env/bin/python
           ./.pixi/env/bin/python --version | grep -q 3.11
+        shell: bash
+        if: matrix.os != 'windows-latest'
+      - run: |
+          set -o pipefail
+          pixi info
+          test -f .pixi/env/python.exe
+          ./.pixi/env/python.exe --version | grep -q 3.11
+        shell: bash
+        if: matrix.os == 'windows-latest'
+      - run: |
+          pixi run python --version | grep -q 3.11
+          pixi run test | grep -q "Hello world"
+
+  test-cache1:
+    name: Test cache 1/2
+    timeout-minutes: 10
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi files
+        run: mv test/default/* .
+      - uses: ./
+        with:
+          cache: true
+          cache-key: test-cache-${{ github.sha }}-${{ github.run_attempt }}-
+      # check the action logs to see if the cache was written
+      - run: |
+          test -f .pixi/env/bin/python
+        if: matrix.os != 'windows-latest'
+      - run: |
+          test -f .pixi/env/python.exe
+        if: matrix.os == 'windows-latest'
+
+  test-cache2:
+    name: Test cache 2/2
+    timeout-minutes: 10
+    needs: test-cache1
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi files
+        run: mv test/default/* .
+      - uses: ./
+        with:
+          cache: true
+          cache-key: test-cache-${{ github.sha }}-${{ github.run_attempt }}-
+      # check the action logs to see if the cache was restored
+      - run: |
+          test -f .pixi/env/bin/python
+        if: matrix.os != 'windows-latest'
+      - run: |
+          test -f .pixi/env/python.exe
+        if: matrix.os == 'windows-latest'
+
+  test-cache-no-write:
+    name: Test cache no write
+    timeout-minutes: 10
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi files
+        run: mv test/default/* .
+      - uses: ./
+        with:
+          cache: true
+          cache-write: false
+          cache-key: test-cache-${{ github.sha }}-${{ github.run_attempt }}-
+      # check the action logs to see if the cache write was skipped
+
+  # not properly testable
+  # https://github.com/actions/runner/issues/2347
+  # https://github.com/orgs/community/discussions/15452
+  # test-cache-fail-no-lockfile:
+  #   runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       os: [windows-latest, ubuntu-latest, macos-latest]
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Move pixi files
+  #       run: mv test/no-lockfile/* .
+  #     - uses: ./
+  #       with:
+  #         cache: true
+  #         cache-key: test-cache-no-lockfile-${{ github.sha }}-${{ github.run_attempt }}-
+  #     - run: exit 1
+  #       if: success()

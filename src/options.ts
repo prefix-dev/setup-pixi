@@ -2,7 +2,7 @@ import path from 'path'
 import os from 'os'
 import * as core from '@actions/core'
 import * as z from 'zod'
-import { getCondaArch } from './util'
+import untildify from 'untildify'
 
 type Inputs = {
   pixiVersion?: string
@@ -13,13 +13,14 @@ type Inputs = {
   generateRunShell?: boolean
   cache?: boolean
   cacheKey?: string
+  cacheWrite?: boolean
   pixiBinPath?: string
   authHost?: string
   authToken?: string
   authUsername?: string
   authPassword?: string
   authCondaToken?: string
-  postCleanup?: PostCleanup
+  postCleanup?: boolean
 }
 
 export type PixiSource =
@@ -45,6 +46,11 @@ type Auth = {
     }
 )
 
+type Cache = {
+  cacheKeyPrefix: string
+  cacheWrite: boolean
+}
+
 export type Options = Readonly<{
   pixiSource: PixiSource
   logLevel: LogLevel
@@ -52,23 +58,18 @@ export type Options = Readonly<{
   pixiLockFile: string
   runInstall: boolean
   generateRunShell: boolean
-  cacheKey?: string // undefined if cache is false
+  cache?: Cache
   pixiBinPath: string
+  pixiRunShell: string
   auth?: Auth
-  postCleanup: PostCleanup
+  postCleanup: boolean
 }>
 
 const logLevelSchema = z.enum(['quiet', 'warn', 'info', 'debug', 'trace'])
 export type LogLevel = z.infer<typeof logLevelSchema>
 
-const postCleanupSchema = z.enum(['none', 'environment', 'all'])
-export type PostCleanup = z.infer<typeof postCleanupSchema>
-
 export const PATHS = {
-  pixiBin: path.join(os.homedir(), '.pixi', 'bin', `pixi${os.platform() === 'win32' ? '.exe' : ''}`),
-  pixiRunShellScript: path.join(os.homedir(), '.pixi', 'bin', 'pixi-shell'),
-  bashProfile: path.join(os.homedir(), '.bash_profile'),
-  bashrc: path.join(os.homedir(), '.bashrc')
+  pixiBin: path.join(os.homedir(), '.pixi', 'bin', `pixi${os.platform() === 'win32' ? '.exe' : ''}`)
 }
 
 const parseOrUndefined = <T>(key: string, schema: z.ZodSchema<T>): T | undefined => {
@@ -119,6 +120,9 @@ const validateInputs = (inputs: Inputs): void => {
       throw new Error('You need to specify auth-host')
     }
   }
+  if (inputs.cacheWrite && !inputs.cacheKey && !inputs.cache) {
+    throw new Error('cache-write is only valid with cache-key or cache specified.')
+  }
 }
 
 const inferOptions = (inputs: Inputs): Options => {
@@ -129,21 +133,34 @@ const inferOptions = (inputs: Inputs): Options => {
     ? { url: inputs.pixiUrl }
     : { version: 'latest' }
   const logLevel = inputs.logLevel ?? (core.isDebug() ? 'debug' : 'warn')
-  const manifestPath = inputs.manifestPath ?? 'pixi.toml'
-  const pixiLockFile = path.basename(manifestPath).replace(/\.toml$/, '.lock')
+  const manifestPath = inputs.manifestPath ? path.resolve(untildify(inputs.manifestPath)) : 'pixi.toml'
+  const pixiLockFile = path.join(path.dirname(manifestPath), path.basename(manifestPath).replace(/\.toml$/, '.lock'))
   const generateRunShell = inputs.generateRunShell ?? runInstall
-  const cacheKey = inputs.cacheKey ?? (inputs.cache ? `pixi-${getCondaArch()}` : undefined)
-  const pixiBinPath = inputs.pixiBinPath ?? PATHS.pixiBin
-  const auth = inputs.authHost
-    ? ({
-        host: inputs.authHost,
-        token: inputs.authToken,
-        username: inputs.authUsername,
-        password: inputs.authPassword,
-        condaToken: inputs.authCondaToken
-      } as Auth)
+  const cache = inputs.cacheKey
+    ? { cacheKeyPrefix: inputs.cacheKey, cacheWrite: inputs.cacheWrite ?? true }
+    : inputs.cache
+    ? { cacheKeyPrefix: 'pixi-', cacheWrite: true }
     : undefined
-  const postCleanup = inputs.postCleanup ?? 'all'
+  const pixiBinPath = inputs.pixiBinPath ? path.resolve(untildify(inputs.pixiBinPath)) : PATHS.pixiBin
+  const pixiRunShell = path.join(path.dirname(pixiBinPath), 'pixi-shell')
+  const auth = !inputs.authHost
+    ? undefined
+    : ((inputs.authToken
+        ? {
+            host: inputs.authHost,
+            token: inputs.authToken
+          }
+        : inputs.authCondaToken
+        ? {
+            host: inputs.authHost,
+            condaToken: inputs.authCondaToken
+          }
+        : {
+            host: inputs.authHost,
+            username: inputs.authUsername!,
+            password: inputs.authPassword!
+          }) as Auth)
+  const postCleanup = inputs.postCleanup ?? true
   return {
     pixiSource,
     logLevel,
@@ -151,8 +168,9 @@ const inferOptions = (inputs: Inputs): Options => {
     pixiLockFile,
     runInstall,
     generateRunShell,
-    cacheKey,
+    cache,
     pixiBinPath,
+    pixiRunShell,
     auth,
     postCleanup
   }
@@ -177,13 +195,14 @@ const getOptions = () => {
     generateRunShell: parseOrUndefinedJSON('generate-run-shell', z.boolean()),
     cache: parseOrUndefinedJSON('cache', z.boolean()),
     cacheKey: parseOrUndefined('cache-key', z.string()),
-    pixiBinPath: parseOrUndefined('micromamba-binary-path', z.string()),
+    cacheWrite: parseOrUndefinedJSON('cache-write', z.boolean()),
+    pixiBinPath: parseOrUndefined('pixi-bin-path', z.string()),
     authHost: parseOrUndefined('auth-host', z.string()),
     authToken: parseOrUndefined('auth-token', z.string()),
     authUsername: parseOrUndefined('auth-username', z.string()),
     authPassword: parseOrUndefined('auth-password', z.string()),
     authCondaToken: parseOrUndefined('auth-conda-token', z.string()),
-    postCleanup: parseOrUndefined('post-cleanup', postCleanupSchema)
+    postCleanup: parseOrUndefinedJSON('post-cleanup', z.boolean())
   }
   core.debug(`Inputs: ${JSON.stringify(inputs)}`)
   validateInputs(inputs)

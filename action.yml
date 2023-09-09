@@ -26,7 +26,10 @@ inputs:
   cache-key:
     description: |
       Cache key prefix to use for caching the pixi environment.
-      Defaults to `pixi-{conda-arch}`.
+      Defaults to `pixi-`. The full cache key is `<cache-key><conda-arch>-<sha-256-of-pixi-lock>`.
+  cache-write:
+    description: |
+      Whether to write to the cache or only read from it. Defaults to `true`.
   pixi-bin-path:
     description: |
       Path to the pixi binary to use. Defaults to `~/.pixi/bin/pixi`.
@@ -45,12 +48,8 @@ inputs:
     description: Conda token to use for authentication.
   post-cleanup:
     description: |
-      What kind of cleanup the action should do in the post step.
-      One of `none`, `environment` or `all`.
-      If `none`, no cleanup is done.
-      If `environment`, the pixi environment is removed.
-      If `all`, the pixi environment, the pixi CLI are removed and the rattler cache is cleared.
-      Defaults to `all`.
+      If the action should clean up after itself. Defaults to `true`.
+      If `true`, the pixi environment, the pixi binary and the rattler files in ~/.rattler and ~/.cache/rattler are removed.
 
 runs:
   using: node20
