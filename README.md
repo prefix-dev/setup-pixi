@@ -16,6 +16,11 @@ GitHub Action to set up the [pixi](https://github.com/prefix-dev/pixi) package m
 - run: pixi run test
 ```
 
+> [!WARNING]
+> Since pixi is still not stable, the API of this action may change between minor versions.
+> Please pin the versions of this action to a specific version (i.e., `pavelzw/setup-pixi@v0.1.2`) to avoid breaking changes.
+> You can automatically update the version of this action by using [Dependabot](https://docs.github.com/en/code-security/dependabot/working-with-dependabot/keeping-your-actions-up-to-date-with-dependabot).
+
 ## Features
 
 To see all available input arguments, see the [`action.yml`](action.yml) file.
@@ -138,10 +143,10 @@ This can be specified by setting the `log-level` input.
 - uses: pavelzw/setup-pixi@v0.1.2
   with:
     # one of `q`, `default`, `v`, `vv`, or `vvv`.
-    log-level: vv
+    log-level: vvv
 ```
 
-If nothing is specified, `setup-pixi` will default to `default` or `debug` depending on if [debug logging is enabled for the action](#debug-logging-of-the-action).
+If nothing is specified, `setup-pixi` will default to `default` or `vv` depending on if [debug logging is enabled for the action](#debug-logging-of-the-action).
 
 ### Post action cleanup
 
