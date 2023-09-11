@@ -186,6 +186,30 @@ jobs:
         # https://github.com/prefix-dev/pixi/issues/330
         if: matrix.os == 'ubuntu-latest'
 
+  auth-token-install-2:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi.toml
+        run: mv test/auth/* .
+      - name: Unlock Keychain
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y dbus-x11 gnome-keyring
+          dbus-launch --sh-syntax
+          echo '' | /usr/bin/gnome-keyring-daemon --unlock
+      - uses: ./
+        with:
+          auth-host: https://repo.prefix.dev
+          auth-token: ${{ secrets.PREFIX_DEV_TOKEN }}
+      - name: Ensure private-package is installed
+        run: |
+          file -f .pixi/env/conda-meta/private-package-0.0.1-0.json
+
   auth-token-install:
     strategy:
       matrix:
