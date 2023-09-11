@@ -208,7 +208,7 @@ jobs:
           auth-token: ${{ secrets.PREFIX_DEV_TOKEN }}
       - name: Ensure private-package is installed
         run: |
-          file -f .pixi/env/conda-meta/private-package-0.0.1-0.json
+          test -f .pixi/env/conda-meta/private-package-0.0.1-0.json
 
   auth-token-install:
     strategy:
@@ -225,7 +225,7 @@ jobs:
           auth-token: ${{ secrets.PREFIX_DEV_TOKEN }}
       - name: Ensure private-package is installed
         run: |
-          file -f .pixi/env/conda-meta/private-package-0.0.1-0.json
+          test -f .pixi/env/conda-meta/private-package-0.0.1-0.json
 
   pixi-shell:
     strategy:
