@@ -2152,15 +2152,15 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       command_1.issue("echo", enabled ? "on" : "off");
     }
     exports.setCommandEcho = setCommandEcho;
-    function setFailed2(message) {
+    function setFailed3(message) {
       process.exitCode = ExitCode.Failure;
       error(message);
     }
-    exports.setFailed = setFailed2;
-    function isDebug2() {
+    exports.setFailed = setFailed3;
+    function isDebug3() {
       return process.env["RUNNER_DEBUG"] === "1";
     }
-    exports.isDebug = isDebug2;
+    exports.isDebug = isDebug3;
     function debug3(message) {
       command_1.issueCommand("debug", {}, message);
     }
@@ -5972,6 +5972,7 @@ try {
 var options = _options;
 
 // src/post.ts
+var import_process2 = require("process");
 var removeEmptyParentDirs = (dirPath) => {
   return import_promises.default.readdir(dirPath).then((files) => {
     if (files.length === 0) {
@@ -6028,5 +6029,17 @@ var run = () => {
   core2.debug("Skipping post-cleanup.");
   return Promise.resolve();
 };
-run();
+run().catch((error) => {
+  if (core2.isDebug()) {
+    throw error;
+  }
+  if (error instanceof Error) {
+    core2.setFailed(error.message);
+    (0, import_process2.exit)(1);
+  } else if (typeof error === "string") {
+    core2.setFailed(error);
+    (0, import_process2.exit)(1);
+  }
+  throw error;
+});
 //# sourceMappingURL=post.js.map

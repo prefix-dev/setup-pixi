@@ -3,6 +3,7 @@ import path from 'path'
 import * as os from 'os'
 import * as core from '@actions/core'
 import { options } from './options'
+import { exit } from 'process'
 
 const removeEmptyParentDirs = (dirPath: string): Promise<void> => {
   return fs.readdir(dirPath).then((files) => {
@@ -67,4 +68,16 @@ const run = () => {
   return Promise.resolve()
 }
 
-run()
+run().catch((error) => {
+  if (core.isDebug()) {
+    throw error
+  }
+  if (error instanceof Error) {
+    core.setFailed(error.message)
+    exit(1)
+  } else if (typeof error === 'string') {
+    core.setFailed(error)
+    exit(1)
+  }
+  throw error
+})
