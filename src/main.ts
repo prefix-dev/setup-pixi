@@ -7,6 +7,7 @@ import type { PixiSource } from './options'
 import { options } from './options'
 import { execute, getPixiUrlFromVersion, pixiCmd } from './util'
 import { saveCache, tryRestoreCache } from './cache'
+import { exit } from 'process'
 
 const downloadPixi = (source: PixiSource) => {
   const url = 'version' in source ? getPixiUrlFromVersion(source.version) : source.url
@@ -70,6 +71,14 @@ const run = async () => {
 }
 
 run().catch((error) => {
-  core.error(error.message)
-  core.setFailed(error.message)
+  if (error instanceof Error) {
+    core.error(error.message)
+    core.setFailed(error.message)
+    exit(1)
+  } else if (typeof error === 'string') {
+    core.error(error)
+    core.setFailed(error)
+    exit(1)
+  }
+  throw error
 })

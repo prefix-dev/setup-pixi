@@ -220,8 +220,9 @@ const getOptions = () => {
   return options
 }
 
+let _options: Options
 try {
-  const options = getOptions()
+  _options = getOptions()
 } catch (error) {
   if (error instanceof Error) {
     // core.error(error.message)
@@ -235,4 +236,4 @@ try {
   throw error
 }
 
-export const options = getOptions()
+export const options = _options

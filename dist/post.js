@@ -5918,7 +5918,7 @@ var inferOptions = (inputs) => {
     postCleanup
   };
 };
-var assertOptions = (_options) => {
+var assertOptions = (_options2) => {
 };
 var getOptions = () => {
   const inputs = {
@@ -5953,8 +5953,9 @@ var getOptions = () => {
   assertOptions(options2);
   return options2;
 };
+var _options;
 try {
-  const options2 = getOptions();
+  _options = getOptions();
 } catch (error) {
   if (error instanceof Error) {
     core.setFailed(error.message);
@@ -5965,7 +5966,7 @@ try {
   }
   throw error;
 }
-var options = getOptions();
+var options = _options;
 
 // src/post.ts
 var removeEmptyParentDirs = (dirPath) => {

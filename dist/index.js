@@ -22602,9 +22602,9 @@ var init_requestPolicy = __esm({
       /**
        * The main method to implement that manipulates a request/response.
        */
-      constructor(_nextPolicy, _options) {
+      constructor(_nextPolicy, _options2) {
         this._nextPolicy = _nextPolicy;
-        this._options = _options;
+        this._options = _options2;
       }
       /**
        * Get whether or not a log with the provided log level should be logged.
@@ -29352,10 +29352,10 @@ var init_userAgentPolicy = __esm({
     init_httpHeaders();
     getDefaultUserAgentHeaderName = getDefaultUserAgentKey;
     UserAgentPolicy = class extends BaseRequestPolicy {
-      constructor(_nextPolicy, _options, headerKey, headerValue) {
-        super(_nextPolicy, _options);
+      constructor(_nextPolicy, _options2, headerKey, headerValue) {
+        super(_nextPolicy, _options2);
         this._nextPolicy = _nextPolicy;
-        this._options = _options;
+        this._options = _options2;
         this.headerKey = headerKey;
         this.headerValue = headerValue;
       }
@@ -30781,7 +30781,7 @@ var init_ProxyTracer = __esm({
       ProxyTracer2.prototype.startSpan = function(name, options2, context3) {
         return this._getTracer().startSpan(name, options2, context3);
       };
-      ProxyTracer2.prototype.startActiveSpan = function(_name, _options, _context, _fn) {
+      ProxyTracer2.prototype.startActiveSpan = function(_name, _options2, _context, _fn) {
         var tracer = this._getTracer();
         return Reflect.apply(tracer.startActiveSpan, tracer, arguments);
       };
@@ -30811,7 +30811,7 @@ var init_NoopTracerProvider = __esm({
     function() {
       function NoopTracerProvider2() {
       }
-      NoopTracerProvider2.prototype.getTracer = function(_name, _version, _options) {
+      NoopTracerProvider2.prototype.getTracer = function(_name, _version, _options2) {
         return new NoopTracer();
       };
       return NoopTracerProvider2;
@@ -46011,7 +46011,7 @@ var init_Credential = __esm({
        * @param _nextPolicy -
        * @param _options -
        */
-      create(_nextPolicy, _options) {
+      create(_nextPolicy, _options2) {
         throw new Error("Method should be implemented in children classes.");
       }
     };
@@ -61051,7 +61051,7 @@ var inferOptions = (inputs) => {
     postCleanup
   };
 };
-var assertOptions = (_options) => {
+var assertOptions = (_options2) => {
 };
 var getOptions = () => {
   const inputs = {
@@ -61086,8 +61086,9 @@ var getOptions = () => {
   assertOptions(options2);
   return options2;
 };
+var _options;
 try {
-  const options2 = getOptions();
+  _options = getOptions();
 } catch (error3) {
   if (error3 instanceof Error) {
     core.setFailed(error3.message);
@@ -61098,7 +61099,7 @@ try {
   }
   throw error3;
 }
-var options = getOptions();
+var options = _options;
 
 // src/util.ts
 var import_crypto4 = require("crypto");
@@ -61243,6 +61244,7 @@ var saveCache2 = () => {
 };
 
 // src/main.ts
+var import_process2 = require("process");
 var downloadPixi = (source) => {
   const url2 = "version" in source ? getPixiUrlFromVersion(source.version) : source.url;
   return core4.group("Downloading Pixi", () => {
@@ -61292,8 +61294,16 @@ var run = async () => {
   await generateInfo();
 };
 run().catch((error3) => {
-  core4.error(error3.message);
-  core4.setFailed(error3.message);
+  if (error3 instanceof Error) {
+    core4.error(error3.message);
+    core4.setFailed(error3.message);
+    (0, import_process2.exit)(1);
+  } else if (typeof error3 === "string") {
+    core4.error(error3);
+    core4.setFailed(error3);
+    (0, import_process2.exit)(1);
+  }
+  throw error3;
 });
 /*! Bundled license information:
 
