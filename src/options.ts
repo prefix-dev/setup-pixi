@@ -1,9 +1,9 @@
 import path from 'path'
 import os from 'os'
+import { exit } from 'process'
 import * as core from '@actions/core'
 import * as z from 'zod'
 import untildify from 'untildify'
-import { exit } from 'process'
 
 type Inputs = {
   pixiVersion?: string
@@ -197,8 +197,11 @@ const getOptions = () => {
       'pixi-version must either be `latest` or a version string matching `vX.Y.Z`.'
     ),
     pixiUrl: parseOrUndefined('pixi-url', z.string().url()),
-    logLevel: parseOrUndefined('log-level', logLevelSchema,
-      'log-level must be one of `q`, `default`, `v`, `vv`, `vvv`.'),
+    logLevel: parseOrUndefined(
+      'log-level',
+      logLevelSchema,
+      'log-level must be one of `q`, `default`, `v`, `vv`, `vvv`.'
+    ),
     manifestPath: parseOrUndefined('manifest-path', z.string()),
     runInstall: parseOrUndefinedJSON('run-install', z.boolean()),
     cache: parseOrUndefinedJSON('cache', z.boolean()),

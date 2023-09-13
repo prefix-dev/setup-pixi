@@ -2245,11 +2245,13 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
 var import_promises = __toESM(require("fs/promises"));
 var import_path2 = __toESM(require("path"));
 var os3 = __toESM(require("os"));
+var import_process2 = require("process");
 var core2 = __toESM(require_core());
 
 // src/options.ts
 var import_path = __toESM(require("path"));
 var import_os = __toESM(require("os"));
+var import_process = require("process");
 var core = __toESM(require_core());
 
 // node_modules/.pnpm/zod@3.22.2/node_modules/zod/lib/index.mjs
@@ -5828,7 +5830,6 @@ function untildify(pathWithTilde) {
 }
 
 // src/options.ts
-var import_process = require("process");
 var logLevelSchema = enumType(["q", "default", "v", "vv", "vvv"]);
 var PATHS = {
   pixiBin: import_path.default.join(import_os.default.homedir(), ".pixi", "bin", `pixi${import_os.default.platform() === "win32" ? ".exe" : ""}`)
@@ -5972,7 +5973,6 @@ try {
 var options = _options;
 
 // src/post.ts
-var import_process2 = require("process");
 var removeEmptyParentDirs = (dirPath) => {
   return import_promises.default.readdir(dirPath).then((files) => {
     if (files.length === 0) {

@@ -1,9 +1,9 @@
 import fs from 'fs/promises'
 import path from 'path'
 import * as os from 'os'
+import { exit } from 'process'
 import * as core from '@actions/core'
 import { options } from './options'
-import { exit } from 'process'
 
 const removeEmptyParentDirs = (dirPath: string): Promise<void> => {
   return fs.readdir(dirPath).then((files) => {

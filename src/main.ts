@@ -1,13 +1,13 @@
 import fs from 'fs/promises'
 import os from 'os'
 import path from 'path'
+import { exit } from 'process'
 import * as core from '@actions/core'
 import { downloadTool } from '@actions/tool-cache'
 import type { PixiSource } from './options'
 import { options } from './options'
 import { execute, getPixiUrlFromVersion, pixiCmd } from './util'
 import { saveCache, tryRestoreCache } from './cache'
-import { exit } from 'process'
 
 const downloadPixi = (source: PixiSource) => {
   const url = 'version' in source ? getPixiUrlFromVersion(source.version) : source.url

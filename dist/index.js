@@ -57377,12 +57377,14 @@ var require_cache = __commonJS({
 var import_promises2 = __toESM(require("fs/promises"));
 var import_os3 = __toESM(require("os"));
 var import_path3 = __toESM(require("path"));
+var import_process2 = require("process");
 var core4 = __toESM(require_core());
 var import_tool_cache = __toESM(require_tool_cache());
 
 // src/options.ts
 var import_path = __toESM(require("path"));
 var import_os = __toESM(require("os"));
+var import_process = require("process");
 var core = __toESM(require_core());
 
 // node_modules/.pnpm/zod@3.22.2/node_modules/zod/lib/index.mjs
@@ -60961,7 +60963,6 @@ function untildify(pathWithTilde) {
 }
 
 // src/options.ts
-var import_process = require("process");
 var logLevelSchema = enumType(["q", "default", "v", "vv", "vvv"]);
 var PATHS = {
   pixiBin: import_path.default.join(import_os.default.homedir(), ".pixi", "bin", `pixi${import_os.default.platform() === "win32" ? ".exe" : ""}`)
@@ -61247,7 +61248,6 @@ var saveCache2 = () => {
 };
 
 // src/main.ts
-var import_process2 = require("process");
 var downloadPixi = (source) => {
   const url2 = "version" in source ? getPixiUrlFromVersion(source.version) : source.url;
   return core4.group("Downloading Pixi", () => {
