@@ -69,4 +69,7 @@ const run = async () => {
   await generateInfo()
 }
 
-run().catch((error) => core.setFailed(error.message))
+run().catch((error) => {
+  core.error(error.message)
+  core.setFailed(error.message)
+})

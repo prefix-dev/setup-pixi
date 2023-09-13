@@ -763,18 +763,18 @@ var require_tunnel = __commonJS({
             res.statusCode
           );
           socket.destroy();
-          var error2 = new Error("tunneling socket could not be established, statusCode=" + res.statusCode);
-          error2.code = "ECONNRESET";
-          options2.request.emit("error", error2);
+          var error3 = new Error("tunneling socket could not be established, statusCode=" + res.statusCode);
+          error3.code = "ECONNRESET";
+          options2.request.emit("error", error3);
           self2.removeSocket(placeholder);
           return;
         }
         if (head.length > 0) {
           debug5("got illegal response body from proxy");
           socket.destroy();
-          var error2 = new Error("got illegal response body from proxy");
-          error2.code = "ECONNRESET";
-          options2.request.emit("error", error2);
+          var error3 = new Error("got illegal response body from proxy");
+          error3.code = "ECONNRESET";
+          options2.request.emit("error", error3);
           self2.removeSocket(placeholder);
           return;
         }
@@ -789,9 +789,9 @@ var require_tunnel = __commonJS({
           cause.message,
           cause.stack
         );
-        var error2 = new Error("tunneling socket could not be established, cause=" + cause.message);
-        error2.code = "ECONNRESET";
-        options2.request.emit("error", error2);
+        var error3 = new Error("tunneling socket could not be established, cause=" + cause.message);
+        error3.code = "ECONNRESET";
+        options2.request.emit("error", error3);
         self2.removeSocket(placeholder);
       }
     };
@@ -1632,12 +1632,12 @@ var require_oidc_utils = __commonJS({
         var _a2;
         return __awaiter(this, void 0, void 0, function* () {
           const httpclient = _OidcClient.createHttpClient();
-          const res = yield httpclient.getJson(id_token_url).catch((error2) => {
+          const res = yield httpclient.getJson(id_token_url).catch((error3) => {
             throw new Error(`Failed to get ID Token. 
  
-        Error Code : ${error2.statusCode}
+        Error Code : ${error3.statusCode}
  
-        Error Message: ${error2.result.message}`);
+        Error Message: ${error3.result.message}`);
           });
           const id_token = (_a2 = res.result) === null || _a2 === void 0 ? void 0 : _a2.value;
           if (!id_token) {
@@ -1658,8 +1658,8 @@ var require_oidc_utils = __commonJS({
             const id_token = yield _OidcClient.getCall(id_token_url);
             core_1.setSecret(id_token);
             return id_token;
-          } catch (error2) {
-            throw new Error(`Error message: ${error2.message}`);
+          } catch (error3) {
+            throw new Error(`Error message: ${error3.message}`);
           }
         });
       }
@@ -2154,7 +2154,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
     exports.setCommandEcho = setCommandEcho;
     function setFailed2(message) {
       process.exitCode = ExitCode.Failure;
-      error2(message);
+      error3(message);
     }
     exports.setFailed = setFailed2;
     function isDebug2() {
@@ -2165,10 +2165,10 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       command_1.issueCommand("debug", {}, message);
     }
     exports.debug = debug5;
-    function error2(message, properties = {}) {
+    function error3(message, properties = {}) {
       command_1.issueCommand("error", utils_1.toCommandProperties(properties), message instanceof Error ? message.toString() : message);
     }
-    exports.error = error2;
+    exports.error = error3;
     function warning(message, properties = {}) {
       command_1.issueCommand("warning", utils_1.toCommandProperties(properties), message instanceof Error ? message.toString() : message);
     }
@@ -4394,7 +4394,7 @@ var require_toolrunner = __commonJS({
               this._debug(`STDIO streams have closed for tool '${this.toolPath}'`);
               state.CheckComplete();
             });
-            state.on("done", (error2, exitCode) => {
+            state.on("done", (error3, exitCode) => {
               if (stdbuffer.length > 0) {
                 this.emit("stdline", stdbuffer);
               }
@@ -4402,8 +4402,8 @@ var require_toolrunner = __commonJS({
                 this.emit("errline", errbuffer);
               }
               cp.removeAllListeners();
-              if (error2) {
-                reject(error2);
+              if (error3) {
+                reject(error3);
               } else {
                 resolve(exitCode);
               }
@@ -4498,14 +4498,14 @@ var require_toolrunner = __commonJS({
         this.emit("debug", message);
       }
       _setResult() {
-        let error2;
+        let error3;
         if (this.processExited) {
           if (this.processError) {
-            error2 = new Error(`There was an error when attempting to execute the process '${this.toolPath}'. This may indicate the process failed to start. Error: ${this.processError}`);
+            error3 = new Error(`There was an error when attempting to execute the process '${this.toolPath}'. This may indicate the process failed to start. Error: ${this.processError}`);
           } else if (this.processExitCode !== 0 && !this.options.ignoreReturnCode) {
-            error2 = new Error(`The process '${this.toolPath}' failed with exit code ${this.processExitCode}`);
+            error3 = new Error(`The process '${this.toolPath}' failed with exit code ${this.processExitCode}`);
           } else if (this.processStderr && this.options.failOnStdErr) {
-            error2 = new Error(`The process '${this.toolPath}' failed because one or more lines were written to the STDERR stream`);
+            error3 = new Error(`The process '${this.toolPath}' failed because one or more lines were written to the STDERR stream`);
           }
         }
         if (this.timeout) {
@@ -4513,7 +4513,7 @@ var require_toolrunner = __commonJS({
           this.timeout = null;
         }
         this.done = true;
-        this.emit("done", error2, this.processExitCode);
+        this.emit("done", error3, this.processExitCode);
       }
       static HandleTimeout(state) {
         if (state.done) {
@@ -18332,17 +18332,17 @@ var require_iterate = __commonJS({
     module2.exports = iterate;
     function iterate(list, iterator, state, callback) {
       var key = state["keyedList"] ? state["keyedList"][state.index] : state.index;
-      state.jobs[key] = runJob(iterator, key, list[key], function(error2, output) {
+      state.jobs[key] = runJob(iterator, key, list[key], function(error3, output) {
         if (!(key in state.jobs)) {
           return;
         }
         delete state.jobs[key];
-        if (error2) {
+        if (error3) {
           abort(state);
         } else {
           state.results[key] = output;
         }
-        callback(error2, state.results);
+        callback(error3, state.results);
       });
     }
     function runJob(iterator, key, item, callback) {
@@ -18409,9 +18409,9 @@ var require_parallel = __commonJS({
     function parallel(list, iterator, callback) {
       var state = initState(list);
       while (state.index < (state["keyedList"] || list).length) {
-        iterate(list, iterator, state, function(error2, result) {
-          if (error2) {
-            callback(error2, result);
+        iterate(list, iterator, state, function(error3, result) {
+          if (error3) {
+            callback(error3, result);
             return;
           }
           if (Object.keys(state.jobs).length === 0) {
@@ -18438,9 +18438,9 @@ var require_serialOrdered = __commonJS({
     module2.exports.descending = descending;
     function serialOrdered(list, iterator, sortMethod, callback) {
       var state = initState(list, sortMethod);
-      iterate(list, iterator, state, function iteratorHandler(error2, result) {
-        if (error2) {
-          callback(error2, result);
+      iterate(list, iterator, state, function iteratorHandler(error3, result) {
+        if (error3) {
+          callback(error3, result);
           return;
         }
         state.index++;
@@ -18789,10 +18789,10 @@ var require_form_data = __commonJS({
         this.pipe(request);
         if (cb) {
           var onResponse;
-          var callback = function(error2, responce) {
+          var callback = function(error3, responce) {
             request.removeListener("error", callback);
             request.removeListener("response", onResponse);
-            return cb.call(this, error2, responce);
+            return cb.call(this, error3, responce);
           };
           onResponse = callback.bind(this, null);
           request.on("error", callback);
@@ -19449,21 +19449,21 @@ var require_tr46 = __commonJS({
         label = punycode.toUnicode(label);
         processing_option = PROCESSING_OPTIONS.NONTRANSITIONAL;
       }
-      var error2 = false;
+      var error3 = false;
       if (normalize(label) !== label || label[3] === "-" && label[4] === "-" || label[0] === "-" || label[label.length - 1] === "-" || label.indexOf(".") !== -1 || label.search(combiningMarksRegex) === 0) {
-        error2 = true;
+        error3 = true;
       }
       var len = countSymbols(label);
       for (var i = 0; i < len; ++i) {
         var status = findStatus(label.codePointAt(i));
         if (processing === PROCESSING_OPTIONS.TRANSITIONAL && status[1] !== "valid" || processing === PROCESSING_OPTIONS.NONTRANSITIONAL && status[1] !== "valid" && status[1] !== "deviation") {
-          error2 = true;
+          error3 = true;
           break;
         }
       }
       return {
         label,
-        error: error2
+        error: error3
       };
     }
     function processing(domain_name, useSTD3, processing_option) {
@@ -20992,8 +20992,8 @@ function Body(body2) {
   this.timeout = timeout;
   if (body2 instanceof import_stream.default) {
     body2.on("error", function(err) {
-      const error2 = err.name === "AbortError" ? err : new FetchError(`Invalid response body while trying to fetch ${_this.url}: ${err.message}`, "system", err);
-      _this[INTERNALS].error = error2;
+      const error3 = err.name === "AbortError" ? err : new FetchError(`Invalid response body while trying to fetch ${_this.url}: ${err.message}`, "system", err);
+      _this[INTERNALS].error = error3;
     });
   }
 }
@@ -21326,14 +21326,14 @@ function fetch(url2, opts) {
     const signal = request.signal;
     let response = null;
     const abort = function abort2() {
-      let error2 = new AbortError2("The user aborted a request.");
-      reject(error2);
+      let error3 = new AbortError2("The user aborted a request.");
+      reject(error3);
       if (request.body && request.body instanceof import_stream.default.Readable) {
-        destroyStream(request.body, error2);
+        destroyStream(request.body, error3);
       }
       if (!response || !response.body)
         return;
-      response.body.emit("error", error2);
+      response.body.emit("error", error3);
     };
     if (signal && signal.aborted) {
       abort();
@@ -22354,8 +22354,8 @@ var init_nodeFetchHttpClient = __esm({
           }
           await this.processRequest(operationResponse);
           return operationResponse;
-        } catch (error2) {
-          const fetchError = error2;
+        } catch (error3) {
+          const fetchError = error3;
           if (fetchError.code === "ENOTFOUND") {
             throw new RestError(fetchError.message, RestError.REQUEST_SEND_ERROR, void 0, httpRequest);
           } else if (fetchError.type === "aborted") {
@@ -22841,8 +22841,8 @@ var require_XMLDOMErrorHandler = __commonJS({
       module2.exports = XMLDOMErrorHandler = function() {
         function XMLDOMErrorHandler2() {
         }
-        XMLDOMErrorHandler2.prototype.handleError = function(error2) {
-          throw new Error(error2);
+        XMLDOMErrorHandler2.prototype.handleError = function(error3) {
+          throw new Error(error3);
         };
         return XMLDOMErrorHandler2;
       }();
@@ -26800,7 +26800,7 @@ var require_sax = __commonJS({
                 parser.script = "";
                 break;
               default:
-                error2(parser, "Max buffer length exceeded: " + buffers[i]);
+                error3(parser, "Max buffer length exceeded: " + buffers[i]);
             }
           }
           maxActual = Math.max(maxActual, len);
@@ -27314,7 +27314,7 @@ var require_sax = __commonJS({
           text = text.replace(/\s+/g, " ");
         return text;
       }
-      function error2(parser, er) {
+      function error3(parser, er) {
         closeText(parser);
         if (parser.trackPosition) {
           er += "\nLine: " + parser.line + "\nColumn: " + parser.column + "\nChar: " + parser.c;
@@ -27328,7 +27328,7 @@ var require_sax = __commonJS({
         if (parser.sawRoot && !parser.closedRoot)
           strictFail(parser, "Unclosed root tag");
         if (parser.state !== S.BEGIN && parser.state !== S.BEGIN_WHITESPACE && parser.state !== S.TEXT) {
-          error2(parser, "Unexpected end");
+          error3(parser, "Unexpected end");
         }
         closeText(parser);
         parser.c = "";
@@ -27342,7 +27342,7 @@ var require_sax = __commonJS({
           throw new Error("bad call to strictFail");
         }
         if (parser.strict) {
-          error2(parser, message);
+          error3(parser, message);
         }
       }
       function newTag(parser) {
@@ -27583,7 +27583,7 @@ var require_sax = __commonJS({
           throw this.error;
         }
         if (parser.closed) {
-          return error2(
+          return error3(
             parser,
             "Cannot write after close. Assign an onready handler."
           );
@@ -28303,11 +28303,11 @@ var require_parser = __commonJS({
           });
           this.saxParser.errThrown = false;
           this.saxParser.onerror = function(_this) {
-            return function(error2) {
+            return function(error3) {
               _this.saxParser.resume();
               if (!_this.saxParser.errThrown) {
                 _this.saxParser.errThrown = true;
-                return _this.emit("error", error2);
+                return _this.emit("error", error3);
               }
             };
           }(this);
@@ -28741,9 +28741,9 @@ function deserializeResponseBody(jsonContentTypes, xmlContentTypes, response, op
       return parsedResponse;
     }
     const responseSpec = getOperationResponse(parsedResponse);
-    const { error: error2, shouldReturnResponse } = handleErrorResponse(parsedResponse, operationSpec, responseSpec);
-    if (error2) {
-      throw error2;
+    const { error: error3, shouldReturnResponse } = handleErrorResponse(parsedResponse, operationSpec, responseSpec);
+    if (error3) {
+      throw error3;
     } else if (shouldReturnResponse) {
       return parsedResponse;
     }
@@ -28789,9 +28789,9 @@ function handleErrorResponse(parsedResponse, operationSpec, responseSpec) {
   const errorResponseSpec = responseSpec !== null && responseSpec !== void 0 ? responseSpec : operationSpec.responses.default;
   const streaming = ((_a2 = parsedResponse.request.streamResponseStatusCodes) === null || _a2 === void 0 ? void 0 : _a2.has(parsedResponse.status)) || parsedResponse.request.streamResponseBody;
   const initialErrorMessage = streaming ? `Unexpected status code: ${parsedResponse.status}` : parsedResponse.bodyAsText;
-  const error2 = new RestError(initialErrorMessage, void 0, parsedResponse.status, parsedResponse.request, parsedResponse);
+  const error3 = new RestError(initialErrorMessage, void 0, parsedResponse.status, parsedResponse.request, parsedResponse);
   if (!errorResponseSpec) {
-    throw error2;
+    throw error3;
   }
   const defaultBodyMapper = errorResponseSpec.bodyMapper;
   const defaultHeadersMapper = errorResponseSpec.headersMapper;
@@ -28807,21 +28807,21 @@ function handleErrorResponse(parsedResponse, operationSpec, responseSpec) {
         parsedError = operationSpec.serializer.deserialize(defaultBodyMapper, valueToDeserialize, "error.response.parsedBody");
       }
       const internalError = parsedBody.error || parsedError || parsedBody;
-      error2.code = internalError.code;
+      error3.code = internalError.code;
       if (internalError.message) {
-        error2.message = internalError.message;
+        error3.message = internalError.message;
       }
       if (defaultBodyMapper) {
-        error2.response.parsedBody = parsedError;
+        error3.response.parsedBody = parsedError;
       }
     }
     if (parsedResponse.headers && defaultHeadersMapper) {
-      error2.response.parsedHeaders = operationSpec.serializer.deserialize(defaultHeadersMapper, parsedResponse.headers.toJson(), "operationRes.parsedHeaders");
+      error3.response.parsedHeaders = operationSpec.serializer.deserialize(defaultHeadersMapper, parsedResponse.headers.toJson(), "operationRes.parsedHeaders");
     }
   } catch (defaultError) {
-    error2.message = `Error "${defaultError.message}" occurred in deserializing the responseBody - "${parsedResponse.bodyAsText}" for the default response.`;
+    error3.message = `Error "${defaultError.message}" occurred in deserializing the responseBody - "${parsedResponse.bodyAsText}" for the default response.`;
   }
-  return { error: error2, shouldReturnResponse: false };
+  return { error: error3, shouldReturnResponse: false };
 }
 function parse2(jsonContentTypes, xmlContentTypes, operationResponse, opts) {
   var _a2;
@@ -28966,8 +28966,8 @@ var init_redirectPolicy = __esm({
 function isNumber(n) {
   return typeof n === "number";
 }
-function shouldRetry(retryLimit, predicate, retryData, response, error2) {
-  if (!predicate(response, error2)) {
+function shouldRetry(retryLimit, predicate, retryData, response, error3) {
+  if (!predicate(response, error3)) {
     return false;
   }
   return retryData.retryCount < retryLimit;
@@ -29150,7 +29150,7 @@ var init_exponentialRetryPolicy = __esm({
         this.maxRetryInterval = isNumber(maxRetryInterval) ? maxRetryInterval : DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
       }
       sendRequest(request) {
-        return this._nextPolicy.sendRequest(request.clone()).then((response) => retry(this, request, response)).catch((error2) => retry(this, request, error2.response, void 0, error2));
+        return this._nextPolicy.sendRequest(request.clone()).then((response) => retry(this, request, response)).catch((error3) => retry(this, request, error3.response, void 0, error3));
       }
     };
   }
@@ -29865,8 +29865,8 @@ function systemErrorRetryPolicy(retryCount, retryInterval, minRetryInterval, max
 }
 async function retry2(policy, request, operationResponse, err, retryData) {
   retryData = updateRetryData(policy, retryData, err);
-  function shouldPolicyRetry(_response, error2) {
-    if (error2 && error2.code && (error2.code === "ETIMEDOUT" || error2.code === "ESOCKETTIMEDOUT" || error2.code === "ECONNREFUSED" || error2.code === "ECONNRESET" || error2.code === "ENOENT")) {
+  function shouldPolicyRetry(_response, error3) {
+    if (error3 && error3.code && (error3.code === "ETIMEDOUT" || error3.code === "ESOCKETTIMEDOUT" || error3.code === "ECONNREFUSED" || error3.code === "ECONNRESET" || error3.code === "ENOENT")) {
       return true;
     }
     return false;
@@ -29901,7 +29901,7 @@ var init_systemErrorRetryPolicy = __esm({
         this.maxRetryInterval = isNumber(maxRetryInterval) ? maxRetryInterval : DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
       }
       sendRequest(request) {
-        return this._nextPolicy.sendRequest(request.clone()).catch((error2) => retry2(this, request, error2.response, error2));
+        return this._nextPolicy.sendRequest(request.clone()).catch((error3) => retry2(this, request, error3.response, error3));
       }
     };
   }
@@ -29986,7 +29986,7 @@ var init_throttlingRetryPolicy = __esm({
           const date = Date.parse(headerValue);
           const diff = date - now;
           return Number.isNaN(diff) ? void 0 : diff;
-        } catch (error2) {
+        } catch (error3) {
           return void 0;
         }
       }
@@ -30175,8 +30175,8 @@ var init_ComponentLogger = __esm({
       try {
         while ((n === void 0 || n-- > 0) && !(r = i.next()).done)
           ar.push(r.value);
-      } catch (error2) {
-        e = { error: error2 };
+      } catch (error3) {
+        e = { error: error3 };
       } finally {
         try {
           if (r && !r.done && (m = i["return"]))
@@ -30309,8 +30309,8 @@ var init_diag = __esm({
       try {
         while ((n === void 0 || n-- > 0) && !(r = i.next()).done)
           ar.push(r.value);
-      } catch (error2) {
-        e = { error: error2 };
+      } catch (error3) {
+        e = { error: error3 };
       } finally {
         try {
           if (r && !r.done && (m = i["return"]))
@@ -30445,8 +30445,8 @@ var init_NoopContextManager = __esm({
       try {
         while ((n === void 0 || n-- > 0) && !(r = i.next()).done)
           ar.push(r.value);
-      } catch (error2) {
-        e = { error: error2 };
+      } catch (error3) {
+        e = { error: error3 };
       } finally {
         try {
           if (r && !r.done && (m = i["return"]))
@@ -30513,8 +30513,8 @@ var init_context2 = __esm({
       try {
         while ((n === void 0 || n-- > 0) && !(r = i.next()).done)
           ar.push(r.value);
-      } catch (error2) {
-        e = { error: error2 };
+      } catch (error3) {
+        e = { error: error3 };
       } finally {
         try {
           if (r && !r.done && (m = i["return"]))
@@ -31122,8 +31122,8 @@ var init_tracingPolicy = __esm({
             }
           }
           return span;
-        } catch (error2) {
-          logger.warning(`Skipping creating a tracing span due to an error: ${error2.message}`);
+        } catch (error3) {
+          logger.warning(`Skipping creating a tracing span due to an error: ${error3.message}`);
           return void 0;
         }
       }
@@ -31137,8 +31137,8 @@ var init_tracingPolicy = __esm({
             span.setAttribute("http.status_code", err.statusCode);
           }
           span.end();
-        } catch (error2) {
-          logger.warning(`Skipping tracing span processing due to an error: ${error2.message}`);
+        } catch (error3) {
+          logger.warning(`Skipping tracing span processing due to an error: ${error3.message}`);
         }
       }
       tryProcessResponse(span, response) {
@@ -31152,8 +31152,8 @@ var init_tracingPolicy = __esm({
             code: SpanStatusCode.OK
           });
           span.end();
-        } catch (error2) {
-          logger.warning(`Skipping tracing span processing due to an error: ${error2.message}`);
+        } catch (error3) {
+          logger.warning(`Skipping tracing span processing due to an error: ${error3.message}`);
         }
       }
     };
@@ -31200,8 +31200,8 @@ function serializeRequestBody(serviceClient, httpRequest, operationArguments, op
           httpRequest.body = JSON.stringify(httpRequest.body);
         }
       }
-    } catch (error2) {
-      throw new Error(`Error "${error2.message}" occurred in serializing the payload - ${JSON.stringify(serializedName, void 0, "  ")}.`);
+    } catch (error3) {
+      throw new Error(`Error "${error3.message}" occurred in serializing the payload - ${JSON.stringify(serializedName, void 0, "  ")}.`);
     }
   } else if (operationSpec.formDataParameters && operationSpec.formDataParameters.length > 0) {
     httpRequest.formData = {};
@@ -31477,8 +31477,8 @@ var init_serviceClient = __esm({
             httpRequest = new WebResource();
             httpRequest = httpRequest.prepare(options2);
           }
-        } catch (error2) {
-          return Promise.reject(error2);
+        } catch (error3) {
+          return Promise.reject(error3);
         }
         let httpPipeline = this._httpClient;
         if (this._requestPolicyFactories && this._requestPolicyFactories.length > 0) {
@@ -31620,8 +31620,8 @@ var init_serviceClient = __esm({
           let sendRequestError;
           try {
             rawResponse = await this.sendRequest(httpRequest);
-          } catch (error2) {
-            sendRequestError = error2;
+          } catch (error3) {
+            sendRequestError = error3;
           }
           if (sendRequestError) {
             if (sendRequestError.response) {
@@ -31631,8 +31631,8 @@ var init_serviceClient = __esm({
           } else {
             result = Promise.resolve(flattenResponse(rawResponse, operationSpec.responses[rawResponse.status]));
           }
-        } catch (error2) {
-          result = Promise.reject(error2);
+        } catch (error3) {
+          result = Promise.reject(error3);
         }
         const cb = callback;
         if (cb) {
@@ -45480,7 +45480,7 @@ function getAccountNameFromUrl(url2) {
       accountName = "";
     }
     return accountName;
-  } catch (error2) {
+  } catch (error3) {
     throw new Error("Unable to extract accountName with provided information.");
   }
 }
@@ -47890,8 +47890,8 @@ var init_RetriableReadableStream = __esm({
                 this.source = newSource;
                 this.setSourceEventHandlers();
                 return;
-              }).catch((error2) => {
-                this.destroy(error2);
+              }).catch((error3) => {
+                this.destroy(error3);
               });
             } else {
               this.destroy(new Error(`Data corruption failure: received less data than required and reached maxRetires limitation. Received data offset: ${this.offset - 1}, data needed offset: ${this.end}, retries: ${this.retries}, max retries: ${this.maxRetryRequests}`));
@@ -47923,10 +47923,10 @@ var init_RetriableReadableStream = __esm({
         this.source.removeListener("end", this.sourceErrorOrEndHandler);
         this.source.removeListener("error", this.sourceErrorOrEndHandler);
       }
-      _destroy(error2, callback) {
+      _destroy(error3, callback) {
         this.removeSourceEventHandlers();
         this.source.destroy();
-        callback(error2 === null ? void 0 : error2);
+        callback(error3 === null ? void 0 : error3);
       }
     };
   }
@@ -49672,9 +49672,9 @@ var init_poller = __esm({
         if (this.operation.state.isCancelled) {
           this.stopped = true;
           if (!this.resolveOnUnsuccessful) {
-            const error2 = new PollerCancelledError("Operation was canceled");
-            this.reject(error2);
-            throw error2;
+            const error3 = new PollerCancelledError("Operation was canceled");
+            this.reject(error3);
+            throw error3;
           }
         }
         if (this.isDone() && this.resolve) {
@@ -49995,8 +49995,8 @@ var init_Batch = __esm({
             this.actives--;
             this.completed++;
             this.parallelExecute();
-          } catch (error2) {
-            this.emitter.emit("error", error2);
+          } catch (error3) {
+            this.emitter.emit("error", error3);
           }
         });
       }
@@ -50011,9 +50011,9 @@ var init_Batch = __esm({
         this.parallelExecute();
         return new Promise((resolve, reject) => {
           this.emitter.on("finish", resolve);
-          this.emitter.on("error", (error2) => {
+          this.emitter.on("error", (error3) => {
             this.state = BatchStates.Error;
-            reject(error2);
+            reject(error3);
           });
         });
       }
@@ -51229,8 +51229,8 @@ var init_Clients = __esm({
           if (!buffer) {
             try {
               buffer = Buffer.alloc(count);
-            } catch (error2) {
-              throw new Error(`Unable to allocate the buffer of size: ${count}(in bytes). Please try passing your own buffer to the "downloadToBuffer" method or try using other methods like "download" or "downloadToFile".	 ${error2.message}`);
+            } catch (error3) {
+              throw new Error(`Unable to allocate the buffer of size: ${count}(in bytes). Please try passing your own buffer to the "downloadToBuffer" method or try using other methods like "download" or "downloadToFile".	 ${error3.message}`);
             }
           }
           if (buffer.length < count) {
@@ -51331,7 +51331,7 @@ var init_Clients = __esm({
             throw new Error("Provided containerName is invalid.");
           }
           return { blobName, containerName };
-        } catch (error2) {
+        } catch (error3) {
           throw new Error("Unable to extract blobName and containerName with provided information.");
         }
       }
@@ -54716,7 +54716,7 @@ var init_ContainerClient = __esm({
             throw new Error("Provided containerName is invalid.");
           }
           return containerName;
-        } catch (error2) {
+        } catch (error3) {
           throw new Error("Unable to extract containerName with provided information.");
         }
       }
@@ -56095,12 +56095,12 @@ var require_requestUtils = __commonJS({
           let isRetryable = false;
           try {
             response = yield method();
-          } catch (error2) {
+          } catch (error3) {
             if (onError) {
-              response = onError(error2);
+              response = onError(error3);
             }
             isRetryable = true;
-            errorMessage = error2.message;
+            errorMessage = error3.message;
           }
           if (response) {
             statusCode = getStatusCode(response);
@@ -56134,13 +56134,13 @@ var require_requestUtils = __commonJS({
           delay3,
           // If the error object contains the statusCode property, extract it and return
           // an TypedResponse<T> so it can be processed by the retry logic.
-          (error2) => {
-            if (error2 instanceof http_client_1.HttpClientError) {
+          (error3) => {
+            if (error3 instanceof http_client_1.HttpClientError) {
               return {
-                statusCode: error2.statusCode,
+                statusCode: error3.statusCode,
                 result: null,
                 headers: {},
-                error: error2
+                error: error3
               };
             } else {
               return void 0;
@@ -56862,8 +56862,8 @@ Other caches with similar key:`);
                 start,
                 end,
                 autoClose: false
-              }).on("error", (error2) => {
-                throw new Error(`Cache upload failed because file read failed with ${error2.message}`);
+              }).on("error", (error3) => {
+                throw new Error(`Cache upload failed because file read failed with ${error3.message}`);
               }), start, end);
             }
           })));
@@ -57115,8 +57115,8 @@ var require_tar = __commonJS({
               cwd,
               env: Object.assign(Object.assign({}, process.env), { MSYS: "winsymlinks:nativestrict" })
             });
-          } catch (error2) {
-            throw new Error(`${command.split(" ")[0]} failed with error: ${error2 === null || error2 === void 0 ? void 0 : error2.message}`);
+          } catch (error3) {
+            throw new Error(`${command.split(" ")[0]} failed with error: ${error3 === null || error3 === void 0 ? void 0 : error3.message}`);
           }
         }
       });
@@ -57290,18 +57290,18 @@ var require_cache = __commonJS({
           yield (0, tar_1.extractTar)(archivePath, compressionMethod);
           core5.info("Cache restored successfully");
           return cacheEntry.cacheKey;
-        } catch (error2) {
-          const typedError = error2;
+        } catch (error3) {
+          const typedError = error3;
           if (typedError.name === ValidationError.name) {
-            throw error2;
+            throw error3;
           } else {
-            core5.warning(`Failed to restore: ${error2.message}`);
+            core5.warning(`Failed to restore: ${error3.message}`);
           }
         } finally {
           try {
             yield utils.unlinkFile(archivePath);
-          } catch (error2) {
-            core5.debug(`Failed to delete archive: ${error2}`);
+          } catch (error3) {
+            core5.debug(`Failed to delete archive: ${error3}`);
           }
         }
         return void 0;
@@ -57350,10 +57350,10 @@ var require_cache = __commonJS({
           }
           core5.debug(`Saving Cache (ID: ${cacheId})`);
           yield cacheHttpClient.saveCache(cacheId, archivePath, options2);
-        } catch (error2) {
-          const typedError = error2;
+        } catch (error3) {
+          const typedError = error3;
           if (typedError.name === ValidationError.name) {
-            throw error2;
+            throw error3;
           } else if (typedError.name === ReserveCacheError.name) {
             core5.info(`Failed to save: ${typedError.message}`);
           } else {
@@ -57362,8 +57362,8 @@ var require_cache = __commonJS({
         } finally {
           try {
             yield utils.unlinkFile(archivePath);
-          } catch (error2) {
-            core5.debug(`Failed to delete archive: ${error2}`);
+          } catch (error3) {
+            core5.debug(`Failed to delete archive: ${error3}`);
           }
         }
         return cacheId;
@@ -57562,8 +57562,8 @@ var ZodError = class extends Error {
       return issue.message;
     };
     const fieldErrors = { _errors: [] };
-    const processError = (error2) => {
-      for (const issue of error2.issues) {
+    const processError = (error3) => {
+      for (const issue of error3.issues) {
         if (issue.code === "invalid_union") {
           issue.unionErrors.map(processError);
         } else if (issue.code === "invalid_return_type") {
@@ -57620,8 +57620,8 @@ var ZodError = class extends Error {
   }
 };
 ZodError.create = (issues) => {
-  const error2 = new ZodError(issues);
-  return error2;
+  const error3 = new ZodError(issues);
+  return error3;
 };
 var errorMap = (issue, _ctx) => {
   let message;
@@ -57855,8 +57855,8 @@ var handleResult = (ctx, result) => {
       get error() {
         if (this._error)
           return this._error;
-        const error2 = new ZodError(ctx.common.issues);
-        this._error = error2;
+        const error3 = new ZodError(ctx.common.issues);
+        this._error = error3;
         return this._error;
       }
     };
@@ -60257,7 +60257,7 @@ var ZodFunction = class _ZodFunction extends ZodType {
       });
       return INVALID;
     }
-    function makeArgsIssue(args, error2) {
+    function makeArgsIssue(args, error3) {
       return makeIssue({
         data: args,
         path: ctx.path,
@@ -60269,11 +60269,11 @@ var ZodFunction = class _ZodFunction extends ZodType {
         ].filter((x) => !!x),
         issueData: {
           code: ZodIssueCode.invalid_arguments,
-          argumentsError: error2
+          argumentsError: error3
         }
       });
     }
-    function makeReturnsIssue(returns, error2) {
+    function makeReturnsIssue(returns, error3) {
       return makeIssue({
         data: returns,
         path: ctx.path,
@@ -60285,7 +60285,7 @@ var ZodFunction = class _ZodFunction extends ZodType {
         ].filter((x) => !!x),
         issueData: {
           code: ZodIssueCode.invalid_return_type,
-          returnTypeError: error2
+          returnTypeError: error3
         }
       });
     }
@@ -60294,15 +60294,15 @@ var ZodFunction = class _ZodFunction extends ZodType {
     if (this._def.returns instanceof ZodPromise) {
       const me = this;
       return OK(async function(...args) {
-        const error2 = new ZodError([]);
+        const error3 = new ZodError([]);
         const parsedArgs = await me._def.args.parseAsync(args, params).catch((e) => {
-          error2.addIssue(makeArgsIssue(args, e));
-          throw error2;
+          error3.addIssue(makeArgsIssue(args, e));
+          throw error3;
         });
         const result = await Reflect.apply(fn, this, parsedArgs);
         const parsedReturns = await me._def.returns._def.type.parseAsync(result, params).catch((e) => {
-          error2.addIssue(makeReturnsIssue(result, e));
-          throw error2;
+          error3.addIssue(makeReturnsIssue(result, e));
+          throw error3;
         });
         return parsedReturns;
       });
@@ -61278,7 +61278,10 @@ var run = async () => {
   await pixiInstall();
   await generateInfo();
 };
-run().catch((error2) => core4.setFailed(error2.message));
+run().catch((error3) => {
+  core4.error(error3.message);
+  core4.setFailed(error3.message);
+});
 /*! Bundled license information:
 
 mime-db/index.js:
