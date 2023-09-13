@@ -70,13 +70,20 @@ export const PATHS = {
   pixiBin: path.join(os.homedir(), '.pixi', 'bin', `pixi${os.platform() === 'win32' ? '.exe' : ''}`)
 }
 
-const parseOrUndefined = <T>(key: string, schema: z.ZodSchema<T>): T | undefined => {
+const parseOrUndefined = <T>(key: string, schema: z.ZodSchema<T>, errorMessage?: string): T | undefined => {
   const input = core.getInput(key)
   // GitHub actions sets empty inputs to the empty string, but we want undefined
   if (input === '') {
     return undefined
   }
-  return schema.parse(input)
+  const maybeResult = schema.safeParse(input)
+  if (!maybeResult.success) {
+    if (!errorMessage) {
+      throw new Error(`${key} is not valid: ${maybeResult.error.message}`)
+    }
+    throw new Error(errorMessage)
+  }
+  return maybeResult.data
 }
 
 const parseOrUndefinedJSON = <T>(key: string, schema: z.ZodSchema<T>): T | undefined => {
@@ -183,9 +190,14 @@ const assertOptions = (_options: Options) => {
 
 const getOptions = () => {
   const inputs: Inputs = {
-    pixiVersion: parseOrUndefined('pixi-version', z.union([z.literal('latest'), z.string().regex(/^v\d+\.\d+\.\d+$/)])),
+    pixiVersion: parseOrUndefined(
+      'pixi-version',
+      z.union([z.literal('latest'), z.string().regex(/^v\d+\.\d+\.\d+$/)]),
+      'pixi-version must either be `latest` or a version string matching `vX.Y.Z`.'
+    ),
     pixiUrl: parseOrUndefined('pixi-url', z.string().url()),
-    logLevel: parseOrUndefined('log-level', logLevelSchema),
+    logLevel: parseOrUndefined('log-level', logLevelSchema,
+      'log-level must be one of `q`, `default`, `v`, `vv`, `vvv`.'),
     manifestPath: parseOrUndefined('manifest-path', z.string()),
     runInstall: parseOrUndefinedJSON('run-install', z.boolean()),
     cache: parseOrUndefinedJSON('cache', z.boolean()),

@@ -5832,12 +5832,19 @@ var logLevelSchema = enumType(["q", "default", "v", "vv", "vvv"]);
 var PATHS = {
   pixiBin: import_path.default.join(import_os.default.homedir(), ".pixi", "bin", `pixi${import_os.default.platform() === "win32" ? ".exe" : ""}`)
 };
-var parseOrUndefined = (key, schema) => {
+var parseOrUndefined = (key, schema, errorMessage) => {
   const input = core.getInput(key);
   if (input === "") {
     return void 0;
   }
-  return schema.parse(input);
+  const maybeResult = schema.safeParse(input);
+  if (!maybeResult.success) {
+    if (!errorMessage) {
+      throw new Error(`${key} is not valid: ${maybeResult.error.message}`);
+    }
+    throw new Error(errorMessage);
+  }
+  return maybeResult.data;
 };
 var parseOrUndefinedJSON = (key, schema) => {
   const input = core.getInput(key);
@@ -5914,9 +5921,17 @@ var assertOptions = (_options) => {
 };
 var getOptions = () => {
   const inputs = {
-    pixiVersion: parseOrUndefined("pixi-version", unionType([literalType("latest"), stringType().regex(/^v\d+\.\d+\.\d+$/)])),
+    pixiVersion: parseOrUndefined(
+      "pixi-version",
+      unionType([literalType("latest"), stringType().regex(/^v\d+\.\d+\.\d+$/)]),
+      "pixi-version must either be `latest` or a version string matching `vX.Y.Z`."
+    ),
     pixiUrl: parseOrUndefined("pixi-url", stringType().url()),
-    logLevel: parseOrUndefined("log-level", logLevelSchema),
+    logLevel: parseOrUndefined(
+      "log-level",
+      logLevelSchema,
+      "log-level must be one of `q`, `default`, `v`, `vv`, `vvv`."
+    ),
     manifestPath: parseOrUndefined("manifest-path", stringType()),
     runInstall: parseOrUndefinedJSON("run-install", booleanType()),
     cache: parseOrUndefinedJSON("cache", booleanType()),
