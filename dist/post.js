@@ -2152,11 +2152,11 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       command_1.issue("echo", enabled ? "on" : "off");
     }
     exports.setCommandEcho = setCommandEcho;
-    function setFailed(message) {
+    function setFailed2(message) {
       process.exitCode = ExitCode.Failure;
       error(message);
     }
-    exports.setFailed = setFailed;
+    exports.setFailed = setFailed2;
     function isDebug2() {
       return process.env["RUNNER_DEBUG"] === "1";
     }
@@ -5828,6 +5828,7 @@ function untildify(pathWithTilde) {
 }
 
 // src/options.ts
+var import_process = require("process");
 var logLevelSchema = enumType(["q", "default", "v", "vv", "vvv"]);
 var PATHS = {
   pixiBin: import_path.default.join(import_os.default.homedir(), ".pixi", "bin", `pixi${import_os.default.platform() === "win32" ? ".exe" : ""}`)
@@ -5952,6 +5953,18 @@ var getOptions = () => {
   assertOptions(options2);
   return options2;
 };
+try {
+  const options2 = getOptions();
+} catch (error) {
+  if (error instanceof Error) {
+    core.setFailed(error.message);
+    (0, import_process.exit)(1);
+  } else if (typeof error === "string") {
+    core.setFailed(error);
+    (0, import_process.exit)(1);
+  }
+  throw error;
+}
 var options = getOptions();
 
 // src/post.ts

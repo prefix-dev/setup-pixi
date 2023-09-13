@@ -3,6 +3,7 @@ import os from 'os'
 import * as core from '@actions/core'
 import * as z from 'zod'
 import untildify from 'untildify'
+import { exit } from 'process'
 
 type Inputs = {
   pixiVersion?: string
@@ -217,6 +218,21 @@ const getOptions = () => {
   core.debug(`Inferred options: ${JSON.stringify(options)}`)
   assertOptions(options)
   return options
+}
+
+try {
+  const options = getOptions()
+} catch (error) {
+  if (error instanceof Error) {
+    // core.error(error.message)
+    core.setFailed(error.message)
+    exit(1)
+  } else if (typeof error === 'string') {
+    // core.error(error)
+    core.setFailed(error)
+    exit(1)
+  }
+  throw error
 }
 
 export const options = getOptions()
