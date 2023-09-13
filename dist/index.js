@@ -2152,15 +2152,15 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       command_1.issue("echo", enabled2 ? "on" : "off");
     }
     exports.setCommandEcho = setCommandEcho;
-    function setFailed2(message) {
+    function setFailed3(message) {
       process.exitCode = ExitCode.Failure;
       error2(message);
     }
-    exports.setFailed = setFailed2;
-    function isDebug2() {
+    exports.setFailed = setFailed3;
+    function isDebug3() {
       return process.env["RUNNER_DEBUG"] === "1";
     }
-    exports.isDebug = isDebug2;
+    exports.isDebug = isDebug3;
     function debug5(message) {
       command_1.issueCommand("debug", {}, message);
     }
@@ -22602,9 +22602,9 @@ var init_requestPolicy = __esm({
       /**
        * The main method to implement that manipulates a request/response.
        */
-      constructor(_nextPolicy, _options) {
+      constructor(_nextPolicy, _options2) {
         this._nextPolicy = _nextPolicy;
-        this._options = _options;
+        this._options = _options2;
       }
       /**
        * Get whether or not a log with the provided log level should be logged.
@@ -29352,10 +29352,10 @@ var init_userAgentPolicy = __esm({
     init_httpHeaders();
     getDefaultUserAgentHeaderName = getDefaultUserAgentKey;
     UserAgentPolicy = class extends BaseRequestPolicy {
-      constructor(_nextPolicy, _options, headerKey, headerValue) {
-        super(_nextPolicy, _options);
+      constructor(_nextPolicy, _options2, headerKey, headerValue) {
+        super(_nextPolicy, _options2);
         this._nextPolicy = _nextPolicy;
-        this._options = _options;
+        this._options = _options2;
         this.headerKey = headerKey;
         this.headerValue = headerValue;
       }
@@ -30781,7 +30781,7 @@ var init_ProxyTracer = __esm({
       ProxyTracer2.prototype.startSpan = function(name, options2, context3) {
         return this._getTracer().startSpan(name, options2, context3);
       };
-      ProxyTracer2.prototype.startActiveSpan = function(_name, _options, _context, _fn) {
+      ProxyTracer2.prototype.startActiveSpan = function(_name, _options2, _context, _fn) {
         var tracer = this._getTracer();
         return Reflect.apply(tracer.startActiveSpan, tracer, arguments);
       };
@@ -30811,7 +30811,7 @@ var init_NoopTracerProvider = __esm({
     function() {
       function NoopTracerProvider2() {
       }
-      NoopTracerProvider2.prototype.getTracer = function(_name, _version, _options) {
+      NoopTracerProvider2.prototype.getTracer = function(_name, _version, _options2) {
         return new NoopTracer();
       };
       return NoopTracerProvider2;
@@ -46011,7 +46011,7 @@ var init_Credential = __esm({
        * @param _nextPolicy -
        * @param _options -
        */
-      create(_nextPolicy, _options) {
+      create(_nextPolicy, _options2) {
         throw new Error("Method should be implemented in children classes.");
       }
     };
@@ -57377,12 +57377,14 @@ var require_cache = __commonJS({
 var import_promises2 = __toESM(require("fs/promises"));
 var import_os3 = __toESM(require("os"));
 var import_path3 = __toESM(require("path"));
+var import_process2 = require("process");
 var core4 = __toESM(require_core());
 var import_tool_cache = __toESM(require_tool_cache());
 
 // src/options.ts
 var import_path = __toESM(require("path"));
 var import_os = __toESM(require("os"));
+var import_process = require("process");
 var core = __toESM(require_core());
 
 // node_modules/.pnpm/zod@3.22.2/node_modules/zod/lib/index.mjs
@@ -60965,12 +60967,19 @@ var logLevelSchema = enumType(["q", "default", "v", "vv", "vvv"]);
 var PATHS = {
   pixiBin: import_path.default.join(import_os.default.homedir(), ".pixi", "bin", `pixi${import_os.default.platform() === "win32" ? ".exe" : ""}`)
 };
-var parseOrUndefined = (key, schema) => {
+var parseOrUndefined = (key, schema, errorMessage) => {
   const input = core.getInput(key);
   if (input === "") {
     return void 0;
   }
-  return schema.parse(input);
+  const maybeResult = schema.safeParse(input);
+  if (!maybeResult.success) {
+    if (!errorMessage) {
+      throw new Error(`${key} is not valid: ${maybeResult.error.message}`);
+    }
+    throw new Error(errorMessage);
+  }
+  return maybeResult.data;
 };
 var parseOrUndefinedJSON = (key, schema) => {
   const input = core.getInput(key);
@@ -61043,13 +61052,21 @@ var inferOptions = (inputs) => {
     postCleanup
   };
 };
-var assertOptions = (_options) => {
+var assertOptions = (_options2) => {
 };
 var getOptions = () => {
   const inputs = {
-    pixiVersion: parseOrUndefined("pixi-version", unionType([literalType("latest"), stringType().regex(/^v\d+\.\d+\.\d+$/)])),
+    pixiVersion: parseOrUndefined(
+      "pixi-version",
+      unionType([literalType("latest"), stringType().regex(/^v\d+\.\d+\.\d+$/)]),
+      "pixi-version must either be `latest` or a version string matching `vX.Y.Z`."
+    ),
     pixiUrl: parseOrUndefined("pixi-url", stringType().url()),
-    logLevel: parseOrUndefined("log-level", logLevelSchema),
+    logLevel: parseOrUndefined(
+      "log-level",
+      logLevelSchema,
+      "log-level must be one of `q`, `default`, `v`, `vv`, `vvv`."
+    ),
     manifestPath: parseOrUndefined("manifest-path", stringType()),
     runInstall: parseOrUndefinedJSON("run-install", booleanType()),
     cache: parseOrUndefinedJSON("cache", booleanType()),
@@ -61070,7 +61087,23 @@ var getOptions = () => {
   assertOptions(options2);
   return options2;
 };
-var options = getOptions();
+var _options;
+try {
+  _options = getOptions();
+} catch (error2) {
+  if (core.isDebug()) {
+    throw error2;
+  }
+  if (error2 instanceof Error) {
+    core.setFailed(error2.message);
+    (0, import_process.exit)(1);
+  } else if (typeof error2 === "string") {
+    core.setFailed(error2);
+    (0, import_process.exit)(1);
+  }
+  throw error2;
+}
+var options = _options;
 
 // src/util.ts
 var import_crypto4 = require("crypto");
@@ -61263,7 +61296,19 @@ var run = async () => {
   await pixiInstall();
   await generateInfo();
 };
-run().catch((error2) => core4.setFailed(error2.message));
+run().catch((error2) => {
+  if (core4.isDebug()) {
+    throw error2;
+  }
+  if (error2 instanceof Error) {
+    core4.setFailed(error2.message);
+    (0, import_process2.exit)(1);
+  } else if (typeof error2 === "string") {
+    core4.setFailed(error2);
+    (0, import_process2.exit)(1);
+  }
+  throw error2;
+});
 /*! Bundled license information:
 
 mime-db/index.js:
