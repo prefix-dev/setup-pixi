@@ -418,6 +418,6 @@ jobs:
         run: mv test/default/* .
       - uses: ./
         with:
-          version: 0.1.0
+          pixi-version: 0.1.0
       - run: exit 1
         if: success()
