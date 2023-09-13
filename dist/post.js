@@ -5957,6 +5957,9 @@ var _options;
 try {
   _options = getOptions();
 } catch (error) {
+  if (core.isDebug()) {
+    throw error;
+  }
   if (error instanceof Error) {
     core.setFailed(error.message);
     (0, import_process.exit)(1);

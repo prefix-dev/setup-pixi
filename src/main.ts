@@ -71,12 +71,13 @@ const run = async () => {
 }
 
 run().catch((error) => {
+  if (core.isDebug()) {
+    throw error
+  }
   if (error instanceof Error) {
-    core.error(error.message)
     core.setFailed(error.message)
     exit(1)
   } else if (typeof error === 'string') {
-    core.error(error)
     core.setFailed(error)
     exit(1)
   }
