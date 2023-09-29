@@ -446,3 +446,19 @@ jobs:
   #         cache-key: test-cache-no-lockfile-${{ github.sha }}-${{ github.run_attempt }}-
   #     - run: exit 1
   #       if: success()
+
+  # test-incorrect-version:
+  #   runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       os: [windows-latest, ubuntu-latest, macos-latest]
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Move pixi files
+  #       run: mv test/default/* .
+  #     - uses: ./
+  #       with:
+  #         pixi-version: 0.1.0
+  #     - run: exit 1
+  #       if: success()

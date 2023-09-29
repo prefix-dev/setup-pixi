@@ -33,9 +33,9 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// node_modules/.pnpm/@actions+core@1.10.0/node_modules/@actions/core/lib/utils.js
+// node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/lib/utils.js
 var require_utils = __commonJS({
-  "node_modules/.pnpm/@actions+core@1.10.0/node_modules/@actions/core/lib/utils.js"(exports) {
+  "node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/lib/utils.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.toCommandProperties = exports.toCommandValue = void 0;
@@ -65,9 +65,9 @@ var require_utils = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@actions+core@1.10.0/node_modules/@actions/core/lib/command.js
+// node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/lib/command.js
 var require_command = __commonJS({
-  "node_modules/.pnpm/@actions+core@1.10.0/node_modules/@actions/core/lib/command.js"(exports) {
+  "node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/lib/command.js"(exports) {
     "use strict";
     var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
       if (k2 === void 0)
@@ -500,9 +500,9 @@ var init_esm_node = __esm({
   }
 });
 
-// node_modules/.pnpm/@actions+core@1.10.0/node_modules/@actions/core/lib/file-command.js
+// node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/lib/file-command.js
 var require_file_command = __commonJS({
-  "node_modules/.pnpm/@actions+core@1.10.0/node_modules/@actions/core/lib/file-command.js"(exports) {
+  "node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/lib/file-command.js"(exports) {
     "use strict";
     var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
       if (k2 === void 0)
@@ -1570,9 +1570,9 @@ var require_auth = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@actions+core@1.10.0/node_modules/@actions/core/lib/oidc-utils.js
+// node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/lib/oidc-utils.js
 var require_oidc_utils = __commonJS({
-  "node_modules/.pnpm/@actions+core@1.10.0/node_modules/@actions/core/lib/oidc-utils.js"(exports) {
+  "node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/lib/oidc-utils.js"(exports) {
     "use strict";
     var __awaiter = exports && exports.__awaiter || function(thisArg, _arguments, P, generator) {
       function adopt(value) {
@@ -1637,7 +1637,7 @@ var require_oidc_utils = __commonJS({
  
         Error Code : ${error.statusCode}
  
-        Error Message: ${error.result.message}`);
+        Error Message: ${error.message}`);
           });
           const id_token = (_a = res.result) === null || _a === void 0 ? void 0 : _a.value;
           if (!id_token) {
@@ -1668,9 +1668,9 @@ var require_oidc_utils = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@actions+core@1.10.0/node_modules/@actions/core/lib/summary.js
+// node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/lib/summary.js
 var require_summary = __commonJS({
-  "node_modules/.pnpm/@actions+core@1.10.0/node_modules/@actions/core/lib/summary.js"(exports) {
+  "node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/lib/summary.js"(exports) {
     "use strict";
     var __awaiter = exports && exports.__awaiter || function(thisArg, _arguments, P, generator) {
       function adopt(value) {
@@ -1962,9 +1962,9 @@ var require_summary = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@actions+core@1.10.0/node_modules/@actions/core/lib/path-utils.js
+// node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/lib/path-utils.js
 var require_path_utils = __commonJS({
-  "node_modules/.pnpm/@actions+core@1.10.0/node_modules/@actions/core/lib/path-utils.js"(exports) {
+  "node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/lib/path-utils.js"(exports) {
     "use strict";
     var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
       if (k2 === void 0)
@@ -2012,9 +2012,9 @@ var require_path_utils = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@actions+core@1.10.0/node_modules/@actions/core/lib/core.js
+// node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/lib/core.js
 var require_core = __commonJS({
-  "node_modules/.pnpm/@actions+core@1.10.0/node_modules/@actions/core/lib/core.js"(exports) {
+  "node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/lib/core.js"(exports) {
     "use strict";
     var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
       if (k2 === void 0)
@@ -2152,15 +2152,15 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       command_1.issue("echo", enabled ? "on" : "off");
     }
     exports.setCommandEcho = setCommandEcho;
-    function setFailed(message) {
+    function setFailed3(message) {
       process.exitCode = ExitCode.Failure;
       error(message);
     }
-    exports.setFailed = setFailed;
-    function isDebug2() {
+    exports.setFailed = setFailed3;
+    function isDebug3() {
       return process.env["RUNNER_DEBUG"] === "1";
     }
-    exports.isDebug = isDebug2;
+    exports.isDebug = isDebug3;
     function debug3(message) {
       command_1.issueCommand("debug", {}, message);
     }
@@ -2245,11 +2245,13 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
 var import_promises = __toESM(require("fs/promises"));
 var import_path2 = __toESM(require("path"));
 var os3 = __toESM(require("os"));
+var import_process2 = require("process");
 var core2 = __toESM(require_core());
 
 // src/options.ts
 var import_path = __toESM(require("path"));
 var import_os = __toESM(require("os"));
+var import_process = require("process");
 var core = __toESM(require_core());
 
 // node_modules/.pnpm/zod@3.22.2/node_modules/zod/lib/index.mjs
@@ -5832,12 +5834,19 @@ var logLevelSchema = enumType(["q", "default", "v", "vv", "vvv"]);
 var PATHS = {
   pixiBin: import_path.default.join(import_os.default.homedir(), ".pixi", "bin", `pixi${import_os.default.platform() === "win32" ? ".exe" : ""}`)
 };
-var parseOrUndefined = (key, schema) => {
+var parseOrUndefined = (key, schema, errorMessage) => {
   const input = core.getInput(key);
   if (input === "") {
     return void 0;
   }
-  return schema.parse(input);
+  const maybeResult = schema.safeParse(input);
+  if (!maybeResult.success) {
+    if (!errorMessage) {
+      throw new Error(`${key} is not valid: ${maybeResult.error.message}`);
+    }
+    throw new Error(errorMessage);
+  }
+  return maybeResult.data;
 };
 var parseOrUndefinedJSON = (key, schema) => {
   const input = core.getInput(key);
@@ -5910,13 +5919,21 @@ var inferOptions = (inputs) => {
     postCleanup
   };
 };
-var assertOptions = (_options) => {
+var assertOptions = (_options2) => {
 };
 var getOptions = () => {
   const inputs = {
-    pixiVersion: parseOrUndefined("pixi-version", unionType([literalType("latest"), stringType().regex(/^v\d+\.\d+\.\d+$/)])),
+    pixiVersion: parseOrUndefined(
+      "pixi-version",
+      unionType([literalType("latest"), stringType().regex(/^v\d+\.\d+\.\d+$/)]),
+      "pixi-version must either be `latest` or a version string matching `vX.Y.Z`."
+    ),
     pixiUrl: parseOrUndefined("pixi-url", stringType().url()),
-    logLevel: parseOrUndefined("log-level", logLevelSchema),
+    logLevel: parseOrUndefined(
+      "log-level",
+      logLevelSchema,
+      "log-level must be one of `q`, `default`, `v`, `vv`, `vvv`."
+    ),
     manifestPath: parseOrUndefined("manifest-path", stringType()),
     runInstall: parseOrUndefinedJSON("run-install", booleanType()),
     cache: parseOrUndefinedJSON("cache", booleanType()),
@@ -5937,7 +5954,23 @@ var getOptions = () => {
   assertOptions(options2);
   return options2;
 };
-var options = getOptions();
+var _options;
+try {
+  _options = getOptions();
+} catch (error) {
+  if (core.isDebug()) {
+    throw error;
+  }
+  if (error instanceof Error) {
+    core.setFailed(error.message);
+    (0, import_process.exit)(1);
+  } else if (typeof error === "string") {
+    core.setFailed(error);
+    (0, import_process.exit)(1);
+  }
+  throw error;
+}
+var options = _options;
 
 // src/post.ts
 var removeEmptyParentDirs = (dirPath) => {
@@ -5996,5 +6029,17 @@ var run = () => {
   core2.debug("Skipping post-cleanup.");
   return Promise.resolve();
 };
-run();
+run().catch((error) => {
+  if (core2.isDebug()) {
+    throw error;
+  }
+  if (error instanceof Error) {
+    core2.setFailed(error.message);
+    (0, import_process2.exit)(1);
+  } else if (typeof error === "string") {
+    core2.setFailed(error);
+    (0, import_process2.exit)(1);
+  }
+  throw error;
+});
 //# sourceMappingURL=post.js.map
