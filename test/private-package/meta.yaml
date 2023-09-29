@@ -1,0 +1,28 @@
+package:
+  name: private-package
+  version: 0.0.1
+
+build:
+  noarch: python
+  script: echo this is a noop
+  number: 0
+
+requirements:
+  run:
+    - python >=3.9
+
+test:
+  commands:
+    - echo this is a noop
+
+about:
+  home: http://github.com/prefix-dev/setup-pixi
+  license: BSD-3-Clause
+  license_file: LICENSE
+  description: |
+    This is a test package for setup-pixi.
+  dev_url: http://github.com/prefix-dev/setup-pixi
+
+extra:
+  recipe-maintainers:
+    - pavelzw

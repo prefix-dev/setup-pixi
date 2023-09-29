@@ -1,0 +1,14 @@
+[project]
+name = "test-auth"
+version = "0.1.0"
+description = "Add a short description here"
+authors = ["Pavel"]
+channels = ["conda-forge", "https://repo.prefix.dev/setup-pixi-test"]
+platforms = ["osx-arm64", "osx-64", "linux-64", "linux-aarch64", "win-64"]
+
+[tasks]
+test = "python -c 'print(\"Hello world!\")'"
+
+[dependencies]
+python = "3.9.*"
+private-package = "*"
