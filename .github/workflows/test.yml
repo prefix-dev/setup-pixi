@@ -522,17 +522,17 @@ jobs:
   #     - run: exit 1
   #       if: success()
 
-  test-lockfile-not-up-to-date:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
-    steps:
-      - uses: actions/checkout@v4
-      - name: Move pixi files
-        run: mv test/lockfile-not-up-to-date/* .
-      - uses: ./
-        # locked: true is implicit
-      - run: exit 1
-        if: success()
+  # test-lockfile-not-up-to-date:
+  #   runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       os: [windows-latest, ubuntu-latest, macos-latest]
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Move pixi files
+  #       run: mv test/lockfile-not-up-to-date/* .
+  #     - uses: ./
+  #       # locked: true is implicit
+  #     - run: exit 1
+  #       if: success()

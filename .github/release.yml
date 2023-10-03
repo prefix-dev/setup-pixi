@@ -3,21 +3,24 @@ changelog:
     labels:
       - ignore for release
   categories:
-    - title: New features
+    - title: 💥 Breaking changes
+      labels:
+        - breaking
+    - title: ✨ New features
       labels:
         - enhancement
-    - title: CI
+    - title: 👷🏻 CI
       labels:
         - ci
-    - title: Bug fixes
+    - title: 🐛 Bug fixes
       labels:
         - bug
-    - title: Documentation
+    - title: 📝 Documentation
       labels:
         - documentation
-    - title: Dependency updates
+    - title: ⬆️ Dependency updates
       labels:
         - dependencies
-    - title: Other changes
+    - title: 🤷🏻 Other changes
       labels:
         - "*"
