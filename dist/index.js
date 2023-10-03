@@ -57385,6 +57385,7 @@ var import_tool_cache = __toESM(require_tool_cache());
 var import_path = __toESM(require("path"));
 var import_os = __toESM(require("os"));
 var import_process = require("process");
+var import_fs = require("fs");
 var core = __toESM(require_core());
 
 // node_modules/.pnpm/zod@3.22.2/node_modules/zod/lib/index.mjs
@@ -60998,6 +60999,15 @@ var validateInputs = (inputs) => {
   if (inputs.runInstall === false && inputs.cache === true) {
     throw new Error("Cannot cache without running install");
   }
+  if (inputs.runInstall === false && inputs.frozen === true) {
+    throw new Error("Cannot use `frozen: true` when not running install");
+  }
+  if (inputs.runInstall === false && inputs.locked === true) {
+    throw new Error("Cannot use `locked: true` when not running install");
+  }
+  if (inputs.locked === true && inputs.frozen === true) {
+    throw new Error("Cannot use `locked: true` and `frozen: true` at the same time");
+  }
   if (inputs.authUsername && !inputs.authPassword || !inputs.authUsername && inputs.authPassword) {
     throw new Error("You need to specify both auth-username and auth-password");
   }
@@ -61027,6 +61037,10 @@ var inferOptions = (inputs) => {
   const cache2 = inputs.cacheKey ? { cacheKeyPrefix: inputs.cacheKey, cacheWrite: inputs.cacheWrite ?? true } : inputs.cache ? { cacheKeyPrefix: "pixi-", cacheWrite: true } : void 0;
   const pixiBinPath = inputs.pixiBinPath ? import_path.default.resolve(untildify(inputs.pixiBinPath)) : PATHS.pixiBin;
   const pixiRunShell = import_path.default.join(import_path.default.dirname(pixiBinPath), "pixi-shell");
+  const locked = inputs.locked ?? false;
+  const lockFileAvailable = (0, import_fs.existsSync)(pixiLockFile);
+  core.debug(`lockFileAvailable: ${lockFileAvailable}`);
+  const frozen = inputs.frozen ?? lockFileAvailable;
   const auth = !inputs.authHost ? void 0 : inputs.authToken ? {
     host: inputs.authHost,
     token: inputs.authToken
@@ -61045,6 +61059,8 @@ var inferOptions = (inputs) => {
     manifestPath,
     pixiLockFile,
     runInstall,
+    frozen,
+    locked,
     cache: cache2,
     pixiBinPath,
     pixiRunShell,
@@ -61069,6 +61085,8 @@ var getOptions = () => {
     ),
     manifestPath: parseOrUndefined("manifest-path", stringType()),
     runInstall: parseOrUndefinedJSON("run-install", booleanType()),
+    locked: parseOrUndefinedJSON("locked", booleanType()),
+    frozen: parseOrUndefinedJSON("frozen", booleanType()),
     cache: parseOrUndefinedJSON("cache", booleanType()),
     cacheKey: parseOrUndefined("cache-key", stringType()),
     cacheWrite: parseOrUndefinedJSON("cache-write", booleanType()),

@@ -66,6 +66,46 @@ jobs:
           pixi-version: v0.1.0
       - run: pixi --version | grep -q "pixi 0.1.0"
 
+  frozen:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi.toml
+        run: mv test/default/* .
+      - uses: ./
+        with:
+          frozen: true
+      - run: |
+          set -o pipefail
+          pixi info
+          test -f .pixi/env/bin/python
+          ./.pixi/env/bin/python --version | grep -q 3.11
+        shell: bash
+      - run: pixi run python --version | grep -q 3.11
+
+  locked:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi.toml
+        run: mv test/default/* .
+      - uses: ./
+        with:
+          locked: true
+      - run: |
+          set -o pipefail
+          pixi info
+          test -f .pixi/env/bin/python
+          ./.pixi/env/bin/python --version | grep -q 3.11
+        shell: bash
+      - run: pixi run python --version | grep -q 3.11
+
   custom-pixi-url:
     runs-on: ubuntu-latest
     steps:
@@ -438,3 +478,53 @@ jobs:
   #         pixi-version: 0.1.0
   #     - run: exit 1
   #       if: success()
+
+  test-frozen-and-locked:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi files
+        run: mv test/default/* .
+      - uses: ./
+        with:
+          pixi-version: v0.5.0
+          frozen: true
+          locked: true
+      - run: exit 1
+        if: success()
+
+  test-frozen-no-lockfile:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi files
+        run: mv test/no-lockfile/* .
+      - uses: ./
+        with:
+          frozen: true
+      - run: exit 1
+        if: success()
+
+  test-locked-no-lockfile:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi files
+        run: mv test/no-lockfile/* .
+      - uses: ./
+        with:
+          locked: true
+      - run: exit 1
+        if: success()
