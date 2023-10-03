@@ -10,6 +10,5 @@ platforms = ["linux-64", "osx-64", "osx-arm64", "win-64"]
 test = "python -c 'print(\"Hello world!\")'"
 
 [dependencies]
-# the pixi.lock in this repo contains pixi 0.4.0
-# this is not the latest version, so `locked: true` should fail
-pixi = "*"
+# the lockfile still has python 3.10.*
+python = "3.11.*"

@@ -131,17 +131,17 @@ You can even run python scripts like this:
 ### `--frozen` and `--locked`
 
 You can specify whether `setup-pixi` should run `pixi install --frozen` or `pixi install --locked` depending on the `frozen` or the `locked` input argument.
+See the [official documentation](https://prefix.dev/docs/pixi/cli#install) for more information about the `--frozen` and `--locked` flags.
 
 ```yml
 - uses: prefix-dev/setup-pixi@v0.3.0
   with:
-    frozen: true
-    # or
-    # locked will result in your CI failing if the lockfile is not up to date
     locked: true
+    # or
+    frozen: true
 ```
 
-If you don't specify anything, the default behavior is to run `pixi install --frozen` if a `pixi.lock` file is present and `pixi install` otherwise.
+If you don't specify anything, the default behavior is to run `pixi install --locked` if a `pixi.lock` file is present and `pixi install` otherwise.
 
 ### Debugging
 

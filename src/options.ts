@@ -162,10 +162,10 @@ const inferOptions = (inputs: Inputs): Options => {
     : undefined
   const pixiBinPath = inputs.pixiBinPath ? path.resolve(untildify(inputs.pixiBinPath)) : PATHS.pixiBin
   const pixiRunShell = path.join(path.dirname(pixiBinPath), 'pixi-shell')
-  const locked = inputs.locked ?? false
+  const frozen = inputs.frozen ?? false
   const lockFileAvailable = existsSync(pixiLockFile)
+  const locked = inputs.locked ?? (lockFileAvailable && !frozen)
   core.debug(`lockFileAvailable: ${lockFileAvailable}`)
-  const frozen = inputs.frozen ?? lockFileAvailable
   const auth = !inputs.authHost
     ? undefined
     : ((inputs.authToken

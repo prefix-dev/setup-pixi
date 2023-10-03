@@ -532,7 +532,7 @@ jobs:
   #     - run: exit 1
   #       if: success()
 
-  test-locked-out-of-date:
+  test-lockfile-not-up-to-date:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -541,9 +541,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Move pixi files
-        run: mv test/lockfile-out-of-date/* .
+        run: mv test/lockfile-not-up-to-date/* .
       - uses: ./
-        with:
-          locked: true
+        # locked: true is implicit
       - run: exit 1
         if: success()
