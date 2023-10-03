@@ -5904,10 +5904,10 @@ var inferOptions = (inputs) => {
   const cache = inputs.cacheKey ? { cacheKeyPrefix: inputs.cacheKey, cacheWrite: inputs.cacheWrite ?? true } : inputs.cache ? { cacheKeyPrefix: "pixi-", cacheWrite: true } : void 0;
   const pixiBinPath = inputs.pixiBinPath ? import_path.default.resolve(untildify(inputs.pixiBinPath)) : PATHS.pixiBin;
   const pixiRunShell = import_path.default.join(import_path.default.dirname(pixiBinPath), "pixi-shell");
-  const locked = inputs.locked ?? false;
+  const frozen = inputs.frozen ?? false;
   const lockFileAvailable = (0, import_fs.existsSync)(pixiLockFile);
+  const locked = inputs.locked ?? (lockFileAvailable && !frozen);
   core.debug(`lockFileAvailable: ${lockFileAvailable}`);
-  const frozen = inputs.frozen ?? lockFileAvailable;
   const auth = !inputs.authHost ? void 0 : inputs.authToken ? {
     host: inputs.authHost,
     token: inputs.authToken
