@@ -489,7 +489,6 @@ jobs:
   #     - run: exit 1
   #       if: success()
 
-  # TODO: this is an xfail right now. https://github.com/prefix-dev/pixi/issues/371
   # test-frozen-no-lockfile:
   #   runs-on: ${{ matrix.os }}
   #   strategy:
