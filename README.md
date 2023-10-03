@@ -135,9 +135,10 @@ You can specify whether `setup-pixi` should run `pixi install --frozen` or `pixi
 ```yml
 - uses: prefix-dev/setup-pixi@v0.3.0
   with:
-    locked: true
-    # or
     frozen: true
+    # or
+    # locked will result in your CI failing if the lockfile is not up to date
+    locked: true
 ```
 
 If you don't specify anything, the default behavior is to run `pixi install --frozen` if a `pixi.lock` file is present and `pixi install` otherwise.

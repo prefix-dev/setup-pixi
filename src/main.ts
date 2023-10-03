@@ -54,7 +54,9 @@ const pixiInstall = async () => {
     return Promise.resolve()
   }
   return tryRestoreCache()
-    .then((_cacheKey) => execute(pixiCmd(`install${options.frozen ? ' --frozen' : ''}${options.locked ? ' --locked' : ''}`)))
+    .then((_cacheKey) =>
+      execute(pixiCmd(`install${options.frozen ? ' --frozen' : ''}${options.locked ? ' --locked' : ''}`))
+    )
     .then(saveCache)
 }
 

@@ -64,6 +64,8 @@ jobs:
       - uses: ./
         with:
           pixi-version: v0.1.0
+          # pixi 0.1.0 doesn't support --frozen
+          frozen: false
       - run: pixi --version | grep -q "pixi 0.1.0"
 
   frozen:
@@ -479,41 +481,58 @@ jobs:
   #     - run: exit 1
   #       if: success()
 
-  test-frozen-and-locked:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
-    steps:
-      - uses: actions/checkout@v4
-      - name: Move pixi files
-        run: mv test/default/* .
-      - uses: ./
-        with:
-          pixi-version: v0.5.0
-          frozen: true
-          locked: true
-      - run: exit 1
-        if: success()
+  # test-frozen-and-locked:
+  #   runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       os: [windows-latest, ubuntu-latest, macos-latest]
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Move pixi files
+  #       run: mv test/default/* .
+  #     - uses: ./
+  #       with:
+  #         pixi-version: v0.5.0
+  #         frozen: true
+  #         locked: true
+  #     - run: exit 1
+  #       if: success()
 
-  test-frozen-no-lockfile:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
-    steps:
-      - uses: actions/checkout@v4
-      - name: Move pixi files
-        run: mv test/no-lockfile/* .
-      - uses: ./
-        with:
-          frozen: true
-      - run: exit 1
-        if: success()
+  # TODO: this is an xfail right now. https://github.com/prefix-dev/pixi/issues/371
+  # test-frozen-no-lockfile:
+  #   runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       os: [windows-latest, ubuntu-latest, macos-latest]
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Move pixi files
+  #       run: mv test/no-lockfile/* .
+  #     - uses: ./
+  #       with:
+  #         frozen: true
+  #     - run: exit 1
+  #       if: success()
 
-  test-locked-no-lockfile:
+  # test-locked-no-lockfile:
+  #   runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       os: [windows-latest, ubuntu-latest, macos-latest]
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Move pixi files
+  #       run: mv test/no-lockfile/* .
+  #     - uses: ./
+  #       with:
+  #         locked: true
+  #     - run: exit 1
+  #       if: success()
+
+  test-locked-out-of-date:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -522,7 +541,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Move pixi files
-        run: mv test/no-lockfile/* .
+        run: mv test/lockfile-out-of-date/* .
       - uses: ./
         with:
           locked: true

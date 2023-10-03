@@ -4,10 +4,12 @@ version = "0.1.0"
 description = "Add a short description here"
 authors = ["Pavel Zwerschke <pavelzw@gmail.com>"]
 channels = ["conda-forge"]
-platforms = ["linux-64", "osx-64", "win-64"]
+platforms = ["linux-64", "osx-64", "osx-arm64", "win-64"]
 
 [tasks]
 test = "python -c 'print(\"Hello world!\")'"
 
 [dependencies]
-python = "3.11.*"
+# the pixi.lock in this repo contains pixi 0.4.0
+# this is not the latest version, so `locked: true` should fail
+pixi = "*"
