@@ -61302,7 +61302,7 @@ var pixiInstall = async () => {
     core4.debug("Skipping pixi install.");
     return Promise.resolve();
   }
-  return tryRestoreCache().then((_cacheKey) => execute(pixiCmd("install"))).then(saveCache2);
+  return tryRestoreCache().then((_cacheKey) => execute(pixiCmd(`install${options.frozen ? " --frozen" : ""}${options.locked ? " --locked" : ""}`))).then(saveCache2);
 };
 var generateInfo = () => core4.group("pixi info", () => execute(pixiCmd("info")));
 var run = async () => {
