@@ -18,6 +18,10 @@ inputs:
     description: Path to the manifest file (i.e., `pixi.toml`) to use for the pixi CLI. Defaults to `pixi.toml`.
   run-install:
     description: Whether to run `pixi install` after setting up the environment. Defaults to `true`.
+  locked:
+    description: Whether to use `pixi install --locked`. Defaults to `true` when the lockfile is present, otherwise `false`.
+  frozen:
+    description: Whether to use `pixi install --frozen`. Defaults to `false`.
   cache:
     description: Whether to cache the pixi environment. Defaults to `true`. Only works if `pixi.lock` is present.
   cache-key:

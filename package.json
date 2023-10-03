@@ -1,6 +1,6 @@
 {
   "name": "setup-pixi",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "private": true,
   "description": "Action to set up the pixi package manager.",
   "scripts": {
@@ -30,7 +30,7 @@
     "zod": "^3.22.2"
   },
   "devDependencies": {
-    "@types/node": "^20.8.0",
+    "@types/node": "^20.8.2",
     "@typescript-eslint/eslint-plugin": "^6.7.3",
     "@typescript-eslint/parser": "^6.7.3",
     "eslint": "^8.50.0",

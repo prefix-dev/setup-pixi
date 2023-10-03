@@ -23,9 +23,9 @@ GitHub Action to set up the [pixi](https://github.com/prefix-dev/pixi) package m
 ## Usage
 
 ```yml
-- uses: prefix-dev/setup-pixi@v0.2.1
+- uses: prefix-dev/setup-pixi@v0.3.0
   with:
-    pixi-version: v0.3.0
+    pixi-version: v0.5.0
     cache: true
     auth-host: prefix.dev
     auth-token: ${{ secrets.PREFIX_DEV_TOKEN }}
@@ -34,7 +34,7 @@ GitHub Action to set up the [pixi](https://github.com/prefix-dev/pixi) package m
 
 > [!WARNING]
 > Since pixi is not yet stable, the API of this action may change between minor versions.
-> Please pin the versions of this action to a specific version (i.e., `prefix-dev/setup-pixi@v0.2.1`) to avoid breaking changes.
+> Please pin the versions of this action to a specific version (i.e., `prefix-dev/setup-pixi@v0.3.0`) to avoid breaking changes.
 > You can automatically update the version of this action by using [Dependabot](https://docs.github.com/en/code-security/dependabot/working-with-dependabot/keeping-your-actions-up-to-date-with-dependabot).
 
 ## Features
@@ -71,7 +71,7 @@ Specify the token using the `auth-token` input argument.
 This form of authentication (bearer token in the request headers) is mainly used at [prefix.dev](https://prefix.dev).
 
 ```yml
-- uses: prefix-dev/setup-pixi@v0.2.1
+- uses: prefix-dev/setup-pixi@v0.3.0
   with:
     auth-host: prefix.dev
     auth-token: ${{ secrets.PREFIX_DEV_TOKEN }}
@@ -83,7 +83,7 @@ Specify the username and password using the `auth-username` and `auth-password` 
 This form of authentication (HTTP Basic Auth) is used in some enterprise environments with [artifactory](https://jfrog.com/artifactory) for example.
 
 ```yml
-- uses: prefix-dev/setup-pixi@v0.2.1
+- uses: prefix-dev/setup-pixi@v0.3.0
   with:
     auth-host: custom-artifactory.com
     auth-username: ${{ secrets.PIXI_USERNAME }}
@@ -96,7 +96,7 @@ Specify the conda-token using the `conda-token` input argument.
 This form of authentication (token is encoded in URL: `https://my-quetz-instance.com/t/<token>/get/custom-channel`) is used at [anaconda.org](https://anaconda.org) or with [quetz instances](https://github.com/mamba-org/quetz).
 
 ```yml
-- uses: prefix-dev/setup-pixi@v0.2.1
+- uses: prefix-dev/setup-pixi@v0.3.0
   with:
     auth-host: anaconda.org # or my-quetz-instance.com
     conda-token: ${{ secrets.CONDA_TOKEN }}
@@ -128,6 +128,21 @@ You can even run python scripts like this:
 > This file does not have the executable bit set, so you cannot use `shell: pixi run {0}` directly but instead have to use `shell: pixi run bash {0}`.
 > See the [official documentation](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#custom-shell) and [ADR 0277](https://github.com/actions/runner/blob/main/docs/adrs/0277-run-action-shell-options.md) for more information about how the `shell:` input works in GitHub Actions.
 
+### `--frozen` and `--locked`
+
+You can specify whether `setup-pixi` should run `pixi install --frozen` or `pixi install --locked` depending on the `frozen` or the `locked` input argument.
+See the [official documentation](https://prefix.dev/docs/pixi/cli#install) for more information about the `--frozen` and `--locked` flags.
+
+```yml
+- uses: prefix-dev/setup-pixi@v0.3.0
+  with:
+    locked: true
+    # or
+    frozen: true
+```
+
+If you don't specify anything, the default behavior is to run `pixi install --locked` if a `pixi.lock` file is present and `pixi install` otherwise.
+
 ### Debugging
 
 There are two types of debug logging that you can enable.
@@ -138,7 +153,7 @@ The first one is the debug logging of the action itself.
 This can be enabled by running the action with the `RUNNER_DEBUG` environment variable set to `true`.
 
 ```yml
-- uses: prefix-dev/setup-pixi@v0.2.1
+- uses: prefix-dev/setup-pixi@v0.3.0
   env:
     RUNNER_DEBUG: true
 ```
@@ -156,7 +171,7 @@ The second type is the debug logging of the pixi executable.
 This can be specified by setting the `log-level` input.
 
 ```yml
-- uses: prefix-dev/setup-pixi@v0.2.1
+- uses: prefix-dev/setup-pixi@v0.3.0
   with:
     # one of `q`, `default`, `v`, `vv`, or `vvv`.
     log-level: vvv
@@ -180,7 +195,7 @@ If you set `post-cleanup` to `true`, the action will delete the following files:
 If nothing is specified, `setup-pixi` will default to `true`.
 
 ```yml
-- uses: prefix-dev/setup-pixi@v0.2.1
+- uses: prefix-dev/setup-pixi@v0.3.0
   with:
     post-cleanup: false
 ```

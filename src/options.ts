@@ -1,6 +1,7 @@
 import path from 'path'
 import os from 'os'
 import { exit } from 'process'
+import { existsSync } from 'fs'
 import * as core from '@actions/core'
 import * as z from 'zod'
 import untildify from 'untildify'
@@ -11,6 +12,8 @@ type Inputs = {
   logLevel?: LogLevel
   manifestPath?: string
   runInstall?: boolean
+  frozen?: boolean
+  locked?: boolean
   cache?: boolean
   cacheKey?: string
   cacheWrite?: boolean
@@ -57,6 +60,8 @@ export type Options = Readonly<{
   manifestPath: string
   pixiLockFile: string
   runInstall: boolean
+  frozen: boolean
+  locked: boolean
   cache?: Cache
   pixiBinPath: string
   pixiRunShell: string
@@ -106,6 +111,15 @@ const validateInputs = (inputs: Inputs): void => {
   if (inputs.runInstall === false && inputs.cache === true) {
     throw new Error('Cannot cache without running install')
   }
+  if (inputs.runInstall === false && inputs.frozen === true) {
+    throw new Error('Cannot use `frozen: true` when not running install')
+  }
+  if (inputs.runInstall === false && inputs.locked === true) {
+    throw new Error('Cannot use `locked: true` when not running install')
+  }
+  if (inputs.locked === true && inputs.frozen === true) {
+    throw new Error('Cannot use `locked: true` and `frozen: true` at the same time')
+  }
   if ((inputs.authUsername && !inputs.authPassword) || (!inputs.authUsername && inputs.authPassword)) {
     throw new Error('You need to specify both auth-username and auth-password')
   }
@@ -148,6 +162,10 @@ const inferOptions = (inputs: Inputs): Options => {
     : undefined
   const pixiBinPath = inputs.pixiBinPath ? path.resolve(untildify(inputs.pixiBinPath)) : PATHS.pixiBin
   const pixiRunShell = path.join(path.dirname(pixiBinPath), 'pixi-shell')
+  const frozen = inputs.frozen ?? false
+  const lockFileAvailable = existsSync(pixiLockFile)
+  core.debug(`lockFileAvailable: ${lockFileAvailable}`)
+  const locked = inputs.locked ?? (lockFileAvailable && !frozen)
   const auth = !inputs.authHost
     ? undefined
     : ((inputs.authToken
@@ -172,6 +190,8 @@ const inferOptions = (inputs: Inputs): Options => {
     manifestPath,
     pixiLockFile,
     runInstall,
+    frozen,
+    locked,
     cache,
     pixiBinPath,
     pixiRunShell,
@@ -204,6 +224,8 @@ const getOptions = () => {
     ),
     manifestPath: parseOrUndefined('manifest-path', z.string()),
     runInstall: parseOrUndefinedJSON('run-install', z.boolean()),
+    locked: parseOrUndefinedJSON('locked', z.boolean()),
+    frozen: parseOrUndefinedJSON('frozen', z.boolean()),
     cache: parseOrUndefinedJSON('cache', z.boolean()),
     cacheKey: parseOrUndefined('cache-key', z.string()),
     cacheWrite: parseOrUndefinedJSON('cache-write', z.boolean()),

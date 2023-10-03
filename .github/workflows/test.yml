@@ -64,7 +64,37 @@ jobs:
       - uses: ./
         with:
           pixi-version: v0.1.0
+          # pixi 0.1.0 doesn't support --locked
+          locked: false
       - run: pixi --version | grep -q "pixi 0.1.0"
+
+  frozen:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi.toml
+        run: mv test/default/* .
+      - uses: ./
+        with:
+          frozen: true
+      - run: pixi run python --version | grep -q 3.11
+
+  locked:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi.toml
+        run: mv test/default/* .
+      - uses: ./
+        with:
+          locked: true
+      - run: pixi run python --version | grep -q 3.11
 
   custom-pixi-url:
     runs-on: ubuntu-latest
@@ -75,6 +105,8 @@ jobs:
       - uses: ./
         with:
           pixi-url: https://github.com/prefix-dev/pixi/releases/download/v0.0.8/pixi-x86_64-unknown-linux-musl
+          # pixi 0.0.8 doesn't support --locked
+          locked: false
       - run: pixi --version | grep -q "pixi 0.0.8"
   
   custom-manifest-path:
@@ -436,5 +468,70 @@ jobs:
   #     - uses: ./
   #       with:
   #         pixi-version: 0.1.0
+  #     - run: exit 1
+  #       if: success()
+
+  # test-frozen-and-locked:
+  #   runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       os: [windows-latest, ubuntu-latest, macos-latest]
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Move pixi files
+  #       run: mv test/default/* .
+  #     - uses: ./
+  #       with:
+  #         pixi-version: v0.5.0
+  #         frozen: true
+  #         locked: true
+  #     - run: exit 1
+  #       if: success()
+
+  # test-frozen-no-lockfile:
+  #   runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       os: [windows-latest, ubuntu-latest, macos-latest]
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Move pixi files
+  #       run: mv test/no-lockfile/* .
+  #     - uses: ./
+  #       with:
+  #         frozen: true
+  #     - run: exit 1
+  #       if: success()
+
+  # test-locked-no-lockfile:
+  #   runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       os: [windows-latest, ubuntu-latest, macos-latest]
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Move pixi files
+  #       run: mv test/no-lockfile/* .
+  #     - uses: ./
+  #       with:
+  #         locked: true
+  #     - run: exit 1
+  #       if: success()
+
+  # test-lockfile-not-up-to-date:
+  #   runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       os: [windows-latest, ubuntu-latest, macos-latest]
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Move pixi files
+  #       run: mv test/lockfile-not-up-to-date/* .
+  #     - uses: ./
+  #       # locked: true is implicit
   #     - run: exit 1
   #       if: success()
