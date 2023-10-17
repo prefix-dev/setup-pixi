@@ -181,7 +181,7 @@ If nothing is specified, `setup-pixi` will default to `default` or `vv` dependin
 
 ### Self-hosted runners
 
-On self hosted runners, it may happen that some files are persisted between jobs.
+On self-hosted runners, it may happen that some files are persisted between jobs.
 This can lead to problems or secrets getting leaked between job runs.
 To avoid this, you can use the `post-cleanup` input to specify the post cleanup behavior of the action (i.e., what happens _after_ all your commands have been executed).
 
