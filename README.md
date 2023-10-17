@@ -179,7 +179,7 @@ This can be specified by setting the `log-level` input.
 
 If nothing is specified, `setup-pixi` will default to `default` or `vv` depending on if [debug logging is enabled for the action](#debug-logging-of-the-action).
 
-### Post action cleanup
+### Self-hosted runners
 
 On self hosted runners, it may happen that some files are persisted between jobs.
 This can lead to problems or secrets getting leaked between job runs.
@@ -194,10 +194,14 @@ If you set `post-cleanup` to `true`, the action will delete the following files:
 
 If nothing is specified, `setup-pixi` will default to `true`.
 
+On self-hosted runners, you also might want to alter the default pixi install location to a temporary location. You can use `pixi-bin-path: ${{ runner.temp }}/bin/pixi` to do this.
+
 ```yml
 - uses: prefix-dev/setup-pixi@v0.3.0
   with:
-    post-cleanup: false
+    post-cleanup: true
+    # ${{ runner.temp }}\Scripts\pixi.exe on Windows
+    pixi-bin-path: ${{ runner.temp }}/bin/pixi
 ```
 
 ## More examples
