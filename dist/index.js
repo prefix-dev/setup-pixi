@@ -61051,7 +61051,7 @@ var inferOptions = (inputs) => {
   const pixiLockFile = import_path.default.join(import_path.default.dirname(manifestPath), import_path.default.basename(manifestPath).replace(/\.toml$/, ".lock"));
   const lockFileAvailable = (0, import_fs.existsSync)(pixiLockFile);
   core.debug(`lockFileAvailable: ${lockFileAvailable}`);
-  const cache2 = inputs.cacheKey ? { cacheKeyPrefix: inputs.cacheKey, cacheWrite: inputs.cacheWrite ?? true } : inputs.cache || lockFileAvailable ? { cacheKeyPrefix: "pixi-", cacheWrite: true } : void 0;
+  const cache2 = inputs.cacheKey ? { cacheKeyPrefix: inputs.cacheKey, cacheWrite: inputs.cacheWrite ?? true } : inputs.cache === true || lockFileAvailable && inputs.cache !== false ? { cacheKeyPrefix: "pixi-", cacheWrite: true } : void 0;
   const pixiBinPath = inputs.pixiBinPath ? import_path.default.resolve(untildify(inputs.pixiBinPath)) : PATHS.pixiBin;
   const frozen = inputs.frozen ?? false;
   const locked = inputs.locked ?? (lockFileAvailable && !frozen);

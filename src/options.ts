@@ -158,7 +158,7 @@ const inferOptions = (inputs: Inputs): Options => {
   core.debug(`lockFileAvailable: ${lockFileAvailable}`)
   const cache = inputs.cacheKey
     ? { cacheKeyPrefix: inputs.cacheKey, cacheWrite: inputs.cacheWrite ?? true }
-    : inputs.cache || lockFileAvailable
+    : inputs.cache === true || (lockFileAvailable && inputs.cache !== false)
     ? { cacheKeyPrefix: 'pixi-', cacheWrite: true }
     : undefined
   const pixiBinPath = inputs.pixiBinPath ? path.resolve(untildify(inputs.pixiBinPath)) : PATHS.pixiBin
