@@ -43,9 +43,11 @@ To see all available input arguments, see the [`action.yml`](action.yml) file.
 
 ### Caching
 
-The action supports caching of the pixi environment. To enable caching, set `cache: true`.
+The action supports caching of the pixi environment.
+By default, caching is enabled if a `pixi.lock` file is present.
 It will then use the `pixi.lock` file to generate a hash of the environment and cache it.
 If the cache is hit, the action will skip the installation and use the cached environment.
+You can specify the behavior by setting the `cache` input argument.
 
 If you need to customize your cache-key, you can use the `cache-key` input argument.
 This will be the prefix of the cache key. The full cache key will be `<cache-key><conda-arch>-<hash>`.
