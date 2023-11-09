@@ -20,6 +20,7 @@ jobs:
       - name: Move pixi.toml
         run: mv test/default/* .
       - uses: ./
+        # check the action logs to see if the cache was used or not
         with:
           cache: ${{ matrix.cache }}
       - run: |
