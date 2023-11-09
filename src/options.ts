@@ -154,15 +154,15 @@ const inferOptions = (inputs: Inputs): Options => {
   const logLevel = inputs.logLevel ?? (core.isDebug() ? 'vv' : 'default')
   const manifestPath = inputs.manifestPath ? path.resolve(untildify(inputs.manifestPath)) : 'pixi.toml'
   const pixiLockFile = path.join(path.dirname(manifestPath), path.basename(manifestPath).replace(/\.toml$/, '.lock'))
+  const lockFileAvailable = existsSync(pixiLockFile)
+  core.debug(`lockFileAvailable: ${lockFileAvailable}`)
   const cache = inputs.cacheKey
     ? { cacheKeyPrefix: inputs.cacheKey, cacheWrite: inputs.cacheWrite ?? true }
-    : inputs.cache
+    : inputs.cache === true || (lockFileAvailable && inputs.cache !== false)
     ? { cacheKeyPrefix: 'pixi-', cacheWrite: true }
     : undefined
   const pixiBinPath = inputs.pixiBinPath ? path.resolve(untildify(inputs.pixiBinPath)) : PATHS.pixiBin
   const frozen = inputs.frozen ?? false
-  const lockFileAvailable = existsSync(pixiLockFile)
-  core.debug(`lockFileAvailable: ${lockFileAvailable}`)
   const locked = inputs.locked ?? (lockFileAvailable && !frozen)
   const auth = !inputs.authHost
     ? undefined
