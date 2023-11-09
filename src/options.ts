@@ -64,7 +64,6 @@ export type Options = Readonly<{
   locked: boolean
   cache?: Cache
   pixiBinPath: string
-  pixiRunShell: string
   auth?: Auth
   postCleanup: boolean
 }>
@@ -161,7 +160,6 @@ const inferOptions = (inputs: Inputs): Options => {
     ? { cacheKeyPrefix: 'pixi-', cacheWrite: true }
     : undefined
   const pixiBinPath = inputs.pixiBinPath ? path.resolve(untildify(inputs.pixiBinPath)) : PATHS.pixiBin
-  const pixiRunShell = path.join(path.dirname(pixiBinPath), 'pixi-shell')
   const frozen = inputs.frozen ?? false
   const lockFileAvailable = existsSync(pixiLockFile)
   core.debug(`lockFileAvailable: ${lockFileAvailable}`)
@@ -194,7 +192,6 @@ const inferOptions = (inputs: Inputs): Options => {
     locked,
     cache,
     pixiBinPath,
-    pixiRunShell,
     auth,
     postCleanup
   }
