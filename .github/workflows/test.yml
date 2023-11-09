@@ -371,8 +371,6 @@ jobs:
       - name: Move pixi.toml
         run: mv test/no-lockfile/* .
       - uses: ./
-        with:
-          cache: false
       - run: |
           set -o pipefail
           pixi info
