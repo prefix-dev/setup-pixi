@@ -149,8 +149,8 @@ const inferOptions = (inputs: Inputs): Options => {
   const pixiSource = inputs.pixiVersion
     ? { version: inputs.pixiVersion }
     : inputs.pixiUrl
-    ? { url: inputs.pixiUrl }
-    : { version: 'latest' }
+      ? { url: inputs.pixiUrl }
+      : { version: 'latest' }
   const logLevel = inputs.logLevel ?? (core.isDebug() ? 'vv' : 'default')
   const manifestPath = inputs.manifestPath ? path.resolve(untildify(inputs.manifestPath)) : 'pixi.toml'
   const pixiLockFile = path.join(path.dirname(manifestPath), path.basename(manifestPath).replace(/\.toml$/, '.lock'))
@@ -159,8 +159,8 @@ const inferOptions = (inputs: Inputs): Options => {
   const cache = inputs.cacheKey
     ? { cacheKeyPrefix: inputs.cacheKey, cacheWrite: inputs.cacheWrite ?? true }
     : inputs.cache === true || (lockFileAvailable && inputs.cache !== false)
-    ? { cacheKeyPrefix: 'pixi-', cacheWrite: true }
-    : undefined
+      ? { cacheKeyPrefix: 'pixi-', cacheWrite: true }
+      : undefined
   const pixiBinPath = inputs.pixiBinPath ? path.resolve(untildify(inputs.pixiBinPath)) : PATHS.pixiBin
   const frozen = inputs.frozen ?? false
   const locked = inputs.locked ?? (lockFileAvailable && !frozen)
@@ -172,15 +172,15 @@ const inferOptions = (inputs: Inputs): Options => {
             token: inputs.authToken
           }
         : inputs.authCondaToken
-        ? {
-            host: inputs.authHost,
-            condaToken: inputs.authCondaToken
-          }
-        : {
-            host: inputs.authHost,
-            username: inputs.authUsername!,
-            password: inputs.authPassword!
-          }) as Auth)
+          ? {
+              host: inputs.authHost,
+              condaToken: inputs.authCondaToken
+            }
+          : {
+              host: inputs.authHost,
+              username: inputs.authUsername!,
+              password: inputs.authPassword!
+            }) as Auth)
   const postCleanup = inputs.postCleanup ?? true
   return {
     pixiSource,
