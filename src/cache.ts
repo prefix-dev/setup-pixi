@@ -8,7 +8,14 @@ import { getCondaArch, sha256 } from './util'
 export const generateCacheKey = async (cacheKeyPrefix: string) =>
   fs
     .readFile(options.pixiLockFile, 'utf-8')
-    .then((content) => `${cacheKeyPrefix}${getCondaArch()}-${sha256(content)}`)
+    .then((content) => {
+      const contentsSha = sha256(content)
+      // the path to the lock file decides where the pixi env is created (../.pixi/env)
+      // since conda envs are not relocatable, we need to include the path in the cache key
+      const lockFileSha = sha256(options.pixiLockFile)
+      const sha = sha256(contentsSha + lockFileSha)
+      return `${cacheKeyPrefix}${getCondaArch()}-${sha}`
+    })
     .catch((err) => {
       throw new Error(`Failed to generate cache key: ${err}`)
     })
