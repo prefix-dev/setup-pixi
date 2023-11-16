@@ -25,7 +25,7 @@ GitHub Action to set up the [pixi](https://github.com/prefix-dev/pixi) package m
 ```yml
 - uses: prefix-dev/setup-pixi@v0.4.1
   with:
-    pixi-version: v0.5.0
+    pixi-version: v0.7.0
     cache: true
     auth-host: prefix.dev
     auth-token: ${{ secrets.PREFIX_DEV_TOKEN }}
@@ -51,6 +51,18 @@ You can specify the behavior by setting the `cache` input argument.
 
 If you need to customize your cache-key, you can use the `cache-key` input argument.
 This will be the prefix of the cache key. The full cache key will be `<cache-key><conda-arch>-<hash>`.
+
+#### Only save caches on `main`
+
+In order to not exceed the [10 GB cache size limit](https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows#usage-limits-and-eviction-policy) as fast, you might want to restrict when the cache is saved.
+This can be done by setting the `cache-write` argument.
+
+```yml
+- uses: prefix-dev/setup-pixi@v0.4.1
+  with:
+    cache: true
+    cache-write: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
+```
 
 ### Authentication
 
