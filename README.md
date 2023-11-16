@@ -164,12 +164,12 @@ There are two types of debug logging that you can enable.
 #### Debug logging of the action
 
 The first one is the debug logging of the action itself.
-This can be enabled by running the action with the `RUNNER_DEBUG` environment variable set to `true`.
+This can be enabled by running the action with the `ACTIONS_RUNNER_DEBUG` environment variable set to `true`.
 
 ```yml
 - uses: prefix-dev/setup-pixi@v0.4.1
   env:
-    RUNNER_DEBUG: true
+    ACTIONS_RUNNER_DEBUG: true
 ```
 
 Alternatively, you can enable debug logging for the action by re-running the action in debug mode:

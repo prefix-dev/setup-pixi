@@ -402,7 +402,7 @@ jobs:
       # test that setup-pixi does debug logging
       - uses: ./
         env:
-          RUNNER_DEBUG: true
+          ACTIONS_RUNNER_DEBUG: true
       - run: pixi run python --version | grep -q 3.11
 
   test-cache1:
