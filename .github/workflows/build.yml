@@ -83,6 +83,7 @@ jobs:
           commit-message: Reference latest Pixi version in README
           title: Reference latest Pixi version in README
           labels: documentation
+          base: main
 
   check-dist:
     runs-on: ubuntu-latest
