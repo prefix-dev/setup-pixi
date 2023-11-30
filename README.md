@@ -36,6 +36,21 @@ GitHub Action to set up the [pixi](https://github.com/prefix-dev/pixi) package m
 > Since pixi is not yet stable, the API of this action may change between minor versions.
 > Please pin the versions of this action to a specific version (i.e., `prefix-dev/setup-pixi@v0.4.1`) to avoid breaking changes.
 > You can automatically update the version of this action by using [Dependabot](https://docs.github.com/en/code-security/dependabot/working-with-dependabot/keeping-your-actions-up-to-date-with-dependabot).
+>
+> Put the following in your `.github/dependabot.yml` file to enable Dependabot for your GitHub Actions:
+>
+> ```yml
+> version: 2
+> updates:
+>   - package-ecosystem: github-actions
+>     directory: /
+>     schedule:
+>       interval: monthly
+>     groups:
+>       dependencies:
+>         patterns:
+>           - "*"
+> ```
 
 ## Features
 
