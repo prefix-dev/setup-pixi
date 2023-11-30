@@ -42,13 +42,13 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Assert latest setup-pixi version is mentioned in README
-        run: 
+        run: |
           set -euo pipefail
           latest_version="$(jq -r '.version' package.json)"
           count_expected=10
           count_actual="$(grep -c "setup-pixi@v$latest_version" README.md || true)"
           if [ "$count_actual" -ne "$count_expected" ]; then
-            echo "::error file=README.md::Expected $count_expected mentions of `setup-pixi@v$latest_version` in README.md, but found $count_actual."
+            echo "::error file=README.md::Expected $count_expected mentions of \`setup-pixi@v$latest_version\` in README.md, but found $count_actual."
             exit 1
           fi
 
@@ -65,7 +65,7 @@ jobs:
           count_expected=1
           count_actual="$(grep -c "pixi-version: $latest_version" README.md || true)"
           if [ "$count_actual" -ne "$count_expected" ]; then
-            echo "::error file=README.md::Expected $count_expected mentions of `pixi-version: $latest_version` in README.md, but found $count_actual."
+            echo "::error file=README.md::Expected $count_expected mentions of \`pixi-version: $latest_version\` in README.md, but found $count_actual."
             sed -i "s/pixi-version: .*/pixi-version: $latest_version/" README.md
             exit 1
           fi
