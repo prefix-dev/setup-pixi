@@ -6,6 +6,8 @@ on:
   pull_request:
     branches: [main]
   merge_group:
+  schedule:
+    - cron: 0 6 * * MON
 
 jobs:
   build:
@@ -29,7 +31,7 @@ jobs:
 
       - name: Rebuild the dist/ directory
         run: pnpm build
-      
+
       - name: Lint
         run: pnpm lint
 
@@ -45,6 +47,31 @@ jobs:
           count_expected=10
           count_actual="$(grep -c "setup-pixi@v$latest_version" README.md || true)"
           if [ "$count_actual" -ne "$count_expected" ]; then
-            echo "::error file=README.md::Expected $count_expected mentions of setup-pixi@v$latest_version in README.md, but found $count_actual."
+            echo "::error file=README.md::Expected $count_expected mentions of `setup-pixi@v$latest_version` in README.md, but found $count_actual."
             exit 1
           fi
+
+  reference-latest-pixi-version-in-readme:
+    name: Reference latest Pixi version in README
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Assert latest pixi version is mentioned in README
+        run: |
+          latest_version="$(gh repo view --json latestRelease prefix-dev/pixi | jq -r '.latestRelease.tagName')"
+          count_expected=1
+          count_actual="$(grep -c "pixi-version: $latest_version" README.md || true)"
+          if [ "$count_actual" -ne "$count_expected" ]; then
+            echo "::error file=README.md::Expected $count_expected mentions of `pixi-version: $latest_version` in README.md, but found $count_actual."
+            sed -i "s/pixi-version: .*/pixi-version: $latest_version/" README.md
+            exit 1
+          fi
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38
+        if: always() && github.ref == 'refs/heads/main'
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: Reference latest Pixi version in README
+          title: Reference latest Pixi version in README
