@@ -45,7 +45,7 @@ GitHub Action to set up the [pixi](https://github.com/prefix-dev/pixi) package m
 >   - package-ecosystem: github-actions
 >     directory: /
 >     schedule:
->       interval: monthly
+>       interval: monthly # or daily, weekly
 >     groups:
 >       dependencies:
 >         patterns:
