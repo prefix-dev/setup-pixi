@@ -59,6 +59,7 @@ jobs:
 
       - name: Assert latest pixi version is mentioned in README
         run: |
+          set -x
           latest_version="$(gh repo view --json latestRelease prefix-dev/pixi | jq -r '.latestRelease.tagName')"
           count_expected=1
           count_actual="$(grep -c "pixi-version: $latest_version" README.md || true)"
@@ -70,8 +71,9 @@ jobs:
 
       - name: Create pull request
         uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38
-        if: always() && github.ref == 'refs/heads/main'
+        if: failure() && github.ref == 'refs/heads/main'
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: Reference latest Pixi version in README
           title: Reference latest Pixi version in README
+          labels: documentation
