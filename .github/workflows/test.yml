@@ -180,14 +180,8 @@ jobs:
           auth-host: https://custom-conda-registry.com
           auth-token: custom-token
       - run: |
-          ls -lah ~/.rattler
-          echo json
           cat ~/.rattler/credentials.json
-          echo lock
-          cat ~/.rattler/credentials.lock
-          grep -q "BearerToken" ~/.rattler/rattler_auth_store.json
-          grep -q "custom-conda-registry.com" ~/.rattler/rattler_auth_store.json
-          grep -q "custom-token" ~/.rattler/rattler_auth_store.json
+          [ $(jq '."*.custom-conda-registry.com".BearerToken' -r ~/.rattler/credentials.json) = "custom-token" ]
         # all other platforms have the credentials stored in the keychain
         # https://github.com/prefix-dev/pixi/issues/330
         if: matrix.os == 'ubuntu-latest'
@@ -208,10 +202,8 @@ jobs:
           auth-username: custom-username
           auth-password: custom-password
       - run: |
-          grep -q "BasicHTTP" ~/.rattler/rattler_auth_store.json
-          grep -q "custom-conda-registry.com" ~/.rattler/rattler_auth_store.json
-          grep -q "custom-username" ~/.rattler/rattler_auth_store.json
-          grep -q "custom-password" ~/.rattler/rattler_auth_store.json
+          cat ~/.rattler/credentials.json
+          [ $(jq '."*.custom-conda-registry.com".BasicHTTP' -r ~/.rattler/credentials.json) = "custom-token" ]
         # all other platforms have the credentials stored in the keychain
         # https://github.com/prefix-dev/pixi/issues/330
         if: matrix.os == 'ubuntu-latest'
@@ -231,10 +223,8 @@ jobs:
           auth-host: https://custom-conda-registry.com
           auth-conda-token: custom-conda-token
       - run: |
-          grep "CondaToken" ~/.rattler/rattler_auth_store.json
-          cat ~/.rattler/rattler_auth_store.json
-          grep -q "custom-conda-registry.com" ~/.rattler/rattler_auth_store.json
-          grep -q "custom-conda-token" ~/.rattler/rattler_auth_store.json
+          cat ~/.rattler/credentials.json
+          [ $(jq '."*.custom-conda-registry.com".CondaToken' -r ~/.rattler/credentials.json) = "custom-conda-token" ]
         # all other platforms have the credentials stored in the keychain
         # https://github.com/prefix-dev/pixi/issues/330
         if: matrix.os == 'ubuntu-latest'
