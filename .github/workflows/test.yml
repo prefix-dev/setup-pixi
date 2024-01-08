@@ -203,7 +203,8 @@ jobs:
           auth-password: custom-password
       - run: |
           cat ~/.rattler/credentials.json
-          [ $(jq '."*.custom-conda-registry.com".BasicHTTP' -r ~/.rattler/credentials.json) = "custom-token" ]
+          [ $(jq '."*.custom-conda-registry.com".BasicHTTP.username' -r ~/.rattler/credentials.json) = "custom-username" ]
+          [ $(jq '."*.custom-conda-registry.com".BasicHTTP.password' -r ~/.rattler/credentials.json) = "custom-password" ]
         # all other platforms have the credentials stored in the keychain
         # https://github.com/prefix-dev/pixi/issues/330
         if: matrix.os == 'ubuntu-latest'
