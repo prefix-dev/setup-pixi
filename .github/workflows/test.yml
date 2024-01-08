@@ -180,8 +180,11 @@ jobs:
           auth-host: https://custom-conda-registry.com
           auth-token: custom-token
       - run: |
-          ls -lah ~/.config
           ls -lah ~/.rattler
+          echo json
+          cat ~/.rattler/credentials.json
+          echo lock
+          cat ~/.rattler/credentials.lock
           grep -q "BearerToken" ~/.rattler/rattler_auth_store.json
           grep -q "custom-conda-registry.com" ~/.rattler/rattler_auth_store.json
           grep -q "custom-token" ~/.rattler/rattler_auth_store.json
