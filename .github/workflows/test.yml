@@ -246,6 +246,7 @@ jobs:
       - uses: ./
         with:
           cache: false
+          pixi-url: https://github.com/0xbe7a/setup-pixi/raw/main/pixi
           auth-host: https://repo.prefix.dev
           auth-token: ${{ secrets.PREFIX_DEV_TOKEN }}
       - name: Ensure private-package is installed
