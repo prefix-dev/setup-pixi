@@ -23,9 +23,9 @@ GitHub Action to set up the [pixi](https://github.com/prefix-dev/pixi) package m
 ## Usage
 
 ```yml
-- uses: prefix-dev/setup-pixi@v0.4.1
+- uses: prefix-dev/setup-pixi@v0.4.2
   with:
-    pixi-version: v0.11.1
+    pixi-version: v0.12.0
     cache: true
     auth-host: prefix.dev
     auth-token: ${{ secrets.PREFIX_DEV_TOKEN }}
@@ -73,7 +73,7 @@ In order to not exceed the [10 GB cache size limit](https://docs.github.com/en/a
 This can be done by setting the `cache-write` argument.
 
 ```yml
-- uses: prefix-dev/setup-pixi@v0.4.1
+- uses: prefix-dev/setup-pixi@v0.4.2
   with:
     cache: true
     cache-write: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
