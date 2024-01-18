@@ -61228,10 +61228,15 @@ var import_promises = __toESM(require("fs/promises"));
 var import_path2 = __toESM(require("path"));
 var core3 = __toESM(require_core());
 var cache = __toESM(require_cache());
-var generateCacheKey = async (cacheKeyPrefix) => import_promises.default.readFile(options.pixiLockFile, "utf-8").then((content) => {
-  const contentsSha = sha256(content);
-  const lockFileSha = sha256(options.pixiLockFile);
-  const sha = sha256(contentsSha + lockFileSha);
+var generateCacheKey = async (cacheKeyPrefix) => Promise.all([import_promises.default.readFile(options.pixiLockFile), import_promises.default.readFile(options.pixiBinPath)]).then(([lockfileContent, pixiBinary]) => {
+  const lockfileSha = sha256(lockfileContent);
+  core3.debug(`lockfileSha: ${lockfileSha}`);
+  const pixiSha = sha256(pixiBinary);
+  core3.debug(`pixiSha: ${pixiSha}`);
+  const lockfilePathSha = sha256(options.pixiLockFile);
+  core3.debug(`lockfilePathSha: ${lockfilePathSha}`);
+  const sha = sha256(lockfileSha + lockfilePathSha + pixiSha);
+  core3.debug(`sha: ${sha}`);
   return `${cacheKeyPrefix}${getCondaArch()}-${sha}`;
 }).catch((err) => {
   throw new Error(`Failed to generate cache key: ${err}`);

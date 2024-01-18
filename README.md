@@ -23,9 +23,9 @@ GitHub Action to set up the [pixi](https://github.com/prefix-dev/pixi) package m
 ## Usage
 
 ```yml
-- uses: prefix-dev/setup-pixi@v0.4.1
+- uses: prefix-dev/setup-pixi@v0.4.2
   with:
-    pixi-version: v0.11.1
+    pixi-version: v0.12.0
     cache: true
     auth-host: prefix.dev
     auth-token: ${{ secrets.PREFIX_DEV_TOKEN }}
@@ -34,7 +34,7 @@ GitHub Action to set up the [pixi](https://github.com/prefix-dev/pixi) package m
 
 > [!WARNING]
 > Since pixi is not yet stable, the API of this action may change between minor versions.
-> Please pin the versions of this action to a specific version (i.e., `prefix-dev/setup-pixi@v0.4.1`) to avoid breaking changes.
+> Please pin the versions of this action to a specific version (i.e., `prefix-dev/setup-pixi@v0.4.2`) to avoid breaking changes.
 > You can automatically update the version of this action by using [Dependabot](https://docs.github.com/en/code-security/dependabot/working-with-dependabot/keeping-your-actions-up-to-date-with-dependabot).
 >
 > Put the following in your `.github/dependabot.yml` file to enable Dependabot for your GitHub Actions:
@@ -73,7 +73,7 @@ In order to not exceed the [10 GB cache size limit](https://docs.github.com/en/a
 This can be done by setting the `cache-write` argument.
 
 ```yml
-- uses: prefix-dev/setup-pixi@v0.4.1
+- uses: prefix-dev/setup-pixi@v0.4.2
   with:
     cache: true
     cache-write: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
@@ -100,7 +100,7 @@ Specify the token using the `auth-token` input argument.
 This form of authentication (bearer token in the request headers) is mainly used at [prefix.dev](https://prefix.dev).
 
 ```yml
-- uses: prefix-dev/setup-pixi@v0.4.1
+- uses: prefix-dev/setup-pixi@v0.4.2
   with:
     auth-host: prefix.dev
     auth-token: ${{ secrets.PREFIX_DEV_TOKEN }}
@@ -112,7 +112,7 @@ Specify the username and password using the `auth-username` and `auth-password` 
 This form of authentication (HTTP Basic Auth) is used in some enterprise environments with [artifactory](https://jfrog.com/artifactory) for example.
 
 ```yml
-- uses: prefix-dev/setup-pixi@v0.4.1
+- uses: prefix-dev/setup-pixi@v0.4.2
   with:
     auth-host: custom-artifactory.com
     auth-username: ${{ secrets.PIXI_USERNAME }}
@@ -125,7 +125,7 @@ Specify the conda-token using the `conda-token` input argument.
 This form of authentication (token is encoded in URL: `https://my-quetz-instance.com/t/<token>/get/custom-channel`) is used at [anaconda.org](https://anaconda.org) or with [quetz instances](https://github.com/mamba-org/quetz).
 
 ```yml
-- uses: prefix-dev/setup-pixi@v0.4.1
+- uses: prefix-dev/setup-pixi@v0.4.2
   with:
     auth-host: anaconda.org # or my-quetz-instance.com
     conda-token: ${{ secrets.CONDA_TOKEN }}
@@ -163,7 +163,7 @@ You can specify whether `setup-pixi` should run `pixi install --frozen` or `pixi
 See the [official documentation](https://prefix.dev/docs/pixi/cli#install) for more information about the `--frozen` and `--locked` flags.
 
 ```yml
-- uses: prefix-dev/setup-pixi@v0.4.1
+- uses: prefix-dev/setup-pixi@v0.4.2
   with:
     locked: true
     # or
@@ -182,7 +182,7 @@ The first one is the debug logging of the action itself.
 This can be enabled by running the action with the `RUNNER_DEBUG` environment variable set to `true`.
 
 ```yml
-- uses: prefix-dev/setup-pixi@v0.4.1
+- uses: prefix-dev/setup-pixi@v0.4.2
   env:
     RUNNER_DEBUG: true
 ```
@@ -200,7 +200,7 @@ The second type is the debug logging of the pixi executable.
 This can be specified by setting the `log-level` input.
 
 ```yml
-- uses: prefix-dev/setup-pixi@v0.4.1
+- uses: prefix-dev/setup-pixi@v0.4.2
   with:
     # one of `q`, `default`, `v`, `vv`, or `vvv`.
     log-level: vvv
@@ -226,7 +226,7 @@ If nothing is specified, `setup-pixi` will default to `true`.
 On self-hosted runners, you also might want to alter the default pixi install location to a temporary location. You can use `pixi-bin-path: ${{ runner.temp }}/bin/pixi` to do this.
 
 ```yml
-- uses: prefix-dev/setup-pixi@v0.4.1
+- uses: prefix-dev/setup-pixi@v0.4.2
   with:
     post-cleanup: true
     # ${{ runner.temp }}\Scripts\pixi.exe on Windows
