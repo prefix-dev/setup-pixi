@@ -386,6 +386,21 @@ jobs:
           pixi run python --version | grep -q 3.11
           pixi run test | grep -q "Hello world"
 
+  debug:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi.toml
+        run: mv test/default/* .
+      # test that setup-pixi does debug logging
+      - uses: ./
+        env:
+          ACTIONS_STEP_DEBUG: true
+      - run: pixi run python --version | grep -q 3.11
+
   test-cache1:
     name: Test cache 1/2
     timeout-minutes: 10
