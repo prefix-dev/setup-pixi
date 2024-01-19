@@ -61235,7 +61235,9 @@ var generateCacheKey = async (cacheKeyPrefix) => Promise.all([import_promises.de
   core3.debug(`pixiSha: ${pixiSha}`);
   const lockfilePathSha = sha256(options.pixiLockFile);
   core3.debug(`lockfilePathSha: ${lockfilePathSha}`);
-  const sha = sha256(lockfileSha + lockfilePathSha + pixiSha);
+  const cwdSha = sha256(process.cwd());
+  core3.debug(`cwdSha: ${cwdSha}`);
+  const sha = sha256(lockfileSha + pixiSha + lockfilePathSha + cwdSha);
   core3.debug(`sha: ${sha}`);
   return `${cacheKeyPrefix}${getCondaArch()}-${sha}`;
 }).catch((err) => {
