@@ -61334,7 +61334,7 @@ var pixiInstall = async () => {
 var generateList = () => {
   if ("version" in options.pixiSource && options.pixiSource.version !== "latest" && options.pixiSource.version < "v0.13.0") {
     core4.warning(
-      "pixi list is not supported for pixi versions < `v0.13.0`. Please set `pixi-version` to `v0.13.0` or `latest`."
+      "pixi list is not supported for pixi versions < `v0.13.0`. Please set `pixi-version` to `v0.13.0` or later."
     );
     return Promise.resolve();
   }
