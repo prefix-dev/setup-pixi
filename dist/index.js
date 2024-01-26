@@ -61336,6 +61336,7 @@ var generateList = () => {
     core4.warning(
       "pixi list is not supported for pixi versions < `v0.13.0`. Please set `pixi-version` to `v0.13.0` or `latest`."
     );
+    return Promise.resolve();
   }
   return core4.group("pixi list", () => execute(pixiCmd("list")));
 };
