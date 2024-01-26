@@ -2169,10 +2169,10 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       command_1.issueCommand("error", utils_1.toCommandProperties(properties), message instanceof Error ? message.toString() : message);
     }
     exports.error = error2;
-    function warning(message, properties = {}) {
+    function warning2(message, properties = {}) {
       command_1.issueCommand("warning", utils_1.toCommandProperties(properties), message instanceof Error ? message.toString() : message);
     }
-    exports.warning = warning;
+    exports.warning = warning2;
     function notice(message, properties = {}) {
       command_1.issueCommand("notice", utils_1.toCommandProperties(properties), message instanceof Error ? message.toString() : message);
     }
@@ -61331,6 +61331,14 @@ var pixiInstall = async () => {
     (_cacheKey) => execute(pixiCmd(`install${options.frozen ? " --frozen" : ""}${options.locked ? " --locked" : ""}`))
   ).then(saveCache2);
 };
+var generateList = () => {
+  if ("version" in options.pixiSource && options.pixiSource.version !== "latest" && options.pixiSource.version < "v0.13.0") {
+    core4.warning(
+      "pixi list is not supported for pixi versions < `v0.13.0`. Please set `pixi-version` to `v0.13.0` or `latest`."
+    );
+  }
+  return core4.group("pixi list", () => execute(pixiCmd("list")));
+};
 var generateInfo = () => core4.group("pixi info", () => execute(pixiCmd("info")));
 var run = async () => {
   core4.debug(`process.env.HOME: ${process.env.HOME}`);
@@ -61340,6 +61348,7 @@ var run = async () => {
   await pixiLogin();
   await pixiInstall();
   await generateInfo();
+  await generateList();
 };
 run().catch((error2) => {
   if (core4.isDebug()) {

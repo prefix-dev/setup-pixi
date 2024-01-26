@@ -60,6 +60,19 @@ const pixiInstall = async () => {
     .then(saveCache)
 }
 
+const generateList = () => {
+  if (
+    'version' in options.pixiSource &&
+    options.pixiSource.version !== 'latest' &&
+    options.pixiSource.version < 'v0.13.0'
+  ) {
+    core.warning(
+      'pixi list is not supported for pixi versions < `v0.13.0`. Please set `pixi-version` to `v0.13.0` or `latest`.'
+    )
+  }
+  return core.group('pixi list', () => execute(pixiCmd('list')))
+}
+
 const generateInfo = () => core.group('pixi info', () => execute(pixiCmd('info')))
 
 const run = async () => {
@@ -70,6 +83,7 @@ const run = async () => {
   await pixiLogin()
   await pixiInstall()
   await generateInfo()
+  await generateList()
 }
 
 run().catch((error) => {
