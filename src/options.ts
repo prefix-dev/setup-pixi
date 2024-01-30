@@ -6,12 +6,13 @@ import * as core from '@actions/core'
 import * as z from 'zod'
 import untildify from 'untildify'
 
-type Inputs = {
+type Inputs = Readonly<{
   pixiVersion?: string
   pixiUrl?: string
   logLevel?: LogLevel
   manifestPath?: string
   runInstall?: boolean
+  environments?: string[]
   frozen?: boolean
   locked?: boolean
   cache?: boolean
@@ -24,7 +25,7 @@ type Inputs = {
   authPassword?: string
   authCondaToken?: string
   postCleanup?: boolean
-}
+}>
 
 export type PixiSource =
   | {
@@ -60,6 +61,7 @@ export type Options = Readonly<{
   manifestPath: string
   pixiLockFile: string
   runInstall: boolean
+  environments?: string[]
   frozen: boolean
   locked: boolean
   cache?: Cache
@@ -98,6 +100,18 @@ const parseOrUndefinedJSON = <T>(key: string, schema: z.ZodSchema<T>): T | undef
     return undefined
   }
   return schema.parse(JSON.parse(input))
+}
+
+const parseOrUndefinedList = <T>(key: string, schema: z.ZodSchema<T>): T[] | undefined => {
+  const input = core.getInput(key)
+  // GitHub actions sets empty inputs to the empty string, but we want undefined
+  if (input === '') {
+    return undefined
+  }
+  return input
+    .split(' ')
+    .map((s) => schema.parse(s))
+    .filter((s) => s !== '')
 }
 
 const validateInputs = (inputs: Inputs): void => {
@@ -141,6 +155,9 @@ const validateInputs = (inputs: Inputs): void => {
   }
   if (inputs.cacheWrite && !inputs.cacheKey && !inputs.cache) {
     throw new Error('cache-write is only valid with cache-key or cache specified.')
+  }
+  if (inputs.runInstall === false && inputs.environments) {
+    throw new Error('Cannot specify environments without running install')
   }
 }
 
@@ -188,6 +205,7 @@ const inferOptions = (inputs: Inputs): Options => {
     manifestPath,
     pixiLockFile,
     runInstall,
+    environments: inputs.environments,
     frozen,
     locked,
     cache,
@@ -221,6 +239,7 @@ const getOptions = () => {
     ),
     manifestPath: parseOrUndefined('manifest-path', z.string()),
     runInstall: parseOrUndefinedJSON('run-install', z.boolean()),
+    environments: parseOrUndefinedList('environments', z.string()),
     locked: parseOrUndefinedJSON('locked', z.boolean()),
     frozen: parseOrUndefinedJSON('frozen', z.boolean()),
     cache: parseOrUndefinedJSON('cache', z.boolean()),

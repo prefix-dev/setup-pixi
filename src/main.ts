@@ -54,13 +54,24 @@ const pixiInstall = async () => {
     return Promise.resolve()
   }
   return tryRestoreCache()
-    .then((_cacheKey) =>
-      execute(pixiCmd(`install${options.frozen ? ' --frozen' : ''}${options.locked ? ' --locked' : ''}`))
-    )
+    .then(async (_cacheKey) => {
+      if (options.environments) {
+        for (const environment of options.environments) {
+          core.debug(`Installing environment ${environment}`)
+          const command = `install -e ${environment}${options.frozen ? ' --frozen' : ''}${
+            options.locked ? ' --locked' : ''
+          }`
+          await core.group(`pixi ${command}`, () => execute(pixiCmd(command)))
+        }
+      } else {
+        const command = `install ${options.frozen ? ' --frozen' : ''}${options.locked ? ' --locked' : ''}`
+        return core.group(`pixi ${command}`, () => execute(pixiCmd(command)))
+      }
+    })
     .then(saveCache)
 }
 
-const generateList = () => {
+const generateList = async () => {
   if (!options.runInstall) {
     core.debug('Skipping pixi list.')
     return Promise.resolve()
@@ -75,7 +86,15 @@ const generateList = () => {
     )
     return Promise.resolve()
   }
-  return core.group('pixi list', () => execute(pixiCmd('list')))
+  if (options.environments) {
+    for (const environment of options.environments) {
+      core.debug(`Listing environment ${environment}`)
+      await core.group(`pixi list -e ${environment}`, () => execute(pixiCmd(`list -e ${environment}`)))
+    }
+    return Promise.resolve()
+  } else {
+    return core.group('pixi list', () => execute(pixiCmd('list')))
+  }
 }
 
 const generateInfo = () => core.group('pixi info', () => execute(pixiCmd('info')))

@@ -78486,6 +78486,13 @@ var parseOrUndefinedJSON = (key, schema) => {
   }
   return schema.parse(JSON.parse(input));
 };
+var parseOrUndefinedList = (key, schema) => {
+  const input = core.getInput(key);
+  if (input === "") {
+    return void 0;
+  }
+  return input.split(" ").map((s) => schema.parse(s)).filter((s) => s !== "");
+};
 var validateInputs = (inputs) => {
   if (inputs.pixiVersion && inputs.pixiUrl) {
     throw new Error("You need to specify either pixi-version or pixi-url");
@@ -78524,6 +78531,9 @@ var validateInputs = (inputs) => {
   if (inputs.cacheWrite && !inputs.cacheKey && !inputs.cache) {
     throw new Error("cache-write is only valid with cache-key or cache specified.");
   }
+  if (inputs.runInstall === false && inputs.environments) {
+    throw new Error("Cannot specify environments without running install");
+  }
 };
 var inferOptions = (inputs) => {
   const runInstall = inputs.runInstall ?? true;
@@ -78555,6 +78565,7 @@ var inferOptions = (inputs) => {
     manifestPath,
     pixiLockFile,
     runInstall,
+    environments: inputs.environments,
     frozen,
     locked,
     cache: cache2,
@@ -78580,6 +78591,7 @@ var getOptions = () => {
     ),
     manifestPath: parseOrUndefined("manifest-path", stringType()),
     runInstall: parseOrUndefinedJSON("run-install", booleanType()),
+    environments: parseOrUndefinedList("environments", stringType()),
     locked: parseOrUndefinedJSON("locked", booleanType()),
     frozen: parseOrUndefinedJSON("frozen", booleanType()),
     cache: parseOrUndefinedJSON("cache", booleanType()),
@@ -78686,6 +78698,7 @@ var pixiCmd = (command, withManifestPath = true) => {
   if (withManifestPath) {
     commandArray = commandArray.concat(["--manifest-path", options.manifestPath]);
   }
+  commandArray = commandArray.concat(["--color", "always"]);
   switch (options.logLevel) {
     case "vvv":
       commandArray = commandArray.concat(["-vvv"]);
@@ -78717,9 +78730,11 @@ var generateCacheKey = async (cacheKeyPrefix) => Promise.all([import_promises.de
   core3.debug(`pixiSha: ${pixiSha}`);
   const lockfilePathSha = sha256(options.pixiLockFile);
   core3.debug(`lockfilePathSha: ${lockfilePathSha}`);
+  const environments = sha256(options.environments?.join(" ") ?? "");
+  core3.debug(`environments: ${environments}`);
   const cwdSha = sha256(process.cwd());
   core3.debug(`cwdSha: ${cwdSha}`);
-  const sha = sha256(lockfileSha + pixiSha + lockfilePathSha + cwdSha);
+  const sha = sha256(lockfileSha + environments + pixiSha + lockfilePathSha + cwdSha);
   core3.debug(`sha: ${sha}`);
   return `${cacheKeyPrefix}${getCondaArch()}-${sha}`;
 }).catch((err) => {
@@ -78809,11 +78824,20 @@ var pixiInstall = async () => {
     core4.debug("Skipping pixi install.");
     return Promise.resolve();
   }
-  return tryRestoreCache().then(
-    (_cacheKey) => execute(pixiCmd(`install${options.frozen ? " --frozen" : ""}${options.locked ? " --locked" : ""}`))
-  ).then(saveCache2);
+  return tryRestoreCache().then(async (_cacheKey) => {
+    if (options.environments) {
+      for (const environment of options.environments) {
+        core4.debug(`Installing environment ${environment}`);
+        const command = `install -e ${environment}${options.frozen ? " --frozen" : ""}${options.locked ? " --locked" : ""}`;
+        await core4.group(`pixi ${command}`, () => execute(pixiCmd(command)));
+      }
+    } else {
+      const command = `install ${options.frozen ? " --frozen" : ""}${options.locked ? " --locked" : ""}`;
+      return core4.group(`pixi ${command}`, () => execute(pixiCmd(command)));
+    }
+  }).then(saveCache2);
 };
-var generateList = () => {
+var generateList = async () => {
   if (!options.runInstall) {
     core4.debug("Skipping pixi list.");
     return Promise.resolve();
@@ -78824,7 +78848,15 @@ var generateList = () => {
     );
     return Promise.resolve();
   }
-  return core4.group("pixi list", () => execute(pixiCmd("list")));
+  if (options.environments) {
+    for (const environment of options.environments) {
+      core4.debug(`Listing environment ${environment}`);
+      await core4.group(`pixi list -e ${environment}`, () => execute(pixiCmd(`list -e ${environment}`)));
+    }
+    return Promise.resolve();
+  } else {
+    return core4.group("pixi list", () => execute(pixiCmd("list")));
+  }
 };
 var generateInfo = () => core4.group("pixi info", () => execute(pixiCmd("info")));
 var run = async () => {

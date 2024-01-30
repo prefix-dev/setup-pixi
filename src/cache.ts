@@ -16,10 +16,12 @@ export const generateCacheKey = async (cacheKeyPrefix: string) =>
       // since conda envs are not relocatable, we need to include the path in the cache key
       const lockfilePathSha = sha256(options.pixiLockFile)
       core.debug(`lockfilePathSha: ${lockfilePathSha}`)
+      const environments = sha256(options.environments?.join(' ') ?? '')
+      core.debug(`environments: ${environments}`)
       // since the lockfile path is not necessarily absolute, we need to include the cwd in the cache key
       const cwdSha = sha256(process.cwd())
       core.debug(`cwdSha: ${cwdSha}`)
-      const sha = sha256(lockfileSha + pixiSha + lockfilePathSha + cwdSha)
+      const sha = sha256(lockfileSha + environments + pixiSha + lockfilePathSha + cwdSha)
       core.debug(`sha: ${sha}`)
       return `${cacheKeyPrefix}${getCondaArch()}-${sha}`
     })

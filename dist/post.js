@@ -5871,6 +5871,13 @@ var parseOrUndefinedJSON = (key, schema) => {
   }
   return schema.parse(JSON.parse(input));
 };
+var parseOrUndefinedList = (key, schema) => {
+  const input = core.getInput(key);
+  if (input === "") {
+    return void 0;
+  }
+  return input.split(" ").map((s) => schema.parse(s)).filter((s) => s !== "");
+};
 var validateInputs = (inputs) => {
   if (inputs.pixiVersion && inputs.pixiUrl) {
     throw new Error("You need to specify either pixi-version or pixi-url");
@@ -5909,6 +5916,9 @@ var validateInputs = (inputs) => {
   if (inputs.cacheWrite && !inputs.cacheKey && !inputs.cache) {
     throw new Error("cache-write is only valid with cache-key or cache specified.");
   }
+  if (inputs.runInstall === false && inputs.environments) {
+    throw new Error("Cannot specify environments without running install");
+  }
 };
 var inferOptions = (inputs) => {
   const runInstall = inputs.runInstall ?? true;
@@ -5940,6 +5950,7 @@ var inferOptions = (inputs) => {
     manifestPath,
     pixiLockFile,
     runInstall,
+    environments: inputs.environments,
     frozen,
     locked,
     cache,
@@ -5965,6 +5976,7 @@ var getOptions = () => {
     ),
     manifestPath: parseOrUndefined("manifest-path", stringType()),
     runInstall: parseOrUndefinedJSON("run-install", booleanType()),
+    environments: parseOrUndefinedList("environments", stringType()),
     locked: parseOrUndefinedJSON("locked", booleanType()),
     frozen: parseOrUndefinedJSON("frozen", booleanType()),
     cache: parseOrUndefinedJSON("cache", booleanType()),
