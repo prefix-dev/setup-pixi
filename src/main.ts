@@ -61,6 +61,10 @@ const pixiInstall = async () => {
 }
 
 const generateList = () => {
+  if (!options.runInstall) {
+    core.debug('Skipping pixi list.')
+    return Promise.resolve()
+  }
   if (
     'version' in options.pixiSource &&
     options.pixiSource.version !== 'latest' &&
