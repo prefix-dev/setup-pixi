@@ -118,8 +118,10 @@ jobs:
         with:
           run-install: false
       - run: |
+          set +x
           pixi global install cowpy
           pixi global list | grep cowpy
+          which cowpy | grep -q "$HOME/.pixi/bin/cowpy"
           cowpy hello world
 
   frozen:
