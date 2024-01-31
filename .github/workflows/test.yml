@@ -393,7 +393,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
+        os: [windows-latest, ubuntu-latest, macos-latest, macos-14]
     steps:
       - uses: actions/checkout@v4
       - name: Move pixi files
@@ -418,7 +418,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
+        os: [windows-latest, ubuntu-latest, macos-latest, macos-14]
     steps:
       - uses: actions/checkout@v4
       - name: Move pixi files
@@ -442,7 +442,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
+        os: [windows-latest, ubuntu-latest, macos-latest, macos-14]
     steps:
       - uses: actions/checkout@v4
       - name: Move pixi files
