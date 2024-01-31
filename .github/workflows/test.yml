@@ -75,6 +75,24 @@ jobs:
           locked: false
       - run: pixi --version | grep -q "pixi 0.1.0"
 
+  old-lockfile:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        locked: [true, false]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi.toml
+        run: mv test/old-pixi-lockfiles/* .
+      - uses: ./
+        with:
+          version: latest
+          cache: false
+          locked: ${{ matrix.locked }}
+      # assert that the lockfile wasn't updated
+      - run: test "$(yq -r '.version')" = 1
+
   frozen:
     strategy:
       matrix:
