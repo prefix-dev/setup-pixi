@@ -122,7 +122,7 @@ jobs:
           set -x
           pixi global install cowpy
           pixi global list 2>&1 | grep cowpy
-          cowpy hello world
+          cowpy${{ matrix.os == 'windows-latest' && '.bat' || '' }} hello world
           test "$(which cowpy)" = "$HOME/.pixi/bin/cowpy"
         shell: bash
       - run: |
