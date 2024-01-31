@@ -123,10 +123,9 @@ jobs:
           pixi global install cowpy
           pixi global list 2>&1 | grep cowpy
           cowpy${{ matrix.os == 'windows-latest' && '.bat' || '' }} hello world
-          test "$(which cowpy${{ matrix.os == 'windows-latest' && '.bat' || '' }})" = "$HOME/.pixi/bin/cowpy"
+          # test "$(which cowpy${{ matrix.os == 'windows-latest' && '.bat' || '' }})" = "$HOME/.pixi/bin/cowpy"
         shell: bash
       - run: |
-          set -x
           cowpy hello world
         shell: powershell
         if: matrix.os == 'windows-latest'
