@@ -126,6 +126,7 @@ jobs:
           # test "$(which cowpy${{ matrix.os == 'windows-latest' && '.bat' || '' }})" = "$HOME/.pixi/bin/cowpy"
         shell: bash
       - run: |
+          where cowpy
           cowpy hello world
         shell: powershell
         if: matrix.os == 'windows-latest'
