@@ -121,7 +121,7 @@ jobs:
       - run: |
           set -x
           pixi global install cowpy
-          pixi global list | grep cowpy
+          pixi global list 2>&1 | grep cowpy
           which cowpy | grep -q "$HOME/.pixi/bin/cowpy"
           cowpy hello world
         shell: bash
