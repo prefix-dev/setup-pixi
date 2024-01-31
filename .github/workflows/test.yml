@@ -95,6 +95,33 @@ jobs:
       # assert that the lockfile wasn't updated
       - run: test "$(yq '.version' pixi.lock)" = 1
 
+  install-path:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest, macos-14]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        with:
+          run-install: false
+      - run: test "$(which pixi)" = "$HOME/.pixi/bin/pixi"
+
+  global-install:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest, macos-14]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        with:
+          run-install: false
+      - run: |
+          pixi global install cowpy
+          pixi global list | grep cowpy
+          cowpy hello world
+
   frozen:
     strategy:
       matrix:
