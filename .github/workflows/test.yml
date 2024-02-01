@@ -26,15 +26,15 @@ jobs:
       - run: |
           set -o pipefail
           pixi info
-          test -f .pixi/env/bin/python
-          ./.pixi/env/bin/python --version | grep -q 3.11
+          test -f .pixi/envs/default/bin/python
+          ./.pixi/envs/default/bin/python --version | grep -q 3.11
         shell: bash
         if: matrix.os != 'windows-latest'
       - run: |
           set -o pipefail
           pixi info
-          test -f .pixi/env/python.exe
-          ./.pixi/env/python.exe --version | grep -q 3.11
+          test -f .pixi/envs/default/python.exe
+          ./.pixi/envs/default/python.exe --version | grep -q 3.11
         shell: bash
         if: matrix.os == 'windows-latest'
       - run: |
@@ -298,7 +298,7 @@ jobs:
           auth-token: ${{ secrets.PREFIX_DEV_TOKEN }}
       - name: Ensure private-package is installed
         run: |
-          test -f .pixi/env/conda-meta/private-package-0.0.1-0.json
+          test -f .pixi/envs/default/conda-meta/private-package-0.0.1-0.json
 
   pixi-shell:
     strategy:
@@ -430,8 +430,8 @@ jobs:
       - run: |
           set -o pipefail
           pixi info
-          test -f .pixi/env/python.exe
-          ./.pixi/env/python.exe --version | grep -q 3.11
+          test -f .pixi/envs/default/python.exe
+          ./.pixi/envs/default/python.exe --version | grep -q 3.11
         shell: bash
         if: matrix.os == 'windows-latest'
       - run: |
@@ -456,10 +456,10 @@ jobs:
           cache-key: test-cache-${{ github.sha }}-${{ github.run_attempt }}-
       # check the action logs to see if the cache was written
       - run: |
-          test -f .pixi/env/bin/python
+          test -f .pixi/envs/default/bin/python
         if: matrix.os != 'windows-latest'
       - run: |
-          test -f .pixi/env/python.exe
+          test -f .pixi/envs/default/python.exe
         if: matrix.os == 'windows-latest'
 
   test-cache2:
