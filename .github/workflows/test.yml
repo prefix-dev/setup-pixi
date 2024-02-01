@@ -11,7 +11,7 @@ jobs:
   default:
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest, macos-14]
         cache: [true, false]
     runs-on: ${{ matrix.os }}
     name: default ${{ matrix.cache == true && 'with' || 'without' }} cache (${{ matrix.os }})
@@ -61,12 +61,12 @@ jobs:
   custom-pixi-version:
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest, macos-14]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - name: Move pixi.toml
-        run: mv test/default/* .
+        run: mv test/old-pixi-lockfiles/* .
       - uses: ./
         with:
           cache: false
@@ -74,6 +74,58 @@ jobs:
           # pixi 0.1.0 doesn't support --locked
           locked: false
       - run: pixi --version | grep -q "pixi 0.1.0"
+
+  old-lockfile:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        locked: [true, false]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi.toml
+        run: mv test/old-pixi-lockfiles/* .
+      - uses: ./
+        with:
+          pixi-version: latest
+          cache: false
+          locked: ${{ matrix.locked }}
+      - if: matrix.os == 'windows-latest'
+        run: choco install yq
+      # assert that the lockfile wasn't updated
+      - run: test "$(yq '.version' pixi.lock)" = 1
+
+  install-path:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest, macos-14]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        with:
+          run-install: false
+      - run: test "$(which pixi)" = "$HOME/.pixi/bin/pixi"
+        shell: bash
+
+  global-install:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest, macos-14]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        with:
+          run-install: false
+      - run: pixi global install cowpy
+      - run: |
+          pixi global list 2>&1 | grep cowpy
+          cowpy hello world
+          test "$(which cowpy)" = "$HOME/.pixi/bin/cowpy"
+        if: matrix.os != 'windows-latest'
+      - run: cowpy hello world
+        if: matrix.os == 'windows-latest'
 
   frozen:
     strategy:
@@ -110,7 +162,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Move pixi.toml
-        run: mv test/default/* .
+        run: mv test/old-pixi-lockfiles/* .
       - uses: ./
         with:
           cache: false
@@ -393,7 +445,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
+        os: [windows-latest, ubuntu-latest, macos-latest, macos-14]
     steps:
       - uses: actions/checkout@v4
       - name: Move pixi files
@@ -418,7 +470,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
+        os: [windows-latest, ubuntu-latest, macos-latest, macos-14]
     steps:
       - uses: actions/checkout@v4
       - name: Move pixi files
@@ -442,7 +494,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
+        os: [windows-latest, ubuntu-latest, macos-latest, macos-14]
     steps:
       - uses: actions/checkout@v4
       - name: Move pixi files
