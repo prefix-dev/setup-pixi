@@ -78832,7 +78832,7 @@ var pixiInstall = async () => {
         await core4.group(`pixi ${command}`, () => execute(pixiCmd(command)));
       }
     } else {
-      const command = `install ${options.frozen ? " --frozen" : ""}${options.locked ? " --locked" : ""}`;
+      const command = `install ${options.frozen ? "--frozen" : ""}${options.locked ? "--locked" : ""}`;
       return core4.group(`pixi ${command}`, () => execute(pixiCmd(command)));
     }
   }).then(saveCache2);

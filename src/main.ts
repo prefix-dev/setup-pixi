@@ -64,7 +64,7 @@ const pixiInstall = async () => {
           await core.group(`pixi ${command}`, () => execute(pixiCmd(command)))
         }
       } else {
-        const command = `install ${options.frozen ? ' --frozen' : ''}${options.locked ? ' --locked' : ''}`
+        const command = `install ${options.frozen ? '--frozen' : ''}${options.locked ? '--locked' : ''}`
         return core.group(`pixi ${command}`, () => execute(pixiCmd(command)))
       }
     })
