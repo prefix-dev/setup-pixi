@@ -78,6 +78,7 @@ export const pixiCmd = (command: string, withManifestPath = true) => {
   if (withManifestPath) {
     commandArray = commandArray.concat(['--manifest-path', options.manifestPath])
   }
+  commandArray = commandArray.concat(['--color', 'always'])
   switch (options.logLevel) {
     case 'vvv':
       commandArray = commandArray.concat(['-vvv'])
