@@ -421,8 +421,8 @@ jobs:
       - run: |
           set -o pipefail
           pixi info
-          test -f .pixi/env/bin/python
-          ./.pixi/env/bin/python --version | grep -q 3.11
+          test -f .pixi/envs/default/bin/python
+          ./.pixi/envs/default/bin/python --version | grep -q 3.11
         shell: bash
         if: matrix.os != 'windows-latest'
       - run: |
