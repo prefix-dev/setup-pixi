@@ -166,10 +166,8 @@ jobs:
       - uses: ./
         with:
           cache: false
-          pixi-url: https://github.com/prefix-dev/pixi/releases/download/v0.0.8/pixi-x86_64-unknown-linux-musl
-          # pixi 0.0.8 doesn't support --locked
-          locked: false
-      - run: pixi --version | grep -q "pixi 0.0.8"
+          pixi-url: https://github.com/prefix-dev/pixi/releases/download/v0.13.0/pixi-x86_64-unknown-linux-musl
+      - run: pixi --version | grep -q "pixi 0.13.0"
 
   custom-manifest-path:
     strategy:
