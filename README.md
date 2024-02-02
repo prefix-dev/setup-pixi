@@ -136,6 +136,9 @@ The following example will install both the `py311` and the `py312` environment 
       py312
 ```
 
+> [!WARNING]
+> If you don't specify any environment, the `default` environment will be installed and cached, even if you use other environments.
+
 ### Authentication
 
 There are currently three ways to authenticate with pixi:
