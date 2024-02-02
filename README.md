@@ -137,7 +137,7 @@ The following example will install both the `py311` and the `py312` environment 
 ```
 
 > [!WARNING]
-> If you don't specify any environment, the default environment will be installed and cached, even if you use other environments.
+> If you don't specify any environment, the `default` environment will be installed and cached, even if you use other environments.
 
 ### Authentication
 
