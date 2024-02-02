@@ -263,7 +263,7 @@ This can be specified by setting the `log-level` input.
     log-level: vvv
 ```
 
-If nothing is specified, `setup-pixi` will default to `default` or `vv` depending on if [debug logging is enabled for the action](#debug-logging-of-the-action).
+If nothing is specified, `log-level` will default to `default` or `vv` depending on if [debug logging is enabled for the action](#debug-logging-of-the-action).
 
 ### Self-hosted runners
 
@@ -278,7 +278,7 @@ If you set `post-cleanup` to `true`, the action will delete the following files:
 - the rattler cache
 - other rattler files in `~/.rattler`
 
-If nothing is specified, `setup-pixi` will default to `true`.
+If nothing is specified, `post-cleanup` will default to `true`.
 
 On self-hosted runners, you also might want to alter the default pixi install location to a temporary location. You can use `pixi-bin-path: ${{ runner.temp }}/bin/pixi` to do this.
 
