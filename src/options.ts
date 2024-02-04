@@ -153,9 +153,6 @@ const validateInputs = (inputs: Inputs): void => {
       throw new Error('You need to specify auth-host')
     }
   }
-  if (inputs.cacheWrite && !inputs.cacheKey && !inputs.cache) {
-    throw new Error('cache-write is only valid with cache-key or cache specified.')
-  }
   if (inputs.runInstall === false && inputs.environments) {
     throw new Error('Cannot specify environments without running install')
   }
@@ -173,10 +170,13 @@ const inferOptions = (inputs: Inputs): Options => {
   const pixiLockFile = path.join(path.dirname(manifestPath), path.basename(manifestPath).replace(/\.toml$/, '.lock'))
   const lockFileAvailable = existsSync(pixiLockFile)
   core.debug(`lockFileAvailable: ${lockFileAvailable}`)
+  if (!lockFileAvailable && inputs.cacheWrite === true) {
+    throw new Error('You cannot specify cache-write = true without a lock file present')
+  }
   const cache = inputs.cacheKey
     ? { cacheKeyPrefix: inputs.cacheKey, cacheWrite: inputs.cacheWrite ?? true }
     : inputs.cache === true || (lockFileAvailable && inputs.cache !== false)
-      ? { cacheKeyPrefix: 'pixi-', cacheWrite: true }
+      ? { cacheKeyPrefix: 'pixi-', cacheWrite: inputs.cacheWrite ?? true }
       : undefined
   const pixiBinPath = inputs.pixiBinPath ? path.resolve(untildify(inputs.pixiBinPath)) : PATHS.pixiBin
   const frozen = inputs.frozen ?? false

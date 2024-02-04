@@ -418,6 +418,8 @@ jobs:
       - name: Move pixi.toml
         run: mv test/no-lockfile/* .
       - uses: ./
+        with:
+          cache: false
       - run: |
           set -o pipefail
           pixi info
@@ -437,9 +439,11 @@ jobs:
           pixi run test | grep -q "Hello world"
 
   multiple-environments:
+    name: multiple-environments (${{ matrix.os }}, cache=${{ matrix.cache }})
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest, macos-14]
+        cache: ['true', 'false']
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -448,6 +452,7 @@ jobs:
       - uses: ./
         with:
           environments: py311 py312
+          cache: ${{ matrix.cache }}
       - run: |
           set -o pipefail
           pixi info
@@ -468,6 +473,21 @@ jobs:
           ./.pixi/envs/py312/python.exe --version | grep -q 3.12
         shell: bash
         if: matrix.os == 'windows-latest'
+
+  cache-write-true:
+    timeout-minutes: 10
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest, macos-14]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi files
+        run: mv test/default/* .
+      - uses: ./
+        with:
+          cache-write: true
 
   test-cache1:
     name: Test cache 1/2
@@ -637,3 +657,18 @@ jobs:
   #       # locked: true is implicit
   #     - run: exit 1
   #       if: success()
+
+  # cache-write-true-no-lockfile:
+  #   timeout-minutes: 10
+  #   runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       os: [windows-latest, ubuntu-latest, macos-latest]
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Move pixi files
+  #       run: mv test/no-lockfile/* .
+  #     - uses: ./
+  #       with:
+  #         cache-write: true
