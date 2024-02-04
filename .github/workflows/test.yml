@@ -657,3 +657,18 @@ jobs:
   #       # locked: true is implicit
   #     - run: exit 1
   #       if: success()
+
+  cache-write-true-no-lockfile:
+    timeout-minutes: 10
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest, macos-14]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi files
+        run: mv test/no-lockfile/* .
+      - uses: ./
+        with:
+          cache-write: true
