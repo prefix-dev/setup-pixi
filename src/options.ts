@@ -170,6 +170,9 @@ const inferOptions = (inputs: Inputs): Options => {
   const pixiLockFile = path.join(path.dirname(manifestPath), path.basename(manifestPath).replace(/\.toml$/, '.lock'))
   const lockFileAvailable = existsSync(pixiLockFile)
   core.debug(`lockFileAvailable: ${lockFileAvailable}`)
+  if (!lockFileAvailable && inputs.cacheWrite === true) {
+    throw new Error('You cannot specify cache-write = true without a lock file present')
+  }
   const cache = inputs.cacheKey
     ? { cacheKeyPrefix: inputs.cacheKey, cacheWrite: inputs.cacheWrite ?? true }
     : inputs.cache === true || (lockFileAvailable && inputs.cache !== false)
