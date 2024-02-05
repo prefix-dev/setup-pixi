@@ -58,6 +58,19 @@ jobs:
           ! test -d .pixi
         shell: bash
 
+  no-pixi-toml:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+      - run: |
+          ! test -d .pixi
+        shell: bash
+      - run: pixi info
+
   custom-pixi-version:
     strategy:
       matrix:
