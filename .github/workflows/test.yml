@@ -333,6 +333,13 @@ jobs:
           print(sys.version)
           print("Hello world")
         shell: pixi run python {0}
+      - run: |
+          python --version | grep -q "3.11"
+        shell: pixi run pwsh -File {0}
+      - if: matrix.os == 'windows-latest'
+        run: |
+          python --version | grep -q "3.11"
+        shell: pixi run cmd /c {0}
 
   post-cleanup-linux:
     runs-on: ubuntu-latest

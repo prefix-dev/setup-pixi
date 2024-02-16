@@ -212,6 +212,17 @@ You can even run python scripts like this:
   shell: pixi run python {0}
 ```
 
+Or using windows? Try `powershell` and `cmd`:
+```yml
+- run: |
+    python --version | grep -q "3.11"
+  shell: pixi run pwsh -File {0} # Works on all platforms
+- if: matrix.os == 'windows-latest'
+  run: |
+    python --version | grep -q "3.11"
+  shell: pixi run cmd /c {0} # cmd is only available on Windows
+```
+
 > [!NOTE]
 > Under the hood, the `shell: xyz {0}` option is implemented by creating a temporary script file and calling `xyz` with that script file as an argument.
 > This file does not have the executable bit set, so you cannot use `shell: pixi run {0}` directly but instead have to use `shell: pixi run bash {0}`.
