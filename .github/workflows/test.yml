@@ -338,7 +338,6 @@ jobs:
         shell: pixi run pwsh -Command {0}
       - if: matrix.os == 'windows-latest'
         run: |
-          @echo off
           python --version | findstr "3.11" > nul
           if errorlevel 1 (
               echo Python 3.11 not found.
