@@ -338,9 +338,13 @@ jobs:
         shell: pixi run pwsh -Command {0}
       - if: matrix.os == 'windows-latest'
         run: |
-          python --version | findstr "3.11"
-        shell: pixi run cmd /c {0}
-
+          @echo off
+          python --version | findstr "3.11" > nul
+          if errorlevel 1 (
+              echo Python 3.11 not found.
+              exit /b 1
+          )
+        shell: pixi run %ComSpec% /D /E:ON /V:OFF /S /C "CALL "{0}""
   post-cleanup-linux:
     runs-on: ubuntu-latest
     strategy:
