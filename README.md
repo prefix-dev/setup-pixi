@@ -203,7 +203,7 @@ This can be useful if you want to run commands inside of the pixi environment, b
   shell: pixi run bash {0}
 ```
 
-You can even run python scripts like this:
+You can even run Python scripts like this:
 
 ```yml
 - run: | # everything here will be run inside of the pixi environment
@@ -212,15 +212,11 @@ You can even run python scripts like this:
   shell: pixi run python {0}
 ```
 
-Or using windows? Try `powershell` and `cmd`:
+Using Windows? Try `powershell` or `bash`:
 ```yml
-- run: |
-    python --version | grep -q "3.11"
-  shell: pixi run pwsh -File {0} # Works on all platforms
-- if: matrix.os == 'windows-latest'
-  run: |
-    python --version | grep -q "3.11"
-  shell: pixi run cmd /c {0} # cmd is only available on Windows
+- run: | # everything here will be run inside of the pixi environment
+    python --version | Select-String "3.11"
+  shell: pixi run pwsh -Command {0} # pwsh works on all platforms
 ```
 
 > [!NOTE]
