@@ -327,7 +327,7 @@ jobs:
           cache: false
       - run: |
           python --version | grep -q "3.11"
-        shell: pixi run bash {0}
+        shell: pixi run bash -e {0}
       - run: |
           import sys
           print(sys.version)
