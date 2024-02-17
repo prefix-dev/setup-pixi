@@ -193,7 +193,7 @@ This form of authentication (token is encoded in URL: `https://my-quetz-instance
 
 ### Custom shell wrapper
 
-`setup-pixi` allows you to run command inside of the pixi environment by specifying a custom shell wrapper with `shell: pixi run bash {0}`.
+`setup-pixi` allows you to run command inside of the pixi environment by specifying a custom shell wrapper with `shell: pixi run bash -e {0}`.
 This can be useful if you want to run commands inside of the pixi environment, but don't want to use the `pixi run` command for each command.
 
 ```yml
