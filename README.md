@@ -200,7 +200,7 @@ This can be useful if you want to run commands inside of the pixi environment, b
 - run: | # everything here will be run inside of the pixi environment
     python --version
     pip install -e --no-deps .
-  shell: pixi run bash {0}
+  shell: pixi run bash -e {0}
 ```
 
 You can even run Python scripts like this:
