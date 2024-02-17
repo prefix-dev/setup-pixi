@@ -212,7 +212,7 @@ You can even run Python scripts like this:
   shell: pixi run python {0}
 ```
 
-Using Windows? Try `powershell` or `bash`:
+If you want to use PowerShell, you need to specify `-Command` as well.
 ```yml
 - run: | # everything here will be run inside of the pixi environment
     python --version | Select-String "3.11"
