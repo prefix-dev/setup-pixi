@@ -25,7 +25,7 @@ GitHub Action to set up the [pixi](https://github.com/prefix-dev/pixi) package m
 ```yml
 - uses: prefix-dev/setup-pixi@v0.5.1
   with:
-    pixi-version: v0.13.0
+    pixi-version: v0.14.0
     cache: true
     auth-host: prefix.dev
     auth-token: ${{ secrets.PREFIX_DEV_TOKEN }}
@@ -193,17 +193,17 @@ This form of authentication (token is encoded in URL: `https://my-quetz-instance
 
 ### Custom shell wrapper
 
-`setup-pixi` allows you to run command inside of the pixi environment by specifying a custom shell wrapper with `shell: pixi run bash {0}`.
+`setup-pixi` allows you to run command inside of the pixi environment by specifying a custom shell wrapper with `shell: pixi run bash -e {0}`.
 This can be useful if you want to run commands inside of the pixi environment, but don't want to use the `pixi run` command for each command.
 
 ```yml
 - run: | # everything here will be run inside of the pixi environment
     python --version
     pip install -e --no-deps .
-  shell: pixi run bash {0}
+  shell: pixi run bash -e {0}
 ```
 
-You can even run python scripts like this:
+You can even run Python scripts like this:
 
 ```yml
 - run: | # everything here will be run inside of the pixi environment
@@ -212,9 +212,17 @@ You can even run python scripts like this:
   shell: pixi run python {0}
 ```
 
+If you want to use PowerShell, you need to specify `-Command` as well.
+```yml
+- run: | # everything here will be run inside of the pixi environment
+    python --version | Select-String "3.11"
+  shell: pixi run pwsh -Command {0} # pwsh works on all platforms
+```
+
 > [!NOTE]
 > Under the hood, the `shell: xyz {0}` option is implemented by creating a temporary script file and calling `xyz` with that script file as an argument.
 > This file does not have the executable bit set, so you cannot use `shell: pixi run {0}` directly but instead have to use `shell: pixi run bash {0}`.
+> There are some custom shells provided by GitHub that have slightly different behavior, see [`jobs.<job_id>.steps[*].shell`](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsshell) in the documentation.
 > See the [official documentation](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#custom-shell) and [ADR 0277](https://github.com/actions/runner/blob/main/docs/adrs/0277-run-action-shell-options.md) for more information about how the `shell:` input works in GitHub Actions.
 
 ### `--frozen` and `--locked`

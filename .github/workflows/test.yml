@@ -327,13 +327,15 @@ jobs:
           cache: false
       - run: |
           python --version | grep -q "3.11"
-        shell: pixi run bash {0}
+        shell: pixi run bash -e {0}
       - run: |
           import sys
           print(sys.version)
           print("Hello world")
         shell: pixi run python {0}
-
+      - run: |
+          python --version | Select-String "3.11"
+        shell: pixi run pwsh -Command {0}
   post-cleanup-linux:
     runs-on: ubuntu-latest
     strategy:
