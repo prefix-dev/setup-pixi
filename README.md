@@ -304,6 +304,15 @@ On self-hosted runners, you also might want to alter the default pixi install lo
     pixi-bin-path: ${{ runner.temp }}/bin/pixi
 ```
 
+### Using the `pyproject.toml` as a manifest file for pixi.
+You can use the `pyproject.toml`, but it is not the default manifest file for pixi, so it's not picked up automatically, yet.
+```yaml
+- uses: prefix-dev/setup-pixi@v0.5.1
+  with:
+    manifest-path: pyproject.toml
+- run: pixi run test
+```
+
 ## More examples
 
 If you want to see more examples, you can take a look at the [GitHub Workflows of this repository](.github/workflows/test.yml).
