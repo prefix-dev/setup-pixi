@@ -1,0 +1,13 @@
+# required but unused
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "my_project"
+requires-python = ">=3.9"
+
+[tool.pixi.project]
+name = "my_project"
+channels = ["conda-forge"]
+platforms = ["linux-64", "osx-arm64", "osx-64", "win-64"]
