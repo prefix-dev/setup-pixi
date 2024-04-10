@@ -58,9 +58,8 @@ const pixiInstall = async () => {
       if (options.environments) {
         for (const environment of options.environments) {
           core.debug(`Installing environment ${environment}`)
-          const command = `install -e ${environment}${options.frozen ? ' --frozen' : ''}${
-            options.locked ? ' --locked' : ''
-          }`
+          const command = `install -e ${environment}${options.frozen ? ' --frozen' : ''}${options.locked ? ' --locked' : ''
+            }`
           await core.group(`pixi ${command}`, () => execute(pixiCmd(command)))
         }
       } else {
@@ -86,14 +85,20 @@ const generateList = async () => {
     )
     return Promise.resolve()
   }
+  const command = (
+    'version' in options.pixiSource &&
+    options.pixiSource.version !== 'latest' &&
+    options.pixiSource.version < 'v0.14.0')
+    ? 'list'
+    : `list${options.frozen ? ' --frozen' : ''}${options.locked ? ' --locked' : ''}`
   if (options.environments) {
     for (const environment of options.environments) {
       core.debug(`Listing environment ${environment}`)
-      await core.group(`pixi list -e ${environment}`, () => execute(pixiCmd(`list -e ${environment}`)))
+      await core.group(`pixi ${command} -e ${environment}`, () => execute(pixiCmd(`${command} -e ${environment}`)))
     }
     return Promise.resolve()
   } else {
-    return core.group('pixi list', () => execute(pixiCmd('list')))
+    return core.group(`pixi ${command}`, () => execute(pixiCmd(command)))
   }
 }
 
