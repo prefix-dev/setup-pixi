@@ -100,3 +100,8 @@ lib/**/*
 
 # Ignore jetbrains files
 .idea
+
+# Ignore pixi environments
+.pixi
+*.egg-info
+

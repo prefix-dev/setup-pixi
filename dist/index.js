@@ -2837,8 +2837,8 @@ var require_semver = __commonJS({
       }
     }
     var i;
-    exports2.parse = parse3;
-    function parse3(version3, options2) {
+    exports2.parse = parse4;
+    function parse4(version3, options2) {
       if (!options2 || typeof options2 !== "object") {
         options2 = {
           loose: !!options2,
@@ -2866,12 +2866,12 @@ var require_semver = __commonJS({
     }
     exports2.valid = valid;
     function valid(version3, options2) {
-      var v = parse3(version3, options2);
+      var v = parse4(version3, options2);
       return v ? v.version : null;
     }
     exports2.clean = clean;
     function clean(version3, options2) {
-      var s = parse3(version3.trim().replace(/^[=v]+/, ""), options2);
+      var s = parse4(version3.trim().replace(/^[=v]+/, ""), options2);
       return s ? s.version : null;
     }
     exports2.SemVer = SemVer;
@@ -3103,8 +3103,8 @@ var require_semver = __commonJS({
       if (eq(version1, version22)) {
         return null;
       } else {
-        var v12 = parse3(version1);
-        var v2 = parse3(version22);
+        var v12 = parse4(version1);
+        var v2 = parse4(version22);
         var prefix2 = "";
         if (v12.prerelease.length || v2.prerelease.length) {
           prefix2 = "pre";
@@ -3808,7 +3808,7 @@ var require_semver = __commonJS({
     }
     exports2.prerelease = prerelease;
     function prerelease(version3, options2) {
-      var parsed = parse3(version3, options2);
+      var parsed = parse4(version3, options2);
       return parsed && parsed.prerelease.length ? parsed.prerelease : null;
     }
     exports2.intersects = intersects;
@@ -3845,7 +3845,7 @@ var require_semver = __commonJS({
       if (match === null) {
         return null;
       }
-      return parse3(match[2] + "." + (match[3] || "0") + "." + (match[4] || "0"), options2);
+      return parse4(match[2] + "." + (match[3] || "0") + "." + (match[4] || "0"), options2);
     }
   }
 });
@@ -6048,9 +6048,9 @@ var require_minimatch = __commonJS({
         throw new TypeError("pattern is too long");
       }
     };
-    Minimatch.prototype.parse = parse3;
+    Minimatch.prototype.parse = parse4;
     var SUBPARSE = {};
-    function parse3(pattern, isSub) {
+    function parse4(pattern, isSub) {
       assertValidPattern(pattern);
       var options2 = this.options;
       if (pattern === "**") {
@@ -46209,7 +46209,7 @@ function deserializeResponseBody(jsonContentTypes, xmlContentTypes, response, op
     includeRoot: (_b2 = options2.includeRoot) !== null && _b2 !== void 0 ? _b2 : false,
     xmlCharKey: (_c2 = options2.xmlCharKey) !== null && _c2 !== void 0 ? _c2 : XML_CHARKEY
   };
-  return parse2(jsonContentTypes, xmlContentTypes, response, updatedOptions).then((parsedResponse) => {
+  return parse3(jsonContentTypes, xmlContentTypes, response, updatedOptions).then((parsedResponse) => {
     if (!shouldDeserializeResponse(parsedResponse)) {
       return parsedResponse;
     }
@@ -46300,7 +46300,7 @@ function handleErrorResponse(parsedResponse, operationSpec, responseSpec) {
   }
   return { error: error2, shouldReturnResponse: false };
 }
-function parse2(jsonContentTypes, xmlContentTypes, operationResponse, opts) {
+function parse3(jsonContentTypes, xmlContentTypes, operationResponse, opts) {
   var _a2;
   const errorHandler = (err) => {
     const msg = `Error "${err}" occurred while parsing the response body - ${operationResponse.bodyAsText}.`;
@@ -78487,6 +78487,7 @@ function untildify(pathWithTilde) {
 }
 
 // src/options.ts
+var import_toml = require("toml");
 var logLevelSchema = enumType(["q", "default", "v", "vv", "vvv"]);
 var PATHS = {
   pixiBin: import_path.default.join(import_os.default.homedir(), ".pixi", "bin", `pixi${import_os.default.platform() === "win32" ? ".exe" : ""}`)
@@ -78569,7 +78570,11 @@ var inferOptions = (inputs) => {
     if ((0, import_fs.existsSync)("pixi.toml")) {
       manifestPath = "pixi.toml";
     } else if ((0, import_fs.existsSync)("pyproject.toml")) {
-      manifestPath = "pyproject.toml";
+      if ((0, import_toml.parse)("pyproject.toml").tool?.pixi) {
+        manifestPath = "pyproject.toml";
+      }
+    } else {
+      throw new Error("Could not find any manifest file. Please specify `manifest-path` if it is in a custom location.");
     }
   }
   const pixiLockFile = import_path.default.join(import_path.default.dirname(manifestPath), "pixi.lock");

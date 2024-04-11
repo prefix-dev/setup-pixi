@@ -5846,6 +5846,7 @@ function untildify(pathWithTilde) {
 }
 
 // src/options.ts
+var import_toml = require("toml");
 var logLevelSchema = enumType(["q", "default", "v", "vv", "vvv"]);
 var PATHS = {
   pixiBin: import_path.default.join(import_os.default.homedir(), ".pixi", "bin", `pixi${import_os.default.platform() === "win32" ? ".exe" : ""}`)
@@ -5928,7 +5929,11 @@ var inferOptions = (inputs) => {
     if ((0, import_fs.existsSync)("pixi.toml")) {
       manifestPath = "pixi.toml";
     } else if ((0, import_fs.existsSync)("pyproject.toml")) {
-      manifestPath = "pyproject.toml";
+      if ((0, import_toml.parse)("pyproject.toml").tool?.pixi) {
+        manifestPath = "pyproject.toml";
+      }
+    } else {
+      throw new Error("Could not find any manifest file. Please specify `manifest-path` if it is in a custom location.");
     }
   }
   const pixiLockFile = import_path.default.join(import_path.default.dirname(manifestPath), "pixi.lock");
