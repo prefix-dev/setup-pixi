@@ -20,6 +20,9 @@ dependencies:
   '@actions/tool-cache':
     specifier: ^2.0.1
     version: 2.0.1
+  toml:
+    specifier: ^3.0.0
+    version: 3.0.0
   untildify:
     specifier: ^5.0.0
     version: 5.0.0
@@ -2781,6 +2784,10 @@ packages:
     dependencies:
       is-number: 7.0.0
     dev: true
+
+  /toml@3.0.0:
+    resolution: {integrity: sha512-y/mWCZinnvxjTKYhJ+pYxwD0mRLVvOtdS2Awbgxln6iEnt4rk0yBxeSBHkGJcPucRiG0e55mwWp+g/05rsrd6w==}
+    dev: false
 
   /tr46@0.0.3:
     resolution: {integrity: sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==}

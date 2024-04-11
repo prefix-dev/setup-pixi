@@ -5,6 +5,7 @@ import { existsSync } from 'fs'
 import * as core from '@actions/core'
 import * as z from 'zod'
 import untildify from 'untildify'
+import { parse } from 'toml'
 
 type Inputs = Readonly<{
   pixiVersion?: string
@@ -174,7 +175,12 @@ const inferOptions = (inputs: Inputs): Options => {
     if (existsSync('pixi.toml')) {
       manifestPath = 'pixi.toml'
     } else if (existsSync('pyproject.toml')) {
-      manifestPath = 'pyproject.toml'
+      // only use pyproject.toml if [tool.pixi] is present
+      if (parse('pyproject.toml').tool?.pixi) {
+        manifestPath = 'pyproject.toml'
+      }
+    } else {
+      throw new Error('Could not find any manifest file. Please specify `manifest-path` if it is in a custom location.')
     }
   }
   const pixiLockFile = path.join(path.dirname(manifestPath), 'pixi.lock')
