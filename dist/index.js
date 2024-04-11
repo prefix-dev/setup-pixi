@@ -78874,7 +78874,15 @@ var generateList = async () => {
     );
     return Promise.resolve();
   }
-  const command = "version" in options.pixiSource && options.pixiSource.version !== "latest" && options.pixiSource.version < "v0.14.0" ? "list" : `list${options.frozen ? " --frozen" : ""}${options.locked ? " --locked" : ""}`;
+  var command = "list";
+  if ("version" in options.pixiSource && options.pixiSource.version !== "latest" && options.pixiSource.version < "v0.14.0") {
+    if (options.frozen)
+      core4.warning("pixi versions < `v0.14.0` do not support the --frozen option for pixi list.");
+    if (options.locked)
+      core4.warning("pixi versions < `v0.14.0` do not support the --locked option for pixi list.");
+  } else {
+    command = `${command} ${options.frozen ? "--frozen" : ""} ${options.locked ? "--locked" : ""}`;
+  }
   if (options.environments) {
     for (const environment of options.environments) {
       core4.debug(`Listing environment ${environment}`);
