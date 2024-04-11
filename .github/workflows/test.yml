@@ -181,8 +181,8 @@ jobs:
       - uses: ./
         with:
           cache: false
-          pixi-url: https://github.com/prefix-dev/pixi/releases/download/v0.13.0/pixi-x86_64-unknown-linux-musl
-      - run: pixi --version | grep -q "pixi 0.13.0"
+          pixi-url: https://github.com/prefix-dev/pixi/releases/download/v0.14.0/pixi-x86_64-unknown-linux-musl
+      - run: pixi --version | grep -q "pixi 0.14.0"
 
   custom-manifest-path:
     strategy:
@@ -584,6 +584,18 @@ jobs:
         - uses: ./
           with:
             manifest-path: pyproject.toml
+
+  custom-pyproject-manifest-path:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        with:
+          cache: true
+          manifest-path: test/pyproject-manifest/pyproject.toml
 
   # not properly testable
   # https://github.com/actions/runner/issues/2347

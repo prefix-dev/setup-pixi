@@ -78563,7 +78563,7 @@ var inferOptions = (inputs) => {
   const pixiSource = inputs.pixiVersion ? { version: inputs.pixiVersion } : inputs.pixiUrl ? { url: inputs.pixiUrl } : { version: "latest" };
   const logLevel = inputs.logLevel ?? (core.isDebug() ? "vv" : "default");
   const manifestPath = inputs.manifestPath ? import_path.default.resolve(untildify(inputs.manifestPath)) : "pixi.toml";
-  const pixiLockFile = import_path.default.join(import_path.default.dirname(manifestPath), import_path.default.basename(manifestPath).replace(/\.toml$/, ".lock"));
+  const pixiLockFile = import_path.default.join(import_path.default.dirname(manifestPath), "pixi.lock");
   const lockFileAvailable = (0, import_fs.existsSync)(pixiLockFile);
   core.debug(`lockFileAvailable: ${lockFileAvailable}`);
   if (!lockFileAvailable && inputs.cacheWrite === true) {
@@ -78874,14 +78874,23 @@ var generateList = async () => {
     );
     return Promise.resolve();
   }
+  let command = "list";
+  if ("version" in options.pixiSource && options.pixiSource.version !== "latest" && options.pixiSource.version < "v0.14.0") {
+    if (options.frozen)
+      core4.warning("pixi versions < `v0.14.0` do not support the --frozen option for pixi list.");
+    if (options.locked)
+      core4.warning("pixi versions < `v0.14.0` do not support the --locked option for pixi list.");
+  } else {
+    command = `${command}${options.frozen ? " --frozen" : ""}${options.locked ? " --locked" : ""}`;
+  }
   if (options.environments) {
     for (const environment of options.environments) {
       core4.debug(`Listing environment ${environment}`);
-      await core4.group(`pixi list -e ${environment}`, () => execute(pixiCmd(`list -e ${environment}`)));
+      await core4.group(`pixi ${command} -e ${environment}`, () => execute(pixiCmd(`${command} -e ${environment}`)));
     }
     return Promise.resolve();
   } else {
-    return core4.group("pixi list", () => execute(pixiCmd("list")));
+    return core4.group(`pixi ${command}`, () => execute(pixiCmd(command)));
   }
 };
 var generateInfo = () => core4.group("pixi info", () => execute(pixiCmd("info")));

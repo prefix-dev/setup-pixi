@@ -5922,7 +5922,7 @@ var inferOptions = (inputs) => {
   const pixiSource = inputs.pixiVersion ? { version: inputs.pixiVersion } : inputs.pixiUrl ? { url: inputs.pixiUrl } : { version: "latest" };
   const logLevel = inputs.logLevel ?? (core.isDebug() ? "vv" : "default");
   const manifestPath = inputs.manifestPath ? import_path.default.resolve(untildify(inputs.manifestPath)) : "pixi.toml";
-  const pixiLockFile = import_path.default.join(import_path.default.dirname(manifestPath), import_path.default.basename(manifestPath).replace(/\.toml$/, ".lock"));
+  const pixiLockFile = import_path.default.join(import_path.default.dirname(manifestPath), "pixi.lock");
   const lockFileAvailable = (0, import_fs.existsSync)(pixiLockFile);
   core.debug(`lockFileAvailable: ${lockFileAvailable}`);
   if (!lockFileAvailable && inputs.cacheWrite === true) {

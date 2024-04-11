@@ -167,7 +167,7 @@ const inferOptions = (inputs: Inputs): Options => {
       : { version: 'latest' }
   const logLevel = inputs.logLevel ?? (core.isDebug() ? 'vv' : 'default')
   const manifestPath = inputs.manifestPath ? path.resolve(untildify(inputs.manifestPath)) : 'pixi.toml'
-  const pixiLockFile = path.join(path.dirname(manifestPath), path.basename(manifestPath).replace(/\.toml$/, '.lock'))
+  const pixiLockFile = path.join(path.dirname(manifestPath), 'pixi.lock')
   const lockFileAvailable = existsSync(pixiLockFile)
   core.debug(`lockFileAvailable: ${lockFileAvailable}`)
   if (!lockFileAvailable && inputs.cacheWrite === true) {
