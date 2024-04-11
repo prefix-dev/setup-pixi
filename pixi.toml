@@ -9,6 +9,8 @@ platforms = ["linux-64"]
 [tasks]
 lint = "pnpm lint"
 build = "pnpm build"
+install = "pnpm install"
+dev = "pnpm dev"
 
 [dependencies]
 pnpm = ">=8.15.6,<8.16"

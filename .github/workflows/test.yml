@@ -580,10 +580,9 @@ jobs:
       steps:
         - uses: actions/checkout@v4
         - name: Move pixi files
-          run: mv test/pyproject/* .
+          run: mv test/pyproject-manifest/* .
         - uses: ./
-          with:
-            manifest-path: pyproject.toml
+          run: pixi run test
 
   custom-pyproject-manifest-path:
     strategy:
