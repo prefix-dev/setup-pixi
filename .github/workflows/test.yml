@@ -182,7 +182,7 @@ jobs:
         with:
           cache: false
           pixi-url: https://github.com/prefix-dev/pixi/releases/download/v0.14.0/pixi-x86_64-unknown-linux-musl
-      - run: pixi --version | grep -q "pixi 0.13.0"
+      - run: pixi --version | grep -q "pixi 0.14.0"
 
   custom-manifest-path:
     strategy:
