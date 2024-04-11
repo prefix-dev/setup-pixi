@@ -78874,14 +78874,23 @@ var generateList = async () => {
     );
     return Promise.resolve();
   }
+  let command = "list";
+  if ("version" in options.pixiSource && options.pixiSource.version !== "latest" && options.pixiSource.version < "v0.14.0") {
+    if (options.frozen)
+      core4.warning("pixi versions < `v0.14.0` do not support the --frozen option for pixi list.");
+    if (options.locked)
+      core4.warning("pixi versions < `v0.14.0` do not support the --locked option for pixi list.");
+  } else {
+    command = `${command}${options.frozen ? " --frozen" : ""}${options.locked ? " --locked" : ""}`;
+  }
   if (options.environments) {
     for (const environment of options.environments) {
       core4.debug(`Listing environment ${environment}`);
-      await core4.group(`pixi list -e ${environment}`, () => execute(pixiCmd(`list -e ${environment}`)));
+      await core4.group(`pixi ${command} -e ${environment}`, () => execute(pixiCmd(`${command} -e ${environment}`)));
     }
     return Promise.resolve();
   } else {
-    return core4.group("pixi list", () => execute(pixiCmd("list")));
+    return core4.group(`pixi ${command}`, () => execute(pixiCmd(command)));
   }
 };
 var generateInfo = () => core4.group("pixi info", () => execute(pixiCmd("info")));
