@@ -166,7 +166,17 @@ const inferOptions = (inputs: Inputs): Options => {
       ? { url: inputs.pixiUrl }
       : { version: 'latest' }
   const logLevel = inputs.logLevel ?? (core.isDebug() ? 'vv' : 'default')
-  const manifestPath = inputs.manifestPath ? path.resolve(untildify(inputs.manifestPath)) : 'pixi.toml'
+  // infer manifest path from inputs or default to pixi.toml or pyproject.toml depending on what is present in the repo.
+  let manifestPath = 'pixi.toml' // default
+  if (inputs.manifestPath) {
+    manifestPath = path.resolve(untildify(inputs.manifestPath))
+  } else {
+    if (existsSync('pixi.toml')) {
+      manifestPath = 'pixi.toml'
+    } else if (existsSync('pyproject.toml')) {
+      manifestPath = 'pyproject.toml'
+    }
+  }
   const pixiLockFile = path.join(path.dirname(manifestPath), 'pixi.lock')
   const lockFileAvailable = existsSync(pixiLockFile)
   core.debug(`lockFileAvailable: ${lockFileAvailable}`)
