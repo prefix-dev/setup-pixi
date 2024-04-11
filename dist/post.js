@@ -5921,7 +5921,16 @@ var inferOptions = (inputs) => {
   const runInstall = inputs.runInstall ?? true;
   const pixiSource = inputs.pixiVersion ? { version: inputs.pixiVersion } : inputs.pixiUrl ? { url: inputs.pixiUrl } : { version: "latest" };
   const logLevel = inputs.logLevel ?? (core.isDebug() ? "vv" : "default");
-  const manifestPath = inputs.manifestPath ? import_path.default.resolve(untildify(inputs.manifestPath)) : "pixi.toml";
+  let manifestPath = "pixi.toml";
+  if (inputs.manifestPath) {
+    manifestPath = import_path.default.resolve(untildify(inputs.manifestPath));
+  } else {
+    if ((0, import_fs.existsSync)("pixi.toml")) {
+      manifestPath = "pixi.toml";
+    } else if ((0, import_fs.existsSync)("pyproject.toml")) {
+      manifestPath = "pyproject.toml";
+    }
+  }
   const pixiLockFile = import_path.default.join(import_path.default.dirname(manifestPath), "pixi.lock");
   const lockFileAvailable = (0, import_fs.existsSync)(pixiLockFile);
   core.debug(`lockFileAvailable: ${lockFileAvailable}`);
