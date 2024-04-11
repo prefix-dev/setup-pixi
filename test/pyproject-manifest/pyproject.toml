@@ -1,0 +1,19 @@
+[project]
+name = "pyproject-manifest"
+version = "0.1.0"
+description = "Testing pyproject-manifest."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["flask==2.*"]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.pixi.project]
+name = "pyproject-manifest"
+channels = ["conda-forge"]
+platforms = ["linux-64", "osx-arm64", "osx-64", "win-64"]
+
+[tool.pixi.pypi-dependencies]
+boltons = "*"

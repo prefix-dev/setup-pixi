@@ -573,6 +573,18 @@ jobs:
           cache-write: false
           cache-key: test-cache-${{ github.sha }}-${{ github.run_attempt }}-
       # check the action logs to see if the cache write was skipped
+  
+  custom-pyproject-manifest-path:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        with:
+          cache: true
+          manifest-path: test/pyproject-manifest/pyproject.toml
 
   # not properly testable
   # https://github.com/actions/runner/issues/2347
