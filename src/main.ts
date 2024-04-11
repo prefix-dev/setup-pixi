@@ -58,8 +58,9 @@ const pixiInstall = async () => {
       if (options.environments) {
         for (const environment of options.environments) {
           core.debug(`Installing environment ${environment}`)
-          const command = `install -e ${environment}${options.frozen ? ' --frozen' : ''}${options.locked ? ' --locked' : ''
-            }`
+          const command = `install -e ${environment}${options.frozen ? ' --frozen' : ''}${
+            options.locked ? ' --locked' : ''
+          }`
           await core.group(`pixi ${command}`, () => execute(pixiCmd(command)))
         }
       } else {
@@ -85,7 +86,7 @@ const generateList = async () => {
     )
     return Promise.resolve()
   }
-  var command = 'list'
+  let command = 'list'
   if (
     'version' in options.pixiSource &&
     options.pixiSource.version !== 'latest' &&
@@ -94,7 +95,7 @@ const generateList = async () => {
     if (options.frozen) core.warning('pixi versions < `v0.14.0` do not support the --frozen option for pixi list.')
     if (options.locked) core.warning('pixi versions < `v0.14.0` do not support the --locked option for pixi list.')
   } else {
-    command = `${command} ${options.frozen ? '--frozen' : ''} ${options.locked ? '--locked' : ''}`
+    command = `${command}${options.frozen ? ' --frozen' : ''}${options.locked ? ' --locked' : ''}`
   }
   if (options.environments) {
     for (const environment of options.environments) {
