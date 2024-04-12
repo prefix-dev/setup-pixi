@@ -305,7 +305,8 @@ On self-hosted runners, you also might want to alter the default pixi install lo
 ```
 
 ### Using the `pyproject.toml` as a manifest file for pixi.
-`setup-pixi` wil automatically pick up the `pyproject.toml` if it contains a `[tool.pixi.project]` section and no `pixi.toml`.
+
+`setup-pixi` will automatically pick up the `pyproject.toml` if it contains a `[tool.pixi.project]` section and no `pixi.toml`.
 This can be overwritten by setting the `manifest-path` input argument.
 
 ```yml
