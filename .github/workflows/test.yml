@@ -230,6 +230,26 @@ jobs:
         # which pixi should be absolute
         which pixi | grep -q "^/"
 
+  existing-pixi-bin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi.toml
+        run: mv test/default/* .
+      - name: Download pixi binary
+        run: |
+          mkdir custom-existing-bin
+          curl -L --output custom-existing-bin/pixi \
+            https://github.com/prefix-dev/pixi/releases/download/v0.14.0/pixi-x86_64-unknown-linux-musl \
+      - uses: ./
+        with:
+          cache: false
+          pixi-bin-path: custom-existing-bin/pixi
+      - run: |
+          test -f custom-existing-bin/pixi
+          pixi --version | grep -q "pixi 0.14.0"
+          which pixi | grep -q custom-existing-bin/pixi
+
   auth-token:
     strategy:
       matrix:

@@ -57,6 +57,7 @@ type Cache = {
 
 export type Options = Readonly<{
   pixiSource: PixiSource
+  preferLocalPixi: boolean
   logLevel: LogLevel
   manifestPath: string
   pixiLockFile: string
@@ -165,6 +166,7 @@ const inferOptions = (inputs: Inputs): Options => {
     : inputs.pixiUrl
       ? { url: inputs.pixiUrl }
       : { version: 'latest' }
+  const preferLocalPixi = !inputs.pixiVersion && !inputs.pixiUrl
   const logLevel = inputs.logLevel ?? (core.isDebug() ? 'vv' : 'default')
   const manifestPath = inputs.manifestPath ? path.resolve(untildify(inputs.manifestPath)) : 'pixi.toml'
   const pixiLockFile = path.join(path.dirname(manifestPath), 'pixi.lock')
@@ -201,6 +203,7 @@ const inferOptions = (inputs: Inputs): Options => {
   const postCleanup = inputs.postCleanup ?? true
   return {
     pixiSource,
+    preferLocalPixi,
     logLevel,
     manifestPath,
     pixiLockFile,

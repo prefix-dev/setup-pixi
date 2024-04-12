@@ -304,6 +304,10 @@ On self-hosted runners, you also might want to alter the default pixi install lo
     pixi-bin-path: ${{ runner.temp }}/bin/pixi
 ```
 
+You can also use a preinstalled local version of pixi on the runner by not setting `pixi-version` or `pixi-url`.
+This action will then prefer an existing pixi binary at `pixi-bin-path` (or, if unset, the default location)
+over downloading a new version.
+
 ## More examples
 
 If you want to see more examples, you can take a look at the [GitHub Workflows of this repository](.github/workflows/test.yml).
