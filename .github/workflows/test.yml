@@ -268,7 +268,7 @@ jobs:
             exit 1
             EOF
           chmod +x ~/custom-existing-pixi/pixi
-          PATH=~/custom-existing-pixi:$PATH
+          echo ~/custom-existing-pixi >> $GITHUB_PATH
       - uses: ./
         with:
           pixi-version: v0.15.1
