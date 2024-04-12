@@ -25,7 +25,7 @@ GitHub Action to set up the [pixi](https://github.com/prefix-dev/pixi) package m
 ```yml
 - uses: prefix-dev/setup-pixi@v0.5.2
   with:
-    pixi-version: v0.18.0
+    pixi-version: v0.19.1
     cache: true
     auth-host: prefix.dev
     auth-token: ${{ secrets.PREFIX_DEV_TOKEN }}
@@ -304,9 +304,8 @@ On self-hosted runners, you also might want to alter the default pixi install lo
     pixi-bin-path: ${{ runner.temp }}/bin/pixi
 ```
 
-You can also use a preinstalled local version of pixi on the runner by not setting `pixi-version` or `pixi-url`.
-This action will then prefer an existing pixi binary at `pixi-bin-path` (or, if unset, the default location)
-over downloading a new version.
+You can also use a preinstalled local version of pixi on the runner by not setting any of the `pixi-version`,
+`pixi-url` or `pixi-bin-path` inputs. This action will then try to find a local version of pixi in the runner's PATH.
 
 ## More examples
 

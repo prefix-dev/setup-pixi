@@ -238,17 +238,43 @@ jobs:
         run: mv test/default/* .
       - name: Download pixi binary
         run: |
-          mkdir custom-existing-bin
-          curl -L --output custom-existing-bin/pixi \
-            https://github.com/prefix-dev/pixi/releases/download/v0.14.0/pixi-x86_64-unknown-linux-musl \
+          set -o pipefail
+          mkdir -p ~/custom-existing-pixi
+          curl -L --output ~/custom-existing-pixi/pixi \
+            https://github.com/prefix-dev/pixi/releases/download/v0.14.0/pixi-x86_64-unknown-linux-musl
+          chmod +x ~/custom-existing-pixi/pixi
+          PATH=~/custom-existing-pixi:$PATH
       - uses: ./
         with:
           cache: false
-          pixi-bin-path: custom-existing-bin/pixi
       - run: |
-          test -f custom-existing-bin/pixi
+          set -o pipefail
           pixi --version | grep -q "pixi 0.14.0"
-          which pixi | grep -q custom-existing-bin/pixi
+          which pixi | grep -q ~/custom-existing-pixi/pixi
+
+  dont-use-existing-pixi-bin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi.toml
+        run: mv test/default/* .
+      - name: Prepare fake pixi executable
+        run: |
+          set -o pipefail
+          mkdir -p ~/custom-existing-pixi
+          cat <<EOF > ~/custom-existing-pixi/pixi
+            #!/bin/bash
+            echo "fake pixi - this should not execute"
+            exit 1
+            EOF
+          chmod +x ~/custom-existing-pixi/pixi
+          PATH=~/custom-existing-pixi:$PATH
+      - uses: ./
+        with:
+          pixi-version: v0.15.0
+      - run: |
+          set -o pipefail
+          pixi --version | grep -q "pixi 0.15.0"
 
   auth-token:
     strategy:

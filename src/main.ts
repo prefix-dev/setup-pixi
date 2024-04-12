@@ -9,25 +9,6 @@ import { options } from './options'
 import { execute, getPixiUrlFromVersion, pixiCmd } from './util'
 import { saveCache, tryRestoreCache } from './cache'
 
-const checkUseLocalPixi = async () => {
-  const pixiFileStats = await fs.stat(options.pixiBinPath).catch(() => null)
-  const pixiFileExists = pixiFileStats !== null && pixiFileStats.isFile()
-
-  if (options.preferLocalPixi && pixiFileExists) {
-    core.info(`Using local pixi at ${options.pixiBinPath}`)
-    return true
-  }
-
-  if (options.preferLocalPixi) {
-    core.debug(`Local pixi not found at ${options.pixiBinPath} - will download pixi`)
-    return false
-  }
-
-  if (pixiFileExists) {
-    throw new Error(`Local pixi found at ${options.pixiBinPath} but you are specifying a version to download.`)
-  }
-}
-
 const downloadPixi = (source: PixiSource) => {
   const url = 'version' in source ? getPixiUrlFromVersion(source.version) : source.url
   return core.group('Downloading Pixi', () => {
@@ -132,7 +113,7 @@ const generateInfo = () => core.group('pixi info', () => execute(pixiCmd('info')
 const run = async () => {
   core.debug(`process.env.HOME: ${process.env.HOME}`)
   core.debug(`os.homedir(): ${os.homedir()}`)
-  if (!(await checkUseLocalPixi())) {
+  if (options.downloadPixi) {
     await downloadPixi(options.pixiSource)
   }
   addPixiToPath()
