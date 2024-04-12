@@ -243,7 +243,7 @@ jobs:
           curl -L --output ~/custom-existing-pixi/pixi \
             https://github.com/prefix-dev/pixi/releases/download/v0.14.0/pixi-x86_64-unknown-linux-musl
           chmod +x ~/custom-existing-pixi/pixi
-          PATH=~/custom-existing-pixi:$PATH
+          echo ~/custom-existing-pixi >> $GITHUB_PATH
       - uses: ./
         with:
           cache: false
@@ -271,10 +271,10 @@ jobs:
           PATH=~/custom-existing-pixi:$PATH
       - uses: ./
         with:
-          pixi-version: v0.15.0
+          pixi-version: v0.15.1
       - run: |
           set -o pipefail
-          pixi --version | grep -q "pixi 0.15.0"
+          pixi --version | grep -q "pixi 0.15.1"
 
   auth-token:
     strategy:
