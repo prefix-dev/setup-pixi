@@ -582,7 +582,7 @@ jobs:
         - name: Move pixi files
           run: mv test/pyproject-manifest/* .
         - uses: ./
-          run: pixi run test
+        - run: pixi run test
 
   custom-pyproject-manifest-path:
     strategy:
