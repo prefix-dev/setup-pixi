@@ -104,4 +104,3 @@ lib/**/*
 # Ignore pixi environments
 .pixi
 *.egg-info
-
