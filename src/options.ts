@@ -180,7 +180,9 @@ const inferOptions = (inputs: Inputs): Options => {
         manifestPath = 'pyproject.toml'
       }
     } else {
-      throw new Error('Could not find any manifest file. Please specify `manifest-path` if it is in a custom location.')
+      if (runInstall) {
+        core.warning('Could not find any manifest file. Defaulting to pixi.toml.')
+      }
     }
   }
   const pixiLockFile = path.join(path.dirname(manifestPath), 'pixi.lock')
