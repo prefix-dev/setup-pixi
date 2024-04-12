@@ -1,8 +1,5 @@
 [project]
 name = "setup-pixi"
-version = "0.1.0"
-description = "Add a short description here"
-authors = ["Ruben Arts <ruben.arts@hotmail.com>"]
 channels = ["conda-forge"]
 platforms = ["linux-64"]
 
