@@ -575,14 +575,14 @@ jobs:
       # check the action logs to see if the cache write was skipped
   
   pyproject:
-      timeout-minutes: 10
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v4
-        - name: Move pixi files
-          run: mv test/pyproject-manifest/* .
-        - uses: ./
-        - run: pixi run test
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi files
+        run: mv test/pyproject-manifest/* .
+      - uses: ./
+      - run: pixi run test
 
   custom-pyproject-manifest-path:
     strategy:
