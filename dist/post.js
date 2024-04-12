@@ -1170,12 +1170,12 @@ var require_lib = __commonJS({
             throw new Error("Client has already been disposed.");
           }
           const parsedUrl = new URL(requestUrl);
-          let info = this._prepareRequest(verb, parsedUrl, headers);
+          let info2 = this._prepareRequest(verb, parsedUrl, headers);
           const maxTries = this._allowRetries && RetryableHttpVerbs.includes(verb) ? this._maxRetries + 1 : 1;
           let numTries = 0;
           let response;
           do {
-            response = yield this.requestRaw(info, data);
+            response = yield this.requestRaw(info2, data);
             if (response && response.message && response.message.statusCode === HttpCodes.Unauthorized) {
               let authenticationHandler;
               for (const handler of this.handlers) {
@@ -1185,7 +1185,7 @@ var require_lib = __commonJS({
                 }
               }
               if (authenticationHandler) {
-                return authenticationHandler.handleAuthentication(this, info, data);
+                return authenticationHandler.handleAuthentication(this, info2, data);
               } else {
                 return response;
               }
@@ -1208,8 +1208,8 @@ var require_lib = __commonJS({
                   }
                 }
               }
-              info = this._prepareRequest(verb, parsedRedirectUrl, headers);
-              response = yield this.requestRaw(info, data);
+              info2 = this._prepareRequest(verb, parsedRedirectUrl, headers);
+              response = yield this.requestRaw(info2, data);
               redirectsRemaining--;
             }
             if (!response.message.statusCode || !HttpResponseRetryCodes.includes(response.message.statusCode)) {
@@ -1238,7 +1238,7 @@ var require_lib = __commonJS({
        * @param info
        * @param data
        */
-      requestRaw(info, data) {
+      requestRaw(info2, data) {
         return __awaiter(this, void 0, void 0, function* () {
           return new Promise((resolve, reject) => {
             function callbackForResult(err, res) {
@@ -1250,7 +1250,7 @@ var require_lib = __commonJS({
                 resolve(res);
               }
             }
-            this.requestRawWithCallback(info, data, callbackForResult);
+            this.requestRawWithCallback(info2, data, callbackForResult);
           });
         });
       }
@@ -1260,12 +1260,12 @@ var require_lib = __commonJS({
        * @param data
        * @param onResult
        */
-      requestRawWithCallback(info, data, onResult) {
+      requestRawWithCallback(info2, data, onResult) {
         if (typeof data === "string") {
-          if (!info.options.headers) {
-            info.options.headers = {};
+          if (!info2.options.headers) {
+            info2.options.headers = {};
           }
-          info.options.headers["Content-Length"] = Buffer.byteLength(data, "utf8");
+          info2.options.headers["Content-Length"] = Buffer.byteLength(data, "utf8");
         }
         let callbackCalled = false;
         function handleResult2(err, res) {
@@ -1274,7 +1274,7 @@ var require_lib = __commonJS({
             onResult(err, res);
           }
         }
-        const req = info.httpModule.request(info.options, (msg) => {
+        const req = info2.httpModule.request(info2.options, (msg) => {
           const res = new HttpClientResponse(msg);
           handleResult2(void 0, res);
         });
@@ -1286,7 +1286,7 @@ var require_lib = __commonJS({
           if (socket) {
             socket.end();
           }
-          handleResult2(new Error(`Request timeout: ${info.options.path}`));
+          handleResult2(new Error(`Request timeout: ${info2.options.path}`));
         });
         req.on("error", function(err) {
           handleResult2(err);
@@ -1313,27 +1313,27 @@ var require_lib = __commonJS({
         return this._getAgent(parsedUrl);
       }
       _prepareRequest(method, requestUrl, headers) {
-        const info = {};
-        info.parsedUrl = requestUrl;
-        const usingSsl = info.parsedUrl.protocol === "https:";
-        info.httpModule = usingSsl ? https : http;
+        const info2 = {};
+        info2.parsedUrl = requestUrl;
+        const usingSsl = info2.parsedUrl.protocol === "https:";
+        info2.httpModule = usingSsl ? https : http;
         const defaultPort = usingSsl ? 443 : 80;
-        info.options = {};
-        info.options.host = info.parsedUrl.hostname;
-        info.options.port = info.parsedUrl.port ? parseInt(info.parsedUrl.port) : defaultPort;
-        info.options.path = (info.parsedUrl.pathname || "") + (info.parsedUrl.search || "");
-        info.options.method = method;
-        info.options.headers = this._mergeHeaders(headers);
+        info2.options = {};
+        info2.options.host = info2.parsedUrl.hostname;
+        info2.options.port = info2.parsedUrl.port ? parseInt(info2.parsedUrl.port) : defaultPort;
+        info2.options.path = (info2.parsedUrl.pathname || "") + (info2.parsedUrl.search || "");
+        info2.options.method = method;
+        info2.options.headers = this._mergeHeaders(headers);
         if (this.userAgent != null) {
-          info.options.headers["user-agent"] = this.userAgent;
+          info2.options.headers["user-agent"] = this.userAgent;
         }
-        info.options.agent = this._getAgent(info.parsedUrl);
+        info2.options.agent = this._getAgent(info2.parsedUrl);
         if (this.handlers) {
           for (const handler of this.handlers) {
-            handler.prepareRequest(info.options);
+            handler.prepareRequest(info2.options);
           }
         }
-        return info;
+        return info2;
       }
       _mergeHeaders(headers) {
         if (this.requestOptions && this.requestOptions.headers) {
@@ -2177,10 +2177,10 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       command_1.issueCommand("notice", utils_1.toCommandProperties(properties), message instanceof Error ? message.toString() : message);
     }
     exports2.notice = notice;
-    function info(message) {
+    function info2(message) {
       process.stdout.write(message + os4.EOL);
     }
-    exports2.info = info;
+    exports2.info = info2;
     function startGroup(name) {
       command_1.issue("group", name);
     }
@@ -2238,6 +2238,262 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
     Object.defineProperty(exports2, "toPlatformPath", { enumerable: true, get: function() {
       return path_utils_1.toPlatformPath;
     } });
+  }
+});
+
+// node_modules/.pnpm/isexe@3.1.1/node_modules/isexe/dist/cjs/posix.js
+var require_posix = __commonJS({
+  "node_modules/.pnpm/isexe@3.1.1/node_modules/isexe/dist/cjs/posix.js"(exports2) {
+    "use strict";
+    Object.defineProperty(exports2, "__esModule", { value: true });
+    exports2.sync = exports2.isexe = void 0;
+    var fs_1 = require("fs");
+    var promises_1 = require("fs/promises");
+    var isexe = async (path3, options2 = {}) => {
+      const { ignoreErrors = false } = options2;
+      try {
+        return checkStat(await (0, promises_1.stat)(path3), options2);
+      } catch (e) {
+        const er = e;
+        if (ignoreErrors || er.code === "EACCES")
+          return false;
+        throw er;
+      }
+    };
+    exports2.isexe = isexe;
+    var sync = (path3, options2 = {}) => {
+      const { ignoreErrors = false } = options2;
+      try {
+        return checkStat((0, fs_1.statSync)(path3), options2);
+      } catch (e) {
+        const er = e;
+        if (ignoreErrors || er.code === "EACCES")
+          return false;
+        throw er;
+      }
+    };
+    exports2.sync = sync;
+    var checkStat = (stat, options2) => stat.isFile() && checkMode(stat, options2);
+    var checkMode = (stat, options2) => {
+      const myUid = options2.uid ?? process.getuid?.();
+      const myGroups = options2.groups ?? process.getgroups?.() ?? [];
+      const myGid = options2.gid ?? process.getgid?.() ?? myGroups[0];
+      if (myUid === void 0 || myGid === void 0) {
+        throw new Error("cannot get uid or gid");
+      }
+      const groups = /* @__PURE__ */ new Set([myGid, ...myGroups]);
+      const mod = stat.mode;
+      const uid = stat.uid;
+      const gid = stat.gid;
+      const u = parseInt("100", 8);
+      const g = parseInt("010", 8);
+      const o = parseInt("001", 8);
+      const ug = u | g;
+      return !!(mod & o || mod & g && groups.has(gid) || mod & u && uid === myUid || mod & ug && myUid === 0);
+    };
+  }
+});
+
+// node_modules/.pnpm/isexe@3.1.1/node_modules/isexe/dist/cjs/win32.js
+var require_win32 = __commonJS({
+  "node_modules/.pnpm/isexe@3.1.1/node_modules/isexe/dist/cjs/win32.js"(exports2) {
+    "use strict";
+    Object.defineProperty(exports2, "__esModule", { value: true });
+    exports2.sync = exports2.isexe = void 0;
+    var fs_1 = require("fs");
+    var promises_1 = require("fs/promises");
+    var isexe = async (path3, options2 = {}) => {
+      const { ignoreErrors = false } = options2;
+      try {
+        return checkStat(await (0, promises_1.stat)(path3), path3, options2);
+      } catch (e) {
+        const er = e;
+        if (ignoreErrors || er.code === "EACCES")
+          return false;
+        throw er;
+      }
+    };
+    exports2.isexe = isexe;
+    var sync = (path3, options2 = {}) => {
+      const { ignoreErrors = false } = options2;
+      try {
+        return checkStat((0, fs_1.statSync)(path3), path3, options2);
+      } catch (e) {
+        const er = e;
+        if (ignoreErrors || er.code === "EACCES")
+          return false;
+        throw er;
+      }
+    };
+    exports2.sync = sync;
+    var checkPathExt = (path3, options2) => {
+      const { pathExt = process.env.PATHEXT || "" } = options2;
+      const peSplit = pathExt.split(";");
+      if (peSplit.indexOf("") !== -1) {
+        return true;
+      }
+      for (let i = 0; i < peSplit.length; i++) {
+        const p = peSplit[i].toLowerCase();
+        const ext = path3.substring(path3.length - p.length).toLowerCase();
+        if (p && ext === p) {
+          return true;
+        }
+      }
+      return false;
+    };
+    var checkStat = (stat, path3, options2) => stat.isFile() && checkPathExt(path3, options2);
+  }
+});
+
+// node_modules/.pnpm/isexe@3.1.1/node_modules/isexe/dist/cjs/options.js
+var require_options = __commonJS({
+  "node_modules/.pnpm/isexe@3.1.1/node_modules/isexe/dist/cjs/options.js"(exports2) {
+    "use strict";
+    Object.defineProperty(exports2, "__esModule", { value: true });
+  }
+});
+
+// node_modules/.pnpm/isexe@3.1.1/node_modules/isexe/dist/cjs/index.js
+var require_cjs = __commonJS({
+  "node_modules/.pnpm/isexe@3.1.1/node_modules/isexe/dist/cjs/index.js"(exports2) {
+    "use strict";
+    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
+      if (k2 === void 0)
+        k2 = k;
+      var desc = Object.getOwnPropertyDescriptor(m, k);
+      if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+        desc = { enumerable: true, get: function() {
+          return m[k];
+        } };
+      }
+      Object.defineProperty(o, k2, desc);
+    } : function(o, m, k, k2) {
+      if (k2 === void 0)
+        k2 = k;
+      o[k2] = m[k];
+    });
+    var __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? function(o, v) {
+      Object.defineProperty(o, "default", { enumerable: true, value: v });
+    } : function(o, v) {
+      o["default"] = v;
+    });
+    var __importStar = exports2 && exports2.__importStar || function(mod) {
+      if (mod && mod.__esModule)
+        return mod;
+      var result = {};
+      if (mod != null) {
+        for (var k in mod)
+          if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k))
+            __createBinding(result, mod, k);
+      }
+      __setModuleDefault(result, mod);
+      return result;
+    };
+    var __exportStar = exports2 && exports2.__exportStar || function(m, exports3) {
+      for (var p in m)
+        if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports3, p))
+          __createBinding(exports3, m, p);
+    };
+    Object.defineProperty(exports2, "__esModule", { value: true });
+    exports2.sync = exports2.isexe = exports2.posix = exports2.win32 = void 0;
+    var posix = __importStar(require_posix());
+    exports2.posix = posix;
+    var win32 = __importStar(require_win32());
+    exports2.win32 = win32;
+    __exportStar(require_options(), exports2);
+    var platform2 = process.env._ISEXE_TEST_PLATFORM_ || process.platform;
+    var impl = platform2 === "win32" ? win32 : posix;
+    exports2.isexe = impl.isexe;
+    exports2.sync = impl.sync;
+  }
+});
+
+// node_modules/.pnpm/which@4.0.0/node_modules/which/lib/index.js
+var require_lib2 = __commonJS({
+  "node_modules/.pnpm/which@4.0.0/node_modules/which/lib/index.js"(exports2, module2) {
+    "use strict";
+    var { isexe, sync: isexeSync } = require_cjs();
+    var { join, delimiter, sep, posix } = require("path");
+    var isWindows = process.platform === "win32";
+    var rSlash = new RegExp(`[${posix.sep}${sep === posix.sep ? "" : sep}]`.replace(/(\\)/g, "\\$1"));
+    var rRel = new RegExp(`^\\.${rSlash.source}`);
+    var getNotFoundError = (cmd) => Object.assign(new Error(`not found: ${cmd}`), { code: "ENOENT" });
+    var getPathInfo = (cmd, {
+      path: optPath = process.env.PATH,
+      pathExt: optPathExt = process.env.PATHEXT,
+      delimiter: optDelimiter = delimiter
+    }) => {
+      const pathEnv = cmd.match(rSlash) ? [""] : [
+        // windows always checks the cwd first
+        ...isWindows ? [process.cwd()] : [],
+        ...(optPath || /* istanbul ignore next: very unusual */
+        "").split(optDelimiter)
+      ];
+      if (isWindows) {
+        const pathExtExe = optPathExt || [".EXE", ".CMD", ".BAT", ".COM"].join(optDelimiter);
+        const pathExt = pathExtExe.split(optDelimiter).flatMap((item) => [item, item.toLowerCase()]);
+        if (cmd.includes(".") && pathExt[0] !== "") {
+          pathExt.unshift("");
+        }
+        return { pathEnv, pathExt, pathExtExe };
+      }
+      return { pathEnv, pathExt: [""] };
+    };
+    var getPathPart = (raw, cmd) => {
+      const pathPart = /^".*"$/.test(raw) ? raw.slice(1, -1) : raw;
+      const prefix = !pathPart && rRel.test(cmd) ? cmd.slice(0, 2) : "";
+      return prefix + join(pathPart, cmd);
+    };
+    var which2 = async (cmd, opt = {}) => {
+      const { pathEnv, pathExt, pathExtExe } = getPathInfo(cmd, opt);
+      const found = [];
+      for (const envPart of pathEnv) {
+        const p = getPathPart(envPart, cmd);
+        for (const ext of pathExt) {
+          const withExt = p + ext;
+          const is = await isexe(withExt, { pathExt: pathExtExe, ignoreErrors: true });
+          if (is) {
+            if (!opt.all) {
+              return withExt;
+            }
+            found.push(withExt);
+          }
+        }
+      }
+      if (opt.all && found.length) {
+        return found;
+      }
+      if (opt.nothrow) {
+        return null;
+      }
+      throw getNotFoundError(cmd);
+    };
+    var whichSync = (cmd, opt = {}) => {
+      const { pathEnv, pathExt, pathExtExe } = getPathInfo(cmd, opt);
+      const found = [];
+      for (const pathEnvPart of pathEnv) {
+        const p = getPathPart(pathEnvPart, cmd);
+        for (const ext of pathExt) {
+          const withExt = p + ext;
+          const is = isexeSync(withExt, { pathExt: pathExtExe, ignoreErrors: true });
+          if (is) {
+            if (!opt.all) {
+              return withExt;
+            }
+            found.push(withExt);
+          }
+        }
+      }
+      if (opt.all && found.length) {
+        return found;
+      }
+      if (opt.nothrow) {
+        return null;
+      }
+      throw getNotFoundError(cmd);
+    };
+    module2.exports = which2;
+    which2.sync = whichSync;
   }
 });
 
@@ -5846,6 +6102,7 @@ function untildify(pathWithTilde) {
 }
 
 // src/options.ts
+var import_which = __toESM(require_lib2());
 var logLevelSchema = enumType(["q", "default", "v", "vv", "vvv"]);
 var PATHS = {
   pixiBin: import_path.default.join(import_os.default.homedir(), ".pixi", "bin", `pixi${import_os.default.platform() === "win32" ? ".exe" : ""}`)
@@ -5917,9 +6174,30 @@ var validateInputs = (inputs) => {
     throw new Error("Cannot specify environments without running install");
   }
 };
+var determinePixiInstallation = (pixiUrlOrVersionSet, pixiBinPath) => {
+  const preinstalledPixi = import_which.default.sync("pixi", { nothrow: true });
+  if (pixiUrlOrVersionSet || pixiBinPath) {
+    if (preinstalledPixi) {
+      core.debug(`Local pixi found at ${preinstalledPixi} is being ignored.`);
+    }
+    return {
+      downloadPixi: true,
+      pixiBinPath: pixiBinPath ? import_path.default.resolve(untildify(pixiBinPath)) : PATHS.pixiBin
+    };
+  }
+  if (preinstalledPixi) {
+    core.info(`Using pre-installed pixi at ${preinstalledPixi}`);
+    return { downloadPixi: false, pixiBinPath: preinstalledPixi };
+  }
+  return { downloadPixi: true, pixiBinPath: PATHS.pixiBin };
+};
 var inferOptions = (inputs) => {
   const runInstall = inputs.runInstall ?? true;
   const pixiSource = inputs.pixiVersion ? { version: inputs.pixiVersion } : inputs.pixiUrl ? { url: inputs.pixiUrl } : { version: "latest" };
+  const { downloadPixi, pixiBinPath } = determinePixiInstallation(
+    !!inputs.pixiVersion || !!inputs.pixiUrl,
+    inputs.pixiBinPath
+  );
   const logLevel = inputs.logLevel ?? (core.isDebug() ? "vv" : "default");
   const manifestPath = inputs.manifestPath ? import_path.default.resolve(untildify(inputs.manifestPath)) : "pixi.toml";
   const pixiLockFile = import_path.default.join(import_path.default.dirname(manifestPath), "pixi.lock");
@@ -5929,7 +6207,6 @@ var inferOptions = (inputs) => {
     throw new Error("You cannot specify cache-write = true without a lock file present");
   }
   const cache = inputs.cacheKey ? { cacheKeyPrefix: inputs.cacheKey, cacheWrite: inputs.cacheWrite ?? true } : inputs.cache === true || lockFileAvailable && inputs.cache !== false ? { cacheKeyPrefix: "pixi-", cacheWrite: inputs.cacheWrite ?? true } : void 0;
-  const pixiBinPath = inputs.pixiBinPath ? import_path.default.resolve(untildify(inputs.pixiBinPath)) : PATHS.pixiBin;
   const frozen = inputs.frozen ?? false;
   const locked = inputs.locked ?? (lockFileAvailable && !frozen);
   const auth = !inputs.authHost ? void 0 : inputs.authToken ? {
@@ -5946,6 +6223,7 @@ var inferOptions = (inputs) => {
   const postCleanup = inputs.postCleanup ?? true;
   return {
     pixiSource,
+    downloadPixi,
     logLevel,
     manifestPath,
     pixiLockFile,
