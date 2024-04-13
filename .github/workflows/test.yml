@@ -233,7 +233,7 @@ jobs:
   existing-pixi-bin:
     strategy:
       matrix:
-        os: [windows-latest, macos-latest, ubuntu-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -243,22 +243,22 @@ jobs:
         run: |
           mkdir -p ~/custom-existing-pixi
           echo "~/custom-existing-pixi" >> $GITHUB_PATH
-      - name: Download pixi binary (Windows)
-        run: |
-          curl -L --output ~/custom-existing-pixi/pixi.exe https://github.com/prefix-dev/pixi/releases/download/v0.14.0/pixi-x86_64-pc-windows-msvc.exe
-        if: matrix.os == 'windows-latest'
-      - name: Download pixi binary (macOS)
-        run: |
-          set -o pipefail
-          curl -L --output ~/custom-existing-pixi/pixi https://github.com/prefix-dev/pixi/releases/download/v0.14.0/pixi-x86_64-apple-darwin
-          chmod +x ~/custom-existing-pixi/pixi
-        if: matrix.os == 'macos-latest'
       - name: Download pixi binary (Ubuntu)
         run: |
           set -o pipefail
           curl -L --output ~/custom-existing-pixi/pixi https://github.com/prefix-dev/pixi/releases/download/v0.14.0/pixi-x86_64-unknown-linux-musl
           chmod +x ~/custom-existing-pixi/pixi
         if: matrix.os == 'ubuntu-latest'
+      - name: Download pixi binary (macOS)
+        run: |
+          set -o pipefail
+          curl -L --output ~/custom-existing-pixi/pixi https://github.com/prefix-dev/pixi/releases/download/v0.14.0/pixi-x86_64-apple-darwin
+          chmod +x ~/custom-existing-pixi/pixi
+        if: matrix.os == 'macos-latest'
+      - name: Download pixi binary (Windows)
+        run: |
+          curl -L --output ~/custom-existing-pixi/pixi.exe https://github.com/prefix-dev/pixi/releases/download/v0.14.0/pixi-x86_64-pc-windows-msvc.exe
+        if: matrix.os == 'windows-latest'
       - uses: ./
         with:
           cache: false
@@ -270,7 +270,7 @@ jobs:
   dont-use-existing-pixi-bin:
     strategy:
       matrix:
-        os: [windows-latest, macos-latest, ubuntu-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -280,15 +280,15 @@ jobs:
         run: |
           mkdir -p ~/custom-existing-pixi
           echo "~/custom-existing-pixi" >> $GITHUB_PATH
-      - name: Prepare fake pixi executable (Windows)
-        run: |
-          echo "fake pixi - this should not execute" > ~/custom-existing-pixi/pixi.exe
-        if: matrix.os == 'windows-latest'
       - name: Prepare fake pixi executable
         run: |
           echo -e '#!/bin/bash\necho "fake pixi - this should not execute"\nexit 1' > ~/custom-existing-pixi/pixi
           chmod +x ~/custom-existing-pixi/pixi
         if: matrix.os != 'windows-latest'
+      - name: Prepare fake pixi executable (Windows)
+        run: |
+          echo "fake pixi - this should not execute" > ~/custom-existing-pixi/pixi.exe
+        if: matrix.os == 'windows-latest'
       - uses: ./
         with:
           pixi-version: v0.15.1
