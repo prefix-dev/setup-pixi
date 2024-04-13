@@ -231,7 +231,10 @@ jobs:
         which pixi | grep -q "^/"
 
   existing-pixi-bin:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - name: Move pixi.toml
@@ -240,9 +243,15 @@ jobs:
         run: |
           set -o pipefail
           mkdir -p ~/custom-existing-pixi
-          curl -L --output ~/custom-existing-pixi/pixi \
-            https://github.com/prefix-dev/pixi/releases/download/v0.14.0/pixi-x86_64-unknown-linux-musl
-          chmod +x ~/custom-existing-pixi/pixi
+          if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+            curl -L --output ~/custom-existing-pixi/pixi.exe https://github.com/prefix-dev/pixi/releases/download/v0.14.0/pixi-x86_64-pc-windows-msvc.exe
+          elif [[ "${{ matrix.os }}" == "macos-latest" ]]; then
+            curl -L --output ~/custom-existing-pixi/pixi https://github.com/prefix-dev/pixi/releases/download/v0.14.0/pixi-x86_64-apple-darwin
+            chmod +x ~/custom-existing-pixi/pixi
+          else
+            curl -L --output ~/custom-existing-pixi/pixi https://github.com/prefix-dev/pixi/releases/download/v0.14.0/pixi-x86_64-unknown-linux-musl
+            chmod +x ~/custom-existing-pixi/pixi
+          fi
           echo ~/custom-existing-pixi >> $GITHUB_PATH
       - uses: ./
         with:
@@ -253,22 +262,24 @@ jobs:
           which pixi | grep -q ~/custom-existing-pixi/pixi
 
   dont-use-existing-pixi-bin:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - name: Move pixi.toml
         run: mv test/default/* .
       - name: Prepare fake pixi executable
         run: |
-          set -o pipefail
           mkdir -p ~/custom-existing-pixi
-          cat <<EOF > ~/custom-existing-pixi/pixi
-            #!/bin/bash
-            echo "fake pixi - this should not execute"
-            exit 1
-            EOF
-          chmod +x ~/custom-existing-pixi/pixi
-          echo ~/custom-existing-pixi >> $GITHUB_PATH
+          if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+            echo "fake pixi - this should not execute" > ~/custom-existing-pixi/pixi.exe
+          else
+            echo -e '#!/bin/bash\necho "fake pixi - this should not execute"\nexit 1' > ~/custom-existing-pixi/pixi
+            chmod +x ~/custom-existing-pixi/pixi
+          fi
+          echo "~/custom-existing-pixi" >> $GITHUB_PATH
       - uses: ./
         with:
           pixi-version: v0.15.1
