@@ -234,7 +234,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        ignoreReason: [none, version, version-latest, url, bin-path]
+        ignore-reason: [ none, version, version-latest, url, bin-path]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -283,19 +283,19 @@ jobs:
         uses: ./
         with:
           cache: false
-        if: matrix.ignoreReason == 'none'
+        if: matrix.ignore-reason == 'none'
       - name: Run Action (version-latest should overwrite preinstalled pixi)
         uses: ./
         with:
           cache: false
           pixi-version: latest
-        if: matrix.ignoreReason == 'version-latest'
+        if: matrix.ignore-reason == 'version-latest'
       - name: Run Action (version should overwrite preinstalled pixi)
         uses: ./
         with:
           cache: false
           pixi-version: v0.16.0
-        if: matrix.ignoreReason == 'version'
+        if: matrix.ignore-reason == 'version'
       - name: Run Action (url should overwrite preinstalled pixi)
         uses: ./
         with:
@@ -308,47 +308,47 @@ jobs:
                     'https://github.com/prefix-dev/pixi/releases/download/v0.16.0/pixi-x86_64-apple-darwin'
                 || 'https://github.com/prefix-dev/pixi/releases/download/v0.16.0/pixi-x86_64-pc-windows-msvc.exe'
             }}
-        if: matrix.ignoreReason == 'url'
+        if: matrix.ignore-reason == 'url'
       - name: Create custom bin directory
         run: mkdir custom-bin
         shell: bash
-        if: matrix.ignoreReason == 'bin-path'
+        if: matrix.ignore-reason == 'bin-path'
       - name: Run Action (pixi-bin-path should overwrite preinstalled pixi)
         uses: ./
         with:
           cache: false
           # this will implicitly set pixi-version to latest
           pixi-bin-path: custom-bin/pixi${{ matrix.os == 'windows-latest' && '.exe' || '' }}
-        if: matrix.ignoreReason == 'bin-path'
+        if: matrix.ignore-reason == 'bin-path'
       - name: Verify pixi version (after setup-pixi) - still at 0.14.0
         run: |
           pixi --version
           pixi --version | grep -q 0.14.0
         shell: bash
-        if: matrix.ignoreReason == 'none'
+        if: matrix.ignore-reason == 'none'
       - name: Verify pixi version (after setup-pixi) - should be 0.16.0
         run: |
           pixi --version
           pixi --version | grep -q 0.16.0
         shell: bash
-        if: matrix.ignoreReason != 'none' && matrix.ignoreReason != 'bin-path' && matrix.ignoreReason != 'version-latest'
+        if: matrix.ignore-reason != 'none' && matrix.ignore-reason != 'bin-path' && matrix.ignore-reason != 'version-latest'
       - name: Verify pixi version (after setup-pixi) - should be latest
         run: |
           pixi --version
           pixi --version | grep -vq 0.14.0
           pixi --version | grep -vq 0.16.0
         shell: bash
-        if: matrix.ignoreReason == 'bin-path' || matrix.ignoreReason == 'version-latest'
+        if: matrix.ignore-reason == 'bin-path' || matrix.ignore-reason == 'version-latest'
       - name: Verify pixi path (after setup-pixi, no ignore reason)
         run: |
           which pixi | grep -q $HOME/custom-existing-pixi/pixi
         shell: bash
-        if: matrix.ignoreReason == 'none'
+        if: matrix.ignore-reason == 'none'
       - name: Verify pixi path (after setup-pixi, ignore reason)
         run: |
           which pixi | grep -vq $HOME/custom-existing-pixi/pixi
         shell: bash
-        if: matrix.ignoreReason != 'none'
+        if: matrix.ignore-reason != 'none'
 
   auth-token:
     strategy:
