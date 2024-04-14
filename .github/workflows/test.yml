@@ -195,7 +195,7 @@ jobs:
         with:
           cache: false
           manifest-path: test/default/pixi.toml
-  
+
   different-log-level:
     strategy:
       matrix:
@@ -234,6 +234,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
+        ignoreReason: [none, version, version-latest, url, bin-path]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -241,60 +242,113 @@ jobs:
         run: mv test/default/* .
       - name: Create pixi directory and add to PATH
         run: |
-          mkdir -p ~/custom-existing-pixi
-          echo "~/custom-existing-pixi" >> $GITHUB_PATH
+          mkdir -p $HOME/custom-existing-pixi
+          echo $HOME/custom-existing-pixi >> $GITHUB_PATH
+        if: matrix.os != 'windows-latest'
+      - name: Create pixi directory and add to PATH (Windows)
+        run: |
+          mkdir $env:USERPROFILE\custom-existing-pixi
+          echo $env:USERPROFILE\custom-existing-pixi >> $env:GITHUB_PATH
+        shell: pwsh
+        if: matrix.os == 'windows-latest'
       - name: Download pixi binary (Ubuntu)
         run: |
           set -o pipefail
-          curl -L --output ~/custom-existing-pixi/pixi https://github.com/prefix-dev/pixi/releases/download/v0.14.0/pixi-x86_64-unknown-linux-musl
-          chmod +x ~/custom-existing-pixi/pixi
+          curl -L --output $HOME/custom-existing-pixi/pixi https://github.com/prefix-dev/pixi/releases/download/v0.14.0/pixi-x86_64-unknown-linux-musl
+          chmod +x $HOME/custom-existing-pixi/pixi
         if: matrix.os == 'ubuntu-latest'
       - name: Download pixi binary (macOS)
         run: |
           set -o pipefail
-          curl -L --output ~/custom-existing-pixi/pixi https://github.com/prefix-dev/pixi/releases/download/v0.14.0/pixi-x86_64-apple-darwin
-          chmod +x ~/custom-existing-pixi/pixi
+          curl -L --output $HOME/custom-existing-pixi/pixi https://github.com/prefix-dev/pixi/releases/download/v0.14.0/pixi-x86_64-apple-darwin
+          chmod +x $HOME/custom-existing-pixi/pixi
         if: matrix.os == 'macos-latest'
       - name: Download pixi binary (Windows)
         run: |
-          curl -L --output ~/custom-existing-pixi/pixi.exe https://github.com/prefix-dev/pixi/releases/download/v0.14.0/pixi-x86_64-pc-windows-msvc.exe
+          curl -L --output $HOME/custom-existing-pixi/pixi.exe https://github.com/prefix-dev/pixi/releases/download/v0.14.0/pixi-x86_64-pc-windows-msvc.exe
         if: matrix.os == 'windows-latest'
-      - uses: ./
+      - run: |
+          echo "Path: $PATH"
+        shell: bash
+      - name: Verify pixi version (before setup-pixi)
+        run: |
+          pixi --version
+          pixi --version | grep -q "pixi 0.14.0"
+        shell: bash
+      - name: Verify pixi path (before setup-pixi)
+        run: |
+          which pixi | grep -q $HOME/custom-existing-pixi/pixi
+        shell: bash
+      - name: Run Action (should use preinstalled pixi)
+        uses: ./
         with:
           cache: false
-      - run: |
-          set -o pipefail
-          pixi --version | grep -q "pixi 0.14.0"
-          which pixi | grep -q ~/custom-existing-pixi/pixi
-
-  dont-use-existing-pixi-bin:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v4
-      - name: Move pixi.toml
-        run: mv test/default/* .
-      - name: Create pixi directory and add to PATH
-        run: |
-          mkdir -p ~/custom-existing-pixi
-          echo "~/custom-existing-pixi" >> $GITHUB_PATH
-      - name: Prepare fake pixi executable
-        run: |
-          echo -e '#!/bin/bash\necho "fake pixi - this should not execute"\nexit 1' > ~/custom-existing-pixi/pixi
-          chmod +x ~/custom-existing-pixi/pixi
-        if: matrix.os != 'windows-latest'
-      - name: Prepare fake pixi executable (Windows)
-        run: |
-          echo "fake pixi - this should not execute" > ~/custom-existing-pixi/pixi.exe
-        if: matrix.os == 'windows-latest'
-      - uses: ./
+        if: matrix.ignoreReason == 'none'
+      - name: Run Action (version-latest should overwrite preinstalled pixi)
+        uses: ./
         with:
-          pixi-version: v0.15.1
-      - run: |
-          set -o pipefail
-          pixi --version | grep -q "pixi 0.15.1"
+          cache: false
+          pixi-version: latest
+        if: matrix.ignoreReason == 'version-latest'
+      - name: Run Action (version should overwrite preinstalled pixi)
+        uses: ./
+        with:
+          cache: false
+          pixi-version: v0.16.0
+        if: matrix.ignoreReason == 'version'
+      - name: Run Action (url should overwrite preinstalled pixi)
+        uses: ./
+        with:
+          cache: false
+          pixi-url: |
+            ${{
+                matrix.os == 'ubuntu-latest' &&
+                    'https://github.com/prefix-dev/pixi/releases/download/v0.16.0/pixi-x86_64-unknown-linux-musl'
+                || matrix.os == 'macos-latest' &&
+                    'https://github.com/prefix-dev/pixi/releases/download/v0.16.0/pixi-x86_64-apple-darwin'
+                || 'https://github.com/prefix-dev/pixi/releases/download/v0.16.0/pixi-x86_64-pc-windows-msvc.exe'
+            }}
+        if: matrix.ignoreReason == 'url'
+      - name: Create custom bin directory
+        run: mkdir custom-bin
+        shell: bash
+        if: matrix.ignoreReason == 'bin-path'
+      - name: Run Action (pixi-bin-path should overwrite preinstalled pixi)
+        uses: ./
+        with:
+          cache: false
+          # this will implicitly set pixi-version to latest
+          pixi-bin-path: custom-bin/pixi${{ matrix.os == 'windows-latest' && '.exe' || '' }}
+        if: matrix.ignoreReason == 'bin-path'
+      - name: Verify pixi version (after setup-pixi) - still at 0.14.0
+        run: |
+          pixi --version
+          pixi --version | grep -q 0.14.0
+        shell: bash
+        if: matrix.ignoreReason == 'none'
+      - name: Verify pixi version (after setup-pixi) - should be 0.16.0
+        run: |
+          pixi --version
+          pixi --version | grep -q 0.16.0
+        shell: bash
+        if: matrix.ignoreReason != 'none' && matrix.ignoreReason != 'bin-path' && matrix.ignoreReason != 'version-latest'
+      - name: Verify pixi version (after setup-pixi) - should be latest
+        run: |
+          pixi --version
+          pixi --version | grep -vq 0.14.0
+          pixi --version | grep -vq 0.16.0
+        shell: bash
+        if: matrix.ignoreReason == 'bin-path' || matrix.ignoreReason == 'version-latest'
+      - name: Verify pixi path (after setup-pixi, no ignore reason)
+        run: |
+          which pixi | grep -q $HOME/custom-existing-pixi/pixi
+        shell: bash
+        if: matrix.ignoreReason == 'none'
+      - name: Verify pixi path (after setup-pixi, ignore reason)
+        run: |
+          which pixi | grep -vq $HOME/custom-existing-pixi/pixi
+        shell: bash
+        if: matrix.ignoreReason != 'none'
 
   auth-token:
     strategy:
@@ -639,7 +693,7 @@ jobs:
           cache-write: false
           cache-key: test-cache-${{ github.sha }}-${{ github.run_attempt }}-
       # check the action logs to see if the cache write was skipped
-  
+
   custom-pyproject-manifest-path:
     strategy:
       matrix:
