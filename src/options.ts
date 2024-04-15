@@ -5,6 +5,7 @@ import { existsSync } from 'fs'
 import * as core from '@actions/core'
 import * as z from 'zod'
 import untildify from 'untildify'
+import which from 'which'
 
 type Inputs = Readonly<{
   pixiVersion?: string
@@ -57,6 +58,7 @@ type Cache = {
 
 export type Options = Readonly<{
   pixiSource: PixiSource
+  downloadPixi: boolean
   logLevel: LogLevel
   manifestPath: string
   pixiLockFile: string
@@ -158,6 +160,27 @@ const validateInputs = (inputs: Inputs): void => {
   }
 }
 
+const determinePixiInstallation = (pixiUrlOrVersionSet: boolean, pixiBinPath: string | undefined) => {
+  const preinstalledPixi = which.sync('pixi', { nothrow: true })
+
+  if (pixiUrlOrVersionSet || pixiBinPath) {
+    if (preinstalledPixi) {
+      core.debug(`Local pixi found at ${preinstalledPixi} is being ignored.`)
+    }
+    return {
+      downloadPixi: true,
+      pixiBinPath: pixiBinPath ? path.resolve(untildify(pixiBinPath)) : PATHS.pixiBin
+    }
+  }
+
+  if (preinstalledPixi) {
+    core.info(`Using pre-installed pixi at ${preinstalledPixi}`)
+    return { downloadPixi: false, pixiBinPath: preinstalledPixi }
+  }
+
+  return { downloadPixi: true, pixiBinPath: PATHS.pixiBin }
+}
+
 const inferOptions = (inputs: Inputs): Options => {
   const runInstall = inputs.runInstall ?? true
   const pixiSource = inputs.pixiVersion
@@ -165,6 +188,11 @@ const inferOptions = (inputs: Inputs): Options => {
     : inputs.pixiUrl
       ? { url: inputs.pixiUrl }
       : { version: 'latest' }
+
+  const { downloadPixi, pixiBinPath } = determinePixiInstallation(
+    !!inputs.pixiVersion || !!inputs.pixiUrl,
+    inputs.pixiBinPath
+  )
   const logLevel = inputs.logLevel ?? (core.isDebug() ? 'vv' : 'default')
   const manifestPath = inputs.manifestPath ? path.resolve(untildify(inputs.manifestPath)) : 'pixi.toml'
   const pixiLockFile = path.join(path.dirname(manifestPath), 'pixi.lock')
@@ -178,7 +206,6 @@ const inferOptions = (inputs: Inputs): Options => {
     : inputs.cache === true || (lockFileAvailable && inputs.cache !== false)
       ? { cacheKeyPrefix: 'pixi-', cacheWrite: inputs.cacheWrite ?? true }
       : undefined
-  const pixiBinPath = inputs.pixiBinPath ? path.resolve(untildify(inputs.pixiBinPath)) : PATHS.pixiBin
   const frozen = inputs.frozen ?? false
   const locked = inputs.locked ?? (lockFileAvailable && !frozen)
   const auth = !inputs.authHost
@@ -201,6 +228,7 @@ const inferOptions = (inputs: Inputs): Options => {
   const postCleanup = inputs.postCleanup ?? true
   return {
     pixiSource,
+    downloadPixi,
     logLevel,
     manifestPath,
     pixiLockFile,

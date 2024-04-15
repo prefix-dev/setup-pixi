@@ -113,7 +113,9 @@ const generateInfo = () => core.group('pixi info', () => execute(pixiCmd('info')
 const run = async () => {
   core.debug(`process.env.HOME: ${process.env.HOME}`)
   core.debug(`os.homedir(): ${os.homedir()}`)
-  await downloadPixi(options.pixiSource)
+  if (options.downloadPixi) {
+    await downloadPixi(options.pixiSource)
+  }
   addPixiToPath()
   await pixiLogin()
   await pixiInstall()

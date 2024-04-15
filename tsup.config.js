@@ -19,6 +19,7 @@ export default defineConfig({
     '@actions/io',
     '@actions/tool-cache',
     'untildify',
+    'which',
     'zod'
   ]
 })
