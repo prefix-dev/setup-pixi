@@ -207,7 +207,7 @@ const inferOptions = (inputs: Inputs): Options => {
       const parsedContent = parse(fileContent)
       // only use pyproject.toml if [tool.pixi] is present
       if (parsedContent.tool && parsedContent.tool.pixi) {
-        core.info('The tool.pixi table found so using pyproject.toml as manifest file.')
+        core.debug('The tool.pixi table found so using pyproject.toml as manifest file.')
         manifestPath = 'pyproject.toml'
       }
     } else {
