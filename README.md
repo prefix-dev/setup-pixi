@@ -322,6 +322,6 @@ If you want to see more examples, you can take a look at the [GitHub Workflows o
 ## Local Development
 
 1. Clone this repository.
-2. Run `pixi run install` inside the repository to install the dependencies.
-3. Run `pixi run dev` for live transpilation of the TypeScript source code.
+2. Run `pnpm install` inside the repository (if you don't have [`pnpm`](https://github.com/pnpm/pnpm) installed, you can install it with `pixi global install pnpm`).
+3. Run `pnpm dev` for live transpilation of the TypeScript source code. 
 4. To test the action, you can run [`act`](https://github.com/nektos/act) (inside docker) or use :sparkles: CI driven development :sparkles:.
