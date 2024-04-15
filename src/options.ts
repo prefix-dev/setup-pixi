@@ -1,7 +1,7 @@
 import path from 'path'
 import os from 'os'
 import { exit } from 'process'
-import { existsSync } from 'fs'
+import { existsSync, readFileSync } from 'fs'
 import * as core from '@actions/core'
 import * as z from 'zod'
 import untildify from 'untildify'
@@ -203,8 +203,11 @@ const inferOptions = (inputs: Inputs): Options => {
     if (existsSync('pixi.toml')) {
       manifestPath = 'pixi.toml'
     } else if (existsSync('pyproject.toml')) {
+      const fileContent = readFileSync('pyproject.toml', 'utf-8')
+      const parsedContent = parse(fileContent)
       // only use pyproject.toml if [tool.pixi] is present
-      if (parse('pyproject.toml').tool?.pixi) {
+      if (parsedContent.tool && parsedContent.tool.pixi) {
+        core.info('The tool.pixi table found so using pyproject.toml as manifest file.')
         manifestPath = 'pyproject.toml'
       }
     } else {

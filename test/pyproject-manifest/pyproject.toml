@@ -17,3 +17,6 @@ platforms = ["linux-64", "osx-arm64", "osx-64", "win-64"]
 
 [tool.pixi.pypi-dependencies]
 boltons = "*"
+
+[tool.pixi.tasks]
+test = "echo 'Running tests...'"
