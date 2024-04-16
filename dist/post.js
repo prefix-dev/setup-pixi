@@ -9957,7 +9957,7 @@ var inferOptions = (inputs) => {
       const fileContent = (0, import_fs.readFileSync)("pyproject.toml", "utf-8");
       const parsedContent = (0, import_toml.parse)(fileContent);
       if (parsedContent.tool && parsedContent.tool.pixi) {
-        core.info("The tool.pixi table found so using pyproject.toml as manifest file.");
+        core.debug("The tool.pixi table found so using pyproject.toml as manifest file.");
         manifestPath = "pyproject.toml";
       }
     } else {
