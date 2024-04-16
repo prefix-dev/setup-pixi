@@ -1,10 +1,11 @@
 import path from 'path'
 import os from 'os'
 import { exit } from 'process'
-import { existsSync } from 'fs'
+import { existsSync, readFileSync } from 'fs'
 import * as core from '@actions/core'
 import * as z from 'zod'
 import untildify from 'untildify'
+import { parse } from 'toml'
 import which from 'which'
 
 type Inputs = Readonly<{
@@ -194,7 +195,27 @@ const inferOptions = (inputs: Inputs): Options => {
     inputs.pixiBinPath
   )
   const logLevel = inputs.logLevel ?? (core.isDebug() ? 'vv' : 'default')
-  const manifestPath = inputs.manifestPath ? path.resolve(untildify(inputs.manifestPath)) : 'pixi.toml'
+  // infer manifest path from inputs or default to pixi.toml or pyproject.toml depending on what is present in the repo.
+  let manifestPath = 'pixi.toml' // default
+  if (inputs.manifestPath) {
+    manifestPath = path.resolve(untildify(inputs.manifestPath))
+  } else {
+    if (existsSync('pixi.toml')) {
+      manifestPath = 'pixi.toml'
+    } else if (existsSync('pyproject.toml')) {
+      const fileContent = readFileSync('pyproject.toml', 'utf-8')
+      const parsedContent = parse(fileContent)
+      // only use pyproject.toml if [tool.pixi] is present
+      if (parsedContent.tool && parsedContent.tool.pixi) {
+        core.debug('The tool.pixi table found so using pyproject.toml as manifest file.')
+        manifestPath = 'pyproject.toml'
+      }
+    } else {
+      if (runInstall) {
+        core.warning('Could not find any manifest file. Defaulting to pixi.toml.')
+      }
+    }
+  }
   const pixiLockFile = path.join(path.dirname(manifestPath), 'pixi.lock')
   const lockFileAvailable = existsSync(pixiLockFile)
   core.debug(`lockFileAvailable: ${lockFileAvailable}`)

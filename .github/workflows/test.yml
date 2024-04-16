@@ -693,6 +693,17 @@ jobs:
           cache-write: false
           cache-key: test-cache-${{ github.sha }}-${{ github.run_attempt }}-
       # check the action logs to see if the cache write was skipped
+  
+  pyproject:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi files
+        run: mv test/pyproject-manifest/* .
+      - uses: ./
+      - run: test -f .pixi/envs/default/bin/python
+      - run: pixi run test
 
   custom-pyproject-manifest-path:
     strategy:
