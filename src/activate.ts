@@ -11,8 +11,8 @@ const splitEnvironment = (shellHook: ShellHook): [Record<string, string>, string
   if (os.platform() === 'win32') {
     // On Windows, environment variables are case-insensitive but JSON isn't...
     const pathEnvs = Object.keys(shellHook.environment_variables).filter((k) => k.toUpperCase() === 'PATH')
-    const caseSensitivePathName = pathEnvs[0]
-    if (pathEnvs.length > 0) {
+    if (pathEnvs) {
+      const caseSensitivePathName = pathEnvs[0]
       const path = shellHook.environment_variables[caseSensitivePathName]
       delete shellHook.environment_variables[caseSensitivePathName]
       return [shellHook.environment_variables, path]
@@ -37,6 +37,8 @@ const getNewPathComponents = (path: string): string[] => {
   if (!path.endsWith(currentPath)) {
     throw new Error('Unable to handle environment activation which does not only append to PATH')
   }
+  core.debug(`Found current path '${currentPath}'`)
+  core.debug(`Got new path '${path}'`)
   const newPath = path.slice(path.length - currentPath.length, path.length)
   return newPath.split(osPath.delimiter).filter((p) => p.length > 0)
 }
@@ -53,12 +55,14 @@ export const activateEnvironment = async (environment: string): Promise<void> =>
   if (path) {
     const newComponents = getNewPathComponents(path)
     for (const component of newComponents) {
+      core.info(`Adding path component '${component}'`)
       core.addPath(component)
     }
   }
 
   // ... as well as all remaining environment variables
   for (const key of Object.keys(envVars)) {
+    core.info(`Exporting environment variable '${key}' = '${envVars[key]}'`)
     core.exportVariable(key, envVars[key])
   }
 }
