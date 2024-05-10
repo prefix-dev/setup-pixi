@@ -717,6 +717,20 @@ jobs:
           cache: true
           manifest-path: test/pyproject-manifest/pyproject.toml
 
+  environment-activation:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi.toml
+        run: mv test/default/* .
+      - uses: ./
+        with:
+          activate-environment: true
+      - run: which python | grep '.pixi/envs/default/bin/python'
+
   # not properly testable
   # https://github.com/actions/runner/issues/2347
   # https://github.com/orgs/community/discussions/15452

@@ -21,8 +21,14 @@ inputs:
   environments:
     description: |
       A space-separated list of environments to install. If not specified, only the default environment is installed.
+  activate-environment:
+    description: |
+      If the installed environment should be "activated" for the current job, modifying $GITHUB_ENV and $GITHUB_PATH.
+      If more than one environment is specified in `environments`, this must be the name of the environment. Defaults
+      to `false`. Requires at least pixi v0.21.0.
   locked:
-    description: Whether to use `pixi install --locked`. Defaults to `true` when the lockfile is present, otherwise `false`.
+    description:
+      Whether to use `pixi install --locked`. Defaults to `true` when the lockfile is present, otherwise `false`.
   frozen:
     description: Whether to use `pixi install --frozen`. Defaults to `false`.
   cache:

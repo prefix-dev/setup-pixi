@@ -2,7 +2,7 @@ import type { BinaryLike } from 'crypto'
 import { createHash } from 'crypto'
 import * as os from 'os'
 import * as core from '@actions/core'
-import { exec } from '@actions/exec'
+import { exec, getExecOutput } from '@actions/exec'
 import { options } from './options'
 
 export const getCondaArch = () => {
@@ -71,6 +71,11 @@ export const sha256Short = (s: BinaryLike) => {
 export const execute = (cmd: string[]) => {
   core.debug(`Executing: ${cmd.join(' ')}`)
   return exec(cmd[0], cmd.slice(1))
+}
+
+export const executeGetOutput = (cmd: string[]) => {
+  core.debug(`Executing: ${cmd.join(' ')}`)
+  return getExecOutput(cmd[0], cmd.slice(1))
 }
 
 export const pixiCmd = (command: string, withManifestPath = true) => {

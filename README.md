@@ -228,6 +228,32 @@ If you want to use PowerShell, you need to specify `-Command` as well.
 > There are some custom shells provided by GitHub that have slightly different behavior, see [`jobs.<job_id>.steps[*].shell`](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsshell) in the documentation.
 > See the [official documentation](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#custom-shell) and [ADR 0277](https://github.com/actions/runner/blob/main/docs/adrs/0277-run-action-shell-options.md) for more information about how the `shell:` input works in GitHub Actions.
 
+### Environment activation
+
+Instead of using a custom shell wrapper, you can also make all pixi-installed binaries available to subsequent steps by "activating" the installed environment in the currently running job.
+To this end, `setup-pixi` adds all environment variables set when executing `pixi run` to `$GITHUB_ENV` and, similarly, adds all path modifications to `$GITHUB_PATH`.
+As a result, all installed binaries can be accessed without having to call `pixi run`.
+
+```yml
+- uses: prefix-dev/setup-pixi@v0.6.0
+  with:
+    activate-environment: true
+```
+
+If you are installing multiple environments, you will need to specify the name of the environment that you want to be activated.
+
+```yml
+- uses: prefix-dev/setup-pixi@v0.6.0
+  with:
+    environments: >-
+      py311
+      py312
+    activate-environment: py311
+```
+
+Activating an environment may be more useful than using a custom shell wrapper as it allows non-shell based steps to access binaries on the path.
+However, be aware that this option augments the environment of your job.
+
 ### `--frozen` and `--locked`
 
 You can specify whether `setup-pixi` should run `pixi install --frozen` or `pixi install --locked` depending on the `frozen` or the `locked` input argument.
