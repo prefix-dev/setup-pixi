@@ -777,7 +777,7 @@ jobs:
       - uses: ./
         with:
           activate-environment: true
-      - run: where python | findstr .pixi\envs\default\python.exe
+      - run: where python | findstr "\.pixi\\envs\\default\\python.exe"
       - run: set | findstr CONDA_PREFIX
       - run: |
           if defined PIXI_ENVIRONMENT_NAME (
