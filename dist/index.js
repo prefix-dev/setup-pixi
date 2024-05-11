@@ -82912,7 +82912,7 @@ var getNewPathComponents = (path4) => {
   return newPath.split(osPath.delimiter).filter((p) => p.length > 0);
 };
 var activateEnvironment = async (environment) => {
-  const shellHookOutput = await executeGetOutput(pixiCmd(`shell-hook -p ${environment} --json`));
+  const shellHookOutput = await executeGetOutput(pixiCmd(`shell-hook -e ${environment} --json`));
   const shellHook = JSON.parse(shellHookOutput.stdout);
   const [envVars, path4] = splitEnvironment(shellHook);
   if (path4) {

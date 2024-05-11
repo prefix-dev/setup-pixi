@@ -45,7 +45,7 @@ const getNewPathComponents = (path: string): string[] => {
 
 export const activateEnvironment = async (environment: string): Promise<void> => {
   // First, obtain the environment variables that would be set by environment activation
-  const shellHookOutput = await executeGetOutput(pixiCmd(`shell-hook -p ${environment} --json`))
+  const shellHookOutput = await executeGetOutput(pixiCmd(`shell-hook -e ${environment} --json`))
   const shellHook: ShellHook = JSON.parse(shellHookOutput.stdout)
 
   // Then, we split the environment variables into the special 'PATH' and all others
