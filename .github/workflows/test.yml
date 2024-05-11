@@ -730,10 +730,14 @@ jobs:
         with:
           activate-environment: true
       - run: which python | grep '.pixi/envs/default/bin/python'
-        shell: bash
+      - run: env | grep CONDA_PREFIX
+      - run: '[[ $PIXI_ENVIRONMENT_NAME = "default" ]]'
 
   environment-activation-windows-bash:
     runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@v4
       - name: Move pixi.toml
@@ -741,11 +745,15 @@ jobs:
       - uses: ./
         with:
           activate-environment: true
-      - run: which python
-        shell: bash
+      - run: which python | grep '.pixi/envs/default/python'
+      - run: env | grep CONDA_PREFIX
+      - run: '[[ $PIXI_ENVIRONMENT_NAME = "default" ]]'
 
   environment-activation-windows-pwsh:
     runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
     steps:
       - uses: actions/checkout@v4
       - name: Move pixi.toml
@@ -753,11 +761,15 @@ jobs:
       - uses: ./
         with:
           activate-environment: true
-      - run: which python
-        shell: pwsh
+      - run: if (-Not (Get-Command python).Path -like '*\.pixi\envs\default\python') { exit 1 }
+      - run: if (!$env:CONDA_PREFIX) { exit 1 }
+      - run: if ($env:PIXI_ENVIRONMENT_NAME -ne "default") { exit 1 }
 
   environment-activation-windows-cmd:
     runs-on: windows-latest
+    defaults:
+      run:
+        shell: cmd
     steps:
       - uses: actions/checkout@v4
       - name: Move pixi.toml
@@ -765,8 +777,14 @@ jobs:
       - uses: ./
         with:
           activate-environment: true
-      - run: which python
-        shell: cmd
+      - run: where python | findstr /r ".pixi\envs\default\python"
+      - run: set | findstr /r CONDA_PREFIX
+      - run: |
+          if defined PIXI_ENVIRONMENT_NAME (
+            if "%PIXI_ENVIRONMENT_NAME%" != "default" (
+              exit 1
+            )
+          )
 
   # not properly testable
   # https://github.com/actions/runner/issues/2347
