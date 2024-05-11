@@ -319,10 +319,10 @@ const getOptions = () => {
     authCondaToken: parseOrUndefined('auth-conda-token', z.string()),
     postCleanup: parseOrUndefinedJSON('post-cleanup', z.boolean())
   }
-  core.debug(`Inputs: ${JSON.stringify(inputs)}`)
+  core.info(`Inputs: ${JSON.stringify(inputs)}`)
   validateInputs(inputs)
   const options = inferOptions(inputs)
-  core.debug(`Inferred options: ${JSON.stringify(options)}`)
+  core.info(`Inferred options: ${JSON.stringify(options)}`)
   assertOptions(options)
   return options
 }

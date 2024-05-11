@@ -10049,10 +10049,10 @@ var getOptions = () => {
     authCondaToken: parseOrUndefined("auth-conda-token", stringType()),
     postCleanup: parseOrUndefinedJSON("post-cleanup", booleanType())
   };
-  core.debug(`Inputs: ${JSON.stringify(inputs)}`);
+  core.info(`Inputs: ${JSON.stringify(inputs)}`);
   validateInputs(inputs);
   const options2 = inferOptions(inputs);
-  core.debug(`Inferred options: ${JSON.stringify(options2)}`);
+  core.info(`Inferred options: ${JSON.stringify(options2)}`);
   assertOptions(options2);
   return options2;
 };
