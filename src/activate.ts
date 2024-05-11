@@ -39,7 +39,7 @@ const getNewPathComponents = (path: string): string[] => {
   }
   core.debug(`Found current path '${currentPath}'`)
   core.debug(`Got new path '${path}'`)
-  const newPath = path.slice(path.length - currentPath.length, path.length)
+  const newPath = path.slice(0, path.length - currentPath.length)
   return newPath.split(osPath.delimiter).filter((p) => p.length > 0)
 }
 
@@ -63,7 +63,7 @@ export const activateEnvironment = async (environment: string): Promise<void> =>
 
   // ... as well as all remaining environment variables
   for (const key of Object.keys(envVars)) {
-    core.info(`Exporting environment variable '${key}' = '${envVars[key]}'`)
+    core.info(`Exporting environment variable '${key}=${envVars[key]}'`)
     core.exportVariable(key, envVars[key])
   }
 }

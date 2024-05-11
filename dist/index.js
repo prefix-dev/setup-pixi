@@ -82908,7 +82908,7 @@ var getNewPathComponents = (path4) => {
   }
   core4.debug(`Found current path '${currentPath}'`);
   core4.debug(`Got new path '${path4}'`);
-  const newPath = path4.slice(path4.length - currentPath.length, path4.length);
+  const newPath = path4.slice(0, path4.length - currentPath.length);
   return newPath.split(osPath.delimiter).filter((p) => p.length > 0);
 };
 var activateEnvironment = async (environment) => {
@@ -82924,7 +82924,7 @@ var activateEnvironment = async (environment) => {
     }
   }
   for (const key of Object.keys(envVars)) {
-    core4.info(`Exporting environment variable '${key}' = '${envVars[key]}'`);
+    core4.info(`Exporting environment variable '${key}=${envVars[key]}'`);
     core4.exportVariable(key, envVars[key]);
   }
 };
