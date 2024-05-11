@@ -82562,7 +82562,7 @@ var validateInputs = (inputs) => {
   if (inputs.runInstall === false && inputs.environments) {
     throw new Error("Cannot specify environments without running install");
   }
-  if (inputs.activateEnvironment === true && inputs.environments && inputs.environments.length > 1) {
+  if (inputs.activateEnvironment === "true" && inputs.environments && inputs.environments.length > 1) {
     throw new Error("When installing multiple environments, `activate-environment` must specify the environment name");
   }
 };
@@ -82617,13 +82617,13 @@ var inferOptions = (inputs) => {
     throw new Error("You cannot specify cache-write = true without a lock file present");
   }
   let activatedEnvironment;
-  if (inputs.activateEnvironment === true) {
+  if (inputs.activateEnvironment === "true") {
     if (inputs.environments) {
       activatedEnvironment = inputs.environments[0];
     } else {
       activatedEnvironment = "default";
     }
-  } else if (inputs.activateEnvironment) {
+  } else if (inputs.activateEnvironment && inputs.activateEnvironment !== "false") {
     activatedEnvironment = inputs.activateEnvironment;
   }
   const cache2 = inputs.cacheKey ? { cacheKeyPrefix: inputs.cacheKey, cacheWrite: inputs.cacheWrite ?? true } : inputs.cache === true || lockFileAvailable && inputs.cache !== false ? { cacheKeyPrefix: "pixi-", cacheWrite: inputs.cacheWrite ?? true } : void 0;
@@ -82676,7 +82676,7 @@ var getOptions = () => {
     manifestPath: parseOrUndefined("manifest-path", stringType()),
     runInstall: parseOrUndefinedJSON("run-install", booleanType()),
     environments: parseOrUndefinedList("environments", stringType()),
-    activateEnvironment: parseOrUndefined("activate-environment", unionType([booleanType(), stringType()])),
+    activateEnvironment: parseOrUndefined("activate-environment", stringType()),
     locked: parseOrUndefinedJSON("locked", booleanType()),
     frozen: parseOrUndefinedJSON("frozen", booleanType()),
     cache: parseOrUndefinedJSON("cache", booleanType()),
@@ -82690,10 +82690,10 @@ var getOptions = () => {
     authCondaToken: parseOrUndefined("auth-conda-token", stringType()),
     postCleanup: parseOrUndefinedJSON("post-cleanup", booleanType())
   };
-  core.info(`Inputs: ${JSON.stringify(inputs)}`);
+  core.debug(`Inputs: ${JSON.stringify(inputs)}`);
   validateInputs(inputs);
   const options2 = inferOptions(inputs);
-  core.info(`Inferred options: ${JSON.stringify(options2)}`);
+  core.debug(`Inferred options: ${JSON.stringify(options2)}`);
   assertOptions(options2);
   return options2;
 };

@@ -161,7 +161,7 @@ const validateInputs = (inputs: Inputs): void => {
   if (inputs.runInstall === false && inputs.environments) {
     throw new Error('Cannot specify environments without running install')
   }
-  if (inputs.activateEnvironment === true && inputs.environments && inputs.environments.length > 1) {
+  if (inputs.activateEnvironment === 'true' && inputs.environments && inputs.environments.length > 1) {
     throw new Error('When installing multiple environments, `activate-environment` must specify the environment name')
   }
 }
@@ -228,13 +228,13 @@ const inferOptions = (inputs: Inputs): Options => {
     throw new Error('You cannot specify cache-write = true without a lock file present')
   }
   let activatedEnvironment // default is undefined
-  if (inputs.activateEnvironment === true) {
+  if (inputs.activateEnvironment === 'true') {
     if (inputs.environments) {
       activatedEnvironment = inputs.environments[0]
     } else {
       activatedEnvironment = 'default'
     }
-  } else if (inputs.activateEnvironment) {
+  } else if (inputs.activateEnvironment && inputs.activateEnvironment !== 'false') {
     activatedEnvironment = inputs.activateEnvironment
   }
   const cache = inputs.cacheKey
@@ -305,7 +305,7 @@ const getOptions = () => {
     manifestPath: parseOrUndefined('manifest-path', z.string()),
     runInstall: parseOrUndefinedJSON('run-install', z.boolean()),
     environments: parseOrUndefinedList('environments', z.string()),
-    activateEnvironment: parseOrUndefined('activate-environment', z.union([z.boolean(), z.string()])),
+    activateEnvironment: parseOrUndefined('activate-environment', z.string()),
     locked: parseOrUndefinedJSON('locked', z.boolean()),
     frozen: parseOrUndefinedJSON('frozen', z.boolean()),
     cache: parseOrUndefinedJSON('cache', z.boolean()),
@@ -319,10 +319,10 @@ const getOptions = () => {
     authCondaToken: parseOrUndefined('auth-conda-token', z.string()),
     postCleanup: parseOrUndefinedJSON('post-cleanup', z.boolean())
   }
-  core.info(`Inputs: ${JSON.stringify(inputs)}`)
+  core.debug(`Inputs: ${JSON.stringify(inputs)}`)
   validateInputs(inputs)
   const options = inferOptions(inputs)
-  core.info(`Inferred options: ${JSON.stringify(options)}`)
+  core.debug(`Inferred options: ${JSON.stringify(options)}`)
   assertOptions(options)
   return options
 }
