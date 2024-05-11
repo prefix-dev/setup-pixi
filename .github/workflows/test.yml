@@ -11,7 +11,7 @@ jobs:
   default:
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest, macos-14]
+        os: [ubuntu-latest, macos-latest, windows-latest, macos-13]
         cache: [true, false]
     runs-on: ${{ matrix.os }}
     name: default ${{ matrix.cache == true && 'with' || 'without' }} cache (${{ matrix.os }})
@@ -76,7 +76,7 @@ jobs:
   custom-pixi-version:
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest, macos-14]
+        os: [ubuntu-latest, macos-latest, windows-latest, macos-13]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -113,7 +113,7 @@ jobs:
   install-path:
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest, macos-14]
+        os: [ubuntu-latest, macos-latest, windows-latest, macos-13]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -126,7 +126,7 @@ jobs:
   global-install:
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest, macos-14]
+        os: [ubuntu-latest, macos-latest, windows-latest, macos-13]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -579,7 +579,7 @@ jobs:
     name: multiple-environments (${{ matrix.os }}, cache=${{ matrix.cache }})
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest, macos-14]
+        os: [ubuntu-latest, macos-latest, windows-latest, macos-13]
         cache: ['true', 'false']
     runs-on: ${{ matrix.os }}
     steps:
@@ -617,7 +617,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest, macos-14]
+        os: [windows-latest, ubuntu-latest, macos-latest, macos-13]
     steps:
       - uses: actions/checkout@v4
       - name: Move pixi files
@@ -633,7 +633,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest, macos-14]
+        os: [windows-latest, ubuntu-latest, macos-latest, macos-13]
     steps:
       - uses: actions/checkout@v4
       - name: Move pixi files
@@ -658,7 +658,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest, macos-14]
+        os: [windows-latest, ubuntu-latest, macos-latest, macos-13]
     steps:
       - uses: actions/checkout@v4
       - name: Move pixi files
@@ -682,7 +682,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest, macos-14]
+        os: [windows-latest, ubuntu-latest, macos-latest, macos-13]
     steps:
       - uses: actions/checkout@v4
       - name: Move pixi files
