@@ -8,6 +8,7 @@ import type { PixiSource } from './options'
 import { options } from './options'
 import { execute, getPixiUrlFromVersion, pixiCmd } from './util'
 import { saveCache, tryRestoreCache } from './cache'
+import { activateEnvironment } from './activate'
 
 const downloadPixi = (source: PixiSource) => {
   const url = 'version' in source ? getPixiUrlFromVersion(source.version) : source.url
@@ -110,6 +111,8 @@ const generateList = async () => {
 
 const generateInfo = () => core.group('pixi info', () => execute(pixiCmd('info')))
 
+const activateEnv = (environment: string) => core.group('Activate environment', () => activateEnvironment(environment))
+
 const run = async () => {
   core.debug(`process.env.HOME: ${process.env.HOME}`)
   core.debug(`os.homedir(): ${os.homedir()}`)
@@ -121,6 +124,9 @@ const run = async () => {
   await pixiInstall()
   await generateInfo()
   await generateList()
+  if (options.activatedEnvironment) {
+    await activateEnv(options.activatedEnvironment)
+  }
 }
 
 run().catch((error) => {

@@ -15,6 +15,7 @@ type Inputs = Readonly<{
   manifestPath?: string
   runInstall?: boolean
   environments?: string[]
+  activateEnvironment?: boolean | string
   frozen?: boolean
   locked?: boolean
   cache?: boolean
@@ -71,6 +72,7 @@ export type Options = Readonly<{
   pixiBinPath: string
   auth?: Auth
   postCleanup: boolean
+  activatedEnvironment?: string
 }>
 
 const logLevelSchema = z.enum(['q', 'default', 'v', 'vv', 'vvv'])
@@ -159,6 +161,9 @@ const validateInputs = (inputs: Inputs): void => {
   if (inputs.runInstall === false && inputs.environments) {
     throw new Error('Cannot specify environments without running install')
   }
+  if (inputs.activateEnvironment === 'true' && inputs.environments && inputs.environments.length > 1) {
+    throw new Error('When installing multiple environments, `activate-environment` must specify the environment name')
+  }
 }
 
 const determinePixiInstallation = (pixiUrlOrVersionSet: boolean, pixiBinPath: string | undefined) => {
@@ -222,6 +227,16 @@ const inferOptions = (inputs: Inputs): Options => {
   if (!lockFileAvailable && inputs.cacheWrite === true) {
     throw new Error('You cannot specify cache-write = true without a lock file present')
   }
+  let activatedEnvironment // default is undefined
+  if (inputs.activateEnvironment === 'true') {
+    if (inputs.environments) {
+      activatedEnvironment = inputs.environments[0]
+    } else {
+      activatedEnvironment = 'default'
+    }
+  } else if (inputs.activateEnvironment && inputs.activateEnvironment !== 'false') {
+    activatedEnvironment = inputs.activateEnvironment
+  }
   const cache = inputs.cacheKey
     ? { cacheKeyPrefix: inputs.cacheKey, cacheWrite: inputs.cacheWrite ?? true }
     : inputs.cache === true || (lockFileAvailable && inputs.cache !== false)
@@ -255,6 +270,7 @@ const inferOptions = (inputs: Inputs): Options => {
     pixiLockFile,
     runInstall,
     environments: inputs.environments,
+    activatedEnvironment,
     frozen,
     locked,
     cache,
@@ -289,6 +305,7 @@ const getOptions = () => {
     manifestPath: parseOrUndefined('manifest-path', z.string()),
     runInstall: parseOrUndefinedJSON('run-install', z.boolean()),
     environments: parseOrUndefinedList('environments', z.string()),
+    activateEnvironment: parseOrUndefined('activate-environment', z.string()),
     locked: parseOrUndefinedJSON('locked', z.boolean()),
     frozen: parseOrUndefinedJSON('frozen', z.boolean()),
     cache: parseOrUndefinedJSON('cache', z.boolean()),

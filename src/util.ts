@@ -2,7 +2,8 @@ import type { BinaryLike } from 'crypto'
 import { createHash } from 'crypto'
 import * as os from 'os'
 import * as core from '@actions/core'
-import { exec } from '@actions/exec'
+import type { ExecOptions } from '@actions/exec'
+import { exec, getExecOutput } from '@actions/exec'
 import { options } from './options'
 
 export const getCondaArch = () => {
@@ -73,8 +74,13 @@ export const execute = (cmd: string[]) => {
   return exec(cmd[0], cmd.slice(1))
 }
 
+export const executeGetOutput = (cmd: string[], options?: ExecOptions) => {
+  core.debug(`Executing: ${cmd.join(' ')}`)
+  return getExecOutput(cmd[0], cmd.slice(1), options)
+}
+
 export const pixiCmd = (command: string, withManifestPath = true) => {
-  let commandArray = [options.pixiBinPath].concat(command.split(' '))
+  let commandArray = [options.pixiBinPath].concat(command.split(' ').filter((x) => x !== ''))
   if (withManifestPath) {
     commandArray = commandArray.concat(['--manifest-path', options.manifestPath])
   }

@@ -126,11 +126,11 @@ var require_command = __commonJS({
     };
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.issue = exports2.issueCommand = void 0;
-    var os7 = __importStar(require("os"));
+    var os8 = __importStar(require("os"));
     var utils_1 = require_utils();
     function issueCommand(command, properties, message) {
       const cmd = new Command(command, properties, message);
-      process.stdout.write(cmd.toString() + os7.EOL);
+      process.stdout.write(cmd.toString() + os8.EOL);
     }
     exports2.issueCommand = issueCommand;
     function issue(name, message = "") {
@@ -562,7 +562,7 @@ var require_file_command = __commonJS({
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.prepareKeyValueMessage = exports2.issueFileCommand = void 0;
     var fs4 = __importStar(require("fs"));
-    var os7 = __importStar(require("os"));
+    var os8 = __importStar(require("os"));
     var uuid_1 = (init_esm_node(), __toCommonJS(esm_node_exports));
     var utils_1 = require_utils();
     function issueFileCommand(command, message) {
@@ -573,21 +573,21 @@ var require_file_command = __commonJS({
       if (!fs4.existsSync(filePath)) {
         throw new Error(`Missing file at path: ${filePath}`);
       }
-      fs4.appendFileSync(filePath, `${utils_1.toCommandValue(message)}${os7.EOL}`, {
+      fs4.appendFileSync(filePath, `${utils_1.toCommandValue(message)}${os8.EOL}`, {
         encoding: "utf8"
       });
     }
     exports2.issueFileCommand = issueFileCommand;
     function prepareKeyValueMessage(key, value) {
-      const delimiter2 = `ghadelimiter_${uuid_1.v4()}`;
+      const delimiter3 = `ghadelimiter_${uuid_1.v4()}`;
       const convertedValue = utils_1.toCommandValue(value);
-      if (key.includes(delimiter2)) {
-        throw new Error(`Unexpected input: name should not contain the delimiter "${delimiter2}"`);
+      if (key.includes(delimiter3)) {
+        throw new Error(`Unexpected input: name should not contain the delimiter "${delimiter3}"`);
       }
-      if (convertedValue.includes(delimiter2)) {
-        throw new Error(`Unexpected input: value should not contain the delimiter "${delimiter2}"`);
+      if (convertedValue.includes(delimiter3)) {
+        throw new Error(`Unexpected input: value should not contain the delimiter "${delimiter3}"`);
       }
-      return `${key}<<${delimiter2}${os7.EOL}${convertedValue}${os7.EOL}${delimiter2}`;
+      return `${key}<<${delimiter3}${os8.EOL}${convertedValue}${os8.EOL}${delimiter3}`;
     }
     exports2.prepareKeyValueMessage = prepareKeyValueMessage;
   }
@@ -765,7 +765,7 @@ var require_tunnel = __commonJS({
         connectOptions.headers = connectOptions.headers || {};
         connectOptions.headers["Proxy-Authorization"] = "Basic " + new Buffer(connectOptions.proxyAuth).toString("base64");
       }
-      debug5("making CONNECT request");
+      debug6("making CONNECT request");
       var connectReq = self2.request(connectOptions);
       connectReq.useChunkedEncodingByDefault = false;
       connectReq.once("response", onResponse);
@@ -785,7 +785,7 @@ var require_tunnel = __commonJS({
         connectReq.removeAllListeners();
         socket.removeAllListeners();
         if (res.statusCode !== 200) {
-          debug5(
+          debug6(
             "tunneling socket could not be established, statusCode=%d",
             res.statusCode
           );
@@ -797,7 +797,7 @@ var require_tunnel = __commonJS({
           return;
         }
         if (head.length > 0) {
-          debug5("got illegal response body from proxy");
+          debug6("got illegal response body from proxy");
           socket.destroy();
           var error2 = new Error("got illegal response body from proxy");
           error2.code = "ECONNRESET";
@@ -805,13 +805,13 @@ var require_tunnel = __commonJS({
           self2.removeSocket(placeholder);
           return;
         }
-        debug5("tunneling connection has established");
+        debug6("tunneling connection has established");
         self2.sockets[self2.sockets.indexOf(placeholder)] = socket;
         return cb(socket);
       }
       function onError(cause) {
         connectReq.removeAllListeners();
-        debug5(
+        debug6(
           "tunneling socket could not be established, cause=%s\n",
           cause.message,
           cause.stack
@@ -873,9 +873,9 @@ var require_tunnel = __commonJS({
       }
       return target;
     }
-    var debug5;
+    var debug6;
     if (process.env.NODE_DEBUG && /\btunnel\b/.test(process.env.NODE_DEBUG)) {
-      debug5 = function() {
+      debug6 = function() {
         var args = Array.prototype.slice.call(arguments);
         if (typeof args[0] === "string") {
           args[0] = "TUNNEL: " + args[0];
@@ -885,10 +885,10 @@ var require_tunnel = __commonJS({
         console.error.apply(console, args);
       };
     } else {
-      debug5 = function() {
+      debug6 = function() {
       };
     }
-    exports2.debug = debug5;
+    exports2.debug = debug6;
   }
 });
 
@@ -1197,12 +1197,12 @@ var require_lib = __commonJS({
             throw new Error("Client has already been disposed.");
           }
           const parsedUrl = new URL(requestUrl);
-          let info4 = this._prepareRequest(verb, parsedUrl, headers);
+          let info5 = this._prepareRequest(verb, parsedUrl, headers);
           const maxTries = this._allowRetries && RetryableHttpVerbs.includes(verb) ? this._maxRetries + 1 : 1;
           let numTries = 0;
           let response;
           do {
-            response = yield this.requestRaw(info4, data);
+            response = yield this.requestRaw(info5, data);
             if (response && response.message && response.message.statusCode === HttpCodes.Unauthorized) {
               let authenticationHandler;
               for (const handler of this.handlers) {
@@ -1212,7 +1212,7 @@ var require_lib = __commonJS({
                 }
               }
               if (authenticationHandler) {
-                return authenticationHandler.handleAuthentication(this, info4, data);
+                return authenticationHandler.handleAuthentication(this, info5, data);
               } else {
                 return response;
               }
@@ -1235,8 +1235,8 @@ var require_lib = __commonJS({
                   }
                 }
               }
-              info4 = this._prepareRequest(verb, parsedRedirectUrl, headers);
-              response = yield this.requestRaw(info4, data);
+              info5 = this._prepareRequest(verb, parsedRedirectUrl, headers);
+              response = yield this.requestRaw(info5, data);
               redirectsRemaining--;
             }
             if (!response.message.statusCode || !HttpResponseRetryCodes.includes(response.message.statusCode)) {
@@ -1265,7 +1265,7 @@ var require_lib = __commonJS({
        * @param info
        * @param data
        */
-      requestRaw(info4, data) {
+      requestRaw(info5, data) {
         return __awaiter(this, void 0, void 0, function* () {
           return new Promise((resolve, reject) => {
             function callbackForResult(err, res) {
@@ -1277,7 +1277,7 @@ var require_lib = __commonJS({
                 resolve(res);
               }
             }
-            this.requestRawWithCallback(info4, data, callbackForResult);
+            this.requestRawWithCallback(info5, data, callbackForResult);
           });
         });
       }
@@ -1287,12 +1287,12 @@ var require_lib = __commonJS({
        * @param data
        * @param onResult
        */
-      requestRawWithCallback(info4, data, onResult) {
+      requestRawWithCallback(info5, data, onResult) {
         if (typeof data === "string") {
-          if (!info4.options.headers) {
-            info4.options.headers = {};
+          if (!info5.options.headers) {
+            info5.options.headers = {};
           }
-          info4.options.headers["Content-Length"] = Buffer.byteLength(data, "utf8");
+          info5.options.headers["Content-Length"] = Buffer.byteLength(data, "utf8");
         }
         let callbackCalled = false;
         function handleResult2(err, res) {
@@ -1301,7 +1301,7 @@ var require_lib = __commonJS({
             onResult(err, res);
           }
         }
-        const req = info4.httpModule.request(info4.options, (msg) => {
+        const req = info5.httpModule.request(info5.options, (msg) => {
           const res = new HttpClientResponse(msg);
           handleResult2(void 0, res);
         });
@@ -1313,7 +1313,7 @@ var require_lib = __commonJS({
           if (socket) {
             socket.end();
           }
-          handleResult2(new Error(`Request timeout: ${info4.options.path}`));
+          handleResult2(new Error(`Request timeout: ${info5.options.path}`));
         });
         req.on("error", function(err) {
           handleResult2(err);
@@ -1340,27 +1340,27 @@ var require_lib = __commonJS({
         return this._getAgent(parsedUrl);
       }
       _prepareRequest(method, requestUrl, headers) {
-        const info4 = {};
-        info4.parsedUrl = requestUrl;
-        const usingSsl = info4.parsedUrl.protocol === "https:";
-        info4.httpModule = usingSsl ? https3 : http3;
+        const info5 = {};
+        info5.parsedUrl = requestUrl;
+        const usingSsl = info5.parsedUrl.protocol === "https:";
+        info5.httpModule = usingSsl ? https3 : http3;
         const defaultPort = usingSsl ? 443 : 80;
-        info4.options = {};
-        info4.options.host = info4.parsedUrl.hostname;
-        info4.options.port = info4.parsedUrl.port ? parseInt(info4.parsedUrl.port) : defaultPort;
-        info4.options.path = (info4.parsedUrl.pathname || "") + (info4.parsedUrl.search || "");
-        info4.options.method = method;
-        info4.options.headers = this._mergeHeaders(headers);
+        info5.options = {};
+        info5.options.host = info5.parsedUrl.hostname;
+        info5.options.port = info5.parsedUrl.port ? parseInt(info5.parsedUrl.port) : defaultPort;
+        info5.options.path = (info5.parsedUrl.pathname || "") + (info5.parsedUrl.search || "");
+        info5.options.method = method;
+        info5.options.headers = this._mergeHeaders(headers);
         if (this.userAgent != null) {
-          info4.options.headers["user-agent"] = this.userAgent;
+          info5.options.headers["user-agent"] = this.userAgent;
         }
-        info4.options.agent = this._getAgent(info4.parsedUrl);
+        info5.options.agent = this._getAgent(info5.parsedUrl);
         if (this.handlers) {
           for (const handler of this.handlers) {
-            handler.prepareRequest(info4.options);
+            handler.prepareRequest(info5.options);
           }
         }
-        return info4;
+        return info5;
       }
       _mergeHeaders(headers) {
         if (this.requestOptions && this.requestOptions.headers) {
@@ -2103,7 +2103,7 @@ var require_core = __commonJS({
     var command_1 = require_command();
     var file_command_1 = require_file_command();
     var utils_1 = require_utils();
-    var os7 = __importStar(require("os"));
+    var os8 = __importStar(require("os"));
     var path4 = __importStar(require("path"));
     var oidc_utils_1 = require_oidc_utils();
     var ExitCode;
@@ -2111,7 +2111,7 @@ var require_core = __commonJS({
       ExitCode2[ExitCode2["Success"] = 0] = "Success";
       ExitCode2[ExitCode2["Failure"] = 1] = "Failure";
     })(ExitCode = exports2.ExitCode || (exports2.ExitCode = {}));
-    function exportVariable(name, val) {
+    function exportVariable2(name, val) {
       const convertedVal = utils_1.toCommandValue(val);
       process.env[name] = convertedVal;
       const filePath = process.env["GITHUB_ENV"] || "";
@@ -2120,12 +2120,12 @@ var require_core = __commonJS({
       }
       command_1.issueCommand("set-env", { name }, convertedVal);
     }
-    exports2.exportVariable = exportVariable;
+    exports2.exportVariable = exportVariable2;
     function setSecret(secret) {
       command_1.issueCommand("add-mask", {}, secret);
     }
     exports2.setSecret = setSecret;
-    function addPath2(inputPath) {
+    function addPath3(inputPath) {
       const filePath = process.env["GITHUB_PATH"] || "";
       if (filePath) {
         file_command_1.issueFileCommand("PATH", inputPath);
@@ -2134,7 +2134,7 @@ var require_core = __commonJS({
       }
       process.env["PATH"] = `${inputPath}${path4.delimiter}${process.env["PATH"]}`;
     }
-    exports2.addPath = addPath2;
+    exports2.addPath = addPath3;
     function getInput2(name, options2) {
       const val = process.env[`INPUT_${name.replace(/ /g, "_").toUpperCase()}`] || "";
       if (options2 && options2.required && !val) {
@@ -2171,7 +2171,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       if (filePath) {
         return file_command_1.issueFileCommand("OUTPUT", file_command_1.prepareKeyValueMessage(name, value));
       }
-      process.stdout.write(os7.EOL);
+      process.stdout.write(os8.EOL);
       command_1.issueCommand("set-output", { name }, utils_1.toCommandValue(value));
     }
     exports2.setOutput = setOutput;
@@ -2188,10 +2188,10 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       return process.env["RUNNER_DEBUG"] === "1";
     }
     exports2.isDebug = isDebug3;
-    function debug5(message) {
+    function debug6(message) {
       command_1.issueCommand("debug", {}, message);
     }
-    exports2.debug = debug5;
+    exports2.debug = debug6;
     function error2(message, properties = {}) {
       command_1.issueCommand("error", utils_1.toCommandProperties(properties), message instanceof Error ? message.toString() : message);
     }
@@ -2204,10 +2204,10 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       command_1.issueCommand("notice", utils_1.toCommandProperties(properties), message instanceof Error ? message.toString() : message);
     }
     exports2.notice = notice;
-    function info4(message) {
-      process.stdout.write(message + os7.EOL);
+    function info5(message) {
+      process.stdout.write(message + os8.EOL);
     }
-    exports2.info = info4;
+    exports2.info = info5;
     function startGroup(name) {
       command_1.issue("group", name);
     }
@@ -2704,15 +2704,15 @@ var require_semver = __commonJS({
   "node_modules/.pnpm/semver@6.3.1/node_modules/semver/semver.js"(exports2, module2) {
     "use strict";
     exports2 = module2.exports = SemVer;
-    var debug5;
+    var debug6;
     if (typeof process === "object" && process.env && process.env.NODE_DEBUG && /\bsemver\b/i.test(process.env.NODE_DEBUG)) {
-      debug5 = function() {
+      debug6 = function() {
         var args = Array.prototype.slice.call(arguments, 0);
         args.unshift("SEMVER");
         console.log.apply(console, args);
       };
     } else {
-      debug5 = function() {
+      debug6 = function() {
       };
     }
     exports2.SEMVER_SPEC_VERSION = "2.0.0";
@@ -2830,7 +2830,7 @@ var require_semver = __commonJS({
     tok("STAR");
     src[t.STAR] = "(<|>)?=?\\s*\\*";
     for (i = 0; i < R; i++) {
-      debug5(i, src[i]);
+      debug6(i, src[i]);
       if (!re2[i]) {
         re2[i] = new RegExp(src[i]);
         safeRe[i] = new RegExp(makeSafeRe(src[i]));
@@ -2897,7 +2897,7 @@ var require_semver = __commonJS({
       if (!(this instanceof SemVer)) {
         return new SemVer(version3, options2);
       }
-      debug5("SemVer", version3, options2);
+      debug6("SemVer", version3, options2);
       this.options = options2;
       this.loose = !!options2.loose;
       var m = version3.trim().match(options2.loose ? safeRe[t.LOOSE] : safeRe[t.FULL]);
@@ -2944,7 +2944,7 @@ var require_semver = __commonJS({
       return this.version;
     };
     SemVer.prototype.compare = function(other) {
-      debug5("SemVer.compare", this.version, this.options, other);
+      debug6("SemVer.compare", this.version, this.options, other);
       if (!(other instanceof SemVer)) {
         other = new SemVer(other, this.options);
       }
@@ -2971,7 +2971,7 @@ var require_semver = __commonJS({
       do {
         var a = this.prerelease[i2];
         var b = other.prerelease[i2];
-        debug5("prerelease compare", i2, a, b);
+        debug6("prerelease compare", i2, a, b);
         if (a === void 0 && b === void 0) {
           return 0;
         } else if (b === void 0) {
@@ -2993,7 +2993,7 @@ var require_semver = __commonJS({
       do {
         var a = this.build[i2];
         var b = other.build[i2];
-        debug5("prerelease compare", i2, a, b);
+        debug6("prerelease compare", i2, a, b);
         if (a === void 0 && b === void 0) {
           return 0;
         } else if (b === void 0) {
@@ -3253,7 +3253,7 @@ var require_semver = __commonJS({
         return new Comparator(comp26, options2);
       }
       comp26 = comp26.trim().split(/\s+/).join(" ");
-      debug5("comparator", comp26, options2);
+      debug6("comparator", comp26, options2);
       this.options = options2;
       this.loose = !!options2.loose;
       this.parse(comp26);
@@ -3262,7 +3262,7 @@ var require_semver = __commonJS({
       } else {
         this.value = this.operator + this.semver.version;
       }
-      debug5("comp", this);
+      debug6("comp", this);
     }
     var ANY = {};
     Comparator.prototype.parse = function(comp26) {
@@ -3285,7 +3285,7 @@ var require_semver = __commonJS({
       return this.value;
     };
     Comparator.prototype.test = function(version3) {
-      debug5("Comparator.test", version3, this.options.loose);
+      debug6("Comparator.test", version3, this.options.loose);
       if (this.semver === ANY || version3 === ANY) {
         return true;
       }
@@ -3378,9 +3378,9 @@ var require_semver = __commonJS({
       var loose = this.options.loose;
       var hr = loose ? safeRe[t.HYPHENRANGELOOSE] : safeRe[t.HYPHENRANGE];
       range2 = range2.replace(hr, hyphenReplace);
-      debug5("hyphen replace", range2);
+      debug6("hyphen replace", range2);
       range2 = range2.replace(safeRe[t.COMPARATORTRIM], comparatorTrimReplace);
-      debug5("comparator trim", range2, safeRe[t.COMPARATORTRIM]);
+      debug6("comparator trim", range2, safeRe[t.COMPARATORTRIM]);
       range2 = range2.replace(safeRe[t.TILDETRIM], tildeTrimReplace);
       range2 = range2.replace(safeRe[t.CARETTRIM], caretTrimReplace);
       range2 = range2.split(/\s+/).join(" ");
@@ -3433,15 +3433,15 @@ var require_semver = __commonJS({
       });
     }
     function parseComparator(comp26, options2) {
-      debug5("comp", comp26, options2);
+      debug6("comp", comp26, options2);
       comp26 = replaceCarets(comp26, options2);
-      debug5("caret", comp26);
+      debug6("caret", comp26);
       comp26 = replaceTildes(comp26, options2);
-      debug5("tildes", comp26);
+      debug6("tildes", comp26);
       comp26 = replaceXRanges(comp26, options2);
-      debug5("xrange", comp26);
+      debug6("xrange", comp26);
       comp26 = replaceStars(comp26, options2);
-      debug5("stars", comp26);
+      debug6("stars", comp26);
       return comp26;
     }
     function isX(id) {
@@ -3455,7 +3455,7 @@ var require_semver = __commonJS({
     function replaceTilde(comp26, options2) {
       var r = options2.loose ? safeRe[t.TILDELOOSE] : safeRe[t.TILDE];
       return comp26.replace(r, function(_, M, m, p, pr) {
-        debug5("tilde", comp26, _, M, m, p, pr);
+        debug6("tilde", comp26, _, M, m, p, pr);
         var ret;
         if (isX(M)) {
           ret = "";
@@ -3464,12 +3464,12 @@ var require_semver = __commonJS({
         } else if (isX(p)) {
           ret = ">=" + M + "." + m + ".0 <" + M + "." + (+m + 1) + ".0";
         } else if (pr) {
-          debug5("replaceTilde pr", pr);
+          debug6("replaceTilde pr", pr);
           ret = ">=" + M + "." + m + "." + p + "-" + pr + " <" + M + "." + (+m + 1) + ".0";
         } else {
           ret = ">=" + M + "." + m + "." + p + " <" + M + "." + (+m + 1) + ".0";
         }
-        debug5("tilde return", ret);
+        debug6("tilde return", ret);
         return ret;
       });
     }
@@ -3479,10 +3479,10 @@ var require_semver = __commonJS({
       }).join(" ");
     }
     function replaceCaret(comp26, options2) {
-      debug5("caret", comp26, options2);
+      debug6("caret", comp26, options2);
       var r = options2.loose ? safeRe[t.CARETLOOSE] : safeRe[t.CARET];
       return comp26.replace(r, function(_, M, m, p, pr) {
-        debug5("caret", comp26, _, M, m, p, pr);
+        debug6("caret", comp26, _, M, m, p, pr);
         var ret;
         if (isX(M)) {
           ret = "";
@@ -3495,7 +3495,7 @@ var require_semver = __commonJS({
             ret = ">=" + M + "." + m + ".0 <" + (+M + 1) + ".0.0";
           }
         } else if (pr) {
-          debug5("replaceCaret pr", pr);
+          debug6("replaceCaret pr", pr);
           if (M === "0") {
             if (m === "0") {
               ret = ">=" + M + "." + m + "." + p + "-" + pr + " <" + M + "." + m + "." + (+p + 1);
@@ -3506,7 +3506,7 @@ var require_semver = __commonJS({
             ret = ">=" + M + "." + m + "." + p + "-" + pr + " <" + (+M + 1) + ".0.0";
           }
         } else {
-          debug5("no pr");
+          debug6("no pr");
           if (M === "0") {
             if (m === "0") {
               ret = ">=" + M + "." + m + "." + p + " <" + M + "." + m + "." + (+p + 1);
@@ -3517,12 +3517,12 @@ var require_semver = __commonJS({
             ret = ">=" + M + "." + m + "." + p + " <" + (+M + 1) + ".0.0";
           }
         }
-        debug5("caret return", ret);
+        debug6("caret return", ret);
         return ret;
       });
     }
     function replaceXRanges(comp26, options2) {
-      debug5("replaceXRanges", comp26, options2);
+      debug6("replaceXRanges", comp26, options2);
       return comp26.split(/\s+/).map(function(comp27) {
         return replaceXRange(comp27, options2);
       }).join(" ");
@@ -3531,7 +3531,7 @@ var require_semver = __commonJS({
       comp26 = comp26.trim();
       var r = options2.loose ? safeRe[t.XRANGELOOSE] : safeRe[t.XRANGE];
       return comp26.replace(r, function(ret, gtlt, M, m, p, pr) {
-        debug5("xRange", comp26, ret, gtlt, M, m, p, pr);
+        debug6("xRange", comp26, ret, gtlt, M, m, p, pr);
         var xM = isX(M);
         var xm = xM || isX(m);
         var xp = xm || isX(p);
@@ -3575,12 +3575,12 @@ var require_semver = __commonJS({
         } else if (xp) {
           ret = ">=" + M + "." + m + ".0" + pr + " <" + M + "." + (+m + 1) + ".0" + pr;
         }
-        debug5("xRange return", ret);
+        debug6("xRange return", ret);
         return ret;
       });
     }
     function replaceStars(comp26, options2) {
-      debug5("replaceStars", comp26, options2);
+      debug6("replaceStars", comp26, options2);
       return comp26.trim().replace(safeRe[t.STAR], "");
     }
     function hyphenReplace($0, from, fM, fm, fp, fpr, fb, to, tM, tm, tp, tpr, tb) {
@@ -3632,7 +3632,7 @@ var require_semver = __commonJS({
       }
       if (version3.prerelease.length && !options2.includePrerelease) {
         for (i2 = 0; i2 < set.length; i2++) {
-          debug5(set[i2].semver);
+          debug6(set[i2].semver);
           if (set[i2].semver === ANY) {
             continue;
           }
@@ -3913,12 +3913,12 @@ var require_manifest = __commonJS({
     exports2._readLinuxVersionFile = exports2._getOsVersion = exports2._findMatch = void 0;
     var semver = __importStar(require_semver());
     var core_1 = require_core();
-    var os7 = require("os");
+    var os8 = require("os");
     var cp = require("child_process");
     var fs4 = require("fs");
     function _findMatch(versionSpec, stable, candidates, archFilter) {
       return __awaiter(this, void 0, void 0, function* () {
-        const platFilter = os7.platform();
+        const platFilter = os8.platform();
         let result;
         let match;
         let file;
@@ -3955,7 +3955,7 @@ var require_manifest = __commonJS({
     }
     exports2._findMatch = _findMatch;
     function _getOsVersion() {
-      const plat = os7.platform();
+      const plat = os8.platform();
       let version3 = "";
       if (plat === "darwin") {
         version3 = cp.execSync("sw_vers -productVersion").toString();
@@ -4128,7 +4128,7 @@ var require_toolrunner = __commonJS({
     };
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.argStringToArray = exports2.ToolRunner = void 0;
-    var os7 = __importStar(require("os"));
+    var os8 = __importStar(require("os"));
     var events = __importStar(require("events"));
     var child = __importStar(require("child_process"));
     var path4 = __importStar(require("path"));
@@ -4183,12 +4183,12 @@ var require_toolrunner = __commonJS({
       _processLineBuffer(data, strBuffer, onLine) {
         try {
           let s = strBuffer + data.toString();
-          let n = s.indexOf(os7.EOL);
+          let n = s.indexOf(os8.EOL);
           while (n > -1) {
             const line = s.substring(0, n);
             onLine(line);
-            s = s.substring(n + os7.EOL.length);
-            n = s.indexOf(os7.EOL);
+            s = s.substring(n + os8.EOL.length);
+            n = s.indexOf(os8.EOL);
           }
           return s;
         } catch (err) {
@@ -4357,7 +4357,7 @@ var require_toolrunner = __commonJS({
             }
             const optionsNonNull = this._cloneExecOptions(this.options);
             if (!optionsNonNull.silent && optionsNonNull.outStream) {
-              optionsNonNull.outStream.write(this._getCommandString(optionsNonNull) + os7.EOL);
+              optionsNonNull.outStream.write(this._getCommandString(optionsNonNull) + os8.EOL);
             }
             const state = new ExecState(optionsNonNull, this.toolPath);
             state.on("debug", (message) => {
@@ -4632,7 +4632,7 @@ var require_exec = __commonJS({
       });
     }
     exports2.exec = exec2;
-    function getExecOutput(commandLine, args, options2) {
+    function getExecOutput2(commandLine, args, options2) {
       var _a2, _b2;
       return __awaiter(this, void 0, void 0, function* () {
         let stdout = "";
@@ -4664,7 +4664,7 @@ var require_exec = __commonJS({
         };
       });
     }
-    exports2.getExecOutput = getExecOutput;
+    exports2.getExecOutput = getExecOutput2;
   }
 });
 
@@ -4729,7 +4729,7 @@ var require_retry_helper = __commonJS({
     };
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.RetryHelper = void 0;
-    var core5 = __importStar(require_core());
+    var core6 = __importStar(require_core());
     var RetryHelper = class {
       constructor(maxAttempts, minSeconds, maxSeconds) {
         if (maxAttempts < 1) {
@@ -4752,10 +4752,10 @@ var require_retry_helper = __commonJS({
               if (isRetryable && !isRetryable(err)) {
                 throw err;
               }
-              core5.info(err.message);
+              core6.info(err.message);
             }
             const seconds = this.getSleepAmount();
-            core5.info(`Waiting ${seconds} seconds before trying again`);
+            core6.info(`Waiting ${seconds} seconds before trying again`);
             yield this.sleep(seconds);
             attempt++;
           }
@@ -4839,11 +4839,11 @@ var require_tool_cache = __commonJS({
     };
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.evaluateVersions = exports2.isExplicitVersion = exports2.findFromManifest = exports2.getManifestFromRepo = exports2.findAllVersions = exports2.find = exports2.cacheFile = exports2.cacheDir = exports2.extractZip = exports2.extractXar = exports2.extractTar = exports2.extract7z = exports2.downloadTool = exports2.HTTPError = void 0;
-    var core5 = __importStar(require_core());
+    var core6 = __importStar(require_core());
     var io = __importStar(require_io());
     var fs4 = __importStar(require("fs"));
     var mm = __importStar(require_manifest());
-    var os7 = __importStar(require("os"));
+    var os8 = __importStar(require("os"));
     var path4 = __importStar(require("path"));
     var httpm = __importStar(require_lib());
     var semver = __importStar(require_semver());
@@ -4868,8 +4868,8 @@ var require_tool_cache = __commonJS({
       return __awaiter(this, void 0, void 0, function* () {
         dest = dest || path4.join(_getTempDirectory(), v4_1.default());
         yield io.mkdirP(path4.dirname(dest));
-        core5.debug(`Downloading ${url2}`);
-        core5.debug(`Destination ${dest}`);
+        core6.debug(`Downloading ${url2}`);
+        core6.debug(`Destination ${dest}`);
         const maxAttempts = 3;
         const minSeconds = _getGlobal("TEST_DOWNLOAD_TOOL_RETRY_MIN_SECONDS", 10);
         const maxSeconds = _getGlobal("TEST_DOWNLOAD_TOOL_RETRY_MAX_SECONDS", 20);
@@ -4896,7 +4896,7 @@ var require_tool_cache = __commonJS({
           allowRetries: false
         });
         if (auth) {
-          core5.debug("set auth");
+          core6.debug("set auth");
           if (headers === void 0) {
             headers = {};
           }
@@ -4905,7 +4905,7 @@ var require_tool_cache = __commonJS({
         const response = yield http3.get(url2, headers);
         if (response.message.statusCode !== 200) {
           const err = new HTTPError(response.message.statusCode);
-          core5.debug(`Failed to download from "${url2}". Code(${response.message.statusCode}) Message(${response.message.statusMessage})`);
+          core6.debug(`Failed to download from "${url2}". Code(${response.message.statusCode}) Message(${response.message.statusMessage})`);
           throw err;
         }
         const pipeline = util4.promisify(stream.pipeline);
@@ -4914,16 +4914,16 @@ var require_tool_cache = __commonJS({
         let succeeded = false;
         try {
           yield pipeline(readStream, fs4.createWriteStream(dest));
-          core5.debug("download complete");
+          core6.debug("download complete");
           succeeded = true;
           return dest;
         } finally {
           if (!succeeded) {
-            core5.debug("download failed");
+            core6.debug("download failed");
             try {
               yield io.rmRF(dest);
             } catch (err) {
-              core5.debug(`Failed to delete '${dest}'. ${err.message}`);
+              core6.debug(`Failed to delete '${dest}'. ${err.message}`);
             }
           }
         }
@@ -4938,7 +4938,7 @@ var require_tool_cache = __commonJS({
         process.chdir(dest);
         if (_7zPath) {
           try {
-            const logLevel = core5.isDebug() ? "-bb1" : "-bb0";
+            const logLevel = core6.isDebug() ? "-bb1" : "-bb0";
             const args = [
               "x",
               logLevel,
@@ -4988,7 +4988,7 @@ var require_tool_cache = __commonJS({
           throw new Error("parameter 'file' is required");
         }
         dest = yield _createExtractFolder(dest);
-        core5.debug("Checking tar --version");
+        core6.debug("Checking tar --version");
         let versionOutput = "";
         yield exec_1.exec("tar --version", [], {
           ignoreReturnCode: true,
@@ -4998,7 +4998,7 @@ var require_tool_cache = __commonJS({
             stderr: (data) => versionOutput += data.toString()
           }
         });
-        core5.debug(versionOutput.trim());
+        core6.debug(versionOutput.trim());
         const isGnuTar = versionOutput.toUpperCase().includes("GNU TAR");
         let args;
         if (flags instanceof Array) {
@@ -5006,7 +5006,7 @@ var require_tool_cache = __commonJS({
         } else {
           args = [flags];
         }
-        if (core5.isDebug() && !flags.includes("v")) {
+        if (core6.isDebug() && !flags.includes("v")) {
           args.push("-v");
         }
         let destArg = dest;
@@ -5038,7 +5038,7 @@ var require_tool_cache = __commonJS({
           args = [flags];
         }
         args.push("-x", "-C", dest, "-f", file);
-        if (core5.isDebug()) {
+        if (core6.isDebug()) {
           args.push("-v");
         }
         const xarPath = yield io.which("xar", true);
@@ -5083,7 +5083,7 @@ var require_tool_cache = __commonJS({
             "-Command",
             pwshCommand
           ];
-          core5.debug(`Using pwsh at path: ${pwshPath}`);
+          core6.debug(`Using pwsh at path: ${pwshPath}`);
           yield exec_1.exec(`"${pwshPath}"`, args);
         } else {
           const powershellCommand = [
@@ -5103,7 +5103,7 @@ var require_tool_cache = __commonJS({
             powershellCommand
           ];
           const powershellPath = yield io.which("powershell", true);
-          core5.debug(`Using powershell at path: ${powershellPath}`);
+          core6.debug(`Using powershell at path: ${powershellPath}`);
           yield exec_1.exec(`"${powershellPath}"`, args);
         }
       });
@@ -5112,7 +5112,7 @@ var require_tool_cache = __commonJS({
       return __awaiter(this, void 0, void 0, function* () {
         const unzipPath = yield io.which("unzip", true);
         const args = [file];
-        if (!core5.isDebug()) {
+        if (!core6.isDebug()) {
           args.unshift("-q");
         }
         args.unshift("-o");
@@ -5122,9 +5122,9 @@ var require_tool_cache = __commonJS({
     function cacheDir(sourceDir, tool, version3, arch3) {
       return __awaiter(this, void 0, void 0, function* () {
         version3 = semver.clean(version3) || version3;
-        arch3 = arch3 || os7.arch();
-        core5.debug(`Caching tool ${tool} ${version3} ${arch3}`);
-        core5.debug(`source dir: ${sourceDir}`);
+        arch3 = arch3 || os8.arch();
+        core6.debug(`Caching tool ${tool} ${version3} ${arch3}`);
+        core6.debug(`source dir: ${sourceDir}`);
         if (!fs4.statSync(sourceDir).isDirectory()) {
           throw new Error("sourceDir is not a directory");
         }
@@ -5141,15 +5141,15 @@ var require_tool_cache = __commonJS({
     function cacheFile(sourceFile, targetFile, tool, version3, arch3) {
       return __awaiter(this, void 0, void 0, function* () {
         version3 = semver.clean(version3) || version3;
-        arch3 = arch3 || os7.arch();
-        core5.debug(`Caching tool ${tool} ${version3} ${arch3}`);
-        core5.debug(`source file: ${sourceFile}`);
+        arch3 = arch3 || os8.arch();
+        core6.debug(`Caching tool ${tool} ${version3} ${arch3}`);
+        core6.debug(`source file: ${sourceFile}`);
         if (!fs4.statSync(sourceFile).isFile()) {
           throw new Error("sourceFile is not a file");
         }
         const destFolder = yield _createToolPath(tool, version3, arch3);
         const destPath = path4.join(destFolder, targetFile);
-        core5.debug(`destination file ${destPath}`);
+        core6.debug(`destination file ${destPath}`);
         yield io.cp(sourceFile, destPath);
         _completeToolPath(tool, version3, arch3);
         return destFolder;
@@ -5163,7 +5163,7 @@ var require_tool_cache = __commonJS({
       if (!versionSpec) {
         throw new Error("versionSpec parameter is required");
       }
-      arch3 = arch3 || os7.arch();
+      arch3 = arch3 || os8.arch();
       if (!isExplicitVersion(versionSpec)) {
         const localVersions = findAllVersions(toolName, arch3);
         const match = evaluateVersions(localVersions, versionSpec);
@@ -5173,12 +5173,12 @@ var require_tool_cache = __commonJS({
       if (versionSpec) {
         versionSpec = semver.clean(versionSpec) || "";
         const cachePath2 = path4.join(_getCacheDirectory(), toolName, versionSpec, arch3);
-        core5.debug(`checking cache: ${cachePath2}`);
+        core6.debug(`checking cache: ${cachePath2}`);
         if (fs4.existsSync(cachePath2) && fs4.existsSync(`${cachePath2}.complete`)) {
-          core5.debug(`Found tool in cache ${toolName} ${versionSpec} ${arch3}`);
+          core6.debug(`Found tool in cache ${toolName} ${versionSpec} ${arch3}`);
           toolPath = cachePath2;
         } else {
-          core5.debug("not found");
+          core6.debug("not found");
         }
       }
       return toolPath;
@@ -5186,7 +5186,7 @@ var require_tool_cache = __commonJS({
     exports2.find = find2;
     function findAllVersions(toolName, arch3) {
       const versions = [];
-      arch3 = arch3 || os7.arch();
+      arch3 = arch3 || os8.arch();
       const toolPath = path4.join(_getCacheDirectory(), toolName);
       if (fs4.existsSync(toolPath)) {
         const children2 = fs4.readdirSync(toolPath);
@@ -5209,7 +5209,7 @@ var require_tool_cache = __commonJS({
         const http3 = new httpm.HttpClient("tool-cache");
         const headers = {};
         if (auth) {
-          core5.debug("set auth");
+          core6.debug("set auth");
           headers.authorization = auth;
         }
         const response = yield http3.getJson(treeUrl, headers);
@@ -5230,14 +5230,14 @@ var require_tool_cache = __commonJS({
           try {
             releases = JSON.parse(versionsRaw);
           } catch (_a2) {
-            core5.debug("Invalid json");
+            core6.debug("Invalid json");
           }
         }
         return releases;
       });
     }
     exports2.getManifestFromRepo = getManifestFromRepo;
-    function findFromManifest(versionSpec, stable, manifest, archFilter = os7.arch()) {
+    function findFromManifest(versionSpec, stable, manifest, archFilter = os8.arch()) {
       return __awaiter(this, void 0, void 0, function* () {
         const match = yield mm._findMatch(versionSpec, stable, manifest, archFilter);
         return match;
@@ -5256,7 +5256,7 @@ var require_tool_cache = __commonJS({
     function _createToolPath(tool, version3, arch3) {
       return __awaiter(this, void 0, void 0, function* () {
         const folderPath = path4.join(_getCacheDirectory(), tool, semver.clean(version3) || version3, arch3 || "");
-        core5.debug(`destination ${folderPath}`);
+        core6.debug(`destination ${folderPath}`);
         const markerPath = `${folderPath}.complete`;
         yield io.rmRF(folderPath);
         yield io.rmRF(markerPath);
@@ -5268,19 +5268,19 @@ var require_tool_cache = __commonJS({
       const folderPath = path4.join(_getCacheDirectory(), tool, semver.clean(version3) || version3, arch3 || "");
       const markerPath = `${folderPath}.complete`;
       fs4.writeFileSync(markerPath, "");
-      core5.debug("finished caching tool");
+      core6.debug("finished caching tool");
     }
     function isExplicitVersion(versionSpec) {
       const c = semver.clean(versionSpec) || "";
-      core5.debug(`isExplicit: ${c}`);
+      core6.debug(`isExplicit: ${c}`);
       const valid = semver.valid(c) != null;
-      core5.debug(`explicit? ${valid}`);
+      core6.debug(`explicit? ${valid}`);
       return valid;
     }
     exports2.isExplicitVersion = isExplicitVersion;
     function evaluateVersions(versions, versionSpec) {
       let version3 = "";
-      core5.debug(`evaluating ${versions.length} versions`);
+      core6.debug(`evaluating ${versions.length} versions`);
       versions = versions.sort((a, b) => {
         if (semver.gt(a, b)) {
           return 1;
@@ -5296,9 +5296,9 @@ var require_tool_cache = __commonJS({
         }
       }
       if (version3) {
-        core5.debug(`matched: ${version3}`);
+        core6.debug(`matched: ${version3}`);
       } else {
-        core5.debug("match not found");
+        core6.debug("match not found");
       }
       return version3;
     }
@@ -9230,8 +9230,8 @@ var require_cjs = __commonJS({
     var win32 = __importStar(require_win32());
     exports2.win32 = win32;
     __exportStar(require_options(), exports2);
-    var platform2 = process.env._ISEXE_TEST_PLATFORM_ || process.platform;
-    var impl = platform2 === "win32" ? win32 : posix;
+    var platform3 = process.env._ISEXE_TEST_PLATFORM_ || process.platform;
+    var impl = platform3 === "win32" ? win32 : posix;
     exports2.isexe = impl.isexe;
     exports2.sync = impl.sync;
   }
@@ -9242,7 +9242,7 @@ var require_lib2 = __commonJS({
   "node_modules/.pnpm/which@4.0.0/node_modules/which/lib/index.js"(exports2, module2) {
     "use strict";
     var { isexe, sync: isexeSync } = require_cjs();
-    var { join, delimiter: delimiter2, sep, posix } = require("path");
+    var { join, delimiter: delimiter3, sep, posix } = require("path");
     var isWindows = process.platform === "win32";
     var rSlash = new RegExp(`[${posix.sep}${sep === posix.sep ? "" : sep}]`.replace(/(\\)/g, "\\$1"));
     var rRel = new RegExp(`^\\.${rSlash.source}`);
@@ -9250,7 +9250,7 @@ var require_lib2 = __commonJS({
     var getPathInfo = (cmd, {
       path: optPath = process.env.PATH,
       pathExt: optPathExt = process.env.PATHEXT,
-      delimiter: optDelimiter = delimiter2
+      delimiter: optDelimiter = delimiter3
     }) => {
       const pathEnv = cmd.match(rSlash) ? [""] : [
         // windows always checks the cwd first
@@ -9360,7 +9360,7 @@ var require_internal_glob_options_helper = __commonJS({
     };
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getOptions = void 0;
-    var core5 = __importStar(require_core());
+    var core6 = __importStar(require_core());
     function getOptions2(copy) {
       const result = {
         followSymbolicLinks: true,
@@ -9370,15 +9370,15 @@ var require_internal_glob_options_helper = __commonJS({
       if (copy) {
         if (typeof copy.followSymbolicLinks === "boolean") {
           result.followSymbolicLinks = copy.followSymbolicLinks;
-          core5.debug(`followSymbolicLinks '${result.followSymbolicLinks}'`);
+          core6.debug(`followSymbolicLinks '${result.followSymbolicLinks}'`);
         }
         if (typeof copy.implicitDescendants === "boolean") {
           result.implicitDescendants = copy.implicitDescendants;
-          core5.debug(`implicitDescendants '${result.implicitDescendants}'`);
+          core6.debug(`implicitDescendants '${result.implicitDescendants}'`);
         }
         if (typeof copy.omitBrokenSymbolicLinks === "boolean") {
           result.omitBrokenSymbolicLinks = copy.omitBrokenSymbolicLinks;
-          core5.debug(`omitBrokenSymbolicLinks '${result.omitBrokenSymbolicLinks}'`);
+          core6.debug(`omitBrokenSymbolicLinks '${result.omitBrokenSymbolicLinks}'`);
         }
       }
       return result;
@@ -9989,7 +9989,7 @@ var require_minimatch = __commonJS({
       this.parseNegate();
       var set = this.globSet = this.braceExpand();
       if (options2.debug)
-        this.debug = function debug5() {
+        this.debug = function debug6() {
           console.error.apply(console, arguments);
         };
       this.debug(this.pattern, set);
@@ -10584,7 +10584,7 @@ var require_internal_pattern = __commonJS({
     };
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.Pattern = void 0;
-    var os7 = __importStar(require("os"));
+    var os8 = __importStar(require("os"));
     var path4 = __importStar(require("path"));
     var pathHelper = __importStar(require_internal_path_helper());
     var assert_1 = __importDefault(require("assert"));
@@ -10677,7 +10677,7 @@ var require_internal_pattern = __commonJS({
         if (pattern === "." || pattern.startsWith(`.${path4.sep}`)) {
           pattern = _Pattern.globEscape(process.cwd()) + pattern.substr(1);
         } else if (pattern === "~" || pattern.startsWith(`~${path4.sep}`)) {
-          homedir = homedir || os7.homedir();
+          homedir = homedir || os8.homedir();
           assert_1.default(homedir, "Unable to determine HOME directory");
           assert_1.default(pathHelper.hasAbsoluteRoot(homedir), `Expected HOME directory to be a rooted path. Actual '${homedir}'`);
           pattern = _Pattern.globEscape(homedir) + pattern.substr(1);
@@ -10889,7 +10889,7 @@ var require_internal_globber = __commonJS({
     };
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.DefaultGlobber = void 0;
-    var core5 = __importStar(require_core());
+    var core6 = __importStar(require_core());
     var fs4 = __importStar(require("fs"));
     var globOptionsHelper = __importStar(require_internal_glob_options_helper());
     var path4 = __importStar(require("path"));
@@ -10942,7 +10942,7 @@ var require_internal_globber = __commonJS({
           }
           const stack = [];
           for (const searchPath of patternHelper.getSearchPaths(patterns)) {
-            core5.debug(`Search path '${searchPath}'`);
+            core6.debug(`Search path '${searchPath}'`);
             try {
               yield __await2(fs4.promises.lstat(searchPath));
             } catch (err) {
@@ -11014,7 +11014,7 @@ var require_internal_globber = __commonJS({
             } catch (err) {
               if (err.code === "ENOENT") {
                 if (options2.omitBrokenSymbolicLinks) {
-                  core5.debug(`Broken symlink '${item.path}'`);
+                  core6.debug(`Broken symlink '${item.path}'`);
                   return void 0;
                 }
                 throw new Error(`No information found for the path '${item.path}'. This may indicate a broken symbolic link.`);
@@ -11030,7 +11030,7 @@ var require_internal_globber = __commonJS({
               traversalChain.pop();
             }
             if (traversalChain.some((x) => x === realPath)) {
-              core5.debug(`Symlink cycle detected for path '${item.path}' and realpath '${realPath}'`);
+              core6.debug(`Symlink cycle detected for path '${item.path}' and realpath '${realPath}'`);
               return void 0;
             }
             traversalChain.push(realPath);
@@ -11285,7 +11285,7 @@ var require_cacheUtils = __commonJS({
     };
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.isGhes = exports2.assertDefined = exports2.getGnuTarPathOnWindows = exports2.getCacheFileName = exports2.getCompressionMethod = exports2.unlinkFile = exports2.resolvePaths = exports2.getArchiveFileSizeInBytes = exports2.createTempDirectory = void 0;
-    var core5 = __importStar(require_core());
+    var core6 = __importStar(require_core());
     var exec2 = __importStar(require_exec());
     var glob = __importStar(require_glob());
     var io = __importStar(require_io());
@@ -11337,7 +11337,7 @@ var require_cacheUtils = __commonJS({
             _e = false;
             const file = _c2;
             const relativeFile = path4.relative(workspace, file).replace(new RegExp(`\\${path4.sep}`, "g"), "/");
-            core5.debug(`Matched: ${relativeFile}`);
+            core6.debug(`Matched: ${relativeFile}`);
             if (relativeFile === "") {
               paths.push(".");
             } else {
@@ -11369,7 +11369,7 @@ var require_cacheUtils = __commonJS({
       return __awaiter(this, void 0, void 0, function* () {
         let versionOutput = "";
         additionalArgs.push("--version");
-        core5.debug(`Checking ${app} ${additionalArgs.join(" ")}`);
+        core6.debug(`Checking ${app} ${additionalArgs.join(" ")}`);
         try {
           yield exec2.exec(`${app}`, additionalArgs, {
             ignoreReturnCode: true,
@@ -11380,10 +11380,10 @@ var require_cacheUtils = __commonJS({
             }
           });
         } catch (err) {
-          core5.debug(err.message);
+          core6.debug(err.message);
         }
         versionOutput = versionOutput.trim();
-        core5.debug(versionOutput);
+        core6.debug(versionOutput);
         return versionOutput;
       });
     }
@@ -11391,7 +11391,7 @@ var require_cacheUtils = __commonJS({
       return __awaiter(this, void 0, void 0, function* () {
         const versionOutput = yield getVersion("zstd", ["--quiet"]);
         const version3 = semver.clean(versionOutput);
-        core5.debug(`zstd version: ${version3}`);
+        core6.debug(`zstd version: ${version3}`);
         if (versionOutput === "") {
           return constants_1.CompressionMethod.Gzip;
         } else {
@@ -22450,10 +22450,10 @@ var require_headers = __commonJS({
         const lowercaseName = name.toLowerCase();
         const exists = this[kHeadersMap].get(lowercaseName);
         if (exists) {
-          const delimiter2 = lowercaseName === "cookie" ? "; " : ", ";
+          const delimiter3 = lowercaseName === "cookie" ? "; " : ", ";
           this[kHeadersMap].set(lowercaseName, {
             name: exists.name,
-            value: `${exists.value}${delimiter2}${value}`
+            value: `${exists.value}${delimiter3}${value}`
           });
         } else {
           this[kHeadersMap].set(lowercaseName, { name, value });
@@ -28443,12 +28443,12 @@ var require_lib3 = __commonJS({
             throw new Error("Client has already been disposed.");
           }
           const parsedUrl = new URL(requestUrl);
-          let info4 = this._prepareRequest(verb, parsedUrl, headers);
+          let info5 = this._prepareRequest(verb, parsedUrl, headers);
           const maxTries = this._allowRetries && RetryableHttpVerbs.includes(verb) ? this._maxRetries + 1 : 1;
           let numTries = 0;
           let response;
           do {
-            response = yield this.requestRaw(info4, data);
+            response = yield this.requestRaw(info5, data);
             if (response && response.message && response.message.statusCode === HttpCodes.Unauthorized) {
               let authenticationHandler;
               for (const handler of this.handlers) {
@@ -28458,7 +28458,7 @@ var require_lib3 = __commonJS({
                 }
               }
               if (authenticationHandler) {
-                return authenticationHandler.handleAuthentication(this, info4, data);
+                return authenticationHandler.handleAuthentication(this, info5, data);
               } else {
                 return response;
               }
@@ -28481,8 +28481,8 @@ var require_lib3 = __commonJS({
                   }
                 }
               }
-              info4 = this._prepareRequest(verb, parsedRedirectUrl, headers);
-              response = yield this.requestRaw(info4, data);
+              info5 = this._prepareRequest(verb, parsedRedirectUrl, headers);
+              response = yield this.requestRaw(info5, data);
               redirectsRemaining--;
             }
             if (!response.message.statusCode || !HttpResponseRetryCodes.includes(response.message.statusCode)) {
@@ -28511,7 +28511,7 @@ var require_lib3 = __commonJS({
        * @param info
        * @param data
        */
-      requestRaw(info4, data) {
+      requestRaw(info5, data) {
         return __awaiter(this, void 0, void 0, function* () {
           return new Promise((resolve, reject) => {
             function callbackForResult(err, res) {
@@ -28523,7 +28523,7 @@ var require_lib3 = __commonJS({
                 resolve(res);
               }
             }
-            this.requestRawWithCallback(info4, data, callbackForResult);
+            this.requestRawWithCallback(info5, data, callbackForResult);
           });
         });
       }
@@ -28533,12 +28533,12 @@ var require_lib3 = __commonJS({
        * @param data
        * @param onResult
        */
-      requestRawWithCallback(info4, data, onResult) {
+      requestRawWithCallback(info5, data, onResult) {
         if (typeof data === "string") {
-          if (!info4.options.headers) {
-            info4.options.headers = {};
+          if (!info5.options.headers) {
+            info5.options.headers = {};
           }
-          info4.options.headers["Content-Length"] = Buffer.byteLength(data, "utf8");
+          info5.options.headers["Content-Length"] = Buffer.byteLength(data, "utf8");
         }
         let callbackCalled = false;
         function handleResult2(err, res) {
@@ -28547,7 +28547,7 @@ var require_lib3 = __commonJS({
             onResult(err, res);
           }
         }
-        const req = info4.httpModule.request(info4.options, (msg) => {
+        const req = info5.httpModule.request(info5.options, (msg) => {
           const res = new HttpClientResponse(msg);
           handleResult2(void 0, res);
         });
@@ -28559,7 +28559,7 @@ var require_lib3 = __commonJS({
           if (socket) {
             socket.end();
           }
-          handleResult2(new Error(`Request timeout: ${info4.options.path}`));
+          handleResult2(new Error(`Request timeout: ${info5.options.path}`));
         });
         req.on("error", function(err) {
           handleResult2(err);
@@ -28595,27 +28595,27 @@ var require_lib3 = __commonJS({
         return this._getProxyAgentDispatcher(parsedUrl, proxyUrl);
       }
       _prepareRequest(method, requestUrl, headers) {
-        const info4 = {};
-        info4.parsedUrl = requestUrl;
-        const usingSsl = info4.parsedUrl.protocol === "https:";
-        info4.httpModule = usingSsl ? https3 : http3;
+        const info5 = {};
+        info5.parsedUrl = requestUrl;
+        const usingSsl = info5.parsedUrl.protocol === "https:";
+        info5.httpModule = usingSsl ? https3 : http3;
         const defaultPort = usingSsl ? 443 : 80;
-        info4.options = {};
-        info4.options.host = info4.parsedUrl.hostname;
-        info4.options.port = info4.parsedUrl.port ? parseInt(info4.parsedUrl.port) : defaultPort;
-        info4.options.path = (info4.parsedUrl.pathname || "") + (info4.parsedUrl.search || "");
-        info4.options.method = method;
-        info4.options.headers = this._mergeHeaders(headers);
+        info5.options = {};
+        info5.options.host = info5.parsedUrl.hostname;
+        info5.options.port = info5.parsedUrl.port ? parseInt(info5.parsedUrl.port) : defaultPort;
+        info5.options.path = (info5.parsedUrl.pathname || "") + (info5.parsedUrl.search || "");
+        info5.options.method = method;
+        info5.options.headers = this._mergeHeaders(headers);
         if (this.userAgent != null) {
-          info4.options.headers["user-agent"] = this.userAgent;
+          info5.options.headers["user-agent"] = this.userAgent;
         }
-        info4.options.agent = this._getAgent(info4.parsedUrl);
+        info5.options.agent = this._getAgent(info5.parsedUrl);
         if (this.handlers) {
           for (const handler of this.handlers) {
-            handler.prepareRequest(info4.options);
+            handler.prepareRequest(info5.options);
           }
         }
-        return info4;
+        return info5;
       }
       _mergeHeaders(headers) {
         if (this.requestOptions && this.requestOptions.headers) {
@@ -40503,14 +40503,14 @@ function disable() {
   return result;
 }
 function createDebugger(namespace) {
-  const newDebugger = Object.assign(debug5, {
+  const newDebugger = Object.assign(debug6, {
     enabled: enabled(namespace),
     destroy,
     log: debugObj.log,
     namespace,
     extend
   });
-  function debug5(...args) {
+  function debug6(...args) {
     if (!newDebugger.enabled) {
       return;
     }
@@ -50825,9 +50825,9 @@ function getRuntimeInfo() {
   return [msRestRuntime];
 }
 function getUserAgentString(telemetryInfo, keySeparator = " ", valueSeparator = "/") {
-  return telemetryInfo.map((info4) => {
-    const value = info4.value ? `${valueSeparator}${info4.value}` : "";
-    return `${info4.key}${value}`;
+  return telemetryInfo.map((info5) => {
+    const value = info5.value ? `${valueSeparator}${info5.value}` : "";
+    return `${info5.key}${value}`;
   }).join(keySeparator);
 }
 function getDefaultUserAgentValue() {
@@ -63732,9 +63732,9 @@ var init_container = __esm({
        *                  character or a string.
        * @param options The options parameters.
        */
-      listBlobHierarchySegment(delimiter2, options2) {
+      listBlobHierarchySegment(delimiter3, options2) {
         const operationArguments = {
-          delimiter: delimiter2,
+          delimiter: delimiter3,
           options: operationOptionsToRequestOptionsBase(options2 || {})
         };
         return this.client.sendOperationRequest(operationArguments, listBlobHierarchySegmentOperationSpec);
@@ -75607,11 +75607,11 @@ var init_ContainerClient = __esm({
        * @param marker - A string value that identifies the portion of the list to be returned with the next list operation.
        * @param options - Options to Container List Blob Hierarchy Segment operation.
        */
-      async listBlobHierarchySegment(delimiter2, marker2, options2 = {}) {
+      async listBlobHierarchySegment(delimiter3, marker2, options2 = {}) {
         var _a2;
         const { span, updatedOptions } = createSpan2("ContainerClient-listBlobHierarchySegment", options2);
         try {
-          const response = await this.containerContext.listBlobHierarchySegment(delimiter2, Object.assign(Object.assign({ marker: marker2 }, options2), convertTracingToRequestOptionsBase(updatedOptions)));
+          const response = await this.containerContext.listBlobHierarchySegment(delimiter3, Object.assign(Object.assign({ marker: marker2 }, options2), convertTracingToRequestOptionsBase(updatedOptions)));
           const wrappedResponse = Object.assign(Object.assign({}, response), { _response: Object.assign(Object.assign({}, response._response), { parsedBody: ConvertInternalResponseOfListBlobHierarchy(response._response.parsedBody) }), segment: Object.assign(Object.assign({}, response.segment), { blobItems: response.segment.blobItems.map((blobItemInteral) => {
             const blobItem = Object.assign(Object.assign({}, blobItemInteral), { name: BlobNameToString(blobItemInteral.name), tags: toTags(blobItemInteral.blobTags), objectReplicationSourceProperties: parseObjectReplicationRecord(blobItemInteral.objectReplicationMetadata) });
             return blobItem;
@@ -75822,12 +75822,12 @@ var init_ContainerClient = __esm({
        *                          items. The marker value is opaque to the client.
        * @param options - Options to list blobs operation.
        */
-      listHierarchySegments(delimiter2, marker2, options2 = {}) {
+      listHierarchySegments(delimiter3, marker2, options2 = {}) {
         return __asyncGenerator(this, arguments, function* listHierarchySegments_1() {
           let listBlobsHierarchySegmentResponse;
           if (!!marker2 || marker2 === void 0) {
             do {
-              listBlobsHierarchySegmentResponse = yield __await(this.listBlobHierarchySegment(delimiter2, marker2, options2));
+              listBlobsHierarchySegmentResponse = yield __await(this.listBlobHierarchySegment(delimiter3, marker2, options2));
               marker2 = listBlobsHierarchySegmentResponse.continuationToken;
               yield yield __await(yield __await(listBlobsHierarchySegmentResponse));
             } while (marker2);
@@ -75840,12 +75840,12 @@ var init_ContainerClient = __esm({
        * @param delimiter - The character or string used to define the virtual hierarchy
        * @param options - Options to list blobs operation.
        */
-      listItemsByHierarchy(delimiter2, options2 = {}) {
+      listItemsByHierarchy(delimiter3, options2 = {}) {
         return __asyncGenerator(this, arguments, function* listItemsByHierarchy_1() {
           var e_2, _a2;
           let marker2;
           try {
-            for (var _b2 = __asyncValues(this.listHierarchySegments(delimiter2, marker2, options2)), _c2; _c2 = yield __await(_b2.next()), !_c2.done; ) {
+            for (var _b2 = __asyncValues(this.listHierarchySegments(delimiter3, marker2, options2)), _c2; _c2 = yield __await(_b2.next()), !_c2.done; ) {
               const listBlobsHierarchySegmentResponse = _c2.value;
               const segment = listBlobsHierarchySegmentResponse.segment;
               if (segment.blobPrefixes) {
@@ -75948,8 +75948,8 @@ var init_ContainerClient = __esm({
        * @param delimiter - The character or string used to define the virtual hierarchy
        * @param options - Options to list blobs operation.
        */
-      listBlobsByHierarchy(delimiter2, options2 = {}) {
-        if (delimiter2 === "") {
+      listBlobsByHierarchy(delimiter3, options2 = {}) {
+        if (delimiter3 === "") {
           throw new RangeError("delimiter should contain one or more characters");
         }
         const include2 = [];
@@ -75987,7 +75987,7 @@ var init_ContainerClient = __esm({
           options2.prefix = void 0;
         }
         const updatedOptions = Object.assign(Object.assign({}, options2), include2.length > 0 ? { include: include2 } : {});
-        const iter = this.listItemsByHierarchy(delimiter2, updatedOptions);
+        const iter = this.listItemsByHierarchy(delimiter3, updatedOptions);
         return {
           /**
            * The next method, part of the iteration protocol
@@ -76005,7 +76005,7 @@ var init_ContainerClient = __esm({
            * Return an AsyncIterableIterator that works a page at a time
            */
           byPage: (settings = {}) => {
-            return this.listHierarchySegments(delimiter2, settings.continuationToken, Object.assign({ maxPageSize: settings.maxPageSize }, updatedOptions));
+            return this.listHierarchySegments(delimiter3, settings.continuationToken, Object.assign({ maxPageSize: settings.maxPageSize }, updatedOptions));
           }
         };
       }
@@ -77562,7 +77562,7 @@ var require_requestUtils = __commonJS({
     };
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.retryHttpClientResponse = exports2.retryTypedResponse = exports2.retry = exports2.isRetryableStatusCode = exports2.isServerErrorStatusCode = exports2.isSuccessStatusCode = void 0;
-    var core5 = __importStar(require_core());
+    var core6 = __importStar(require_core());
     var http_client_1 = require_lib3();
     var constants_1 = require_constants();
     function isSuccessStatusCode(statusCode) {
@@ -77623,9 +77623,9 @@ var require_requestUtils = __commonJS({
             isRetryable = isRetryableStatusCode(statusCode);
             errorMessage = `Cache service responded with ${statusCode}`;
           }
-          core5.debug(`${name} - Attempt ${attempt} of ${maxAttempts} failed with error: ${errorMessage}`);
+          core6.debug(`${name} - Attempt ${attempt} of ${maxAttempts} failed with error: ${errorMessage}`);
           if (!isRetryable) {
-            core5.debug(`${name} - Error is not retryable`);
+            core6.debug(`${name} - Error is not retryable`);
             break;
           }
           yield sleep(delay3);
@@ -77735,7 +77735,7 @@ var require_downloadUtils = __commonJS({
     };
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.downloadCacheStorageSDK = exports2.downloadCacheHttpClientConcurrent = exports2.downloadCacheHttpClient = exports2.DownloadProgress = void 0;
-    var core5 = __importStar(require_core());
+    var core6 = __importStar(require_core());
     var http_client_1 = require_lib3();
     var storage_blob_1 = (init_src12(), __toCommonJS(src_exports3));
     var buffer = __importStar(require("buffer"));
@@ -77773,7 +77773,7 @@ var require_downloadUtils = __commonJS({
         this.segmentIndex = this.segmentIndex + 1;
         this.segmentSize = segmentSize;
         this.receivedBytes = 0;
-        core5.debug(`Downloading segment at offset ${this.segmentOffset} with length ${this.segmentSize}...`);
+        core6.debug(`Downloading segment at offset ${this.segmentOffset} with length ${this.segmentSize}...`);
       }
       /**
        * Sets the number of bytes received for the current segment.
@@ -77807,7 +77807,7 @@ var require_downloadUtils = __commonJS({
         const percentage = (100 * (transferredBytes / this.contentLength)).toFixed(1);
         const elapsedTime = Date.now() - this.startTime;
         const downloadSpeed = (transferredBytes / (1024 * 1024) / (elapsedTime / 1e3)).toFixed(1);
-        core5.info(`Received ${transferredBytes} of ${this.contentLength} (${percentage}%), ${downloadSpeed} MBs/sec`);
+        core6.info(`Received ${transferredBytes} of ${this.contentLength} (${percentage}%), ${downloadSpeed} MBs/sec`);
         if (this.isDone()) {
           this.displayedComplete = true;
         }
@@ -77857,7 +77857,7 @@ var require_downloadUtils = __commonJS({
         }));
         downloadResponse.message.socket.setTimeout(constants_1.SocketTimeout, () => {
           downloadResponse.message.destroy();
-          core5.debug(`Aborting download, socket timed out after ${constants_1.SocketTimeout} ms`);
+          core6.debug(`Aborting download, socket timed out after ${constants_1.SocketTimeout} ms`);
         });
         yield pipeResponseToStream(downloadResponse, writeStream);
         const contentLengthHeader = downloadResponse.message.headers["content-length"];
@@ -77868,7 +77868,7 @@ var require_downloadUtils = __commonJS({
             throw new Error(`Incomplete download. Expected file size: ${expectedLength}, actual file size: ${actualLength}`);
           }
         } else {
-          core5.debug("Unable to validate download, no Content-Length header");
+          core6.debug("Unable to validate download, no Content-Length header");
         }
       });
     }
@@ -77988,7 +77988,7 @@ var require_downloadUtils = __commonJS({
         const properties = yield client.getProperties();
         const contentLength2 = (_a2 = properties.contentLength) !== null && _a2 !== void 0 ? _a2 : -1;
         if (contentLength2 < 0) {
-          core5.debug("Unable to determine content length, downloading file with http-client...");
+          core6.debug("Unable to determine content length, downloading file with http-client...");
           yield downloadCacheHttpClient(archiveLocation, archivePath);
         } else {
           const maxSegmentSize = Math.min(134217728, buffer.constants.MAX_LENGTH);
@@ -78073,7 +78073,7 @@ var require_options2 = __commonJS({
     };
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getDownloadOptions = exports2.getUploadOptions = void 0;
-    var core5 = __importStar(require_core());
+    var core6 = __importStar(require_core());
     function getUploadOptions(copy) {
       const result = {
         uploadConcurrency: 4,
@@ -78087,8 +78087,8 @@ var require_options2 = __commonJS({
           result.uploadChunkSize = copy.uploadChunkSize;
         }
       }
-      core5.debug(`Upload concurrency: ${result.uploadConcurrency}`);
-      core5.debug(`Upload chunk size: ${result.uploadChunkSize}`);
+      core6.debug(`Upload concurrency: ${result.uploadConcurrency}`);
+      core6.debug(`Upload chunk size: ${result.uploadChunkSize}`);
       return result;
     }
     exports2.getUploadOptions = getUploadOptions;
@@ -78125,12 +78125,12 @@ var require_options2 = __commonJS({
       if (segmentDownloadTimeoutMins && !isNaN(Number(segmentDownloadTimeoutMins)) && isFinite(Number(segmentDownloadTimeoutMins))) {
         result.segmentTimeoutInMs = Number(segmentDownloadTimeoutMins) * 60 * 1e3;
       }
-      core5.debug(`Use Azure SDK: ${result.useAzureSdk}`);
-      core5.debug(`Download concurrency: ${result.downloadConcurrency}`);
-      core5.debug(`Request timeout (ms): ${result.timeoutInMs}`);
-      core5.debug(`Cache segment download timeout mins env var: ${process.env["SEGMENT_DOWNLOAD_TIMEOUT_MINS"]}`);
-      core5.debug(`Segment download timeout (ms): ${result.segmentTimeoutInMs}`);
-      core5.debug(`Lookup only: ${result.lookupOnly}`);
+      core6.debug(`Use Azure SDK: ${result.useAzureSdk}`);
+      core6.debug(`Download concurrency: ${result.downloadConcurrency}`);
+      core6.debug(`Request timeout (ms): ${result.timeoutInMs}`);
+      core6.debug(`Cache segment download timeout mins env var: ${process.env["SEGMENT_DOWNLOAD_TIMEOUT_MINS"]}`);
+      core6.debug(`Segment download timeout (ms): ${result.segmentTimeoutInMs}`);
+      core6.debug(`Lookup only: ${result.lookupOnly}`);
       return result;
     }
     exports2.getDownloadOptions = getDownloadOptions;
@@ -78202,7 +78202,7 @@ var require_cacheHttpClient = __commonJS({
     };
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.saveCache = exports2.reserveCache = exports2.downloadCache = exports2.getCacheEntry = exports2.getCacheVersion = void 0;
-    var core5 = __importStar(require_core());
+    var core6 = __importStar(require_core());
     var http_client_1 = require_lib3();
     var auth_1 = require_auth2();
     var crypto4 = __importStar(require("crypto"));
@@ -78219,7 +78219,7 @@ var require_cacheHttpClient = __commonJS({
         throw new Error("Cache Service Url not found, unable to restore cache.");
       }
       const url2 = `${baseUrl}_apis/artifactcache/${resource}`;
-      core5.debug(`Resource Url: ${url2}`);
+      core6.debug(`Resource Url: ${url2}`);
       return url2;
     }
     function createAcceptHeader(type3, apiVersion) {
@@ -78259,7 +78259,7 @@ var require_cacheHttpClient = __commonJS({
           return httpClient.getJson(getCacheApiUrl(resource));
         }));
         if (response.statusCode === 204) {
-          if (core5.isDebug()) {
+          if (core6.isDebug()) {
             yield printCachesListForDiagnostics(keys[0], httpClient, version3);
           }
           return null;
@@ -78272,9 +78272,9 @@ var require_cacheHttpClient = __commonJS({
         if (!cacheDownloadUrl) {
           throw new Error("Cache not found.");
         }
-        core5.setSecret(cacheDownloadUrl);
-        core5.debug(`Cache Result:`);
-        core5.debug(JSON.stringify(cacheResult));
+        core6.setSecret(cacheDownloadUrl);
+        core6.debug(`Cache Result:`);
+        core6.debug(JSON.stringify(cacheResult));
         return cacheResult;
       });
     }
@@ -78289,10 +78289,10 @@ var require_cacheHttpClient = __commonJS({
           const cacheListResult = response.result;
           const totalCount = cacheListResult === null || cacheListResult === void 0 ? void 0 : cacheListResult.totalCount;
           if (totalCount && totalCount > 0) {
-            core5.debug(`No matching cache found for cache key '${key}', version '${version3} and scope ${process.env["GITHUB_REF"]}. There exist one or more cache(s) with similar key but they have different version or scope. See more info on cache matching here: https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows#matching-a-cache-key 
+            core6.debug(`No matching cache found for cache key '${key}', version '${version3} and scope ${process.env["GITHUB_REF"]}. There exist one or more cache(s) with similar key but they have different version or scope. See more info on cache matching here: https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows#matching-a-cache-key 
 Other caches with similar key:`);
             for (const cacheEntry of (cacheListResult === null || cacheListResult === void 0 ? void 0 : cacheListResult.artifactCaches) || []) {
-              core5.debug(`Cache Key: ${cacheEntry === null || cacheEntry === void 0 ? void 0 : cacheEntry.cacheKey}, Cache Version: ${cacheEntry === null || cacheEntry === void 0 ? void 0 : cacheEntry.cacheVersion}, Cache Scope: ${cacheEntry === null || cacheEntry === void 0 ? void 0 : cacheEntry.scope}, Cache Created: ${cacheEntry === null || cacheEntry === void 0 ? void 0 : cacheEntry.creationTime}`);
+              core6.debug(`Cache Key: ${cacheEntry === null || cacheEntry === void 0 ? void 0 : cacheEntry.cacheKey}, Cache Version: ${cacheEntry === null || cacheEntry === void 0 ? void 0 : cacheEntry.cacheVersion}, Cache Scope: ${cacheEntry === null || cacheEntry === void 0 ? void 0 : cacheEntry.scope}, Cache Created: ${cacheEntry === null || cacheEntry === void 0 ? void 0 : cacheEntry.creationTime}`);
             }
           }
         }
@@ -78337,7 +78337,7 @@ Other caches with similar key:`);
     }
     function uploadChunk(httpClient, resourceUrl, openStream, start, end) {
       return __awaiter(this, void 0, void 0, function* () {
-        core5.debug(`Uploading chunk of size ${end - start + 1} bytes at offset ${start} with content range: ${getContentRange(start, end)}`);
+        core6.debug(`Uploading chunk of size ${end - start + 1} bytes at offset ${start} with content range: ${getContentRange(start, end)}`);
         const additionalHeaders = {
           "Content-Type": "application/octet-stream",
           "Content-Range": getContentRange(start, end)
@@ -78359,7 +78359,7 @@ Other caches with similar key:`);
         const concurrency = utils.assertDefined("uploadConcurrency", uploadOptions.uploadConcurrency);
         const maxChunkSize = utils.assertDefined("uploadChunkSize", uploadOptions.uploadChunkSize);
         const parallelUploads = [...new Array(concurrency).keys()];
-        core5.debug("Awaiting all uploads");
+        core6.debug("Awaiting all uploads");
         let offset = 0;
         try {
           yield Promise.all(parallelUploads.map(() => __awaiter(this, void 0, void 0, function* () {
@@ -78395,16 +78395,16 @@ Other caches with similar key:`);
     function saveCache3(cacheId, archivePath, options2) {
       return __awaiter(this, void 0, void 0, function* () {
         const httpClient = createHttpClient();
-        core5.debug("Upload cache");
+        core6.debug("Upload cache");
         yield uploadFile(httpClient, cacheId, archivePath, options2);
-        core5.debug("Commiting cache");
+        core6.debug("Commiting cache");
         const cacheSize = utils.getArchiveFileSizeInBytes(archivePath);
-        core5.info(`Cache Size: ~${Math.round(cacheSize / (1024 * 1024))} MB (${cacheSize} B)`);
+        core6.info(`Cache Size: ~${Math.round(cacheSize / (1024 * 1024))} MB (${cacheSize} B)`);
         const commitCacheResponse = yield commitCache(httpClient, cacheId, cacheSize);
         if (!(0, requestUtils_1.isSuccessStatusCode)(commitCacheResponse.statusCode)) {
           throw new Error(`Cache service responded with ${commitCacheResponse.statusCode} during commit cache.`);
         }
-        core5.info("Cache saved successfully");
+        core6.info("Cache saved successfully");
       });
     }
     exports2.saveCache = saveCache3;
@@ -78724,7 +78724,7 @@ var require_cache2 = __commonJS({
     };
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.saveCache = exports2.restoreCache = exports2.isFeatureAvailable = exports2.ReserveCacheError = exports2.ValidationError = void 0;
-    var core5 = __importStar(require_core());
+    var core6 = __importStar(require_core());
     var path4 = __importStar(require("path"));
     var utils = __importStar(require_cacheUtils());
     var cacheHttpClient = __importStar(require_cacheHttpClient());
@@ -78768,8 +78768,8 @@ var require_cache2 = __commonJS({
         checkPaths(paths);
         restoreKeys = restoreKeys || [];
         const keys = [primaryKey, ...restoreKeys];
-        core5.debug("Resolved Keys:");
-        core5.debug(JSON.stringify(keys));
+        core6.debug("Resolved Keys:");
+        core6.debug(JSON.stringify(keys));
         if (keys.length > 10) {
           throw new ValidationError(`Key Validation Error: Keys are limited to a maximum of 10.`);
         }
@@ -78787,32 +78787,32 @@ var require_cache2 = __commonJS({
             return void 0;
           }
           if (options2 === null || options2 === void 0 ? void 0 : options2.lookupOnly) {
-            core5.info("Lookup only - skipping download");
+            core6.info("Lookup only - skipping download");
             return cacheEntry.cacheKey;
           }
           archivePath = path4.join(yield utils.createTempDirectory(), utils.getCacheFileName(compressionMethod));
-          core5.debug(`Archive Path: ${archivePath}`);
+          core6.debug(`Archive Path: ${archivePath}`);
           yield cacheHttpClient.downloadCache(cacheEntry.archiveLocation, archivePath, options2);
-          if (core5.isDebug()) {
+          if (core6.isDebug()) {
             yield (0, tar_1.listTar)(archivePath, compressionMethod);
           }
           const archiveFileSize = utils.getArchiveFileSizeInBytes(archivePath);
-          core5.info(`Cache Size: ~${Math.round(archiveFileSize / (1024 * 1024))} MB (${archiveFileSize} B)`);
+          core6.info(`Cache Size: ~${Math.round(archiveFileSize / (1024 * 1024))} MB (${archiveFileSize} B)`);
           yield (0, tar_1.extractTar)(archivePath, compressionMethod);
-          core5.info("Cache restored successfully");
+          core6.info("Cache restored successfully");
           return cacheEntry.cacheKey;
         } catch (error2) {
           const typedError = error2;
           if (typedError.name === ValidationError.name) {
             throw error2;
           } else {
-            core5.warning(`Failed to restore: ${error2.message}`);
+            core6.warning(`Failed to restore: ${error2.message}`);
           }
         } finally {
           try {
             yield utils.unlinkFile(archivePath);
           } catch (error2) {
-            core5.debug(`Failed to delete archive: ${error2}`);
+            core6.debug(`Failed to delete archive: ${error2}`);
           }
         }
         return void 0;
@@ -78827,26 +78827,26 @@ var require_cache2 = __commonJS({
         const compressionMethod = yield utils.getCompressionMethod();
         let cacheId = -1;
         const cachePaths = yield utils.resolvePaths(paths);
-        core5.debug("Cache Paths:");
-        core5.debug(`${JSON.stringify(cachePaths)}`);
+        core6.debug("Cache Paths:");
+        core6.debug(`${JSON.stringify(cachePaths)}`);
         if (cachePaths.length === 0) {
           throw new Error(`Path Validation Error: Path(s) specified in the action for caching do(es) not exist, hence no cache is being saved.`);
         }
         const archiveFolder = yield utils.createTempDirectory();
         const archivePath = path4.join(archiveFolder, utils.getCacheFileName(compressionMethod));
-        core5.debug(`Archive Path: ${archivePath}`);
+        core6.debug(`Archive Path: ${archivePath}`);
         try {
           yield (0, tar_1.createTar)(archiveFolder, cachePaths, compressionMethod);
-          if (core5.isDebug()) {
+          if (core6.isDebug()) {
             yield (0, tar_1.listTar)(archivePath, compressionMethod);
           }
           const fileSizeLimit = 10 * 1024 * 1024 * 1024;
           const archiveFileSize = utils.getArchiveFileSizeInBytes(archivePath);
-          core5.debug(`File Size: ${archiveFileSize}`);
+          core6.debug(`File Size: ${archiveFileSize}`);
           if (archiveFileSize > fileSizeLimit && !utils.isGhes()) {
             throw new Error(`Cache size of ~${Math.round(archiveFileSize / (1024 * 1024))} MB (${archiveFileSize} B) is over the 10GB limit, not saving cache.`);
           }
-          core5.debug("Reserving Cache");
+          core6.debug("Reserving Cache");
           const reserveCacheResponse = yield cacheHttpClient.reserveCache(key, paths, {
             compressionMethod,
             enableCrossOsArchive,
@@ -78859,22 +78859,22 @@ var require_cache2 = __commonJS({
           } else {
             throw new ReserveCacheError(`Unable to reserve cache with key ${key}, another job may be creating this cache. More details: ${(_e = reserveCacheResponse === null || reserveCacheResponse === void 0 ? void 0 : reserveCacheResponse.error) === null || _e === void 0 ? void 0 : _e.message}`);
           }
-          core5.debug(`Saving Cache (ID: ${cacheId})`);
+          core6.debug(`Saving Cache (ID: ${cacheId})`);
           yield cacheHttpClient.saveCache(cacheId, archivePath, options2);
         } catch (error2) {
           const typedError = error2;
           if (typedError.name === ValidationError.name) {
             throw error2;
           } else if (typedError.name === ReserveCacheError.name) {
-            core5.info(`Failed to save: ${typedError.message}`);
+            core6.info(`Failed to save: ${typedError.message}`);
           } else {
-            core5.warning(`Failed to save: ${typedError.message}`);
+            core6.warning(`Failed to save: ${typedError.message}`);
           }
         } finally {
           try {
             yield utils.unlinkFile(archivePath);
           } catch (error2) {
-            core5.debug(`Failed to delete archive: ${error2}`);
+            core6.debug(`Failed to delete archive: ${error2}`);
           }
         }
         return cacheId;
@@ -78889,7 +78889,7 @@ var import_promises2 = __toESM(require("fs/promises"));
 var import_os3 = __toESM(require("os"));
 var import_path3 = __toESM(require("path"));
 var import_process2 = require("process");
-var core4 = __toESM(require_core());
+var core5 = __toESM(require_core());
 var import_tool_cache = __toESM(require_tool_cache());
 
 // src/options.ts
@@ -82562,6 +82562,9 @@ var validateInputs = (inputs) => {
   if (inputs.runInstall === false && inputs.environments) {
     throw new Error("Cannot specify environments without running install");
   }
+  if (inputs.activateEnvironment === "true" && inputs.environments && inputs.environments.length > 1) {
+    throw new Error("When installing multiple environments, `activate-environment` must specify the environment name");
+  }
 };
 var determinePixiInstallation = (pixiUrlOrVersionSet, pixiBinPath) => {
   const preinstalledPixi = import_which.default.sync("pixi", { nothrow: true });
@@ -82613,6 +82616,16 @@ var inferOptions = (inputs) => {
   if (!lockFileAvailable && inputs.cacheWrite === true) {
     throw new Error("You cannot specify cache-write = true without a lock file present");
   }
+  let activatedEnvironment;
+  if (inputs.activateEnvironment === "true") {
+    if (inputs.environments) {
+      activatedEnvironment = inputs.environments[0];
+    } else {
+      activatedEnvironment = "default";
+    }
+  } else if (inputs.activateEnvironment && inputs.activateEnvironment !== "false") {
+    activatedEnvironment = inputs.activateEnvironment;
+  }
   const cache2 = inputs.cacheKey ? { cacheKeyPrefix: inputs.cacheKey, cacheWrite: inputs.cacheWrite ?? true } : inputs.cache === true || lockFileAvailable && inputs.cache !== false ? { cacheKeyPrefix: "pixi-", cacheWrite: inputs.cacheWrite ?? true } : void 0;
   const frozen = inputs.frozen ?? false;
   const locked = inputs.locked ?? (lockFileAvailable && !frozen);
@@ -82636,6 +82649,7 @@ var inferOptions = (inputs) => {
     pixiLockFile,
     runInstall,
     environments: inputs.environments,
+    activatedEnvironment,
     frozen,
     locked,
     cache: cache2,
@@ -82662,6 +82676,7 @@ var getOptions = () => {
     manifestPath: parseOrUndefined("manifest-path", stringType()),
     runInstall: parseOrUndefinedJSON("run-install", booleanType()),
     environments: parseOrUndefinedList("environments", stringType()),
+    activateEnvironment: parseOrUndefined("activate-environment", stringType()),
     locked: parseOrUndefinedJSON("locked", booleanType()),
     frozen: parseOrUndefinedJSON("frozen", booleanType()),
     cache: parseOrUndefinedJSON("cache", booleanType()),
@@ -82721,8 +82736,8 @@ var getCondaArch = () => {
   return arch3;
 };
 var getPlatform = () => {
-  const platform2 = os3.platform();
-  switch (platform2) {
+  const platform3 = os3.platform();
+  switch (platform3) {
     case "darwin":
       return "apple-darwin";
     case "linux":
@@ -82730,7 +82745,7 @@ var getPlatform = () => {
     case "win32":
       return "pc-windows-msvc";
     default:
-      throw new Error(`Unsupported architecture: ${platform2}`);
+      throw new Error(`Unsupported architecture: ${platform3}`);
   }
 };
 var getArch = () => {
@@ -82746,9 +82761,9 @@ var getArch = () => {
 };
 var getPixiUrlFromVersion = (version3) => {
   const arch3 = getArch();
-  const platform2 = getPlatform();
-  const pixiFile = `pixi-${arch3}-${platform2}${platform2 === "pc-windows-msvc" ? ".exe" : ""}`;
-  if (arch3 === "aarch64" && platform2 === "pc-windows-msvc") {
+  const platform3 = getPlatform();
+  const pixiFile = `pixi-${arch3}-${platform3}${platform3 === "pc-windows-msvc" ? ".exe" : ""}`;
+  if (arch3 === "aarch64" && platform3 === "pc-windows-msvc") {
     throw new Error("Windows on ARM is currently not supported");
   }
   if (version3 === "latest") {
@@ -82763,8 +82778,12 @@ var execute = (cmd) => {
   core2.debug(`Executing: ${cmd.join(" ")}`);
   return (0, import_exec.exec)(cmd[0], cmd.slice(1));
 };
+var executeGetOutput = (cmd, options2) => {
+  core2.debug(`Executing: ${cmd.join(" ")}`);
+  return (0, import_exec.getExecOutput)(cmd[0], cmd.slice(1), options2);
+};
 var pixiCmd = (command, withManifestPath = true) => {
-  let commandArray = [options.pixiBinPath].concat(command.split(" "));
+  let commandArray = [options.pixiBinPath].concat(command.split(" ").filter((x) => x !== ""));
   if (withManifestPath) {
     commandArray = commandArray.concat(["--manifest-path", options.manifestPath]);
   }
@@ -82857,63 +82876,116 @@ var saveCache2 = () => {
   );
 };
 
+// src/activate.ts
+var os6 = __toESM(require("os"));
+var osPath = __toESM(require("path"));
+var core4 = __toESM(require_core());
+var splitEnvironment = (shellHook) => {
+  if (os6.platform() === "win32") {
+    const pathEnvs = Object.keys(shellHook.environment_variables).filter((k) => k.toUpperCase() === "PATH");
+    if (pathEnvs) {
+      const caseSensitivePathName = pathEnvs[0];
+      const path4 = shellHook.environment_variables[caseSensitivePathName];
+      delete shellHook.environment_variables[caseSensitivePathName];
+      return [shellHook.environment_variables, path4];
+    }
+  } else {
+    if ("PATH" in shellHook.environment_variables) {
+      const path4 = shellHook.environment_variables.PATH;
+      delete shellHook.environment_variables.PATH;
+      return [shellHook.environment_variables, path4];
+    }
+  }
+  return [shellHook.environment_variables];
+};
+var getNewPathComponents = (path4) => {
+  const currentPath = process.env.PATH;
+  if (!currentPath) {
+    throw new Error("Unable to obtain current PATH from environment");
+  }
+  if (!path4.endsWith(currentPath)) {
+    throw new Error("Unable to handle environment activation which does not only append to PATH");
+  }
+  core4.debug(`Found current path '${currentPath}'`);
+  core4.debug(`Got new path '${path4}'`);
+  const newPath = path4.slice(0, path4.length - currentPath.length);
+  return newPath.split(osPath.delimiter).filter((p) => p.length > 0);
+};
+var activateEnvironment = async (environment) => {
+  const envOption = environment === "default" ? "" : `-e ${environment}`;
+  const shellHookOutput = await executeGetOutput(pixiCmd(`shell-hook ${envOption} --json`), { silent: true });
+  const shellHook = JSON.parse(shellHookOutput.stdout);
+  const [envVars, path4] = splitEnvironment(shellHook);
+  if (path4) {
+    const newComponents = getNewPathComponents(path4);
+    for (const component of newComponents) {
+      core4.info(`Adding path component '${component}'`);
+      core4.addPath(component);
+    }
+  }
+  for (const key of Object.keys(envVars)) {
+    core4.info(`Exporting environment variable '${key}=${envVars[key]}'`);
+    core4.exportVariable(key, envVars[key]);
+  }
+};
+
 // src/main.ts
 var downloadPixi = (source) => {
   const url2 = "version" in source ? getPixiUrlFromVersion(source.version) : source.url;
-  return core4.group("Downloading Pixi", () => {
-    core4.debug("Installing pixi");
-    core4.debug(`Downloading pixi from ${url2}`);
-    return import_promises2.default.mkdir(import_path3.default.dirname(options.pixiBinPath), { recursive: true }).then(() => (0, import_tool_cache.downloadTool)(url2, options.pixiBinPath)).then((_downloadPath) => import_promises2.default.chmod(options.pixiBinPath, 493)).then(() => core4.info(`Pixi installed to ${options.pixiBinPath}`));
+  return core5.group("Downloading Pixi", () => {
+    core5.debug("Installing pixi");
+    core5.debug(`Downloading pixi from ${url2}`);
+    return import_promises2.default.mkdir(import_path3.default.dirname(options.pixiBinPath), { recursive: true }).then(() => (0, import_tool_cache.downloadTool)(url2, options.pixiBinPath)).then((_downloadPath) => import_promises2.default.chmod(options.pixiBinPath, 493)).then(() => core5.info(`Pixi installed to ${options.pixiBinPath}`));
   });
 };
 var pixiLogin = () => {
   const auth = options.auth;
   if (!auth) {
-    core4.debug("Skipping pixi login.");
+    core5.debug("Skipping pixi login.");
     return Promise.resolve(0);
   }
-  core4.debug(`auth keys: ${Object.keys(auth)}`);
-  return core4.group("Logging in to private channel", () => {
+  core5.debug(`auth keys: ${Object.keys(auth)}`);
+  return core5.group("Logging in to private channel", () => {
     if ("token" in auth) {
-      core4.debug(`Logging in to ${auth.host} with token`);
+      core5.debug(`Logging in to ${auth.host} with token`);
       return execute(pixiCmd(`auth login --token ${auth.token} ${auth.host}`, false));
     }
     if ("username" in auth) {
-      core4.debug(`Logging in to ${auth.host} with username and password`);
+      core5.debug(`Logging in to ${auth.host} with username and password`);
       return execute(pixiCmd(`auth login --username ${auth.username} --password ${auth.password} ${auth.host}`, false));
     }
-    core4.debug(`Logging in to ${auth.host} with conda token`);
+    core5.debug(`Logging in to ${auth.host} with conda token`);
     return execute(pixiCmd(`auth login --conda-token ${auth.condaToken} ${auth.host}`, false));
   });
 };
 var addPixiToPath = () => {
-  core4.addPath(import_path3.default.dirname(options.pixiBinPath));
+  core5.addPath(import_path3.default.dirname(options.pixiBinPath));
 };
 var pixiInstall = async () => {
   if (!options.runInstall) {
-    core4.debug("Skipping pixi install.");
+    core5.debug("Skipping pixi install.");
     return Promise.resolve();
   }
   return tryRestoreCache().then(async (_cacheKey) => {
     if (options.environments) {
       for (const environment of options.environments) {
-        core4.debug(`Installing environment ${environment}`);
+        core5.debug(`Installing environment ${environment}`);
         const command = `install -e ${environment}${options.frozen ? " --frozen" : ""}${options.locked ? " --locked" : ""}`;
-        await core4.group(`pixi ${command}`, () => execute(pixiCmd(command)));
+        await core5.group(`pixi ${command}`, () => execute(pixiCmd(command)));
       }
     } else {
       const command = `install${options.frozen ? " --frozen" : ""}${options.locked ? " --locked" : ""}`;
-      return core4.group(`pixi ${command}`, () => execute(pixiCmd(command)));
+      return core5.group(`pixi ${command}`, () => execute(pixiCmd(command)));
     }
   }).then(saveCache2);
 };
 var generateList = async () => {
   if (!options.runInstall) {
-    core4.debug("Skipping pixi list.");
+    core5.debug("Skipping pixi list.");
     return Promise.resolve();
   }
   if ("version" in options.pixiSource && options.pixiSource.version !== "latest" && options.pixiSource.version < "v0.13.0") {
-    core4.warning(
+    core5.warning(
       "pixi list is not supported for pixi versions < `v0.13.0`. Please set `pixi-version` to `v0.13.0` or later."
     );
     return Promise.resolve();
@@ -82921,26 +82993,27 @@ var generateList = async () => {
   let command = "list";
   if ("version" in options.pixiSource && options.pixiSource.version !== "latest" && options.pixiSource.version < "v0.14.0") {
     if (options.frozen)
-      core4.warning("pixi versions < `v0.14.0` do not support the --frozen option for pixi list.");
+      core5.warning("pixi versions < `v0.14.0` do not support the --frozen option for pixi list.");
     if (options.locked)
-      core4.warning("pixi versions < `v0.14.0` do not support the --locked option for pixi list.");
+      core5.warning("pixi versions < `v0.14.0` do not support the --locked option for pixi list.");
   } else {
     command = `${command}${options.frozen ? " --frozen" : ""}${options.locked ? " --locked" : ""}`;
   }
   if (options.environments) {
     for (const environment of options.environments) {
-      core4.debug(`Listing environment ${environment}`);
-      await core4.group(`pixi ${command} -e ${environment}`, () => execute(pixiCmd(`${command} -e ${environment}`)));
+      core5.debug(`Listing environment ${environment}`);
+      await core5.group(`pixi ${command} -e ${environment}`, () => execute(pixiCmd(`${command} -e ${environment}`)));
     }
     return Promise.resolve();
   } else {
-    return core4.group(`pixi ${command}`, () => execute(pixiCmd(command)));
+    return core5.group(`pixi ${command}`, () => execute(pixiCmd(command)));
   }
 };
-var generateInfo = () => core4.group("pixi info", () => execute(pixiCmd("info")));
+var generateInfo = () => core5.group("pixi info", () => execute(pixiCmd("info")));
+var activateEnv = (environment) => core5.group("Activate environment", () => activateEnvironment(environment));
 var run = async () => {
-  core4.debug(`process.env.HOME: ${process.env.HOME}`);
-  core4.debug(`os.homedir(): ${import_os3.default.homedir()}`);
+  core5.debug(`process.env.HOME: ${process.env.HOME}`);
+  core5.debug(`os.homedir(): ${import_os3.default.homedir()}`);
   if (options.downloadPixi) {
     await downloadPixi(options.pixiSource);
   }
@@ -82949,16 +83022,19 @@ var run = async () => {
   await pixiInstall();
   await generateInfo();
   await generateList();
+  if (options.activatedEnvironment) {
+    await activateEnv(options.activatedEnvironment);
+  }
 };
 run().catch((error2) => {
-  if (core4.isDebug()) {
+  if (core5.isDebug()) {
     throw error2;
   }
   if (error2 instanceof Error) {
-    core4.setFailed(error2.message);
+    core5.setFailed(error2.message);
     (0, import_process2.exit)(1);
   } else if (typeof error2 === "string") {
-    core4.setFailed(error2);
+    core5.setFailed(error2);
     (0, import_process2.exit)(1);
   }
   throw error2;

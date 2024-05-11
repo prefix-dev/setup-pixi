@@ -693,7 +693,7 @@ jobs:
           cache-write: false
           cache-key: test-cache-${{ github.sha }}-${{ github.run_attempt }}-
       # check the action logs to see if the cache write was skipped
-  
+
   pyproject:
     timeout-minutes: 10
     runs-on: ubuntu-latest
@@ -716,6 +716,113 @@ jobs:
         with:
           cache: true
           manifest-path: test/pyproject-manifest/pyproject.toml
+
+  environment-activation-unix:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi.toml
+        run: mv test/default/* .
+      - uses: ./
+        with:
+          activate-environment: true
+      - run: which python | grep '.pixi/envs/default/bin/python'
+      - run: env | grep CONDA_PREFIX
+      - run: '[[ $PIXI_ENVIRONMENT_NAME = "default" ]]'
+
+  environment-activation-windows-bash:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi.toml
+        run: mv test/default/* .
+      - uses: ./
+        with:
+          activate-environment: true
+      - run: which python | grep '.pixi/envs/default/python'
+      - run: env | grep CONDA_PREFIX
+      - run: '[[ $PIXI_ENVIRONMENT_NAME = "default" ]]'
+
+  environment-activation-windows-pwsh:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi.toml
+        run: mv test/default/* .
+      - uses: ./
+        with:
+          activate-environment: true
+      - run: if (-Not (Get-Command python).Path -like '*\.pixi\envs\default\python') { exit 1 }
+      - run: if (!$env:CONDA_PREFIX) { exit 1 }
+      - run: if ($env:PIXI_ENVIRONMENT_NAME -ne "default") { exit 1 }
+
+  environment-activation-windows-cmd:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: cmd
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi.toml
+        run: mv test/default/* .
+      - uses: ./
+        with:
+          activate-environment: true
+      - run: where python | findstr "\.pixi\\envs\\default\\python.exe"
+      - run: set | findstr CONDA_PREFIX
+      - run: |
+          if defined PIXI_ENVIRONMENT_NAME (
+            if "%PIXI_ENVIRONMENT_NAME%" NEQ "default" (
+              exit 1
+            )
+          )
+
+  environment-activation-false:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi.toml
+        run: mv test/default/* .
+      - uses: ./
+        with:
+          activate-environment: false
+      - run: '[[ $PIXI_ENVIRONMENT_NAME = "" ]]'
+
+  environment-activation-explicit-env:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi.toml
+        run: mv test/multiple-environments/* .
+      - uses: ./
+        with:
+          environments: py311
+          activate-environment: true
+      - run: which python | grep '.pixi/envs/py311/bin/python'
+      - run: '[[ $PIXI_ENVIRONMENT_NAME = "py311" ]]'
+
+  environment-activation-multiple-env:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi.toml
+        run: mv test/multiple-environments/* .
+      - uses: ./
+        with:
+          environments: >-
+            py311 py312
+          activate-environment: py311
+      - run: which python | grep '.pixi/envs/py311/bin/python'
+      - run: '[[ $PIXI_ENVIRONMENT_NAME = "py311" ]]'
 
   # not properly testable
   # https://github.com/actions/runner/issues/2347
