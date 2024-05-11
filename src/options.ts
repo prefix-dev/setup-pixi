@@ -305,7 +305,7 @@ const getOptions = () => {
     manifestPath: parseOrUndefined('manifest-path', z.string()),
     runInstall: parseOrUndefinedJSON('run-install', z.boolean()),
     environments: parseOrUndefinedList('environments', z.string()),
-    activateEnvironment: parseOrUndefined('activate-environment', z.union([z.string(), z.boolean()])),
+    activateEnvironment: parseOrUndefined('activate-environment', z.union([z.boolean(), z.string()])),
     locked: parseOrUndefinedJSON('locked', z.boolean()),
     frozen: parseOrUndefinedJSON('frozen', z.boolean()),
     cache: parseOrUndefinedJSON('cache', z.boolean()),
