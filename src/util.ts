@@ -79,7 +79,7 @@ export const executeGetOutput = (cmd: string[]) => {
 }
 
 export const pixiCmd = (command: string, withManifestPath = true) => {
-  let commandArray = [options.pixiBinPath].concat(command.split(' '))
+  let commandArray = [options.pixiBinPath].concat(command.split(' ').filter((x) => x !== ''))
   if (withManifestPath) {
     commandArray = commandArray.concat(['--manifest-path', options.manifestPath])
   }
