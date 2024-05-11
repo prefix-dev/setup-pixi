@@ -82676,7 +82676,7 @@ var getOptions = () => {
     manifestPath: parseOrUndefined("manifest-path", stringType()),
     runInstall: parseOrUndefinedJSON("run-install", booleanType()),
     environments: parseOrUndefinedList("environments", stringType()),
-    activateEnvironment: parseOrUndefined("activate-environment", unionType([stringType(), booleanType()])),
+    activateEnvironment: parseOrUndefined("activate-environment", unionType([booleanType(), stringType()])),
     locked: parseOrUndefinedJSON("locked", booleanType()),
     frozen: parseOrUndefinedJSON("frozen", booleanType()),
     cache: parseOrUndefinedJSON("cache", booleanType()),
