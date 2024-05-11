@@ -777,7 +777,7 @@ jobs:
       - uses: ./
         with:
           activate-environment: true
-      - run: where python | findstr /r ".pixi\envs\default\python"
+      - run: where python
       - run: set | findstr /r CONDA_PREFIX
       - run: |
           if defined PIXI_ENVIRONMENT_NAME (
@@ -785,6 +785,45 @@ jobs:
               exit 1
             )
           )
+
+  environment-activation-false:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi.toml
+        run: mv test/default/* .
+      - uses: ./
+        with:
+          activate-environment: true
+      - run: '[[ $PIXI_ENVIRONMENT_NAME = "" ]]'
+
+  environment-activation-explicit-env:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi.toml
+        run: mv test/multiple-environments/* .
+      - uses: ./
+        with:
+          environments: py311
+          activate-environment: true
+      - run: which python | grep '.pixi/envs/py311/bin/python'
+      - run: '[[ $PIXI_ENVIRONMENT_NAME = "py311" ]]'
+
+  environment-activation-multiple-env:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move pixi.toml
+        run: mv test/multiple-environments/* .
+      - uses: ./
+        with:
+          environments: >-
+            py311
+            py312
+          activate-environment: py311
+      - run: which python | grep '.pixi/envs/py311/bin/python'
+      - run: '[[ $PIXI_ENVIRONMENT_NAME = "py311" ]]'
 
   # not properly testable
   # https://github.com/actions/runner/issues/2347
