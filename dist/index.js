@@ -82778,9 +82778,9 @@ var execute = (cmd) => {
   core2.debug(`Executing: ${cmd.join(" ")}`);
   return (0, import_exec.exec)(cmd[0], cmd.slice(1));
 };
-var executeGetOutput = (cmd) => {
+var executeGetOutput = (cmd, options2) => {
   core2.debug(`Executing: ${cmd.join(" ")}`);
-  return (0, import_exec.getExecOutput)(cmd[0], cmd.slice(1));
+  return (0, import_exec.getExecOutput)(cmd[0], cmd.slice(1), options2);
 };
 var pixiCmd = (command, withManifestPath = true) => {
   let commandArray = [options.pixiBinPath].concat(command.split(" ").filter((x) => x !== ""));
@@ -82913,7 +82913,7 @@ var getNewPathComponents = (path4) => {
 };
 var activateEnvironment = async (environment) => {
   const envOption = environment === "default" ? "" : `-e ${environment}`;
-  const shellHookOutput = await executeGetOutput(pixiCmd(`shell-hook ${envOption} --json`));
+  const shellHookOutput = await executeGetOutput(pixiCmd(`shell-hook ${envOption} --json`), { silent: true });
   const shellHook = JSON.parse(shellHookOutput.stdout);
   const [envVars, path4] = splitEnvironment(shellHook);
   if (path4) {
