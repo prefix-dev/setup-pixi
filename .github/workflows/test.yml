@@ -717,10 +717,10 @@ jobs:
   #         cache: true
   #         manifest-path: test/pyproject-manifest/pyproject.toml
 
-  environment-activation-bash:
+  environment-activation-unix:
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -732,7 +732,10 @@ jobs:
       - run: which python | grep '.pixi/envs/default/bin/python'
         shell: bash
 
-  environment-activation-pwsh:
+  environment-activation-windows:
+    strategy:
+      matrix:
+        shell: [bash, pwsh, cmd]
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -742,19 +745,7 @@ jobs:
         with:
           activate-environment: true
       - run: which python | grep '.pixi\envs\default\bin\python'
-        shell: pwsh
-
-  environment-activation-cmd:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Move pixi.toml
-        run: mv test/default/* .
-      - uses: ./
-        with:
-          activate-environment: true
-      - run: which python | grep '.pixi\envs\default\bin\python'
-        shell: cmd
+        shell: ${{ matrix.shell }}
 
   # not properly testable
   # https://github.com/actions/runner/issues/2347
