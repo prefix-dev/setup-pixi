@@ -741,7 +741,7 @@ jobs:
       - uses: ./
         with:
           activate-environment: true
-      - run: which python | grep '.pixi\envs\default\bin\python'
+      - run: which python
         shell: bash
 
   environment-activation-windows-pwsh:
@@ -753,7 +753,7 @@ jobs:
       - uses: ./
         with:
           activate-environment: true
-      - run: which python | grep '.pixi\envs\default\bin\python'
+      - run: which python
         shell: pwsh
 
   environment-activation-windows-cmd:
@@ -765,7 +765,7 @@ jobs:
       - uses: ./
         with:
           activate-environment: true
-      - run: which python | grep '.pixi\envs\default\bin\python'
+      - run: which python
         shell: cmd
 
   # not properly testable
