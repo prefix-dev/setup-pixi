@@ -777,11 +777,11 @@ jobs:
       - uses: ./
         with:
           activate-environment: true
-      - run: where python
-      - run: set | findstr /r CONDA_PREFIX
+      - run: where python | findstr .pixi\envs\default\python.exe
+      - run: set | findstr CONDA_PREFIX
       - run: |
           if defined PIXI_ENVIRONMENT_NAME (
-            if "%PIXI_ENVIRONMENT_NAME%" != "default" (
+            if "%PIXI_ENVIRONMENT_NAME%" NEQ "default" (
               exit 1
             )
           )
@@ -794,7 +794,7 @@ jobs:
         run: mv test/default/* .
       - uses: ./
         with:
-          activate-environment: true
+          activate-environment: false
       - run: '[[ $PIXI_ENVIRONMENT_NAME = "" ]]'
 
   environment-activation-explicit-env:
@@ -819,8 +819,7 @@ jobs:
       - uses: ./
         with:
           environments: >-
-            py311
-            py312
+            py311 py312
           activate-environment: py311
       - run: which python | grep '.pixi/envs/py311/bin/python'
       - run: '[[ $PIXI_ENVIRONMENT_NAME = "py311" ]]'
