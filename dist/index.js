@@ -49693,10 +49693,10 @@ var require_parser2 = __commonJS({
         return typeof thing === "object" && thing != null && Object.keys(thing).length === 0;
       };
       processItem = function(processors2, item, key) {
-        var i, len, process3;
+        var i, len, process2;
         for (i = 0, len = processors2.length; i < len; i++) {
-          process3 = processors2[i];
-          item = process3(item, key);
+          process2 = processors2[i];
+          item = process2(item, key);
         }
         return item;
       };
@@ -78889,7 +78889,6 @@ var import_promises2 = __toESM(require("fs/promises"));
 var import_os3 = __toESM(require("os"));
 var import_path3 = __toESM(require("path"));
 var import_process2 = require("process");
-var process2 = __toESM(require("process"));
 var core5 = __toESM(require_core());
 var import_tool_cache = __toESM(require_tool_cache());
 
@@ -83013,7 +83012,7 @@ var generateList = async () => {
 var generateInfo = () => core5.group("pixi info", () => execute(pixiCmd("info")));
 var activateEnv = (environment) => core5.group("Activate environment", () => activateEnvironment(environment));
 var run = async () => {
-  core5.debug(`process.env.HOME: ${process2.env.HOME}`);
+  core5.debug(`process.env.HOME: ${process.env.HOME}`);
   core5.debug(`os.homedir(): ${import_os3.default.homedir()}`);
   if (options.downloadPixi) {
     await downloadPixi(options.pixiSource);
@@ -83039,7 +83038,7 @@ run().catch((error2) => {
     (0, import_process2.exit)(1);
   }
   throw error2;
-}).then(process2.exit(0));
+}).then((0, import_process2.exit)(0));
 /*! Bundled license information:
 
 undici/lib/fetch/body.js:

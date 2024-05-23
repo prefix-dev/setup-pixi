@@ -2,7 +2,6 @@ import fs from 'fs/promises'
 import os from 'os'
 import path from 'path'
 import { exit } from 'process'
-import * as process from 'node:process'
 import * as core from '@actions/core'
 import { downloadTool } from '@actions/tool-cache'
 import type { PixiSource } from './options'
@@ -144,4 +143,4 @@ run()
     }
     throw error
   })
-  .then(process.exit(0)) // workaround for https://github.com/actions/toolkit/issues/1578
+  .then(exit(0)) // workaround for https://github.com/actions/toolkit/issues/1578
