@@ -143,4 +143,4 @@ run()
     }
     throw error
   })
-  .then(exit(0)) // workaround for https://github.com/actions/toolkit/issues/1578
+  .then(() => exit(0)) // workaround for https://github.com/actions/toolkit/issues/1578
