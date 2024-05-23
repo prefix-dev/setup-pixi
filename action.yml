@@ -17,7 +17,7 @@ inputs:
   manifest-path:
     description: Path to the manifest file (i.e., `pixi.toml`) to use for the pixi CLI. Defaults to `pixi.toml`.
   run-install:
-    description: Whether to run `pixi install` after setting up the environment. Defaults to `true`.
+    description: Whether to run `pixi install` after installing pixi. Defaults to `true`.
   environments:
     description: |
       A space-separated list of environments to install. If not specified, only the default environment is installed.
