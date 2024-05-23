@@ -2,6 +2,7 @@ import fs from 'fs/promises'
 import os from 'os'
 import path from 'path'
 import { exit } from 'process'
+import * as process from 'node:process'
 import * as core from '@actions/core'
 import { downloadTool } from '@actions/tool-cache'
 import type { PixiSource } from './options'
@@ -129,16 +130,18 @@ const run = async () => {
   }
 }
 
-run().catch((error) => {
-  if (core.isDebug()) {
+run()
+  .catch((error) => {
+    if (core.isDebug()) {
+      throw error
+    }
+    if (error instanceof Error) {
+      core.setFailed(error.message)
+      exit(1)
+    } else if (typeof error === 'string') {
+      core.setFailed(error)
+      exit(1)
+    }
     throw error
-  }
-  if (error instanceof Error) {
-    core.setFailed(error.message)
-    exit(1)
-  } else if (typeof error === 'string') {
-    core.setFailed(error)
-    exit(1)
-  }
-  throw error
-})
+  })
+  .then(process.exit(0)) // workaround for https://github.com/actions/toolkit/issues/1578
