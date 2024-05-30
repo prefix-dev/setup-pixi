@@ -209,11 +209,18 @@ const inferOptions = (inputs: Inputs): Options => {
       manifestPath = 'pixi.toml'
     } else if (existsSync('pyproject.toml')) {
       const fileContent = readFileSync('pyproject.toml', 'utf-8')
-      const parsedContent = parse(fileContent)
-      // only use pyproject.toml if [tool.pixi] is present
-      if (parsedContent.tool && parsedContent.tool.pixi) {
-        core.debug('The tool.pixi table found so using pyproject.toml as manifest file.')
-        manifestPath = 'pyproject.toml'
+      console.log(fileContent)
+      try {
+        const parsedContent = parse(fileContent)
+        console.log(parsedContent)
+        // only use pyproject.toml if [tool.pixi] is present
+        if (parsedContent.tool && parsedContent.tool.pixi) {
+          core.debug('The tool.pixi table found so using pyproject.toml as manifest file.')
+          manifestPath = 'pyproject.toml'
+        }
+      } catch (e) {
+        console.error(e)
+        throw new Error('Failed to parse pyproject.toml')
       }
     } else {
       if (runInstall) {
