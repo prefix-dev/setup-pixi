@@ -74,6 +74,8 @@ export type Options = Readonly<{
   postCleanup: boolean
   activatedEnvironment?: string
 }>
+const pixiPath = 'pixi.toml'
+const pyprojectPath = 'pyproject.toml'
 
 const logLevelSchema = z.enum(['q', 'default', 'v', 'vv', 'vvv'])
 export type LogLevel = z.infer<typeof logLevelSchema>
@@ -201,26 +203,30 @@ const inferOptions = (inputs: Inputs): Options => {
   )
   const logLevel = inputs.logLevel ?? (core.isDebug() ? 'vv' : 'default')
   // infer manifest path from inputs or default to pixi.toml or pyproject.toml depending on what is present in the repo.
-  let manifestPath = 'pixi.toml' // default
+  let manifestPath = pixiPath // default
   if (inputs.manifestPath) {
     manifestPath = path.resolve(untildify(inputs.manifestPath))
   } else {
-    if (existsSync('pixi.toml')) {
-      manifestPath = 'pixi.toml'
-    } else if (existsSync('pyproject.toml')) {
-      const fileContent = readFileSync('pyproject.toml', 'utf-8')
-      const parsedContent = parse(fileContent)
-      // only use pyproject.toml if [tool.pixi] is present
-      if (parsedContent.tool && parsedContent.tool.pixi) {
-        core.debug('The tool.pixi table found so using pyproject.toml as manifest file.')
-        manifestPath = 'pyproject.toml'
+    if (existsSync(pixiPath)) {
+      manifestPath = pixiPath
+    } else if (existsSync(pyprojectPath)) {
+      try {
+        const fileContent = readFileSync(pyprojectPath, 'utf-8')
+        const parsedContent: Record<string, unknown> = parse(fileContent)
+
+        // Test if the tool.pixi table is present in the pyproject.toml file, if so, use it as the manifest file.
+        if (parsedContent?.tool && typeof parsedContent.tool === 'object' && 'pixi' in parsedContent.tool) {
+          core.debug(`The tool.pixi table found, using ${pyprojectPath} as manifest file.`)
+          manifestPath = pyprojectPath
+        }
+      } catch (error) {
+        core.error(error as Error)
       }
-    } else {
-      if (runInstall) {
-        core.warning('Could not find any manifest file. Defaulting to pixi.toml.')
-      }
+    } else if (runInstall) {
+      core.warning(`Could not find any manifest file. Defaulting to ${pixiPath}.`)
     }
   }
+
   const pixiLockFile = path.join(path.dirname(manifestPath), 'pixi.lock')
   const lockFileAvailable = existsSync(pixiLockFile)
   core.debug(`lockFileAvailable: ${lockFileAvailable}`)
