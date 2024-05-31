@@ -8259,6 +8259,7 @@ var inferOptions = (inputs) => {
           manifestPath = pyprojectPath;
         }
       } catch (error2) {
+        core.error(`Error while trying to read ${pyprojectPath} file.`);
         core.error(error2);
       }
     } else if (runInstall) {
