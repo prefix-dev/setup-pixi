@@ -5,7 +5,7 @@ import { existsSync, readFileSync } from 'fs'
 import * as core from '@actions/core'
 import * as z from 'zod'
 import untildify from 'untildify'
-import { parse } from 'toml'
+import { parse } from '@iarna/toml'
 import which from 'which'
 
 type Inputs = Readonly<{
