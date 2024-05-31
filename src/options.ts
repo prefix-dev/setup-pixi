@@ -220,6 +220,7 @@ const inferOptions = (inputs: Inputs): Options => {
           manifestPath = pyprojectPath
         }
       } catch (error) {
+        core.error(`Error while trying to read ${pyprojectPath} file.`)
         core.error(error as Error)
       }
     } else if (runInstall) {
