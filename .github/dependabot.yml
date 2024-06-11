@@ -7,7 +7,7 @@ updates:
     groups:
       dependencies:
         patterns:
-          - "*"
+          - '*'
   - package-ecosystem: npm
     directory: /
     schedule:
@@ -15,4 +15,4 @@ updates:
     groups:
       dependencies:
         patterns:
-          - "*"
+          - '*'

@@ -15,7 +15,7 @@ type Inputs = Readonly<{
   manifestPath?: string
   runInstall?: boolean
   environments?: string[]
-  activateEnvironment?: boolean | string
+  activateEnvironment?: string
   frozen?: boolean
   locked?: boolean
   cache?: boolean
@@ -53,7 +53,7 @@ type Auth = {
     }
 )
 
-type Cache = {
+interface Cache {
   cacheKeyPrefix: string
   cacheWrite: boolean
 }
@@ -215,7 +215,7 @@ const inferOptions = (inputs: Inputs): Options => {
         const parsedContent: Record<string, unknown> = parse(fileContent)
 
         // Test if the tool.pixi table is present in the pyproject.toml file, if so, use it as the manifest file.
-        if (parsedContent?.tool && typeof parsedContent.tool === 'object' && 'pixi' in parsedContent.tool) {
+        if (parsedContent.tool && typeof parsedContent.tool === 'object' && 'pixi' in parsedContent.tool) {
           core.debug(`The tool.pixi table found, using ${pyprojectPath} as manifest file.`)
           manifestPath = pyprojectPath
         }
@@ -230,7 +230,7 @@ const inferOptions = (inputs: Inputs): Options => {
 
   const pixiLockFile = path.join(path.dirname(manifestPath), 'pixi.lock')
   const lockFileAvailable = existsSync(pixiLockFile)
-  core.debug(`lockFileAvailable: ${lockFileAvailable}`)
+  core.debug(`lockFileAvailable: ${lockFileAvailable ? 'yes' : 'no'}`)
   if (!lockFileAvailable && inputs.cacheWrite === true) {
     throw new Error('You cannot specify cache-write = true without a lock file present')
   }
@@ -265,8 +265,8 @@ const inferOptions = (inputs: Inputs): Options => {
             }
           : {
               host: inputs.authHost,
-              username: inputs.authUsername!,
-              password: inputs.authPassword!
+              username: inputs.authUsername,
+              password: inputs.authPassword
             }) as Auth)
   const postCleanup = inputs.postCleanup ?? true
   return {

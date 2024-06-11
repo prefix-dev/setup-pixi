@@ -37,9 +37,10 @@ const cleanupEnv = () => {
   return fs.rm(envDir, { recursive: true })
 }
 
-const determineCacheDir = () => {
+const determineCacheDir = (): string => {
   // rattler uses dirs::cache_dir https://docs.rs/dirs/latest/dirs/fn.cache_dir.html
   if (os.platform() === 'win32') {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return process.env.LOCALAPPDATA!
   }
   if (os.platform() === 'linux') {
@@ -68,16 +69,20 @@ const run = () => {
   return Promise.resolve()
 }
 
-run().catch((error) => {
-  if (core.isDebug()) {
+void (async function () {
+  try {
+    await run()
+  } catch (error) {
+    if (core.isDebug()) {
+      throw error
+    }
+    if (error instanceof Error) {
+      core.setFailed(error.message)
+      exit(1)
+    } else if (typeof error === 'string') {
+      core.setFailed(error)
+      exit(1)
+    }
     throw error
   }
-  if (error instanceof Error) {
-    core.setFailed(error.message)
-    exit(1)
-  } else if (typeof error === 'string') {
-    core.setFailed(error)
-    exit(1)
-  }
-  throw error
-})
+})()

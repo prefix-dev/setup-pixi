@@ -19,7 +19,9 @@ const downloadPixi = (source: PixiSource) => {
       .mkdir(path.dirname(options.pixiBinPath), { recursive: true })
       .then(() => downloadTool(url, options.pixiBinPath))
       .then((_downloadPath) => fs.chmod(options.pixiBinPath, 0o755))
-      .then(() => core.info(`Pixi installed to ${options.pixiBinPath}`))
+      .then(() => {
+        core.info(`Pixi installed to ${options.pixiBinPath}`)
+      })
   })
 }
 
@@ -29,7 +31,7 @@ const pixiLogin = () => {
     core.debug('Skipping pixi login.')
     return Promise.resolve(0)
   }
-  core.debug(`auth keys: ${Object.keys(auth)}`)
+  core.debug(`auth keys: ${Object.keys(auth).toString()}`)
   return core.group('Logging in to private channel', () => {
     // tokens get censored in the logs as long as they are a github secret
     if ('token' in auth) {
@@ -114,7 +116,7 @@ const generateInfo = () => core.group('pixi info', () => execute(pixiCmd('info')
 const activateEnv = (environment: string) => core.group('Activate environment', () => activateEnvironment(environment))
 
 const run = async () => {
-  core.debug(`process.env.HOME: ${process.env.HOME}`)
+  core.debug(`process.env.HOME: ${process.env.HOME ?? '-'}`)
   core.debug(`os.homedir(): ${os.homedir()}`)
   if (options.downloadPixi) {
     await downloadPixi(options.pixiSource)
@@ -129,8 +131,10 @@ const run = async () => {
   }
 }
 
-run()
-  .catch((error) => {
+;(async function () {
+  try {
+    await run()
+  } catch (error) {
     if (core.isDebug()) {
       throw error
     }
@@ -142,5 +146,6 @@ run()
       exit(1)
     }
     throw error
-  })
-  .then(() => exit(0)) // workaround for https://github.com/actions/toolkit/issues/1578
+  }
+  exit(0)
+})

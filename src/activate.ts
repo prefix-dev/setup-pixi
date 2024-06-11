@@ -3,7 +3,7 @@ import * as osPath from 'path'
 import * as core from '@actions/core'
 import { executeGetOutput, pixiCmd } from './util'
 
-type ShellHook = {
+interface ShellHook {
   environment_variables: Record<string, string>
 }
 
@@ -11,9 +11,10 @@ const splitEnvironment = (shellHook: ShellHook): [Record<string, string>, string
   if (os.platform() === 'win32') {
     // On Windows, environment variables are case-insensitive but JSON isn't...
     const pathEnvs = Object.keys(shellHook.environment_variables).filter((k) => k.toUpperCase() === 'PATH')
-    if (pathEnvs) {
+    if (pathEnvs.length > 0) {
       const caseSensitivePathName = pathEnvs[0]
       const path = shellHook.environment_variables[caseSensitivePathName]
+      // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
       delete shellHook.environment_variables[caseSensitivePathName]
       return [shellHook.environment_variables, path]
     }
@@ -47,7 +48,7 @@ export const activateEnvironment = async (environment: string): Promise<void> =>
   // First, obtain the environment variables that would be set by environment activation
   const envOption = environment === 'default' ? '' : `-e ${environment}`
   const shellHookOutput = await executeGetOutput(pixiCmd(`shell-hook ${envOption} --json`), { silent: true })
-  const shellHook: ShellHook = JSON.parse(shellHookOutput.stdout)
+  const shellHook = JSON.parse(shellHookOutput.stdout) as ShellHook
 
   // Then, we split the environment variables into the special 'PATH' and all others
   const [envVars, path] = splitEnvironment(shellHook)
