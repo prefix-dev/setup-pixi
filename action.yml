@@ -62,5 +62,5 @@ inputs:
 
 runs:
   using: node20
-  main: dist/index.js
-  post: dist/post.js
+  main: dist/index.cjs
+  post: dist/post.cjs
