@@ -157,7 +157,7 @@ var require_command = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/node_modules/uuid/dist/esm-node/rng.js
+// node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/rng.js
 function rng() {
   if (poolPtr > rnds8Pool.length - 16) {
     import_crypto.default.randomFillSync(rnds8Pool);
@@ -167,7 +167,7 @@ function rng() {
 }
 var import_crypto, rnds8Pool, poolPtr;
 var init_rng = __esm({
-  "node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/node_modules/uuid/dist/esm-node/rng.js"() {
+  "node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/rng.js"() {
     "use strict";
     import_crypto = __toESM(require("crypto"));
     rnds8Pool = new Uint8Array(256);
@@ -175,29 +175,29 @@ var init_rng = __esm({
   }
 });
 
-// node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/node_modules/uuid/dist/esm-node/regex.js
+// node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/regex.js
 var regex_default;
 var init_regex = __esm({
-  "node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/node_modules/uuid/dist/esm-node/regex.js"() {
+  "node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/regex.js"() {
     "use strict";
     regex_default = /^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|00000000-0000-0000-0000-000000000000)$/i;
   }
 });
 
-// node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/node_modules/uuid/dist/esm-node/validate.js
+// node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/validate.js
 function validate(uuid) {
   return typeof uuid === "string" && regex_default.test(uuid);
 }
 var validate_default;
 var init_validate = __esm({
-  "node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/node_modules/uuid/dist/esm-node/validate.js"() {
+  "node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/validate.js"() {
     "use strict";
     init_regex();
     validate_default = validate;
   }
 });
 
-// node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/node_modules/uuid/dist/esm-node/stringify.js
+// node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/stringify.js
 function stringify(arr, offset = 0) {
   const uuid = (byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + "-" + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + "-" + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + "-" + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + "-" + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]]).toLowerCase();
   if (!validate_default(uuid)) {
@@ -207,7 +207,7 @@ function stringify(arr, offset = 0) {
 }
 var byteToHex, stringify_default;
 var init_stringify = __esm({
-  "node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/node_modules/uuid/dist/esm-node/stringify.js"() {
+  "node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/stringify.js"() {
     "use strict";
     init_validate();
     byteToHex = [];
@@ -218,7 +218,7 @@ var init_stringify = __esm({
   }
 });
 
-// node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/node_modules/uuid/dist/esm-node/v1.js
+// node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/v1.js
 function v1(options2, buf, offset) {
   let i = buf && offset || 0;
   const b = buf || new Array(16);
@@ -269,7 +269,7 @@ function v1(options2, buf, offset) {
 }
 var _nodeId, _clockseq, _lastMSecs, _lastNSecs, v1_default;
 var init_v1 = __esm({
-  "node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/node_modules/uuid/dist/esm-node/v1.js"() {
+  "node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/v1.js"() {
     "use strict";
     init_rng();
     init_stringify();
@@ -279,7 +279,7 @@ var init_v1 = __esm({
   }
 });
 
-// node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/node_modules/uuid/dist/esm-node/parse.js
+// node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/parse.js
 function parse(uuid) {
   if (!validate_default(uuid)) {
     throw TypeError("Invalid UUID");
@@ -306,14 +306,14 @@ function parse(uuid) {
 }
 var parse_default;
 var init_parse = __esm({
-  "node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/node_modules/uuid/dist/esm-node/parse.js"() {
+  "node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/parse.js"() {
     "use strict";
     init_validate();
     parse_default = parse;
   }
 });
 
-// node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/node_modules/uuid/dist/esm-node/v35.js
+// node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/v35.js
 function stringToBytes(str) {
   str = unescape(encodeURIComponent(str));
   const bytes = [];
@@ -358,7 +358,7 @@ function v35_default(name, version3, hashfunc) {
 }
 var DNS, URL2;
 var init_v35 = __esm({
-  "node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/node_modules/uuid/dist/esm-node/v35.js"() {
+  "node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/v35.js"() {
     "use strict";
     init_stringify();
     init_parse();
@@ -367,7 +367,7 @@ var init_v35 = __esm({
   }
 });
 
-// node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/node_modules/uuid/dist/esm-node/md5.js
+// node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/md5.js
 function md5(bytes) {
   if (Array.isArray(bytes)) {
     bytes = Buffer.from(bytes);
@@ -378,17 +378,17 @@ function md5(bytes) {
 }
 var import_crypto2, md5_default;
 var init_md5 = __esm({
-  "node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/node_modules/uuid/dist/esm-node/md5.js"() {
+  "node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/md5.js"() {
     "use strict";
     import_crypto2 = __toESM(require("crypto"));
     md5_default = md5;
   }
 });
 
-// node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/node_modules/uuid/dist/esm-node/v3.js
+// node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/v3.js
 var v3, v3_default;
 var init_v3 = __esm({
-  "node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/node_modules/uuid/dist/esm-node/v3.js"() {
+  "node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/v3.js"() {
     "use strict";
     init_v35();
     init_md5();
@@ -397,7 +397,7 @@ var init_v3 = __esm({
   }
 });
 
-// node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/node_modules/uuid/dist/esm-node/v4.js
+// node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/v4.js
 function v4(options2, buf, offset) {
   options2 = options2 || {};
   const rnds = options2.random || (options2.rng || rng)();
@@ -414,7 +414,7 @@ function v4(options2, buf, offset) {
 }
 var v4_default;
 var init_v4 = __esm({
-  "node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/node_modules/uuid/dist/esm-node/v4.js"() {
+  "node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/v4.js"() {
     "use strict";
     init_rng();
     init_stringify();
@@ -422,7 +422,7 @@ var init_v4 = __esm({
   }
 });
 
-// node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/node_modules/uuid/dist/esm-node/sha1.js
+// node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/sha1.js
 function sha1(bytes) {
   if (Array.isArray(bytes)) {
     bytes = Buffer.from(bytes);
@@ -433,17 +433,17 @@ function sha1(bytes) {
 }
 var import_crypto3, sha1_default;
 var init_sha1 = __esm({
-  "node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/node_modules/uuid/dist/esm-node/sha1.js"() {
+  "node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/sha1.js"() {
     "use strict";
     import_crypto3 = __toESM(require("crypto"));
     sha1_default = sha1;
   }
 });
 
-// node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/node_modules/uuid/dist/esm-node/v5.js
+// node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/v5.js
 var v5, v5_default;
 var init_v5 = __esm({
-  "node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/node_modules/uuid/dist/esm-node/v5.js"() {
+  "node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/v5.js"() {
     "use strict";
     init_v35();
     init_sha1();
@@ -452,16 +452,16 @@ var init_v5 = __esm({
   }
 });
 
-// node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/node_modules/uuid/dist/esm-node/nil.js
+// node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/nil.js
 var nil_default;
 var init_nil = __esm({
-  "node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/node_modules/uuid/dist/esm-node/nil.js"() {
+  "node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/nil.js"() {
     "use strict";
     nil_default = "00000000-0000-0000-0000-000000000000";
   }
 });
 
-// node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/node_modules/uuid/dist/esm-node/version.js
+// node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/version.js
 function version(uuid) {
   if (!validate_default(uuid)) {
     throw TypeError("Invalid UUID");
@@ -470,14 +470,14 @@ function version(uuid) {
 }
 var version_default;
 var init_version = __esm({
-  "node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/node_modules/uuid/dist/esm-node/version.js"() {
+  "node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/version.js"() {
     "use strict";
     init_validate();
     version_default = version;
   }
 });
 
-// node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/node_modules/uuid/dist/esm-node/index.js
+// node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/index.js
 var esm_node_exports = {};
 __export(esm_node_exports, {
   NIL: () => nil_default,
@@ -491,7 +491,7 @@ __export(esm_node_exports, {
   version: () => version_default
 });
 var init_esm_node = __esm({
-  "node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/node_modules/uuid/dist/esm-node/index.js"() {
+  "node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/index.js"() {
     "use strict";
     init_v1();
     init_v3();
@@ -1285,7 +1285,7 @@ var require_util = __commonJS({
     var { InvalidArgumentError } = require_errors();
     var { Blob: Blob4 } = require("buffer");
     var nodeUtil = require("util");
-    var { stringify: stringify3 } = require("querystring");
+    var { stringify: stringify2 } = require("querystring");
     var { headerNameLowerCasedRecord } = require_constants();
     var [nodeMajor, nodeMinor] = process.versions.node.split(".").map((v) => Number(v));
     function nop() {
@@ -1300,7 +1300,7 @@ var require_util = __commonJS({
       if (url2.includes("?") || url2.includes("#")) {
         throw new Error('Query params cannot be passed when url already contains "?" or "#".');
       }
-      const stringified = stringify3(queryParams);
+      const stringified = stringify2(queryParams);
       if (stringified) {
         url2 += "?" + stringified;
       }
@@ -3974,11 +3974,11 @@ var require_util2 = __commonJS({
     var assert = require("assert");
     var { isUint8Array } = require("util/types");
     var supportedHashes = [];
-    var crypto5;
+    var crypto4;
     try {
-      crypto5 = require("crypto");
+      crypto4 = require("crypto");
       const possibleRelevantHashes = ["sha256", "sha384", "sha512"];
-      supportedHashes = crypto5.getHashes().filter((hash) => possibleRelevantHashes.includes(hash));
+      supportedHashes = crypto4.getHashes().filter((hash) => possibleRelevantHashes.includes(hash));
     } catch {
     }
     function responseURL(response) {
@@ -4241,7 +4241,7 @@ var require_util2 = __commonJS({
       }
     }
     function bytesMatch(bytes, metadataList) {
-      if (crypto5 === void 0) {
+      if (crypto4 === void 0) {
         return true;
       }
       const parsedMetadata = parseMetadata(metadataList);
@@ -4256,7 +4256,7 @@ var require_util2 = __commonJS({
       for (const item of metadata2) {
         const algorithm = item.algo;
         const expectedValue = item.hash;
-        let actualValue = crypto5.createHash(algorithm).update(bytes).digest("base64");
+        let actualValue = crypto4.createHash(algorithm).update(bytes).digest("base64");
         if (actualValue[actualValue.length - 1] === "=") {
           if (actualValue[actualValue.length - 2] === "=") {
             actualValue = actualValue.slice(0, -2);
@@ -15907,7 +15907,7 @@ var require_util6 = __commonJS({
         throw new Error("Invalid cookie max-age");
       }
     }
-    function stringify3(cookie) {
+    function stringify2(cookie) {
       if (cookie.name.length === 0) {
         return null;
       }
@@ -15972,7 +15972,7 @@ var require_util6 = __commonJS({
     }
     module2.exports = {
       isCTLExcludingHtab,
-      stringify: stringify3,
+      stringify: stringify2,
       getHeadersList
     };
   }
@@ -16123,7 +16123,7 @@ var require_cookies = __commonJS({
   "node_modules/.pnpm/undici@5.28.4/node_modules/undici/lib/cookies/index.js"(exports2, module2) {
     "use strict";
     var { parseSetCookie } = require_parse();
-    var { stringify: stringify3, getHeadersList } = require_util6();
+    var { stringify: stringify2, getHeadersList } = require_util6();
     var { webidl } = require_webidl();
     var { Headers: Headers2 } = require_headers();
     function getCookies(headers) {
@@ -16165,9 +16165,9 @@ var require_cookies = __commonJS({
       webidl.argumentLengthCheck(arguments, 2, { header: "setCookie" });
       webidl.brandCheck(headers, Headers2, { strict: false });
       cookie = webidl.converters.Cookie(cookie);
-      const str = stringify3(cookie);
+      const str = stringify2(cookie);
       if (str) {
-        headers.append("Set-Cookie", stringify3(cookie));
+        headers.append("Set-Cookie", stringify2(cookie));
       }
     }
     webidl.converters.DeleteCookieAttributes = webidl.dictionaryConverter([
@@ -16672,9 +16672,9 @@ var require_connection = __commonJS({
     channels.open = diagnosticsChannel.channel("undici:websocket:open");
     channels.close = diagnosticsChannel.channel("undici:websocket:close");
     channels.socketError = diagnosticsChannel.channel("undici:websocket:socket_error");
-    var crypto5;
+    var crypto4;
     try {
-      crypto5 = require("crypto");
+      crypto4 = require("crypto");
     } catch {
     }
     function establishWebSocketConnection(url2, protocols, ws, onEstablish, options2) {
@@ -16693,7 +16693,7 @@ var require_connection = __commonJS({
         const headersList = new Headers2(options2.headers)[kHeadersList];
         request.headersList = headersList;
       }
-      const keyValue = crypto5.randomBytes(16).toString("base64");
+      const keyValue = crypto4.randomBytes(16).toString("base64");
       request.headersList.append("sec-websocket-key", keyValue);
       request.headersList.append("sec-websocket-version", "13");
       for (const protocol of protocols) {
@@ -16722,7 +16722,7 @@ var require_connection = __commonJS({
             return;
           }
           const secWSAccept = response.headersList.get("Sec-WebSocket-Accept");
-          const digest = crypto5.createHash("sha1").update(keyValue + uid).digest("base64");
+          const digest = crypto4.createHash("sha1").update(keyValue + uid).digest("base64");
           if (secWSAccept !== digest) {
             failWebsocketConnection(ws, "Incorrect hash received in Sec-WebSocket-Accept header.");
             return;
@@ -16802,9 +16802,9 @@ var require_frame = __commonJS({
   "node_modules/.pnpm/undici@5.28.4/node_modules/undici/lib/websocket/frame.js"(exports2, module2) {
     "use strict";
     var { maxUnsigned16Bit } = require_constants5();
-    var crypto5;
+    var crypto4;
     try {
-      crypto5 = require("crypto");
+      crypto4 = require("crypto");
     } catch {
     }
     var WebsocketFrameSend = class {
@@ -16813,7 +16813,7 @@ var require_frame = __commonJS({
        */
       constructor(data) {
         this.frameData = data;
-        this.maskKey = crypto5.randomBytes(4);
+        this.maskKey = crypto4.randomBytes(4);
       }
       createFrame(opcode) {
         const bodyLength = this.frameData?.byteLength ?? 0;
@@ -20744,9 +20744,9 @@ var require_manifest = __commonJS({
 var require_rng = __commonJS({
   "node_modules/.pnpm/uuid@3.4.0/node_modules/uuid/lib/rng.js"(exports2, module2) {
     "use strict";
-    var crypto5 = require("crypto");
+    var crypto4 = require("crypto");
     module2.exports = function nodeRNG() {
-      return crypto5.randomBytes(16);
+      return crypto4.randomBytes(16);
     };
   }
 });
@@ -20755,14 +20755,14 @@ var require_rng = __commonJS({
 var require_bytesToUuid = __commonJS({
   "node_modules/.pnpm/uuid@3.4.0/node_modules/uuid/lib/bytesToUuid.js"(exports2, module2) {
     "use strict";
-    var byteToHex3 = [];
+    var byteToHex2 = [];
     for (i = 0; i < 256; ++i) {
-      byteToHex3[i] = (i + 256).toString(16).substr(1);
+      byteToHex2[i] = (i + 256).toString(16).substr(1);
     }
     var i;
     function bytesToUuid(buf, offset) {
       var i2 = offset || 0;
-      var bth = byteToHex3;
+      var bth = byteToHex2;
       return [
         bth[buf[i2++]],
         bth[buf[i2++]],
@@ -20794,16 +20794,16 @@ var require_bytesToUuid = __commonJS({
 var require_v4 = __commonJS({
   "node_modules/.pnpm/uuid@3.4.0/node_modules/uuid/v4.js"(exports2, module2) {
     "use strict";
-    var rng3 = require_rng();
+    var rng2 = require_rng();
     var bytesToUuid = require_bytesToUuid();
-    function v43(options2, buf, offset) {
+    function v42(options2, buf, offset) {
       var i = buf && offset || 0;
       if (typeof options2 == "string") {
         buf = options2 === "binary" ? new Array(16) : null;
         options2 = null;
       }
       options2 = options2 || {};
-      var rnds = options2.random || (options2.rng || rng3)();
+      var rnds = options2.random || (options2.rng || rng2)();
       rnds[6] = rnds[6] & 15 | 64;
       rnds[8] = rnds[8] & 63 | 128;
       if (buf) {
@@ -20813,7 +20813,7 @@ var require_v4 = __commonJS({
       }
       return buf || bytesToUuid(rnds);
     }
-    module2.exports = v43;
+    module2.exports = v42;
   }
 });
 
@@ -23780,9 +23780,9 @@ var require_parse2 = __commonJS({
 var require_stringify = __commonJS({
   "node_modules/.pnpm/@iarna+toml@2.2.5/node_modules/@iarna/toml/stringify.js"(exports2, module2) {
     "use strict";
-    module2.exports = stringify3;
+    module2.exports = stringify2;
     module2.exports.value = stringifyInline;
-    function stringify3(obj) {
+    function stringify2(obj) {
       if (obj === null) throw typeError("null");
       if (obj === void 0) throw typeError("undefined");
       if (typeof obj !== "object") throw typeError(typeof obj);
@@ -25995,7 +25995,7 @@ var require_glob = __commonJS({
 var require_v1 = __commonJS({
   "node_modules/.pnpm/uuid@3.4.0/node_modules/uuid/v1.js"(exports2, module2) {
     "use strict";
-    var rng3 = require_rng();
+    var rng2 = require_rng();
     var bytesToUuid = require_bytesToUuid();
     var _nodeId2;
     var _clockseq2;
@@ -26008,7 +26008,7 @@ var require_v1 = __commonJS({
       var node = options2.node || _nodeId2;
       var clockseq = options2.clockseq !== void 0 ? options2.clockseq : _clockseq2;
       if (node == null || clockseq == null) {
-        var seedBytes = rng3();
+        var seedBytes = rng2();
         if (node == null) {
           node = _nodeId2 = [
             seedBytes[0] | 1,
@@ -26065,10 +26065,10 @@ var require_uuid = __commonJS({
   "node_modules/.pnpm/uuid@3.4.0/node_modules/uuid/index.js"(exports2, module2) {
     "use strict";
     var v12 = require_v1();
-    var v43 = require_v4();
-    var uuid = v43;
+    var v42 = require_v4();
+    var uuid = v42;
     uuid.v1 = v12;
-    uuid.v4 = v43;
+    uuid.v4 = v42;
     module2.exports = uuid;
   }
 });
@@ -26569,106 +26569,12 @@ var init_serializer_common = __esm({
   }
 });
 
-// node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/rng.js
-function rng2() {
-  if (poolPtr2 > rnds8Pool2.length - 16) {
-    import_crypto5.default.randomFillSync(rnds8Pool2);
-    poolPtr2 = 0;
-  }
-  return rnds8Pool2.slice(poolPtr2, poolPtr2 += 16);
-}
-var import_crypto5, rnds8Pool2, poolPtr2;
-var init_rng2 = __esm({
-  "node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/rng.js"() {
-    "use strict";
-    import_crypto5 = __toESM(require("crypto"));
-    rnds8Pool2 = new Uint8Array(256);
-    poolPtr2 = rnds8Pool2.length;
-  }
-});
-
-// node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/regex.js
-var regex_default2;
-var init_regex2 = __esm({
-  "node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/regex.js"() {
-    "use strict";
-    regex_default2 = /^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|00000000-0000-0000-0000-000000000000)$/i;
-  }
-});
-
-// node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/validate.js
-function validate2(uuid) {
-  return typeof uuid === "string" && regex_default2.test(uuid);
-}
-var validate_default2;
-var init_validate2 = __esm({
-  "node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/validate.js"() {
-    "use strict";
-    init_regex2();
-    validate_default2 = validate2;
-  }
-});
-
-// node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/stringify.js
-function stringify2(arr, offset = 0) {
-  const uuid = (byteToHex2[arr[offset + 0]] + byteToHex2[arr[offset + 1]] + byteToHex2[arr[offset + 2]] + byteToHex2[arr[offset + 3]] + "-" + byteToHex2[arr[offset + 4]] + byteToHex2[arr[offset + 5]] + "-" + byteToHex2[arr[offset + 6]] + byteToHex2[arr[offset + 7]] + "-" + byteToHex2[arr[offset + 8]] + byteToHex2[arr[offset + 9]] + "-" + byteToHex2[arr[offset + 10]] + byteToHex2[arr[offset + 11]] + byteToHex2[arr[offset + 12]] + byteToHex2[arr[offset + 13]] + byteToHex2[arr[offset + 14]] + byteToHex2[arr[offset + 15]]).toLowerCase();
-  if (!validate_default2(uuid)) {
-    throw TypeError("Stringified UUID is invalid");
-  }
-  return uuid;
-}
-var byteToHex2, stringify_default2;
-var init_stringify2 = __esm({
-  "node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/stringify.js"() {
-    "use strict";
-    init_validate2();
-    byteToHex2 = [];
-    for (let i = 0; i < 256; ++i) {
-      byteToHex2.push((i + 256).toString(16).substr(1));
-    }
-    stringify_default2 = stringify2;
-  }
-});
-
-// node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/v4.js
-function v42(options2, buf, offset) {
-  options2 = options2 || {};
-  const rnds = options2.random || (options2.rng || rng2)();
-  rnds[6] = rnds[6] & 15 | 64;
-  rnds[8] = rnds[8] & 63 | 128;
-  if (buf) {
-    offset = offset || 0;
-    for (let i = 0; i < 16; ++i) {
-      buf[offset + i] = rnds[i];
-    }
-    return buf;
-  }
-  return stringify_default2(rnds);
-}
-var v4_default2;
-var init_v42 = __esm({
-  "node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/v4.js"() {
-    "use strict";
-    init_rng2();
-    init_stringify2();
-    v4_default2 = v42;
-  }
-});
-
-// node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/index.js
-var init_esm_node2 = __esm({
-  "node_modules/.pnpm/uuid@8.3.2/node_modules/uuid/dist/esm-node/index.js"() {
-    "use strict";
-    init_v42();
-  }
-});
-
 // node_modules/.pnpm/@azure+core-http@3.0.4/node_modules/@azure/core-http/dist-esm/src/util/utils.js
 function isValidUuid(uuid) {
   return validUuidRegex.test(uuid);
 }
 function generateUuid() {
-  return v4_default2();
+  return v4_default();
 }
 function prepareXMLRootList(obj, elementName, xmlNamespaceKey, xmlNamespace) {
   if (!Array.isArray(obj)) {
@@ -26706,7 +26612,7 @@ var init_utils = __esm({
   "node_modules/.pnpm/@azure+core-http@3.0.4/node_modules/@azure/core-http/dist-esm/src/util/utils.js"() {
     "use strict";
     init_serializer_common();
-    init_esm_node2();
+    init_esm_node();
     validUuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/i;
     validateISODuration = /^(-|\+)?P(?:([-+]?[0-9,.]*)Y)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)W)?(?:([-+]?[0-9,.]*)D)?(?:T(?:([-+]?[0-9,.]*)H)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)S)?)?$/;
   }
@@ -48096,12 +48002,12 @@ var init_typeGuards = __esm({
 });
 
 // node_modules/.pnpm/@azure+core-util@1.9.0/node_modules/@azure/core-util/dist/esm/uuidUtils.js
-var import_crypto6, _a, uuidFunction;
+var import_crypto5, _a, uuidFunction;
 var init_uuidUtils = __esm({
   "node_modules/.pnpm/@azure+core-util@1.9.0/node_modules/@azure/core-util/dist/esm/uuidUtils.js"() {
     "use strict";
-    import_crypto6 = require("crypto");
-    uuidFunction = typeof ((_a = globalThis === null || globalThis === void 0 ? void 0 : globalThis.crypto) === null || _a === void 0 ? void 0 : _a.randomUUID) === "function" ? globalThis.crypto.randomUUID.bind(globalThis.crypto) : import_crypto6.randomUUID;
+    import_crypto5 = require("crypto");
+    uuidFunction = typeof ((_a = globalThis === null || globalThis === void 0 ? void 0 : globalThis.crypto) === null || _a === void 0 ? void 0 : _a.randomUUID) === "function" ? globalThis.crypto.randomUUID.bind(globalThis.crypto) : import_crypto5.randomUUID;
   }
 });
 
@@ -65600,11 +65506,11 @@ ${key}:${decodeURIComponent(lowercaseQueries[key])}`;
 });
 
 // node_modules/.pnpm/@azure+storage-blob@12.18.0/node_modules/@azure/storage-blob/dist-esm/storage-blob/src/credentials/StorageSharedKeyCredential.js
-var import_crypto7, StorageSharedKeyCredential;
+var import_crypto6, StorageSharedKeyCredential;
 var init_StorageSharedKeyCredential = __esm({
   "node_modules/.pnpm/@azure+storage-blob@12.18.0/node_modules/@azure/storage-blob/dist-esm/storage-blob/src/credentials/StorageSharedKeyCredential.js"() {
     "use strict";
-    import_crypto7 = require("crypto");
+    import_crypto6 = require("crypto");
     init_StorageSharedKeyCredentialPolicy();
     init_Credential();
     StorageSharedKeyCredential = class extends Credential {
@@ -65633,7 +65539,7 @@ var init_StorageSharedKeyCredential = __esm({
        * @param stringToSign -
        */
       computeHMACSHA256(stringToSign) {
-        return (0, import_crypto7.createHmac)("sha256", this.accountKey).update(stringToSign, "utf8").digest("base64");
+        return (0, import_crypto6.createHmac)("sha256", this.accountKey).update(stringToSign, "utf8").digest("base64");
       }
     };
   }
@@ -66072,11 +65978,11 @@ var init_ContainerSASPermissions = __esm({
 });
 
 // node_modules/.pnpm/@azure+storage-blob@12.18.0/node_modules/@azure/storage-blob/dist-esm/storage-blob/src/credentials/UserDelegationKeyCredential.js
-var import_crypto8, UserDelegationKeyCredential;
+var import_crypto7, UserDelegationKeyCredential;
 var init_UserDelegationKeyCredential = __esm({
   "node_modules/.pnpm/@azure+storage-blob@12.18.0/node_modules/@azure/storage-blob/dist-esm/storage-blob/src/credentials/UserDelegationKeyCredential.js"() {
     "use strict";
-    import_crypto8 = require("crypto");
+    import_crypto7 = require("crypto");
     UserDelegationKeyCredential = class {
       /**
        * Creates an instance of UserDelegationKeyCredential.
@@ -66094,7 +66000,7 @@ var init_UserDelegationKeyCredential = __esm({
        * @param stringToSign -
        */
       computeHMACSHA256(stringToSign) {
-        return (0, import_crypto8.createHmac)("sha256", this.key).update(stringToSign, "utf8").digest("base64");
+        return (0, import_crypto7.createHmac)("sha256", this.key).update(stringToSign, "utf8").digest("base64");
       }
     };
   }
@@ -75820,7 +75726,7 @@ var require_cacheHttpClient = __commonJS({
     var core6 = __importStar(require_core());
     var http_client_1 = require_lib();
     var auth_1 = require_auth();
-    var crypto5 = __importStar(require("crypto"));
+    var crypto4 = __importStar(require("crypto"));
     var fs4 = __importStar(require("fs"));
     var url_1 = require("url");
     var utils = __importStar(require_cacheUtils());
@@ -75862,7 +75768,7 @@ var require_cacheHttpClient = __commonJS({
         components.push("windows-only");
       }
       components.push(versionSalt);
-      return crypto5.createHash("sha256").update(components.join("|")).digest("hex");
+      return crypto4.createHash("sha256").update(components.join("|")).digest("hex");
     }
     exports2.getCacheVersion = getCacheVersion;
     function getCacheEntry(keys, paths, options2) {
