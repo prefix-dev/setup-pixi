@@ -100,3 +100,6 @@ lib/**/*
 
 # Ignore jetbrains files
 .idea
+
+# ESBuild metafile
+metafile*.json

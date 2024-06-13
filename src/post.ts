@@ -1,6 +1,6 @@
 import fs from 'fs/promises'
 import path from 'path'
-import * as os from 'os'
+import os from 'os'
 import { exit } from 'process'
 import * as core from '@actions/core'
 import { options } from './options'
@@ -69,20 +69,16 @@ const run = () => {
   return Promise.resolve()
 }
 
-void (async function () {
-  try {
-    await run()
-  } catch (error) {
-    if (core.isDebug()) {
-      throw error
-    }
-    if (error instanceof Error) {
-      core.setFailed(error.message)
-      exit(1)
-    } else if (typeof error === 'string') {
-      core.setFailed(error)
-      exit(1)
-    }
+run().catch((error: unknown) => {
+  if (core.isDebug()) {
     throw error
   }
-})()
+  if (error instanceof Error) {
+    core.setFailed(error.message)
+    exit(1)
+  } else if (typeof error === 'string') {
+    core.setFailed(error)
+    exit(1)
+  }
+  throw error
+})

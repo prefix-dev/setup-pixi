@@ -131,21 +131,16 @@ const run = async () => {
   }
 }
 
-;(async function () {
-  try {
-    await run()
-  } catch (error) {
-    if (core.isDebug()) {
-      throw error
-    }
-    if (error instanceof Error) {
-      core.setFailed(error.message)
-      exit(1)
-    } else if (typeof error === 'string') {
-      core.setFailed(error)
-      exit(1)
-    }
+run().catch((error: unknown) => {
+  if (core.isDebug()) {
     throw error
   }
-  exit(0)
+  if (error instanceof Error) {
+    core.setFailed(error.message)
+    exit(1)
+  } else if (typeof error === 'string') {
+    core.setFailed(error)
+    exit(1)
+  }
+  throw error
 })

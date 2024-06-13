@@ -7,9 +7,10 @@ export default defineConfig({
   },
   dts: false,
   clean: true,
-  target: 'es2020',
-  format: ['cjs'],
-  sourcemap: true,
+  target: 'esnext',
+  format: 'cjs',
+  sourcemap: false,
+  platform: 'node',
   minify: false,
   outExtension() {
     return {

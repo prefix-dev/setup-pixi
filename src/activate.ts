@@ -1,4 +1,4 @@
-import * as os from 'os'
+import os from 'os'
 import * as osPath from 'path'
 import * as core from '@actions/core'
 import { executeGetOutput, pixiCmd } from './util'
