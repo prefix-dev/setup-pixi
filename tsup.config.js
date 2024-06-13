@@ -11,6 +11,11 @@ export default defineConfig({
   format: ['cjs'],
   sourcemap: true,
   minify: false,
+  outExtension() {
+    return {
+      js: '.js'
+    }
+  },
   // need to bundle dependencies because they aren't available otherwise when run inside the action
   noExternal: [
     '@actions/core',
