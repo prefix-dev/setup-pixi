@@ -8,7 +8,7 @@ export default defineConfig({
   dts: false,
   clean: true,
   target: 'es2020',
-  format: ['esm'],
+  format: ['cjs'],
   sourcemap: true,
   minify: false,
   outExtension() {
