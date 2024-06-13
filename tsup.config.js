@@ -7,7 +7,7 @@ export default defineConfig({
   },
   dts: false,
   clean: true,
-  target: 'esnext',
+  target: 'es2020',
   format: 'cjs',
   sourcemap: false,
   platform: 'node',

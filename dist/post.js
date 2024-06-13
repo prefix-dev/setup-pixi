@@ -5,6 +5,10 @@ var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __typeError = (msg) => {
+  throw TypeError(msg);
+};
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __esm = (fn, res) => function __init() {
   return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
 };
@@ -32,6 +36,12 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
+var __accessCheck = (obj, member, msg) => member.has(obj) || __typeError("Cannot " + msg);
+var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
+var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
+var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
+var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "access private method"), method);
 
 // node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/lib/utils.js
 var require_utils = __commonJS({
@@ -11926,9 +11936,9 @@ var require_headers = __commonJS({
       return headers[kHeadersList].append(name, value);
     }
     var HeadersList = class _HeadersList {
-      /** @type {[string, string][]|null} */
-      cookies = null;
       constructor(init) {
+        /** @type {[string, string][]|null} */
+        __publicField(this, "cookies", null);
         if (init instanceof _HeadersList) {
           this[kHeadersMap] = new Map(init[kHeadersMap]);
           this[kHeadersSortedMap] = init[kHeadersSortedMap];
@@ -11963,7 +11973,7 @@ var require_headers = __commonJS({
           this[kHeadersMap].set(lowercaseName, { name, value });
         }
         if (lowercaseName === "set-cookie") {
-          this.cookies ??= [];
+          this.cookies ?? (this.cookies = []);
           this.cookies.push(value);
         }
       }
@@ -15166,17 +15176,19 @@ var require_cache = __commonJS({
     var { urlIsHttpHttpsScheme, createDeferredPromise, readAllBytes } = require_util2();
     var assert = require("assert");
     var { getGlobalDispatcher } = require_global2();
-    var Cache = class _Cache {
-      /**
-       * @see https://w3c.github.io/ServiceWorker/#dfn-relevant-request-response-list
-       * @type {requestResponseList}
-       */
-      #relevantRequestResponseList;
+    var _relevantRequestResponseList, _Cache_instances, batchCacheOperations_fn, queryCache_fn, requestMatchesCachedItem_fn;
+    var _Cache = class _Cache {
       constructor() {
+        __privateAdd(this, _Cache_instances);
+        /**
+         * @see https://w3c.github.io/ServiceWorker/#dfn-relevant-request-response-list
+         * @type {requestResponseList}
+         */
+        __privateAdd(this, _relevantRequestResponseList);
         if (arguments[0] !== kConstruct) {
           webidl.illegalConstructor();
         }
-        this.#relevantRequestResponseList = arguments[1];
+        __privateSet(this, _relevantRequestResponseList, arguments[1]);
       }
       async match(request, options2 = {}) {
         webidl.brandCheck(this, _Cache);
@@ -15206,11 +15218,11 @@ var require_cache = __commonJS({
         }
         const responses = [];
         if (request === void 0) {
-          for (const requestResponse of this.#relevantRequestResponseList) {
+          for (const requestResponse of __privateGet(this, _relevantRequestResponseList)) {
             responses.push(requestResponse[1]);
           }
         } else {
-          const requestResponses = this.#queryCache(r, options2);
+          const requestResponses = __privateMethod(this, _Cache_instances, queryCache_fn).call(this, r, options2);
           for (const requestResponse of requestResponses) {
             responses.push(requestResponse[1]);
           }
@@ -15320,7 +15332,7 @@ var require_cache = __commonJS({
         const cacheJobPromise = createDeferredPromise();
         let errorData = null;
         try {
-          this.#batchCacheOperations(operations);
+          __privateMethod(this, _Cache_instances, batchCacheOperations_fn).call(this, operations);
         } catch (e) {
           errorData = e;
         }
@@ -15400,7 +15412,7 @@ var require_cache = __commonJS({
         const cacheJobPromise = createDeferredPromise();
         let errorData = null;
         try {
-          this.#batchCacheOperations(operations);
+          __privateMethod(this, _Cache_instances, batchCacheOperations_fn).call(this, operations);
         } catch (e) {
           errorData = e;
         }
@@ -15439,7 +15451,7 @@ var require_cache = __commonJS({
         let errorData = null;
         let requestResponses;
         try {
-          requestResponses = this.#batchCacheOperations(operations);
+          requestResponses = __privateMethod(this, _Cache_instances, batchCacheOperations_fn).call(this, operations);
         } catch (e) {
           errorData = e;
         }
@@ -15476,11 +15488,11 @@ var require_cache = __commonJS({
         const promise = createDeferredPromise();
         const requests = [];
         if (request === void 0) {
-          for (const requestResponse of this.#relevantRequestResponseList) {
+          for (const requestResponse of __privateGet(this, _relevantRequestResponseList)) {
             requests.push(requestResponse[0]);
           }
         } else {
-          const requestResponses = this.#queryCache(r, options2);
+          const requestResponses = __privateMethod(this, _Cache_instances, queryCache_fn).call(this, r, options2);
           for (const requestResponse of requestResponses) {
             requests.push(requestResponse[0]);
           }
@@ -15499,141 +15511,144 @@ var require_cache = __commonJS({
         });
         return promise.promise;
       }
-      /**
-       * @see https://w3c.github.io/ServiceWorker/#batch-cache-operations-algorithm
-       * @param {CacheBatchOperation[]} operations
-       * @returns {requestResponseList}
-       */
-      #batchCacheOperations(operations) {
-        const cache = this.#relevantRequestResponseList;
-        const backupCache = [...cache];
-        const addedItems = [];
-        const resultList = [];
-        try {
-          for (const operation of operations) {
-            if (operation.type !== "delete" && operation.type !== "put") {
+    };
+    _relevantRequestResponseList = new WeakMap();
+    _Cache_instances = new WeakSet();
+    /**
+     * @see https://w3c.github.io/ServiceWorker/#batch-cache-operations-algorithm
+     * @param {CacheBatchOperation[]} operations
+     * @returns {requestResponseList}
+     */
+    batchCacheOperations_fn = function(operations) {
+      const cache = __privateGet(this, _relevantRequestResponseList);
+      const backupCache = [...cache];
+      const addedItems = [];
+      const resultList = [];
+      try {
+        for (const operation of operations) {
+          if (operation.type !== "delete" && operation.type !== "put") {
+            throw webidl.errors.exception({
+              header: "Cache.#batchCacheOperations",
+              message: 'operation type does not match "delete" or "put"'
+            });
+          }
+          if (operation.type === "delete" && operation.response != null) {
+            throw webidl.errors.exception({
+              header: "Cache.#batchCacheOperations",
+              message: "delete operation should not have an associated response"
+            });
+          }
+          if (__privateMethod(this, _Cache_instances, queryCache_fn).call(this, operation.request, operation.options, addedItems).length) {
+            throw new DOMException("???", "InvalidStateError");
+          }
+          let requestResponses;
+          if (operation.type === "delete") {
+            requestResponses = __privateMethod(this, _Cache_instances, queryCache_fn).call(this, operation.request, operation.options);
+            if (requestResponses.length === 0) {
+              return [];
+            }
+            for (const requestResponse of requestResponses) {
+              const idx = cache.indexOf(requestResponse);
+              assert(idx !== -1);
+              cache.splice(idx, 1);
+            }
+          } else if (operation.type === "put") {
+            if (operation.response == null) {
               throw webidl.errors.exception({
                 header: "Cache.#batchCacheOperations",
-                message: 'operation type does not match "delete" or "put"'
+                message: "put operation should have an associated response"
               });
             }
-            if (operation.type === "delete" && operation.response != null) {
+            const r = operation.request;
+            if (!urlIsHttpHttpsScheme(r.url)) {
               throw webidl.errors.exception({
                 header: "Cache.#batchCacheOperations",
-                message: "delete operation should not have an associated response"
+                message: "expected http or https scheme"
               });
             }
-            if (this.#queryCache(operation.request, operation.options, addedItems).length) {
-              throw new DOMException("???", "InvalidStateError");
+            if (r.method !== "GET") {
+              throw webidl.errors.exception({
+                header: "Cache.#batchCacheOperations",
+                message: "not get method"
+              });
             }
-            let requestResponses;
-            if (operation.type === "delete") {
-              requestResponses = this.#queryCache(operation.request, operation.options);
-              if (requestResponses.length === 0) {
-                return [];
-              }
-              for (const requestResponse of requestResponses) {
-                const idx = cache.indexOf(requestResponse);
-                assert(idx !== -1);
-                cache.splice(idx, 1);
-              }
-            } else if (operation.type === "put") {
-              if (operation.response == null) {
-                throw webidl.errors.exception({
-                  header: "Cache.#batchCacheOperations",
-                  message: "put operation should have an associated response"
-                });
-              }
-              const r = operation.request;
-              if (!urlIsHttpHttpsScheme(r.url)) {
-                throw webidl.errors.exception({
-                  header: "Cache.#batchCacheOperations",
-                  message: "expected http or https scheme"
-                });
-              }
-              if (r.method !== "GET") {
-                throw webidl.errors.exception({
-                  header: "Cache.#batchCacheOperations",
-                  message: "not get method"
-                });
-              }
-              if (operation.options != null) {
-                throw webidl.errors.exception({
-                  header: "Cache.#batchCacheOperations",
-                  message: "options must not be defined"
-                });
-              }
-              requestResponses = this.#queryCache(operation.request);
-              for (const requestResponse of requestResponses) {
-                const idx = cache.indexOf(requestResponse);
-                assert(idx !== -1);
-                cache.splice(idx, 1);
-              }
-              cache.push([operation.request, operation.response]);
-              addedItems.push([operation.request, operation.response]);
+            if (operation.options != null) {
+              throw webidl.errors.exception({
+                header: "Cache.#batchCacheOperations",
+                message: "options must not be defined"
+              });
             }
-            resultList.push([operation.request, operation.response]);
+            requestResponses = __privateMethod(this, _Cache_instances, queryCache_fn).call(this, operation.request);
+            for (const requestResponse of requestResponses) {
+              const idx = cache.indexOf(requestResponse);
+              assert(idx !== -1);
+              cache.splice(idx, 1);
+            }
+            cache.push([operation.request, operation.response]);
+            addedItems.push([operation.request, operation.response]);
           }
-          return resultList;
-        } catch (e) {
-          this.#relevantRequestResponseList.length = 0;
-          this.#relevantRequestResponseList = backupCache;
-          throw e;
-        }
-      }
-      /**
-       * @see https://w3c.github.io/ServiceWorker/#query-cache
-       * @param {any} requestQuery
-       * @param {import('../../types/cache').CacheQueryOptions} options
-       * @param {requestResponseList} targetStorage
-       * @returns {requestResponseList}
-       */
-      #queryCache(requestQuery, options2, targetStorage) {
-        const resultList = [];
-        const storage = targetStorage ?? this.#relevantRequestResponseList;
-        for (const requestResponse of storage) {
-          const [cachedRequest, cachedResponse] = requestResponse;
-          if (this.#requestMatchesCachedItem(requestQuery, cachedRequest, cachedResponse, options2)) {
-            resultList.push(requestResponse);
-          }
+          resultList.push([operation.request, operation.response]);
         }
         return resultList;
-      }
-      /**
-       * @see https://w3c.github.io/ServiceWorker/#request-matches-cached-item-algorithm
-       * @param {any} requestQuery
-       * @param {any} request
-       * @param {any | null} response
-       * @param {import('../../types/cache').CacheQueryOptions | undefined} options
-       * @returns {boolean}
-       */
-      #requestMatchesCachedItem(requestQuery, request, response = null, options2) {
-        const queryURL = new URL(requestQuery.url);
-        const cachedURL = new URL(request.url);
-        if (options2?.ignoreSearch) {
-          cachedURL.search = "";
-          queryURL.search = "";
-        }
-        if (!urlEquals(queryURL, cachedURL, true)) {
-          return false;
-        }
-        if (response == null || options2?.ignoreVary || !response.headersList.contains("vary")) {
-          return true;
-        }
-        const fieldValues = getFieldValues(response.headersList.get("vary"));
-        for (const fieldValue of fieldValues) {
-          if (fieldValue === "*") {
-            return false;
-          }
-          const requestValue = request.headersList.get(fieldValue);
-          const queryValue = requestQuery.headersList.get(fieldValue);
-          if (requestValue !== queryValue) {
-            return false;
-          }
-        }
-        return true;
+      } catch (e) {
+        __privateGet(this, _relevantRequestResponseList).length = 0;
+        __privateSet(this, _relevantRequestResponseList, backupCache);
+        throw e;
       }
     };
+    /**
+     * @see https://w3c.github.io/ServiceWorker/#query-cache
+     * @param {any} requestQuery
+     * @param {import('../../types/cache').CacheQueryOptions} options
+     * @param {requestResponseList} targetStorage
+     * @returns {requestResponseList}
+     */
+    queryCache_fn = function(requestQuery, options2, targetStorage) {
+      const resultList = [];
+      const storage = targetStorage ?? __privateGet(this, _relevantRequestResponseList);
+      for (const requestResponse of storage) {
+        const [cachedRequest, cachedResponse] = requestResponse;
+        if (__privateMethod(this, _Cache_instances, requestMatchesCachedItem_fn).call(this, requestQuery, cachedRequest, cachedResponse, options2)) {
+          resultList.push(requestResponse);
+        }
+      }
+      return resultList;
+    };
+    /**
+     * @see https://w3c.github.io/ServiceWorker/#request-matches-cached-item-algorithm
+     * @param {any} requestQuery
+     * @param {any} request
+     * @param {any | null} response
+     * @param {import('../../types/cache').CacheQueryOptions | undefined} options
+     * @returns {boolean}
+     */
+    requestMatchesCachedItem_fn = function(requestQuery, request, response = null, options2) {
+      const queryURL = new URL(requestQuery.url);
+      const cachedURL = new URL(request.url);
+      if (options2?.ignoreSearch) {
+        cachedURL.search = "";
+        queryURL.search = "";
+      }
+      if (!urlEquals(queryURL, cachedURL, true)) {
+        return false;
+      }
+      if (response == null || options2?.ignoreVary || !response.headersList.contains("vary")) {
+        return true;
+      }
+      const fieldValues = getFieldValues(response.headersList.get("vary"));
+      for (const fieldValue of fieldValues) {
+        if (fieldValue === "*") {
+          return false;
+        }
+        const requestValue = request.headersList.get(fieldValue);
+        const queryValue = requestQuery.headersList.get(fieldValue);
+        if (requestValue !== queryValue) {
+          return false;
+        }
+      }
+      return true;
+    };
+    var Cache = _Cache;
     Object.defineProperties(Cache.prototype, {
       [Symbol.toStringTag]: {
         value: "Cache",
@@ -15690,13 +15705,14 @@ var require_cachestorage = __commonJS({
     var { Cache } = require_cache();
     var { webidl } = require_webidl();
     var { kEnumerableProperty } = require_util();
-    var CacheStorage = class _CacheStorage {
-      /**
-       * @see https://w3c.github.io/ServiceWorker/#dfn-relevant-name-to-cache-map
-       * @type {Map<string, import('./cache').requestResponseList}
-       */
-      #caches = /* @__PURE__ */ new Map();
+    var _caches;
+    var _CacheStorage = class _CacheStorage {
       constructor() {
+        /**
+         * @see https://w3c.github.io/ServiceWorker/#dfn-relevant-name-to-cache-map
+         * @type {Map<string, import('./cache').requestResponseList}
+         */
+        __privateAdd(this, _caches, /* @__PURE__ */ new Map());
         if (arguments[0] !== kConstruct) {
           webidl.illegalConstructor();
         }
@@ -15707,13 +15723,13 @@ var require_cachestorage = __commonJS({
         request = webidl.converters.RequestInfo(request);
         options2 = webidl.converters.MultiCacheQueryOptions(options2);
         if (options2.cacheName != null) {
-          if (this.#caches.has(options2.cacheName)) {
-            const cacheList = this.#caches.get(options2.cacheName);
+          if (__privateGet(this, _caches).has(options2.cacheName)) {
+            const cacheList = __privateGet(this, _caches).get(options2.cacheName);
             const cache = new Cache(kConstruct, cacheList);
             return await cache.match(request, options2);
           }
         } else {
-          for (const cacheList of this.#caches.values()) {
+          for (const cacheList of __privateGet(this, _caches).values()) {
             const cache = new Cache(kConstruct, cacheList);
             const response = await cache.match(request, options2);
             if (response !== void 0) {
@@ -15731,7 +15747,7 @@ var require_cachestorage = __commonJS({
         webidl.brandCheck(this, _CacheStorage);
         webidl.argumentLengthCheck(arguments, 1, { header: "CacheStorage.has" });
         cacheName = webidl.converters.DOMString(cacheName);
-        return this.#caches.has(cacheName);
+        return __privateGet(this, _caches).has(cacheName);
       }
       /**
        * @see https://w3c.github.io/ServiceWorker/#dom-cachestorage-open
@@ -15742,12 +15758,12 @@ var require_cachestorage = __commonJS({
         webidl.brandCheck(this, _CacheStorage);
         webidl.argumentLengthCheck(arguments, 1, { header: "CacheStorage.open" });
         cacheName = webidl.converters.DOMString(cacheName);
-        if (this.#caches.has(cacheName)) {
-          const cache2 = this.#caches.get(cacheName);
+        if (__privateGet(this, _caches).has(cacheName)) {
+          const cache2 = __privateGet(this, _caches).get(cacheName);
           return new Cache(kConstruct, cache2);
         }
         const cache = [];
-        this.#caches.set(cacheName, cache);
+        __privateGet(this, _caches).set(cacheName, cache);
         return new Cache(kConstruct, cache);
       }
       /**
@@ -15759,7 +15775,7 @@ var require_cachestorage = __commonJS({
         webidl.brandCheck(this, _CacheStorage);
         webidl.argumentLengthCheck(arguments, 1, { header: "CacheStorage.delete" });
         cacheName = webidl.converters.DOMString(cacheName);
-        return this.#caches.delete(cacheName);
+        return __privateGet(this, _caches).delete(cacheName);
       }
       /**
        * @see https://w3c.github.io/ServiceWorker/#cache-storage-keys
@@ -15767,10 +15783,12 @@ var require_cachestorage = __commonJS({
        */
       async keys() {
         webidl.brandCheck(this, _CacheStorage);
-        const keys = this.#caches.keys();
+        const keys = __privateGet(this, _caches).keys();
         return [...keys];
       }
     };
+    _caches = new WeakMap();
+    var CacheStorage = _CacheStorage;
     Object.defineProperties(CacheStorage.prototype, {
       [Symbol.toStringTag]: {
         value: "CacheStorage",
@@ -16088,7 +16106,7 @@ var require_parse = __commonJS({
         }
         cookieAttributeList.sameSite = enforcement;
       } else {
-        cookieAttributeList.unparsed ??= [];
+        cookieAttributeList.unparsed ?? (cookieAttributeList.unparsed = []);
         cookieAttributeList.unparsed.push(`${attributeName}=${attributeValue}`);
       }
       return parseUnparsedAttributes(unparsedAttributes, cookieAttributeList);
@@ -16296,37 +16314,38 @@ var require_events = __commonJS({
     var { webidl } = require_webidl();
     var { kEnumerableProperty } = require_util();
     var { MessagePort } = require("worker_threads");
-    var MessageEvent = class _MessageEvent extends Event {
-      #eventInit;
+    var _eventInit;
+    var _MessageEvent = class _MessageEvent extends Event {
       constructor(type, eventInitDict = {}) {
         webidl.argumentLengthCheck(arguments, 1, { header: "MessageEvent constructor" });
         type = webidl.converters.DOMString(type);
         eventInitDict = webidl.converters.MessageEventInit(eventInitDict);
         super(type, eventInitDict);
-        this.#eventInit = eventInitDict;
+        __privateAdd(this, _eventInit);
+        __privateSet(this, _eventInit, eventInitDict);
       }
       get data() {
         webidl.brandCheck(this, _MessageEvent);
-        return this.#eventInit.data;
+        return __privateGet(this, _eventInit).data;
       }
       get origin() {
         webidl.brandCheck(this, _MessageEvent);
-        return this.#eventInit.origin;
+        return __privateGet(this, _eventInit).origin;
       }
       get lastEventId() {
         webidl.brandCheck(this, _MessageEvent);
-        return this.#eventInit.lastEventId;
+        return __privateGet(this, _eventInit).lastEventId;
       }
       get source() {
         webidl.brandCheck(this, _MessageEvent);
-        return this.#eventInit.source;
+        return __privateGet(this, _eventInit).source;
       }
       get ports() {
         webidl.brandCheck(this, _MessageEvent);
-        if (!Object.isFrozen(this.#eventInit.ports)) {
-          Object.freeze(this.#eventInit.ports);
+        if (!Object.isFrozen(__privateGet(this, _eventInit).ports)) {
+          Object.freeze(__privateGet(this, _eventInit).ports);
         }
-        return this.#eventInit.ports;
+        return __privateGet(this, _eventInit).ports;
       }
       initMessageEvent(type, bubbles = false, cancelable = false, data = null, origin = "", lastEventId = "", source = null, ports = []) {
         webidl.brandCheck(this, _MessageEvent);
@@ -16342,58 +16361,66 @@ var require_events = __commonJS({
         });
       }
     };
-    var CloseEvent = class _CloseEvent extends Event {
-      #eventInit;
+    _eventInit = new WeakMap();
+    var MessageEvent = _MessageEvent;
+    var _eventInit2;
+    var _CloseEvent = class _CloseEvent extends Event {
       constructor(type, eventInitDict = {}) {
         webidl.argumentLengthCheck(arguments, 1, { header: "CloseEvent constructor" });
         type = webidl.converters.DOMString(type);
         eventInitDict = webidl.converters.CloseEventInit(eventInitDict);
         super(type, eventInitDict);
-        this.#eventInit = eventInitDict;
+        __privateAdd(this, _eventInit2);
+        __privateSet(this, _eventInit2, eventInitDict);
       }
       get wasClean() {
         webidl.brandCheck(this, _CloseEvent);
-        return this.#eventInit.wasClean;
+        return __privateGet(this, _eventInit2).wasClean;
       }
       get code() {
         webidl.brandCheck(this, _CloseEvent);
-        return this.#eventInit.code;
+        return __privateGet(this, _eventInit2).code;
       }
       get reason() {
         webidl.brandCheck(this, _CloseEvent);
-        return this.#eventInit.reason;
+        return __privateGet(this, _eventInit2).reason;
       }
     };
-    var ErrorEvent = class _ErrorEvent extends Event {
-      #eventInit;
+    _eventInit2 = new WeakMap();
+    var CloseEvent = _CloseEvent;
+    var _eventInit3;
+    var _ErrorEvent = class _ErrorEvent extends Event {
       constructor(type, eventInitDict) {
         webidl.argumentLengthCheck(arguments, 1, { header: "ErrorEvent constructor" });
         super(type, eventInitDict);
+        __privateAdd(this, _eventInit3);
         type = webidl.converters.DOMString(type);
         eventInitDict = webidl.converters.ErrorEventInit(eventInitDict ?? {});
-        this.#eventInit = eventInitDict;
+        __privateSet(this, _eventInit3, eventInitDict);
       }
       get message() {
         webidl.brandCheck(this, _ErrorEvent);
-        return this.#eventInit.message;
+        return __privateGet(this, _eventInit3).message;
       }
       get filename() {
         webidl.brandCheck(this, _ErrorEvent);
-        return this.#eventInit.filename;
+        return __privateGet(this, _eventInit3).filename;
       }
       get lineno() {
         webidl.brandCheck(this, _ErrorEvent);
-        return this.#eventInit.lineno;
+        return __privateGet(this, _eventInit3).lineno;
       }
       get colno() {
         webidl.brandCheck(this, _ErrorEvent);
-        return this.#eventInit.colno;
+        return __privateGet(this, _eventInit3).colno;
       }
       get error() {
         webidl.brandCheck(this, _ErrorEvent);
-        return this.#eventInit.error;
+        return __privateGet(this, _eventInit3).error;
       }
     };
+    _eventInit3 = new WeakMap();
+    var ErrorEvent = _ErrorEvent;
     Object.defineProperties(MessageEvent.prototype, {
       [Symbol.toStringTag]: {
         value: "MessageEvent",
@@ -16840,14 +16867,15 @@ var require_receiver = __commonJS({
     var channels = {};
     channels.ping = diagnosticsChannel.channel("undici:websocket:ping");
     channels.pong = diagnosticsChannel.channel("undici:websocket:pong");
+    var _buffers, _byteOffset, _state, _info, _fragments;
     var ByteParser = class extends Writable {
-      #buffers = [];
-      #byteOffset = 0;
-      #state = parserStates.INFO;
-      #info = {};
-      #fragments = [];
       constructor(ws) {
         super();
+        __privateAdd(this, _buffers, []);
+        __privateAdd(this, _byteOffset, 0);
+        __privateAdd(this, _state, parserStates.INFO);
+        __privateAdd(this, _info, {});
+        __privateAdd(this, _fragments, []);
         this.ws = ws;
       }
       /**
@@ -16855,8 +16883,8 @@ var require_receiver = __commonJS({
        * @param {() => void} callback
        */
       _write(chunk, _, callback) {
-        this.#buffers.push(chunk);
-        this.#byteOffset += chunk.length;
+        __privateGet(this, _buffers).push(chunk);
+        __privateSet(this, _byteOffset, __privateGet(this, _byteOffset) + chunk.length);
         this.run(callback);
       }
       /**
@@ -16865,45 +16893,46 @@ var require_receiver = __commonJS({
        * or not enough bytes are buffered to parse.
        */
       run(callback) {
+        var _a;
         while (true) {
-          if (this.#state === parserStates.INFO) {
-            if (this.#byteOffset < 2) {
+          if (__privateGet(this, _state) === parserStates.INFO) {
+            if (__privateGet(this, _byteOffset) < 2) {
               return callback();
             }
             const buffer = this.consume(2);
-            this.#info.fin = (buffer[0] & 128) !== 0;
-            this.#info.opcode = buffer[0] & 15;
-            this.#info.originalOpcode ??= this.#info.opcode;
-            this.#info.fragmented = !this.#info.fin && this.#info.opcode !== opcodes.CONTINUATION;
-            if (this.#info.fragmented && this.#info.opcode !== opcodes.BINARY && this.#info.opcode !== opcodes.TEXT) {
+            __privateGet(this, _info).fin = (buffer[0] & 128) !== 0;
+            __privateGet(this, _info).opcode = buffer[0] & 15;
+            (_a = __privateGet(this, _info)).originalOpcode ?? (_a.originalOpcode = __privateGet(this, _info).opcode);
+            __privateGet(this, _info).fragmented = !__privateGet(this, _info).fin && __privateGet(this, _info).opcode !== opcodes.CONTINUATION;
+            if (__privateGet(this, _info).fragmented && __privateGet(this, _info).opcode !== opcodes.BINARY && __privateGet(this, _info).opcode !== opcodes.TEXT) {
               failWebsocketConnection(this.ws, "Invalid frame type was fragmented.");
               return;
             }
             const payloadLength = buffer[1] & 127;
             if (payloadLength <= 125) {
-              this.#info.payloadLength = payloadLength;
-              this.#state = parserStates.READ_DATA;
+              __privateGet(this, _info).payloadLength = payloadLength;
+              __privateSet(this, _state, parserStates.READ_DATA);
             } else if (payloadLength === 126) {
-              this.#state = parserStates.PAYLOADLENGTH_16;
+              __privateSet(this, _state, parserStates.PAYLOADLENGTH_16);
             } else if (payloadLength === 127) {
-              this.#state = parserStates.PAYLOADLENGTH_64;
+              __privateSet(this, _state, parserStates.PAYLOADLENGTH_64);
             }
-            if (this.#info.fragmented && payloadLength > 125) {
+            if (__privateGet(this, _info).fragmented && payloadLength > 125) {
               failWebsocketConnection(this.ws, "Fragmented frame exceeded 125 bytes.");
               return;
-            } else if ((this.#info.opcode === opcodes.PING || this.#info.opcode === opcodes.PONG || this.#info.opcode === opcodes.CLOSE) && payloadLength > 125) {
+            } else if ((__privateGet(this, _info).opcode === opcodes.PING || __privateGet(this, _info).opcode === opcodes.PONG || __privateGet(this, _info).opcode === opcodes.CLOSE) && payloadLength > 125) {
               failWebsocketConnection(this.ws, "Payload length for control frame exceeded 125 bytes.");
               return;
-            } else if (this.#info.opcode === opcodes.CLOSE) {
+            } else if (__privateGet(this, _info).opcode === opcodes.CLOSE) {
               if (payloadLength === 1) {
                 failWebsocketConnection(this.ws, "Received close frame with a 1-byte body.");
                 return;
               }
               const body = this.consume(payloadLength);
-              this.#info.closeInfo = this.parseCloseBody(false, body);
+              __privateGet(this, _info).closeInfo = this.parseCloseBody(false, body);
               if (!this.ws[kSentClose]) {
                 const body2 = Buffer.allocUnsafe(2);
-                body2.writeUInt16BE(this.#info.closeInfo.code, 0);
+                body2.writeUInt16BE(__privateGet(this, _info).closeInfo.code, 0);
                 const closeFrame = new WebsocketFrameSend(body2);
                 this.ws[kResponse].socket.write(
                   closeFrame.createFrame(opcodes.CLOSE),
@@ -16918,7 +16947,7 @@ var require_receiver = __commonJS({
               this.ws[kReceivedClose] = true;
               this.end();
               return;
-            } else if (this.#info.opcode === opcodes.PING) {
+            } else if (__privateGet(this, _info).opcode === opcodes.PING) {
               const body = this.consume(payloadLength);
               if (!this.ws[kReceivedClose]) {
                 const frame = new WebsocketFrameSend(body);
@@ -16929,36 +16958,36 @@ var require_receiver = __commonJS({
                   });
                 }
               }
-              this.#state = parserStates.INFO;
-              if (this.#byteOffset > 0) {
+              __privateSet(this, _state, parserStates.INFO);
+              if (__privateGet(this, _byteOffset) > 0) {
                 continue;
               } else {
                 callback();
                 return;
               }
-            } else if (this.#info.opcode === opcodes.PONG) {
+            } else if (__privateGet(this, _info).opcode === opcodes.PONG) {
               const body = this.consume(payloadLength);
               if (channels.pong.hasSubscribers) {
                 channels.pong.publish({
                   payload: body
                 });
               }
-              if (this.#byteOffset > 0) {
+              if (__privateGet(this, _byteOffset) > 0) {
                 continue;
               } else {
                 callback();
                 return;
               }
             }
-          } else if (this.#state === parserStates.PAYLOADLENGTH_16) {
-            if (this.#byteOffset < 2) {
+          } else if (__privateGet(this, _state) === parserStates.PAYLOADLENGTH_16) {
+            if (__privateGet(this, _byteOffset) < 2) {
               return callback();
             }
             const buffer = this.consume(2);
-            this.#info.payloadLength = buffer.readUInt16BE(0);
-            this.#state = parserStates.READ_DATA;
-          } else if (this.#state === parserStates.PAYLOADLENGTH_64) {
-            if (this.#byteOffset < 8) {
+            __privateGet(this, _info).payloadLength = buffer.readUInt16BE(0);
+            __privateSet(this, _state, parserStates.READ_DATA);
+          } else if (__privateGet(this, _state) === parserStates.PAYLOADLENGTH_64) {
+            if (__privateGet(this, _byteOffset) < 8) {
               return callback();
             }
             const buffer = this.consume(8);
@@ -16968,24 +16997,24 @@ var require_receiver = __commonJS({
               return;
             }
             const lower = buffer.readUInt32BE(4);
-            this.#info.payloadLength = (upper << 8) + lower;
-            this.#state = parserStates.READ_DATA;
-          } else if (this.#state === parserStates.READ_DATA) {
-            if (this.#byteOffset < this.#info.payloadLength) {
+            __privateGet(this, _info).payloadLength = (upper << 8) + lower;
+            __privateSet(this, _state, parserStates.READ_DATA);
+          } else if (__privateGet(this, _state) === parserStates.READ_DATA) {
+            if (__privateGet(this, _byteOffset) < __privateGet(this, _info).payloadLength) {
               return callback();
-            } else if (this.#byteOffset >= this.#info.payloadLength) {
-              const body = this.consume(this.#info.payloadLength);
-              this.#fragments.push(body);
-              if (!this.#info.fragmented || this.#info.fin && this.#info.opcode === opcodes.CONTINUATION) {
-                const fullMessage = Buffer.concat(this.#fragments);
-                websocketMessageReceived(this.ws, this.#info.originalOpcode, fullMessage);
-                this.#info = {};
-                this.#fragments.length = 0;
+            } else if (__privateGet(this, _byteOffset) >= __privateGet(this, _info).payloadLength) {
+              const body = this.consume(__privateGet(this, _info).payloadLength);
+              __privateGet(this, _fragments).push(body);
+              if (!__privateGet(this, _info).fragmented || __privateGet(this, _info).fin && __privateGet(this, _info).opcode === opcodes.CONTINUATION) {
+                const fullMessage = Buffer.concat(__privateGet(this, _fragments));
+                websocketMessageReceived(this.ws, __privateGet(this, _info).originalOpcode, fullMessage);
+                __privateSet(this, _info, {});
+                __privateGet(this, _fragments).length = 0;
               }
-              this.#state = parserStates.INFO;
+              __privateSet(this, _state, parserStates.INFO);
             }
           }
-          if (this.#byteOffset > 0) {
+          if (__privateGet(this, _byteOffset) > 0) {
             continue;
           } else {
             callback();
@@ -16999,33 +17028,33 @@ var require_receiver = __commonJS({
        * @returns {Buffer|null}
        */
       consume(n) {
-        if (n > this.#byteOffset) {
+        if (n > __privateGet(this, _byteOffset)) {
           return null;
         } else if (n === 0) {
           return emptyBuffer;
         }
-        if (this.#buffers[0].length === n) {
-          this.#byteOffset -= this.#buffers[0].length;
-          return this.#buffers.shift();
+        if (__privateGet(this, _buffers)[0].length === n) {
+          __privateSet(this, _byteOffset, __privateGet(this, _byteOffset) - __privateGet(this, _buffers)[0].length);
+          return __privateGet(this, _buffers).shift();
         }
         const buffer = Buffer.allocUnsafe(n);
         let offset = 0;
         while (offset !== n) {
-          const next = this.#buffers[0];
+          const next = __privateGet(this, _buffers)[0];
           const { length } = next;
           if (length + offset === n) {
-            buffer.set(this.#buffers.shift(), offset);
+            buffer.set(__privateGet(this, _buffers).shift(), offset);
             break;
           } else if (length + offset > n) {
             buffer.set(next.subarray(0, n - offset), offset);
-            this.#buffers[0] = next.subarray(n - offset);
+            __privateGet(this, _buffers)[0] = next.subarray(n - offset);
             break;
           } else {
-            buffer.set(this.#buffers.shift(), offset);
+            buffer.set(__privateGet(this, _buffers).shift(), offset);
             offset += next.length;
           }
         }
-        this.#byteOffset -= n;
+        __privateSet(this, _byteOffset, __privateGet(this, _byteOffset) - n);
         return buffer;
       }
       parseCloseBody(onlyCode, data) {
@@ -17054,9 +17083,14 @@ var require_receiver = __commonJS({
         return { code, reason };
       }
       get closingInfo() {
-        return this.#info.closeInfo;
+        return __privateGet(this, _info).closeInfo;
       }
     };
+    _buffers = new WeakMap();
+    _byteOffset = new WeakMap();
+    _state = new WeakMap();
+    _info = new WeakMap();
+    _fragments = new WeakMap();
     module2.exports = {
       ByteParser
     };
@@ -17089,22 +17123,24 @@ var require_websocket = __commonJS({
     var { getGlobalDispatcher } = require_global2();
     var { types } = require("util");
     var experimentalWarned = false;
-    var WebSocket = class _WebSocket extends EventTarget {
-      #events = {
-        open: null,
-        error: null,
-        close: null,
-        message: null
-      };
-      #bufferedAmount = 0;
-      #protocol = "";
-      #extensions = "";
+    var _events, _bufferedAmount, _protocol, _extensions, _WebSocket_instances, onConnectionEstablished_fn;
+    var _WebSocket = class _WebSocket extends EventTarget {
       /**
        * @param {string} url
        * @param {string|string[]} protocols
        */
       constructor(url, protocols = []) {
         super();
+        __privateAdd(this, _WebSocket_instances);
+        __privateAdd(this, _events, {
+          open: null,
+          error: null,
+          close: null,
+          message: null
+        });
+        __privateAdd(this, _bufferedAmount, 0);
+        __privateAdd(this, _protocol, "");
+        __privateAdd(this, _extensions, "");
         webidl.argumentLengthCheck(arguments, 1, { header: "WebSocket constructor" });
         if (!experimentalWarned) {
           experimentalWarned = true;
@@ -17150,7 +17186,7 @@ var require_websocket = __commonJS({
           urlRecord,
           protocols,
           this,
-          (response) => this.#onConnectionEstablished(response),
+          (response) => __privateMethod(this, _WebSocket_instances, onConnectionEstablished_fn).call(this, response),
           options2
         );
         this[kReadyState] = _WebSocket.CONNECTING;
@@ -17230,25 +17266,25 @@ var require_websocket = __commonJS({
           const value = Buffer.from(data);
           const frame = new WebsocketFrameSend(value);
           const buffer = frame.createFrame(opcodes.TEXT);
-          this.#bufferedAmount += value.byteLength;
+          __privateSet(this, _bufferedAmount, __privateGet(this, _bufferedAmount) + value.byteLength);
           socket.write(buffer, () => {
-            this.#bufferedAmount -= value.byteLength;
+            __privateSet(this, _bufferedAmount, __privateGet(this, _bufferedAmount) - value.byteLength);
           });
         } else if (types.isArrayBuffer(data)) {
           const value = Buffer.from(data);
           const frame = new WebsocketFrameSend(value);
           const buffer = frame.createFrame(opcodes.BINARY);
-          this.#bufferedAmount += value.byteLength;
+          __privateSet(this, _bufferedAmount, __privateGet(this, _bufferedAmount) + value.byteLength);
           socket.write(buffer, () => {
-            this.#bufferedAmount -= value.byteLength;
+            __privateSet(this, _bufferedAmount, __privateGet(this, _bufferedAmount) - value.byteLength);
           });
         } else if (ArrayBuffer.isView(data)) {
           const ab = Buffer.from(data, data.byteOffset, data.byteLength);
           const frame = new WebsocketFrameSend(ab);
           const buffer = frame.createFrame(opcodes.BINARY);
-          this.#bufferedAmount += ab.byteLength;
+          __privateSet(this, _bufferedAmount, __privateGet(this, _bufferedAmount) + ab.byteLength);
           socket.write(buffer, () => {
-            this.#bufferedAmount -= ab.byteLength;
+            __privateSet(this, _bufferedAmount, __privateGet(this, _bufferedAmount) - ab.byteLength);
           });
         } else if (isBlobLike(data)) {
           const frame = new WebsocketFrameSend();
@@ -17256,9 +17292,9 @@ var require_websocket = __commonJS({
             const value = Buffer.from(ab);
             frame.frameData = value;
             const buffer = frame.createFrame(opcodes.BINARY);
-            this.#bufferedAmount += value.byteLength;
+            __privateSet(this, _bufferedAmount, __privateGet(this, _bufferedAmount) + value.byteLength);
             socket.write(buffer, () => {
-              this.#bufferedAmount -= value.byteLength;
+              __privateSet(this, _bufferedAmount, __privateGet(this, _bufferedAmount) - value.byteLength);
             });
           });
         }
@@ -17269,7 +17305,7 @@ var require_websocket = __commonJS({
       }
       get bufferedAmount() {
         webidl.brandCheck(this, _WebSocket);
-        return this.#bufferedAmount;
+        return __privateGet(this, _bufferedAmount);
       }
       get url() {
         webidl.brandCheck(this, _WebSocket);
@@ -17277,74 +17313,74 @@ var require_websocket = __commonJS({
       }
       get extensions() {
         webidl.brandCheck(this, _WebSocket);
-        return this.#extensions;
+        return __privateGet(this, _extensions);
       }
       get protocol() {
         webidl.brandCheck(this, _WebSocket);
-        return this.#protocol;
+        return __privateGet(this, _protocol);
       }
       get onopen() {
         webidl.brandCheck(this, _WebSocket);
-        return this.#events.open;
+        return __privateGet(this, _events).open;
       }
       set onopen(fn) {
         webidl.brandCheck(this, _WebSocket);
-        if (this.#events.open) {
-          this.removeEventListener("open", this.#events.open);
+        if (__privateGet(this, _events).open) {
+          this.removeEventListener("open", __privateGet(this, _events).open);
         }
         if (typeof fn === "function") {
-          this.#events.open = fn;
+          __privateGet(this, _events).open = fn;
           this.addEventListener("open", fn);
         } else {
-          this.#events.open = null;
+          __privateGet(this, _events).open = null;
         }
       }
       get onerror() {
         webidl.brandCheck(this, _WebSocket);
-        return this.#events.error;
+        return __privateGet(this, _events).error;
       }
       set onerror(fn) {
         webidl.brandCheck(this, _WebSocket);
-        if (this.#events.error) {
-          this.removeEventListener("error", this.#events.error);
+        if (__privateGet(this, _events).error) {
+          this.removeEventListener("error", __privateGet(this, _events).error);
         }
         if (typeof fn === "function") {
-          this.#events.error = fn;
+          __privateGet(this, _events).error = fn;
           this.addEventListener("error", fn);
         } else {
-          this.#events.error = null;
+          __privateGet(this, _events).error = null;
         }
       }
       get onclose() {
         webidl.brandCheck(this, _WebSocket);
-        return this.#events.close;
+        return __privateGet(this, _events).close;
       }
       set onclose(fn) {
         webidl.brandCheck(this, _WebSocket);
-        if (this.#events.close) {
-          this.removeEventListener("close", this.#events.close);
+        if (__privateGet(this, _events).close) {
+          this.removeEventListener("close", __privateGet(this, _events).close);
         }
         if (typeof fn === "function") {
-          this.#events.close = fn;
+          __privateGet(this, _events).close = fn;
           this.addEventListener("close", fn);
         } else {
-          this.#events.close = null;
+          __privateGet(this, _events).close = null;
         }
       }
       get onmessage() {
         webidl.brandCheck(this, _WebSocket);
-        return this.#events.message;
+        return __privateGet(this, _events).message;
       }
       set onmessage(fn) {
         webidl.brandCheck(this, _WebSocket);
-        if (this.#events.message) {
-          this.removeEventListener("message", this.#events.message);
+        if (__privateGet(this, _events).message) {
+          this.removeEventListener("message", __privateGet(this, _events).message);
         }
         if (typeof fn === "function") {
-          this.#events.message = fn;
+          __privateGet(this, _events).message = fn;
           this.addEventListener("message", fn);
         } else {
-          this.#events.message = null;
+          __privateGet(this, _events).message = null;
         }
       }
       get binaryType() {
@@ -17359,29 +17395,35 @@ var require_websocket = __commonJS({
           this[kBinaryType] = type;
         }
       }
-      /**
-       * @see https://websockets.spec.whatwg.org/#feedback-from-the-protocol
-       */
-      #onConnectionEstablished(response) {
-        this[kResponse] = response;
-        const parser = new ByteParser(this);
-        parser.on("drain", function onParserDrain() {
-          this.ws[kResponse].socket.resume();
-        });
-        response.socket.ws = this;
-        this[kByteParser] = parser;
-        this[kReadyState] = states.OPEN;
-        const extensions = response.headersList.get("sec-websocket-extensions");
-        if (extensions !== null) {
-          this.#extensions = extensions;
-        }
-        const protocol = response.headersList.get("sec-websocket-protocol");
-        if (protocol !== null) {
-          this.#protocol = protocol;
-        }
-        fireEvent("open", this);
-      }
     };
+    _events = new WeakMap();
+    _bufferedAmount = new WeakMap();
+    _protocol = new WeakMap();
+    _extensions = new WeakMap();
+    _WebSocket_instances = new WeakSet();
+    /**
+     * @see https://websockets.spec.whatwg.org/#feedback-from-the-protocol
+     */
+    onConnectionEstablished_fn = function(response) {
+      this[kResponse] = response;
+      const parser = new ByteParser(this);
+      parser.on("drain", function onParserDrain() {
+        this.ws[kResponse].socket.resume();
+      });
+      response.socket.ws = this;
+      this[kByteParser] = parser;
+      this[kReadyState] = states.OPEN;
+      const extensions = response.headersList.get("sec-websocket-extensions");
+      if (extensions !== null) {
+        __privateSet(this, _extensions, extensions);
+      }
+      const protocol = response.headersList.get("sec-websocket-protocol");
+      if (protocol !== null) {
+        __privateSet(this, _protocol, protocol);
+      }
+      fireEvent("open", this);
+    };
+    var WebSocket = _WebSocket;
     WebSocket.CONNECTING = WebSocket.prototype.CONNECTING = states.CONNECTING;
     WebSocket.OPEN = WebSocket.prototype.OPEN = states.OPEN;
     WebSocket.CLOSING = WebSocket.prototype.CLOSING = states.CLOSING;
