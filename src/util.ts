@@ -1,6 +1,6 @@
 import type { BinaryLike } from 'crypto'
 import { createHash } from 'crypto'
-import * as os from 'os'
+import os from 'os'
 import * as core from '@actions/core'
 import type { ExecOptions } from '@actions/exec'
 import { exec, getExecOutput } from '@actions/exec'

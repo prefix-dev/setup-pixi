@@ -25,7 +25,7 @@ GitHub Action to set up the [pixi](https://github.com/prefix-dev/pixi) package m
 ```yml
 - uses: prefix-dev/setup-pixi@v0.8.1
   with:
-    pixi-version: v0.23.0
+    pixi-version: v0.24.1
     cache: true
     auth-host: prefix.dev
     auth-token: ${{ secrets.PREFIX_DEV_TOKEN }}
@@ -49,7 +49,7 @@ GitHub Action to set up the [pixi](https://github.com/prefix-dev/pixi) package m
 >     groups:
 >       dependencies:
 >         patterns:
->           - "*"
+>           - '*'
 > ```
 
 ## Features
@@ -117,10 +117,10 @@ test:
     matrix:
       environment: [py311, py312]
   steps:
-  - uses: actions/checkout@v4
-  - uses: prefix-dev/setup-pixi@v0.8.1
-    with:
-      environments: ${{ matrix.environment }}
+    - uses: actions/checkout@v4
+    - uses: prefix-dev/setup-pixi@v0.8.1
+      with:
+        environments: ${{ matrix.environment }}
 ```
 
 #### Install multiple environments in one job
@@ -216,6 +216,7 @@ You can even run Python scripts like this:
 ```
 
 If you want to use PowerShell, you need to specify `-Command` as well.
+
 ```yml
 - run: | # everything here will be run inside of the pixi environment
     python --version | Select-String "3.11"
@@ -352,5 +353,5 @@ If you want to see more examples, you can take a look at the [GitHub Workflows o
 
 1. Clone this repository.
 2. Run `pnpm install` inside the repository (if you don't have [`pnpm`](https://github.com/pnpm/pnpm) installed, you can install it with `pixi global install pnpm`).
-3. Run `pnpm dev` for live transpilation of the TypeScript source code. 
+3. Run `pnpm dev` for live transpilation of the TypeScript source code.
 4. To test the action, you can run [`act`](https://github.com/nektos/act) (inside docker) or use :sparkles: CI driven development :sparkles:.

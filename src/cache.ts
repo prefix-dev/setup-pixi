@@ -25,7 +25,8 @@ export const generateCacheKey = async (cacheKeyPrefix: string) =>
       core.debug(`sha: ${sha}`)
       return `${cacheKeyPrefix}${getCondaArch()}-${sha}`
     })
-    .catch((err) => {
+    .catch((err: unknown) => {
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       throw new Error(`Failed to generate cache key: ${err}`)
     })
 
@@ -58,7 +59,7 @@ export const tryRestoreCache = (): Promise<string | undefined> => {
 
 export const saveCache = () => {
   const cache_ = options.cache
-  if (!cache_ || !cache_.cacheWrite) {
+  if (!cache_?.cacheWrite) {
     core.debug('Skipping pixi cache save.')
     return Promise.resolve(undefined)
   }
@@ -71,10 +72,11 @@ export const saveCache = () => {
       cache
         .saveCache([cachePath], cacheKey, undefined, false)
         .then((cacheId) => {
-          core.info(`Saved cache with ID \`${cacheId}\``)
+          core.info(`Saved cache with ID "${cacheId.toString()}"`)
         })
-        .catch((err) => {
-          core.error(`Error saving cache: ${err.message}`)
+        .catch((err: unknown) => {
+          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+          core.error(`Error saving cache: ${err}`)
         })
     )
   )
