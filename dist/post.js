@@ -25345,7 +25345,7 @@ var run = () => {
   core2.debug("Skipping post-cleanup.");
   return Promise.resolve();
 };
-run().catch((error2) => {
+run().then(() => (0, import_process2.exit)(0)).catch((error2) => {
   if (core2.isDebug()) {
     throw error2;
   }

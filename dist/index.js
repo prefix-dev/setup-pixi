@@ -80722,7 +80722,7 @@ var run = async () => {
     await activateEnv(options.activatedEnvironment);
   }
 };
-run().catch((error3) => {
+run().then(() => (0, import_process2.exit)(0)).catch((error3) => {
   if (core5.isDebug()) {
     throw error3;
   }
