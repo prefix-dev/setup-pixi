@@ -33,14 +33,14 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@eslint/js": "^9.4.0",
+    "@eslint/js": "^9.7.0",
     "@types/eslint__js": "^8.42.3",
-    "@types/node": "^20.14.2",
+    "@types/node": "^20.14.10",
     "@types/which": "^3.0.4",
-    "eslint": "^9.4.0",
-    "prettier": "^3.3.2",
+    "eslint": "^9.7.0",
+    "prettier": "^3.3.3",
     "tsup": "^8.1.0",
-    "typescript": "^5.4.5",
-    "typescript-eslint": "^7.13.0"
+    "typescript": "^5.5.3",
+    "typescript-eslint": "^7.16.0"
   }
 }
