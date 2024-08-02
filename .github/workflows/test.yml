@@ -469,13 +469,13 @@ jobs:
           run-install: false
       - run: |
           python --version | grep -q "3.11"
-        shell: pixi exec --spec 'python=3.11.*' -- bash -e {0}
+        shell: pixi exec --spec python=3.11.* -- bash -e {0}
       - run: |
           import ruamel.yaml
         shell: pixi exec --spec python --spec ruamel.yaml -- python {0}
       - run: |
           python --version | Select-String "3.11"
-        shell: pixi exec --spec 'python=3.11.*' -- pwsh -Command {0}
+        shell: pixi exec --spec python=3.11.* -- pwsh -Command {0}
 
   post-cleanup-linux:
     runs-on: ubuntu-latest
