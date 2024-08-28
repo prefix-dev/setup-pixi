@@ -25,7 +25,7 @@ GitHub Action to set up the [pixi](https://github.com/prefix-dev/pixi) package m
 ```yml
 - uses: prefix-dev/setup-pixi@v0.8.1
   with:
-    pixi-version: v0.24.1
+    pixi-version: v0.28.1
     cache: true
     auth-host: prefix.dev
     auth-token: ${{ secrets.PREFIX_DEV_TOKEN }}
@@ -228,6 +228,25 @@ If you want to use PowerShell, you need to specify `-Command` as well.
 > This file does not have the executable bit set, so you cannot use `shell: pixi run {0}` directly but instead have to use `shell: pixi run bash {0}`.
 > There are some custom shells provided by GitHub that have slightly different behavior, see [`jobs.<job_id>.steps[*].shell`](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsshell) in the documentation.
 > See the [official documentation](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#custom-shell) and [ADR 0277](https://github.com/actions/runner/blob/main/docs/adrs/0277-run-action-shell-options.md) for more information about how the `shell:` input works in GitHub Actions.
+
+#### One-off shell wrapper using `pixi exec`
+
+With `pixi exec`, you can also run a one-off command inside a temporary pixi environment.
+
+```yml
+- run: | # everything here will be run inside of the temporary pixi environment
+    zstd --version
+  shell: pixi exec --spec zstd -- bash -e {0}
+```
+
+```yml
+- run: | # everything here will be run inside of the temporary pixi environment
+    import ruamel.yaml
+    # ...
+  shell: pixi exec --spec python=3.11.* --spec ruamel.yaml -- python {0}
+```
+
+See [here](https://pixi.sh/latest/reference/cli#exec) for more information about `pixi exec`.
 
 ### Environment activation
 
