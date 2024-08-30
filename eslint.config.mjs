@@ -33,5 +33,10 @@ export default tseslint.config(
         }
       ]
     }
+  },
+  // disable type checking for config files as they aren't in the TS root
+  {
+    files: ['eslint.config.mjs', 'prettier.config.mjs', 'tsup.config.js'],
+    ...tseslint.configs.disableTypeChecked
   }
 )
