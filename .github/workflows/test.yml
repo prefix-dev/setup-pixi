@@ -121,8 +121,8 @@ jobs:
       - name: Move pixi.toml
         run: mv test/compilers/* .
       - uses: ./
-        # with:
-        #   activate-environment: true
+        with:
+          activate-environment: true
       - if: matrix.os == 'windows-latest'
         run: |
           echo $Env:PATH
