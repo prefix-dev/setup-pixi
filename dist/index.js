@@ -65439,13 +65439,16 @@ var run = async () => {
   }
   addPixiToPath();
   await pixiLogin();
-  await (0, import_async_retry.default)(async () => {
-    await pixiInstall();
-  }, {
-    retries: options.retryCount,
-    minTimeout: 5e3,
-    randomize: true
-  });
+  await (0, import_async_retry.default)(
+    async () => {
+      await pixiInstall();
+    },
+    {
+      retries: options.retryCount,
+      minTimeout: 5e3,
+      randomize: true
+    }
+  );
   await generateInfo();
   await generateList();
   if (options.activatedEnvironment) {

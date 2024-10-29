@@ -6,7 +6,7 @@ import * as core from '@actions/core'
 import { downloadTool } from '@actions/tool-cache'
 import type { PixiSource } from './options'
 import { options } from './options'
-import retry from 'async-retry';
+import retry from 'async-retry'
 import { execute, getPixiUrlFromVersion, pixiCmd } from './util'
 import { saveCache, tryRestoreCache } from './cache'
 import { activateEnvironment } from './activate'
@@ -124,11 +124,16 @@ const run = async () => {
   }
   addPixiToPath()
   await pixiLogin()
-  await retry(async () => { await pixiInstall() }, {
-    retries: options.retryCount,
-    minTimeout: 5000,
-    randomize: true
-  })
+  await retry(
+    async () => {
+      await pixiInstall()
+    },
+    {
+      retries: options.retryCount,
+      minTimeout: 5000,
+      randomize: true
+    }
+  )
   await generateInfo()
   await generateList()
   if (options.activatedEnvironment) {

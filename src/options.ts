@@ -27,7 +27,7 @@ type Inputs = Readonly<{
   authUsername?: string
   authPassword?: string
   authCondaToken?: string
-  retryCount?: number,
+  retryCount?: number
   postCleanup?: boolean
 }>
 
@@ -72,7 +72,7 @@ export type Options = Readonly<{
   cache?: Cache
   pixiBinPath: string
   auth?: Auth
-  retryCount: number,
+  retryCount: number
   postCleanup: boolean
   activatedEnvironment?: string
 }>
