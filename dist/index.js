@@ -24332,6 +24332,284 @@ var require_lib2 = __commonJS({
   }
 });
 
+// node_modules/.pnpm/retry@0.13.1/node_modules/retry/lib/retry_operation.js
+var require_retry_operation = __commonJS({
+  "node_modules/.pnpm/retry@0.13.1/node_modules/retry/lib/retry_operation.js"(exports2, module2) {
+    "use strict";
+    function RetryOperation(timeouts, options2) {
+      if (typeof options2 === "boolean") {
+        options2 = { forever: options2 };
+      }
+      this._originalTimeouts = JSON.parse(JSON.stringify(timeouts));
+      this._timeouts = timeouts;
+      this._options = options2 || {};
+      this._maxRetryTime = options2 && options2.maxRetryTime || Infinity;
+      this._fn = null;
+      this._errors = [];
+      this._attempts = 1;
+      this._operationTimeout = null;
+      this._operationTimeoutCb = null;
+      this._timeout = null;
+      this._operationStart = null;
+      this._timer = null;
+      if (this._options.forever) {
+        this._cachedTimeouts = this._timeouts.slice(0);
+      }
+    }
+    module2.exports = RetryOperation;
+    RetryOperation.prototype.reset = function() {
+      this._attempts = 1;
+      this._timeouts = this._originalTimeouts.slice(0);
+    };
+    RetryOperation.prototype.stop = function() {
+      if (this._timeout) {
+        clearTimeout(this._timeout);
+      }
+      if (this._timer) {
+        clearTimeout(this._timer);
+      }
+      this._timeouts = [];
+      this._cachedTimeouts = null;
+    };
+    RetryOperation.prototype.retry = function(err) {
+      if (this._timeout) {
+        clearTimeout(this._timeout);
+      }
+      if (!err) {
+        return false;
+      }
+      var currentTime = (/* @__PURE__ */ new Date()).getTime();
+      if (err && currentTime - this._operationStart >= this._maxRetryTime) {
+        this._errors.push(err);
+        this._errors.unshift(new Error("RetryOperation timeout occurred"));
+        return false;
+      }
+      this._errors.push(err);
+      var timeout = this._timeouts.shift();
+      if (timeout === void 0) {
+        if (this._cachedTimeouts) {
+          this._errors.splice(0, this._errors.length - 1);
+          timeout = this._cachedTimeouts.slice(-1);
+        } else {
+          return false;
+        }
+      }
+      var self2 = this;
+      this._timer = setTimeout(function() {
+        self2._attempts++;
+        if (self2._operationTimeoutCb) {
+          self2._timeout = setTimeout(function() {
+            self2._operationTimeoutCb(self2._attempts);
+          }, self2._operationTimeout);
+          if (self2._options.unref) {
+            self2._timeout.unref();
+          }
+        }
+        self2._fn(self2._attempts);
+      }, timeout);
+      if (this._options.unref) {
+        this._timer.unref();
+      }
+      return true;
+    };
+    RetryOperation.prototype.attempt = function(fn, timeoutOps) {
+      this._fn = fn;
+      if (timeoutOps) {
+        if (timeoutOps.timeout) {
+          this._operationTimeout = timeoutOps.timeout;
+        }
+        if (timeoutOps.cb) {
+          this._operationTimeoutCb = timeoutOps.cb;
+        }
+      }
+      var self2 = this;
+      if (this._operationTimeoutCb) {
+        this._timeout = setTimeout(function() {
+          self2._operationTimeoutCb();
+        }, self2._operationTimeout);
+      }
+      this._operationStart = (/* @__PURE__ */ new Date()).getTime();
+      this._fn(this._attempts);
+    };
+    RetryOperation.prototype.try = function(fn) {
+      console.log("Using RetryOperation.try() is deprecated");
+      this.attempt(fn);
+    };
+    RetryOperation.prototype.start = function(fn) {
+      console.log("Using RetryOperation.start() is deprecated");
+      this.attempt(fn);
+    };
+    RetryOperation.prototype.start = RetryOperation.prototype.try;
+    RetryOperation.prototype.errors = function() {
+      return this._errors;
+    };
+    RetryOperation.prototype.attempts = function() {
+      return this._attempts;
+    };
+    RetryOperation.prototype.mainError = function() {
+      if (this._errors.length === 0) {
+        return null;
+      }
+      var counts = {};
+      var mainError = null;
+      var mainErrorCount = 0;
+      for (var i = 0; i < this._errors.length; i++) {
+        var error3 = this._errors[i];
+        var message = error3.message;
+        var count = (counts[message] || 0) + 1;
+        counts[message] = count;
+        if (count >= mainErrorCount) {
+          mainError = error3;
+          mainErrorCount = count;
+        }
+      }
+      return mainError;
+    };
+  }
+});
+
+// node_modules/.pnpm/retry@0.13.1/node_modules/retry/lib/retry.js
+var require_retry = __commonJS({
+  "node_modules/.pnpm/retry@0.13.1/node_modules/retry/lib/retry.js"(exports2) {
+    "use strict";
+    var RetryOperation = require_retry_operation();
+    exports2.operation = function(options2) {
+      var timeouts = exports2.timeouts(options2);
+      return new RetryOperation(timeouts, {
+        forever: options2 && (options2.forever || options2.retries === Infinity),
+        unref: options2 && options2.unref,
+        maxRetryTime: options2 && options2.maxRetryTime
+      });
+    };
+    exports2.timeouts = function(options2) {
+      if (options2 instanceof Array) {
+        return [].concat(options2);
+      }
+      var opts = {
+        retries: 10,
+        factor: 2,
+        minTimeout: 1 * 1e3,
+        maxTimeout: Infinity,
+        randomize: false
+      };
+      for (var key in options2) {
+        opts[key] = options2[key];
+      }
+      if (opts.minTimeout > opts.maxTimeout) {
+        throw new Error("minTimeout is greater than maxTimeout");
+      }
+      var timeouts = [];
+      for (var i = 0; i < opts.retries; i++) {
+        timeouts.push(this.createTimeout(i, opts));
+      }
+      if (options2 && options2.forever && !timeouts.length) {
+        timeouts.push(this.createTimeout(i, opts));
+      }
+      timeouts.sort(function(a, b) {
+        return a - b;
+      });
+      return timeouts;
+    };
+    exports2.createTimeout = function(attempt, opts) {
+      var random = opts.randomize ? Math.random() + 1 : 1;
+      var timeout = Math.round(random * Math.max(opts.minTimeout, 1) * Math.pow(opts.factor, attempt));
+      timeout = Math.min(timeout, opts.maxTimeout);
+      return timeout;
+    };
+    exports2.wrap = function(obj, options2, methods) {
+      if (options2 instanceof Array) {
+        methods = options2;
+        options2 = null;
+      }
+      if (!methods) {
+        methods = [];
+        for (var key in obj) {
+          if (typeof obj[key] === "function") {
+            methods.push(key);
+          }
+        }
+      }
+      for (var i = 0; i < methods.length; i++) {
+        var method = methods[i];
+        var original = obj[method];
+        obj[method] = function retryWrapper(original2) {
+          var op = exports2.operation(options2);
+          var args = Array.prototype.slice.call(arguments, 1);
+          var callback = args.pop();
+          args.push(function(err) {
+            if (op.retry(err)) {
+              return;
+            }
+            if (err) {
+              arguments[0] = op.mainError();
+            }
+            callback.apply(this, arguments);
+          });
+          op.attempt(function() {
+            original2.apply(obj, args);
+          });
+        }.bind(obj, original);
+        obj[method].options = options2;
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/retry@0.13.1/node_modules/retry/index.js
+var require_retry2 = __commonJS({
+  "node_modules/.pnpm/retry@0.13.1/node_modules/retry/index.js"(exports2, module2) {
+    "use strict";
+    module2.exports = require_retry();
+  }
+});
+
+// node_modules/.pnpm/async-retry@1.3.3/node_modules/async-retry/lib/index.js
+var require_lib3 = __commonJS({
+  "node_modules/.pnpm/async-retry@1.3.3/node_modules/async-retry/lib/index.js"(exports2, module2) {
+    "use strict";
+    var retrier = require_retry2();
+    function retry2(fn, opts) {
+      function run2(resolve, reject) {
+        var options2 = opts || {};
+        var op;
+        if (!("randomize" in options2)) {
+          options2.randomize = true;
+        }
+        op = retrier.operation(options2);
+        function bail(err) {
+          reject(err || new Error("Aborted"));
+        }
+        function onError(err, num) {
+          if (err.bail) {
+            bail(err);
+            return;
+          }
+          if (!op.retry(err)) {
+            reject(op.mainError());
+          } else if (options2.onRetry) {
+            options2.onRetry(err, num);
+          }
+        }
+        function runAttempt(num) {
+          var val2;
+          try {
+            val2 = fn(bail, num);
+          } catch (err) {
+            onError(err, num);
+            return;
+          }
+          Promise.resolve(val2).then(resolve).catch(function catchIt(err) {
+            onError(err, num);
+          });
+        }
+        op.attempt(runAttempt);
+      }
+      return new Promise(run2);
+    }
+    module2.exports = retry2;
+  }
+});
+
 // node_modules/.pnpm/@actions+glob@0.1.2/node_modules/@actions/glob/lib/internal-glob-options-helper.js
 var require_internal_glob_options_helper = __commonJS({
   "node_modules/.pnpm/@actions+glob@0.1.2/node_modules/@actions/glob/lib/internal-glob-options-helper.js"(exports2) {
@@ -59569,7 +59847,7 @@ var require_requestUtils = __commonJS({
         return new Promise((resolve) => setTimeout(resolve, milliseconds));
       });
     }
-    function retry(name, method, getStatusCode, maxAttempts = constants_1.DefaultRetryAttempts, delay4 = constants_1.DefaultRetryDelay, onError = void 0) {
+    function retry2(name, method, getStatusCode, maxAttempts = constants_1.DefaultRetryAttempts, delay4 = constants_1.DefaultRetryDelay, onError = void 0) {
       return __awaiter(this, void 0, void 0, function* () {
         let errorMessage = "";
         let attempt = 1;
@@ -59607,10 +59885,10 @@ var require_requestUtils = __commonJS({
         throw Error(`${name} failed: ${errorMessage}`);
       });
     }
-    exports2.retry = retry;
+    exports2.retry = retry2;
     function retryTypedResponse(name, method, maxAttempts = constants_1.DefaultRetryAttempts, delay4 = constants_1.DefaultRetryDelay) {
       return __awaiter(this, void 0, void 0, function* () {
-        return yield retry(
+        return yield retry2(
           name,
           method,
           (response) => response.statusCode,
@@ -59636,7 +59914,7 @@ var require_requestUtils = __commonJS({
     exports2.retryTypedResponse = retryTypedResponse;
     function retryHttpClientResponse(name, method, maxAttempts = constants_1.DefaultRetryAttempts, delay4 = constants_1.DefaultRetryDelay) {
       return __awaiter(this, void 0, void 0, function* () {
-        return yield retry(name, method, (response) => response.message.statusCode, maxAttempts, delay4);
+        return yield retry2(name, method, (response) => response.message.statusCode, maxAttempts, delay4);
       });
     }
     exports2.retryHttpClientResponse = retryHttpClientResponse;
@@ -64695,6 +64973,9 @@ var validateInputs = (inputs) => {
   if (inputs.activateEnvironment === "true" && inputs.environments && inputs.environments.length > 1) {
     throw new Error("When installing multiple environments, `activate-environment` must specify the environment name");
   }
+  if (inputs.retryCount && inputs.retryCount < 0) {
+    throw new Error("Retry count must be non-negative");
+  }
 };
 var determinePixiInstallation = (pixiUrlOrVersionSet, pixiBinPath) => {
   const preinstalledPixi = import_which.default.sync("pixi", { nothrow: true });
@@ -64773,6 +65054,7 @@ var inferOptions = (inputs) => {
     username: inputs.authUsername,
     password: inputs.authPassword
   };
+  const retryCount = inputs.retryCount ?? 0;
   const postCleanup = inputs.postCleanup ?? true;
   return {
     pixiSource,
@@ -64788,6 +65070,7 @@ var inferOptions = (inputs) => {
     cache: cache2,
     pixiBinPath,
     auth,
+    retryCount,
     postCleanup
   };
 };
@@ -64821,6 +65104,7 @@ var getOptions = () => {
     authUsername: parseOrUndefined("auth-username", stringType()),
     authPassword: parseOrUndefined("auth-password", stringType()),
     authCondaToken: parseOrUndefined("auth-conda-token", stringType()),
+    retryCount: parseOrUndefined("retry-count", numberType()),
     postCleanup: parseOrUndefinedJSON("post-cleanup", booleanType())
   };
   core.debug(`Inputs: ${JSON.stringify(inputs)}`);
@@ -64847,6 +65131,9 @@ try {
   throw error3;
 }
 var options = _options;
+
+// src/main.ts
+var import_async_retry = __toESM(require_lib3());
 
 // src/util.ts
 var import_crypto4 = require("crypto");
@@ -65152,7 +65439,13 @@ var run = async () => {
   }
   addPixiToPath();
   await pixiLogin();
-  await pixiInstall();
+  await (0, import_async_retry.default)(async () => {
+    await pixiInstall();
+  }, {
+    retries: options.retryCount,
+    minTimeout: 5e3,
+    randomize: true
+  });
   await generateInfo();
   await generateList();
   if (options.activatedEnvironment) {

@@ -55,6 +55,8 @@ inputs:
     description: Password to use for authentication.
   auth-conda-token:
     description: Conda token to use for authentication.
+  retry-count:
+    description: The number of times the action should retry installing packages if an error occurs.
   post-cleanup:
     description: |
       If the action should clean up after itself. Defaults to `true`.

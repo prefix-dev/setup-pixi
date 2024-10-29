@@ -25168,6 +25168,9 @@ var validateInputs = (inputs) => {
   if (inputs.activateEnvironment === "true" && inputs.environments && inputs.environments.length > 1) {
     throw new Error("When installing multiple environments, `activate-environment` must specify the environment name");
   }
+  if (inputs.retryCount && inputs.retryCount < 0) {
+    throw new Error("Retry count must be non-negative");
+  }
 };
 var determinePixiInstallation = (pixiUrlOrVersionSet, pixiBinPath) => {
   const preinstalledPixi = import_which.default.sync("pixi", { nothrow: true });
@@ -25246,6 +25249,7 @@ var inferOptions = (inputs) => {
     username: inputs.authUsername,
     password: inputs.authPassword
   };
+  const retryCount = inputs.retryCount ?? 0;
   const postCleanup = inputs.postCleanup ?? true;
   return {
     pixiSource,
@@ -25261,6 +25265,7 @@ var inferOptions = (inputs) => {
     cache,
     pixiBinPath,
     auth,
+    retryCount,
     postCleanup
   };
 };
@@ -25294,6 +25299,7 @@ var getOptions = () => {
     authUsername: parseOrUndefined("auth-username", stringType()),
     authPassword: parseOrUndefined("auth-password", stringType()),
     authCondaToken: parseOrUndefined("auth-conda-token", stringType()),
+    retryCount: parseOrUndefined("retry-count", numberType()),
     postCleanup: parseOrUndefinedJSON("post-cleanup", booleanType())
   };
   core.debug(`Inputs: ${JSON.stringify(inputs)}`);

@@ -27,6 +27,7 @@ type Inputs = Readonly<{
   authUsername?: string
   authPassword?: string
   authCondaToken?: string
+  retryCount?: number,
   postCleanup?: boolean
 }>
 
@@ -71,6 +72,7 @@ export type Options = Readonly<{
   cache?: Cache
   pixiBinPath: string
   auth?: Auth
+  retryCount: number,
   postCleanup: boolean
   activatedEnvironment?: string
 }>
@@ -165,6 +167,9 @@ const validateInputs = (inputs: Inputs): void => {
   }
   if (inputs.activateEnvironment === 'true' && inputs.environments && inputs.environments.length > 1) {
     throw new Error('When installing multiple environments, `activate-environment` must specify the environment name')
+  }
+  if (inputs.retryCount && inputs.retryCount < 0) {
+    throw new Error('Retry count must be non-negative')
   }
 }
 
@@ -268,6 +273,7 @@ const inferOptions = (inputs: Inputs): Options => {
               username: inputs.authUsername,
               password: inputs.authPassword
             }) as Auth)
+  const retryCount = inputs.retryCount ?? 0
   const postCleanup = inputs.postCleanup ?? true
   return {
     pixiSource,
@@ -283,6 +289,7 @@ const inferOptions = (inputs: Inputs): Options => {
     cache,
     pixiBinPath,
     auth,
+    retryCount,
     postCleanup
   }
 }
@@ -324,6 +331,7 @@ const getOptions = () => {
     authUsername: parseOrUndefined('auth-username', z.string()),
     authPassword: parseOrUndefined('auth-password', z.string()),
     authCondaToken: parseOrUndefined('auth-conda-token', z.string()),
+    retryCount: parseOrUndefined('retry-count', z.number()),
     postCleanup: parseOrUndefinedJSON('post-cleanup', z.boolean())
   }
   core.debug(`Inputs: ${JSON.stringify(inputs)}`)
