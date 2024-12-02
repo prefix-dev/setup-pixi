@@ -5,7 +5,7 @@ updates:
     schedule:
       interval: monthly
     groups:
-      dependencies:
+      gh-actions:
         patterns:
           - '*'
   - package-ecosystem: npm
@@ -13,6 +13,6 @@ updates:
     schedule:
       interval: monthly
     groups:
-      dependencies:
+      nodejs:
         patterns:
           - '*'
