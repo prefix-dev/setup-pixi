@@ -86,7 +86,7 @@ jobs:
         with:
           cache: false
           pixi-version: v0.10.0
-      - run: pixi --version | grep -q "pixi 0.1.0"
+      - run: pixi --version | grep -q "pixi 0.10.0"
 
   old-lockfile:
     strategy:
