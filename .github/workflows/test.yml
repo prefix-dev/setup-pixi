@@ -85,9 +85,7 @@ jobs:
       - uses: ./
         with:
           cache: false
-          pixi-version: v0.1.0
-          # pixi 0.1.0 doesn't support --locked
-          locked: false
+          pixi-version: v0.10.0
       - run: pixi --version | grep -q "pixi 0.1.0"
 
   old-lockfile:
@@ -108,7 +106,7 @@ jobs:
       - if: matrix.os == 'windows-latest'
         run: choco install yq
       # assert that the lockfile wasn't updated
-      - run: test "$(yq '.version' pixi.lock)" = 1
+      - run: test "$(yq '.version' pixi.lock)" = 4
 
   install-path:
     strategy:
@@ -257,6 +255,12 @@ jobs:
           curl -L --output $HOME/custom-existing-pixi/pixi https://github.com/prefix-dev/pixi/releases/download/v0.14.0/pixi-x86_64-unknown-linux-musl
           chmod +x $HOME/custom-existing-pixi/pixi
         if: matrix.os == 'ubuntu-latest'
+      - name: Download pixi binary (Ubuntu arm)
+        run: |
+          set -o pipefail
+          curl -L --output $HOME/custom-existing-pixi/pixi https://github.com/prefix-dev/pixi/releases/download/v0.14.0/pixi-aarch64-unknown-linux-musl
+          chmod +x $HOME/custom-existing-pixi/pixi
+        if: matrix.os == 'ubuntu-24.04-arm'
       - name: Download pixi binary (macOS)
         run: |
           set -o pipefail
