@@ -36,7 +36,7 @@ const pixiLogin = () => {
     // tokens get censored in the logs as long as they are a github secret
     if ('token' in auth) {
       core.debug(`Logging in to ${auth.host} with token`)
-      return execute(pixiCmd(`auth login --token ${auth.token} ${auth.host}`, false))
+      return execute(pixiCmd(`-vvv auth login --token ${auth.token} ${auth.host}`, false))
     }
     if ('username' in auth) {
       core.debug(`Logging in to ${auth.host} with username and password`)
