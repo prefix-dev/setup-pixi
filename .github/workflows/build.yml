@@ -85,7 +85,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: Reference latest Pixi version in README
           title: Reference latest Pixi version in README
-          labels: documentation
+          labels: ignore for release
 
   check-dist:
     runs-on: ubuntu-latest
