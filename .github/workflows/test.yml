@@ -7,6 +7,11 @@ on:
     branches: [main]
   merge_group:
 
+# Automatically stop old builds on the same branch/PR
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   default:
     strategy:
