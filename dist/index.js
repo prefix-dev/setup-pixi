@@ -72771,16 +72771,35 @@ var validateInputs = (inputs) => {
   if (inputs.authUsername && !inputs.authPassword || !inputs.authUsername && inputs.authPassword) {
     throw new Error("You need to specify both auth-username and auth-password");
   }
+  if (inputs.authS3AccessKeyId && !inputs.authS3SecretAccessKey || !inputs.authS3AccessKeyId && inputs.authS3SecretAccessKey) {
+    throw new Error("You need to specify both auth-s3-access-key-id and auth-s3-secret-access-key");
+  }
+  if (inputs.authS3SessionToken && (!inputs.authS3AccessKeyId || !inputs.authS3SecretAccessKey)) {
+    throw new Error("You need to specify both auth-s3-access-key-id and auth-s3-secret-access-key when using auth-s3-session-token");
+  }
   if (inputs.authHost) {
-    if (!inputs.authToken && !inputs.authUsername && !inputs.authCondaToken) {
+    if (!inputs.authToken && !inputs.authUsername && !inputs.authCondaToken && !inputs.authS3AccessKeyId) {
       throw new Error("You need to specify either auth-token or auth-username and auth-password or auth-conda-token");
     }
-    if (inputs.authToken && (inputs.authUsername || inputs.authCondaToken) || inputs.authUsername && inputs.authCondaToken) {
-      throw new Error("You cannot specify two auth methods");
+    let authCount = 0;
+    if (inputs.authToken) {
+      authCount++;
+    }
+    if (inputs.authUsername) {
+      authCount++;
+    }
+    if (inputs.authCondaToken) {
+      authCount++;
+    }
+    if (inputs.authS3AccessKeyId) {
+      authCount++;
+    }
+    if (authCount > 1) {
+      throw new Error("You cannot specify multiple auth methods");
     }
   }
   if (!inputs.authHost) {
-    if (inputs.authToken || inputs.authUsername || inputs.authCondaToken) {
+    if (inputs.authToken || inputs.authUsername || inputs.authCondaToken || inputs.authS3AccessKeyId) {
       throw new Error("You need to specify auth-host");
     }
   }
@@ -72863,10 +72882,15 @@ var inferOptions = (inputs) => {
   } : inputs.authCondaToken ? {
     host: inputs.authHost,
     condaToken: inputs.authCondaToken
-  } : {
+  } : inputs.authUsername ? {
     host: inputs.authHost,
     username: inputs.authUsername,
     password: inputs.authPassword
+  } : {
+    host: inputs.authHost,
+    s3AccessKeyId: inputs.authS3AccessKeyId,
+    s3SecretAccessKey: inputs.authS3SecretAccessKey,
+    s3SessionToken: inputs.authS3SessionToken
   };
   const postCleanup = inputs.postCleanup ?? true;
   return {
@@ -72916,6 +72940,9 @@ var getOptions = () => {
     authUsername: parseOrUndefined("auth-username", stringType()),
     authPassword: parseOrUndefined("auth-password", stringType()),
     authCondaToken: parseOrUndefined("auth-conda-token", stringType()),
+    authS3AccessKeyId: parseOrUndefined("auth-s3-access-key-id", stringType()),
+    authS3SecretAccessKey: parseOrUndefined("auth-s3-secret-access-key", stringType()),
+    authS3SessionToken: parseOrUndefined("auth-s3-session-token", stringType()),
     postCleanup: parseOrUndefinedJSON("post-cleanup", booleanType())
   };
   core.debug(`Inputs: ${JSON.stringify(inputs)}`);
@@ -73183,6 +73210,11 @@ var pixiLogin = () => {
     if ("username" in auth) {
       core5.debug(`Logging in to ${auth.host} with username and password`);
       return execute(pixiCmd(`auth login --username ${auth.username} --password ${auth.password} ${auth.host}`, false));
+    }
+    if ("s3AccessKeyId" in auth) {
+      core5.debug(`Logging in to ${auth.host} with s3 credentials`);
+      const command = auth.s3SessionToken ? `auth login --s3-access-key-id ${auth.s3AccessKeyId} --s3-secret-access-key ${auth.s3SecretAccessKey} --s3-session-token ${auth.s3SessionToken} ${auth.host}` : `auth login --s3-access-key-id ${auth.s3AccessKeyId} --s3-secret-access-key ${auth.s3SecretAccessKey} ${auth.host}`;
+      return execute(pixiCmd(command, false));
     }
     core5.debug(`Logging in to ${auth.host} with conda token`);
     return execute(pixiCmd(`auth login --conda-token ${auth.condaToken} ${auth.host}`, false));

@@ -23,7 +23,7 @@ GitHub Action to set up the [pixi](https://github.com/prefix-dev/pixi) package m
 ## Usage
 
 ```yml
-- uses: prefix-dev/setup-pixi@v0.8.2
+- uses: prefix-dev/setup-pixi@v0.8.3
   with:
     pixi-version: v0.41.1
     cache: true
@@ -34,7 +34,7 @@ GitHub Action to set up the [pixi](https://github.com/prefix-dev/pixi) package m
 
 > [!WARNING]
 > Since pixi is not yet stable, the API of this action may change between minor versions.
-> Please pin the versions of this action to a specific version (i.e., `prefix-dev/setup-pixi@v0.8.2`) to avoid breaking changes.
+> Please pin the versions of this action to a specific version (i.e., `prefix-dev/setup-pixi@v0.8.3`) to avoid breaking changes.
 > You can automatically update the version of this action by using [Dependabot](https://docs.github.com/en/code-security/dependabot/working-with-dependabot/keeping-your-actions-up-to-date-with-dependabot).
 >
 > Put the following in your `.github/dependabot.yml` file to enable Dependabot for your GitHub Actions:
@@ -73,7 +73,7 @@ In order to not exceed the [10 GB cache size limit](https://docs.github.com/en/a
 This can be done by setting the `cache-write` argument.
 
 ```yml
-- uses: prefix-dev/setup-pixi@v0.8.2
+- uses: prefix-dev/setup-pixi@v0.8.3
   with:
     cache: true
     cache-write: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
@@ -118,7 +118,7 @@ test:
       environment: [py311, py312]
   steps:
     - uses: actions/checkout@v4
-    - uses: prefix-dev/setup-pixi@v0.8.2
+    - uses: prefix-dev/setup-pixi@v0.8.3
       with:
         environments: ${{ matrix.environment }}
 ```
@@ -128,7 +128,7 @@ test:
 The following example will install both the `py311` and the `py312` environment on the runner.
 
 ```yml
-- uses: prefix-dev/setup-pixi@v0.8.2
+- uses: prefix-dev/setup-pixi@v0.8.3
   with:
     # separated by spaces
     environments: >-
@@ -149,6 +149,7 @@ There are currently three ways to authenticate with pixi:
 - using a token
 - using a username and password
 - using a conda-token
+- using an S3 key pair
 
 For more information, see the [pixi documentation](https://prefix.dev/docs/pixi/authentication).
 
@@ -163,7 +164,7 @@ Specify the token using the `auth-token` input argument.
 This form of authentication (bearer token in the request headers) is mainly used at [prefix.dev](https://prefix.dev).
 
 ```yml
-- uses: prefix-dev/setup-pixi@v0.8.2
+- uses: prefix-dev/setup-pixi@v0.8.3
   with:
     auth-host: prefix.dev
     auth-token: ${{ secrets.PREFIX_DEV_TOKEN }}
@@ -175,7 +176,7 @@ Specify the username and password using the `auth-username` and `auth-password` 
 This form of authentication (HTTP Basic Auth) is used in some enterprise environments with [artifactory](https://jfrog.com/artifactory) for example.
 
 ```yml
-- uses: prefix-dev/setup-pixi@v0.8.2
+- uses: prefix-dev/setup-pixi@v0.8.3
   with:
     auth-host: custom-artifactory.com
     auth-username: ${{ secrets.PIXI_USERNAME }}
@@ -184,15 +185,32 @@ This form of authentication (HTTP Basic Auth) is used in some enterprise environ
 
 #### Conda-token
 
-Specify the conda-token using the `conda-token` input argument.
+Specify the conda-token using the `auth-conda-token` input argument.
 This form of authentication (token is encoded in URL: `https://my-quetz-instance.com/t/<token>/get/custom-channel`) is used at [anaconda.org](https://anaconda.org) or with [quetz instances](https://github.com/mamba-org/quetz).
 
 ```yml
-- uses: prefix-dev/setup-pixi@v0.8.2
+- uses: prefix-dev/setup-pixi@v0.8.3
   with:
     auth-host: anaconda.org # or my-quetz-instance.com
-    conda-token: ${{ secrets.CONDA_TOKEN }}
+    auth-conda-token: ${{ secrets.CONDA_TOKEN }}
 ```
+
+#### S3
+
+Specify the S3 key pair using the `auth-access-key-id` and `auth-secret-access-key` input arguments.
+You can also specify the session token using the `auth-session-token` input argument.
+
+```yaml
+- uses: prefix-dev/setup-pixi@v0.8.3
+  with:
+    auth-host: s3://my-s3-bucket
+    auth-s3-access-key-id: ${{ secrets.ACCESS_KEY_ID }}
+    auth-s3-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
+    # only needed if your key uses a session token
+    auth-s3-session-token: ${{ secrets.SESSION_TOKEN }}
+```
+
+See the [pixi documentation](https://pixi.sh/latest/advanced/s3) for more information about S3 authentication.
 
 ### Custom shell wrapper
 
@@ -255,7 +273,7 @@ To this end, `setup-pixi` adds all environment variables set when executing `pix
 As a result, all installed binaries can be accessed without having to call `pixi run`.
 
 ```yml
-- uses: prefix-dev/setup-pixi@v0.8.2
+- uses: prefix-dev/setup-pixi@v0.8.3
   with:
     activate-environment: true
 ```
@@ -263,7 +281,7 @@ As a result, all installed binaries can be accessed without having to call `pixi
 If you are installing multiple environments, you will need to specify the name of the environment that you want to be activated.
 
 ```yml
-- uses: prefix-dev/setup-pixi@v0.8.2
+- uses: prefix-dev/setup-pixi@v0.8.3
   with:
     environments: >-
       py311
@@ -280,7 +298,7 @@ You can specify whether `setup-pixi` should run `pixi install --frozen` or `pixi
 See the [official documentation](https://prefix.dev/docs/pixi/cli#install) for more information about the `--frozen` and `--locked` flags.
 
 ```yml
-- uses: prefix-dev/setup-pixi@v0.8.2
+- uses: prefix-dev/setup-pixi@v0.8.3
   with:
     locked: true
     # or
@@ -299,7 +317,7 @@ The first one is the debug logging of the action itself.
 This can be enabled by running the action with the `RUNNER_DEBUG` environment variable set to `true`.
 
 ```yml
-- uses: prefix-dev/setup-pixi@v0.8.2
+- uses: prefix-dev/setup-pixi@v0.8.3
   env:
     RUNNER_DEBUG: true
 ```
@@ -317,7 +335,7 @@ The second type is the debug logging of the pixi executable.
 This can be specified by setting the `log-level` input.
 
 ```yml
-- uses: prefix-dev/setup-pixi@v0.8.2
+- uses: prefix-dev/setup-pixi@v0.8.3
   with:
     # one of `q`, `default`, `v`, `vv`, or `vvv`.
     log-level: vvv
@@ -343,7 +361,7 @@ If nothing is specified, `post-cleanup` will default to `true`.
 On self-hosted runners, you also might want to alter the default pixi install location to a temporary location. You can use `pixi-bin-path: ${{ runner.temp }}/bin/pixi` to do this.
 
 ```yml
-- uses: prefix-dev/setup-pixi@v0.8.2
+- uses: prefix-dev/setup-pixi@v0.8.3
   with:
     post-cleanup: true
     # ${{ runner.temp }}\Scripts\pixi.exe on Windows
@@ -359,7 +377,7 @@ You can also use a preinstalled local version of pixi on the runner by not setti
 This can be overwritten by setting the `manifest-path` input argument.
 
 ```yml
-- uses: prefix-dev/setup-pixi@v0.8.2
+- uses: prefix-dev/setup-pixi@v0.8.3
   with:
     manifest-path: pyproject.toml
 ```
