@@ -728,6 +728,7 @@ jobs:
       - name: Move pixi files
         run: mv test/pyproject-manifest/* .
       - uses: ./
+        pixi-version: v0.41.3
       - run: test -f .pixi/envs/default/bin/python
       - run: pixi run test
 
