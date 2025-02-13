@@ -27,6 +27,9 @@ type Inputs = Readonly<{
   authUsername?: string
   authPassword?: string
   authCondaToken?: string
+  authS3AccessKeyId?: string
+  authS3SecretAccessKey?: string
+  authS3SessionToken?: string
   postCleanup?: boolean
 }>
 
@@ -50,6 +53,11 @@ type Auth = {
     }
   | {
       condaToken: string
+    }
+  | {
+      s3AccessKeyId: string
+      s3SecretAccessKey: string
+      s3SessionToken?: string
     }
 )
 
@@ -143,20 +151,41 @@ const validateInputs = (inputs: Inputs): void => {
   if ((inputs.authUsername && !inputs.authPassword) || (!inputs.authUsername && inputs.authPassword)) {
     throw new Error('You need to specify both auth-username and auth-password')
   }
+  if (
+    (inputs.authS3AccessKeyId && !inputs.authS3SecretAccessKey) ||
+    (!inputs.authS3AccessKeyId && inputs.authS3SecretAccessKey)
+  ) {
+    throw new Error('You need to specify both auth-s3-access-key-id and auth-s3-secret-access-key')
+  }
+  if (inputs.authS3SessionToken && (!inputs.authS3AccessKeyId || !inputs.authS3SecretAccessKey)) {
+    throw new Error(
+      'You need to specify both auth-s3-access-key-id and auth-s3-secret-access-key when using auth-s3-session-token'
+    )
+  }
   // now we can assume that authUsername is defined iff authPassword is defined
   if (inputs.authHost) {
-    if (!inputs.authToken && !inputs.authUsername && !inputs.authCondaToken) {
+    if (!inputs.authToken && !inputs.authUsername && !inputs.authCondaToken && !inputs.authS3AccessKeyId) {
       throw new Error('You need to specify either auth-token or auth-username and auth-password or auth-conda-token')
     }
-    if (
-      (inputs.authToken && (inputs.authUsername || inputs.authCondaToken)) ||
-      (inputs.authUsername && inputs.authCondaToken)
-    ) {
-      throw new Error('You cannot specify two auth methods')
+    let authCount = 0
+    if (inputs.authToken) {
+      authCount++
+    }
+    if (inputs.authUsername) {
+      authCount++
+    }
+    if (inputs.authCondaToken) {
+      authCount++
+    }
+    if (inputs.authS3AccessKeyId) {
+      authCount++
+    }
+    if (authCount > 1) {
+      throw new Error('You cannot specify multiple auth methods')
     }
   }
   if (!inputs.authHost) {
-    if (inputs.authToken || inputs.authUsername || inputs.authCondaToken) {
+    if (inputs.authToken || inputs.authUsername || inputs.authCondaToken || inputs.authS3AccessKeyId) {
       throw new Error('You need to specify auth-host')
     }
   }
@@ -263,11 +292,18 @@ const inferOptions = (inputs: Inputs): Options => {
               host: inputs.authHost,
               condaToken: inputs.authCondaToken
             }
-          : {
-              host: inputs.authHost,
-              username: inputs.authUsername,
-              password: inputs.authPassword
-            }) as Auth)
+          : inputs.authUsername
+            ? {
+                host: inputs.authHost,
+                username: inputs.authUsername,
+                password: inputs.authPassword
+              }
+            : {
+                host: inputs.authHost,
+                s3AccessKeyId: inputs.authS3AccessKeyId,
+                s3SecretAccessKey: inputs.authS3SecretAccessKey,
+                s3SessionToken: inputs.authS3SessionToken
+              }) as Auth)
   const postCleanup = inputs.postCleanup ?? true
   return {
     pixiSource,
@@ -324,6 +360,9 @@ const getOptions = () => {
     authUsername: parseOrUndefined('auth-username', z.string()),
     authPassword: parseOrUndefined('auth-password', z.string()),
     authCondaToken: parseOrUndefined('auth-conda-token', z.string()),
+    authS3AccessKeyId: parseOrUndefined('auth-s3-access-key-id', z.string()),
+    authS3SecretAccessKey: parseOrUndefined('auth-s3-secret-access-key', z.string()),
+    authS3SessionToken: parseOrUndefined('auth-s3-session-token', z.string()),
     postCleanup: parseOrUndefinedJSON('post-cleanup', z.boolean())
   }
   core.debug(`Inputs: ${JSON.stringify(inputs)}`)

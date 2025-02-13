@@ -42,6 +42,13 @@ const pixiLogin = () => {
       core.debug(`Logging in to ${auth.host} with username and password`)
       return execute(pixiCmd(`auth login --username ${auth.username} --password ${auth.password} ${auth.host}`, false))
     }
+    if ('s3AccessKeyId' in auth) {
+      core.debug(`Logging in to ${auth.host} with s3 credentials`)
+      const command = auth.s3SessionToken
+        ? `auth login --s3-access-key-id ${auth.s3AccessKeyId} --s3-secret-access-key ${auth.s3SecretAccessKey} --s3-session-token ${auth.s3SessionToken} ${auth.host}`
+        : `auth login --s3-access-key-id ${auth.s3AccessKeyId} --s3-secret-access-key ${auth.s3SecretAccessKey} ${auth.host}`
+      return execute(pixiCmd(command, false))
+    }
     core.debug(`Logging in to ${auth.host} with conda token`)
     return execute(pixiCmd(`auth login --conda-token ${auth.condaToken} ${auth.host}`, false))
   })
