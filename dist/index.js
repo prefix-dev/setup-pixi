@@ -72775,7 +72775,9 @@ var validateInputs = (inputs) => {
     throw new Error("You need to specify both auth-s3-access-key-id and auth-s3-secret-access-key");
   }
   if (inputs.authS3SessionToken && (!inputs.authS3AccessKeyId || !inputs.authS3SecretAccessKey)) {
-    throw new Error("You need to specify both auth-s3-access-key-id and auth-s3-secret-access-key when using auth-s3-session-token");
+    throw new Error(
+      "You need to specify both auth-s3-access-key-id and auth-s3-secret-access-key when using auth-s3-session-token"
+    );
   }
   if (inputs.authHost) {
     if (!inputs.authToken && !inputs.authUsername && !inputs.authCondaToken && !inputs.authS3AccessKeyId) {

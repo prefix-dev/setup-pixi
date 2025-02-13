@@ -55,10 +55,10 @@ type Auth = {
       condaToken: string
     }
   | {
-    s3AccessKeyId: string
-    s3SecretAccessKey: string
-    s3SessionToken?: string
-  }
+      s3AccessKeyId: string
+      s3SecretAccessKey: string
+      s3SessionToken?: string
+    }
 )
 
 interface Cache {
@@ -151,11 +151,16 @@ const validateInputs = (inputs: Inputs): void => {
   if ((inputs.authUsername && !inputs.authPassword) || (!inputs.authUsername && inputs.authPassword)) {
     throw new Error('You need to specify both auth-username and auth-password')
   }
-  if ((inputs.authS3AccessKeyId && !inputs.authS3SecretAccessKey) || (!inputs.authS3AccessKeyId && inputs.authS3SecretAccessKey)) {
+  if (
+    (inputs.authS3AccessKeyId && !inputs.authS3SecretAccessKey) ||
+    (!inputs.authS3AccessKeyId && inputs.authS3SecretAccessKey)
+  ) {
     throw new Error('You need to specify both auth-s3-access-key-id and auth-s3-secret-access-key')
   }
   if (inputs.authS3SessionToken && (!inputs.authS3AccessKeyId || !inputs.authS3SecretAccessKey)) {
-    throw new Error('You need to specify both auth-s3-access-key-id and auth-s3-secret-access-key when using auth-s3-session-token')
+    throw new Error(
+      'You need to specify both auth-s3-access-key-id and auth-s3-secret-access-key when using auth-s3-session-token'
+    )
   }
   // now we can assume that authUsername is defined iff authPassword is defined
   if (inputs.authHost) {
@@ -287,16 +292,18 @@ const inferOptions = (inputs: Inputs): Options => {
               host: inputs.authHost,
               condaToken: inputs.authCondaToken
             }
-          : inputs.authUsername ? {
-              host: inputs.authHost,
-              username: inputs.authUsername,
-              password: inputs.authPassword
-            } : {
-              host: inputs.authHost,
-              s3AccessKeyId: inputs.authS3AccessKeyId,
-              s3SecretAccessKey: inputs.authS3SecretAccessKey,
-              s3SessionToken: inputs.authS3SessionToken
-            }) as Auth)
+          : inputs.authUsername
+            ? {
+                host: inputs.authHost,
+                username: inputs.authUsername,
+                password: inputs.authPassword
+              }
+            : {
+                host: inputs.authHost,
+                s3AccessKeyId: inputs.authS3AccessKeyId,
+                s3SecretAccessKey: inputs.authS3SecretAccessKey,
+                s3SessionToken: inputs.authS3SessionToken
+              }) as Auth)
   const postCleanup = inputs.postCleanup ?? true
   return {
     pixiSource,
