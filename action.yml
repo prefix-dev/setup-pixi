@@ -55,6 +55,12 @@ inputs:
     description: Password to use for authentication.
   auth-conda-token:
     description: Conda token to use for authentication.
+  auth-s3-access-key-id:
+    description: Access key ID to use for S3 authentication.
+  auth-s3-secret-access-key:
+    description: Secret access key to use for S3 authentication.
+  auth-s3-session-token:
+    description: Session token to use for S3 authentication.
   post-cleanup:
     description: |
       If the action should clean up after itself. Defaults to `true`.
