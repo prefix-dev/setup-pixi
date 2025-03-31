@@ -911,6 +911,7 @@ jobs:
         with:
           cache: false
       - run: |
+          set -x
           pixi --help
           which pixi | grep -q "custom existing bin/pixi"
 
