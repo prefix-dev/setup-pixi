@@ -911,10 +911,8 @@ jobs:
         with:
           cache: false
       - run: |
-          set -x
           pixi --help
-          which pixi
-          which pixi | grep -q "custom existing bin/pixi"
+          which pixi | grep -q "custom existing pixi/pixi"
 
   # not properly testable
   # https://github.com/actions/runner/issues/2347
