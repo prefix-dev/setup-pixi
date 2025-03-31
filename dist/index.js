@@ -73033,11 +73033,11 @@ var sha256 = (s) => {
 };
 var execute = (cmd) => {
   core2.debug(`Executing: \`${cmd.toString()}\``);
-  return (0, import_exec.exec)(cmd[0], cmd.slice(1));
+  return (0, import_exec.exec)(`"${cmd[0]}"`, cmd.slice(1));
 };
 var executeGetOutput = (cmd, options2) => {
   core2.debug(`Executing: \`${cmd.toString()}\``);
-  return (0, import_exec.getExecOutput)(cmd[0], cmd.slice(1), options2);
+  return (0, import_exec.getExecOutput)(`"${cmd[0]}"`, cmd.slice(1), options2);
 };
 var pixiCmd = (command, withManifestPath = true) => {
   let commandArray = [options.pixiBinPath].concat(command.split(" ").filter((x) => x !== ""));

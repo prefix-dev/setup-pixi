@@ -1,1 +1,1 @@
-dist/** -diff linguist-generated=true
+dist/** merge=binary -diff linguist-generated=true
