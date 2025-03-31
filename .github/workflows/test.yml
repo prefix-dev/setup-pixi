@@ -913,6 +913,7 @@ jobs:
       - run: |
           set -x
           pixi --help
+          which pixi
           which pixi | grep -q "custom existing bin/pixi"
 
   # not properly testable
