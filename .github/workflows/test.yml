@@ -247,30 +247,30 @@ jobs:
         run: mv test/default/* .
       - name: Create pixi directory and add to PATH
         run: |
-          mkdir -p $HOME/custom-existing-pixi
-          echo $HOME/custom-existing-pixi >> $GITHUB_PATH
+          mkdir -p "$HOME/custom existing pixi"
+          echo "$HOME/custom existing pixi" >> $GITHUB_PATH
         if: matrix.os != 'windows-latest'
       - name: Create pixi directory and add to PATH (Windows)
         run: |
-          mkdir $env:USERPROFILE\custom-existing-pixi
-          echo $env:USERPROFILE\custom-existing-pixi >> $env:GITHUB_PATH
+          mkdir "$env:USERPROFILE\custom existing pixi"
+          echo "$env:USERPROFILE\custom existing pixi" >> $env:GITHUB_PATH
         shell: pwsh
         if: matrix.os == 'windows-latest'
       - name: Download pixi binary (Ubuntu)
         run: |
           set -o pipefail
-          curl -L --output $HOME/custom-existing-pixi/pixi https://github.com/prefix-dev/pixi/releases/download/v0.14.0/pixi-x86_64-unknown-linux-musl
-          chmod +x $HOME/custom-existing-pixi/pixi
+          curl -L --output "$HOME/custom existing pixi/pixi" https://github.com/prefix-dev/pixi/releases/download/v0.14.0/pixi-x86_64-unknown-linux-musl
+          chmod +x "$HOME/custom existing pixi/pixi"
         if: matrix.os == 'ubuntu-latest'
       - name: Download pixi binary (macOS)
         run: |
           set -o pipefail
-          curl -L --output $HOME/custom-existing-pixi/pixi https://github.com/prefix-dev/pixi/releases/download/v0.14.0/pixi-x86_64-apple-darwin
-          chmod +x $HOME/custom-existing-pixi/pixi
+          curl -L --output "$HOME/custom existing pixi/pixi" https://github.com/prefix-dev/pixi/releases/download/v0.14.0/pixi-x86_64-apple-darwin
+          chmod +x "$HOME/custom existing pixi/pixi"
         if: matrix.os == 'macos-latest'
       - name: Download pixi binary (Windows)
         run: |
-          curl -L --output $HOME/custom-existing-pixi/pixi.exe https://github.com/prefix-dev/pixi/releases/download/v0.14.0/pixi-x86_64-pc-windows-msvc.exe
+          curl -L --output "$HOME/custom existing pixi/pixi.exe" https://github.com/prefix-dev/pixi/releases/download/v0.14.0/pixi-x86_64-pc-windows-msvc.exe
         if: matrix.os == 'windows-latest'
       - run: |
           echo "Path: $PATH"
@@ -282,7 +282,7 @@ jobs:
         shell: bash
       - name: Verify pixi path (before setup-pixi)
         run: |
-          which pixi | grep -q $HOME/custom-existing-pixi/pixi
+          which pixi | grep -q "$HOME/custom existing pixi/pixi"
         shell: bash
       - name: Run Action (should use preinstalled pixi)
         uses: ./
@@ -346,12 +346,12 @@ jobs:
         if: matrix.ignore-reason == 'bin-path' || matrix.ignore-reason == 'version-latest'
       - name: Verify pixi path (after setup-pixi, no ignore reason)
         run: |
-          which pixi | grep -q $HOME/custom-existing-pixi/pixi
+          which pixi | grep -q "$HOME/custom existing pixi/pixi"
         shell: bash
         if: matrix.ignore-reason == 'none'
       - name: Verify pixi path (after setup-pixi, ignore reason)
         run: |
-          which pixi | grep -vq $HOME/custom-existing-pixi/pixi
+          which pixi | grep -vq "$HOME/custom existing pixi/pixi"
         shell: bash
         if: matrix.ignore-reason != 'none'
 

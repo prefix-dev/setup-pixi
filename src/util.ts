@@ -70,13 +70,17 @@ export const sha256Short = (s: BinaryLike) => {
 }
 
 export const execute = (cmd: string[]) => {
-  core.debug(`Executing: ${cmd.join(' ')}`)
-  return exec(cmd[0], cmd.slice(1))
+  core.debug(`Executing: \`${cmd.toString()}\``)
+  // needs escaping if cmd[0] contains spaces
+  // https://github.com/prefix-dev/setup-pixi/issues/184#issuecomment-2765724843
+  return exec(`"${cmd[0]}"`, cmd.slice(1))
 }
 
 export const executeGetOutput = (cmd: string[], options?: ExecOptions) => {
-  core.debug(`Executing: ${cmd.join(' ')}`)
-  return getExecOutput(cmd[0], cmd.slice(1), options)
+  core.debug(`Executing: \`${cmd.toString()}\``)
+  // needs escaping if cmd[0] contains spaces
+  // https://github.com/prefix-dev/setup-pixi/issues/184#issuecomment-2765724843
+  return getExecOutput(`"${cmd[0]}"`, cmd.slice(1), options)
 }
 
 export const pixiCmd = (command: string, withManifestPath = true) => {
