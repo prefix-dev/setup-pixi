@@ -73032,11 +73032,11 @@ var sha256 = (s) => {
   return (0, import_crypto.createHash)("sha256").update(s).digest("hex");
 };
 var execute = (cmd) => {
-  core2.debug(`Executing: ${cmd.join(" ")}`);
+  core2.debug(`Executing: \`${cmd.toString()}\``);
   return (0, import_exec.exec)(cmd[0], cmd.slice(1));
 };
 var executeGetOutput = (cmd, options2) => {
-  core2.debug(`Executing: ${cmd.join(" ")}`);
+  core2.debug(`Executing: \`${cmd.toString()}\``);
   return (0, import_exec.getExecOutput)(cmd[0], cmd.slice(1), options2);
 };
 var pixiCmd = (command, withManifestPath = true) => {

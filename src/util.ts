@@ -70,12 +70,12 @@ export const sha256Short = (s: BinaryLike) => {
 }
 
 export const execute = (cmd: string[]) => {
-  core.debug(`Executing: ${cmd.join(' ')}`)
+  core.debug(`Executing: \`${cmd.toString()}\``)
   return exec(cmd[0], cmd.slice(1))
 }
 
 export const executeGetOutput = (cmd: string[], options?: ExecOptions) => {
-  core.debug(`Executing: ${cmd.join(' ')}`)
+  core.debug(`Executing: \`${cmd.toString()}\``)
   return getExecOutput(cmd[0], cmd.slice(1), options)
 }
 
