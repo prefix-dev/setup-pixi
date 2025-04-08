@@ -10,6 +10,12 @@ dependencies = ["flask==2.*"]
 requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
+[dependency-groups]
+# inline lists with mixed types are a toml 1.0 feature
+dev = [{ include-group = "lint" }, { include-group = "docs" }, "ipython"]
+docs = ["mkdocs>=1.4"]
+lint = ["ruff>=0.1.14"]
+
 [tool.pixi.project]
 name = "pyproject-manifest"
 channels = ["conda-forge"]
