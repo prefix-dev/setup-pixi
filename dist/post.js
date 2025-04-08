@@ -19859,9 +19859,9 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
   }
 });
 
-// node_modules/.pnpm/@iarna+toml@2.2.5/node_modules/@iarna/toml/lib/parser.js
+// node_modules/.pnpm/@iarna+toml@3.0.0/node_modules/@iarna/toml/lib/parser.js
 var require_parser = __commonJS({
-  "node_modules/.pnpm/@iarna+toml@2.2.5/node_modules/@iarna/toml/lib/parser.js"(exports2, module2) {
+  "node_modules/.pnpm/@iarna+toml@3.0.0/node_modules/@iarna/toml/lib/parser.js"(exports2, module2) {
     "use strict";
     var ParserEND = 1114112;
     var ParserError = class _ParserError extends Error {
@@ -19984,9 +19984,9 @@ var require_parser = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@iarna+toml@2.2.5/node_modules/@iarna/toml/lib/create-datetime.js
+// node_modules/.pnpm/@iarna+toml@3.0.0/node_modules/@iarna/toml/lib/create-datetime.js
 var require_create_datetime = __commonJS({
-  "node_modules/.pnpm/@iarna+toml@2.2.5/node_modules/@iarna/toml/lib/create-datetime.js"(exports2, module2) {
+  "node_modules/.pnpm/@iarna+toml@3.0.0/node_modules/@iarna/toml/lib/create-datetime.js"(exports2, module2) {
     "use strict";
     module2.exports = (value) => {
       const date = new Date(value);
@@ -19999,9 +19999,9 @@ var require_create_datetime = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@iarna+toml@2.2.5/node_modules/@iarna/toml/lib/format-num.js
+// node_modules/.pnpm/@iarna+toml@3.0.0/node_modules/@iarna/toml/lib/format-num.js
 var require_format_num = __commonJS({
-  "node_modules/.pnpm/@iarna+toml@2.2.5/node_modules/@iarna/toml/lib/format-num.js"(exports2, module2) {
+  "node_modules/.pnpm/@iarna+toml@3.0.0/node_modules/@iarna/toml/lib/format-num.js"(exports2, module2) {
     "use strict";
     module2.exports = (d, num) => {
       num = String(num);
@@ -20011,9 +20011,9 @@ var require_format_num = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@iarna+toml@2.2.5/node_modules/@iarna/toml/lib/create-datetime-float.js
+// node_modules/.pnpm/@iarna+toml@3.0.0/node_modules/@iarna/toml/lib/create-datetime-float.js
 var require_create_datetime_float = __commonJS({
-  "node_modules/.pnpm/@iarna+toml@2.2.5/node_modules/@iarna/toml/lib/create-datetime-float.js"(exports2, module2) {
+  "node_modules/.pnpm/@iarna+toml@3.0.0/node_modules/@iarna/toml/lib/create-datetime-float.js"(exports2, module2) {
     "use strict";
     var f = require_format_num();
     var FloatingDateTime = class extends Date {
@@ -20038,9 +20038,9 @@ var require_create_datetime_float = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@iarna+toml@2.2.5/node_modules/@iarna/toml/lib/create-date.js
+// node_modules/.pnpm/@iarna+toml@3.0.0/node_modules/@iarna/toml/lib/create-date.js
 var require_create_date = __commonJS({
-  "node_modules/.pnpm/@iarna+toml@2.2.5/node_modules/@iarna/toml/lib/create-date.js"(exports2, module2) {
+  "node_modules/.pnpm/@iarna+toml@3.0.0/node_modules/@iarna/toml/lib/create-date.js"(exports2, module2) {
     "use strict";
     var f = require_format_num();
     var DateTime = global.Date;
@@ -20064,9 +20064,9 @@ var require_create_date = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@iarna+toml@2.2.5/node_modules/@iarna/toml/lib/create-time.js
+// node_modules/.pnpm/@iarna+toml@3.0.0/node_modules/@iarna/toml/lib/create-time.js
 var require_create_time = __commonJS({
-  "node_modules/.pnpm/@iarna+toml@2.2.5/node_modules/@iarna/toml/lib/create-time.js"(exports2, module2) {
+  "node_modules/.pnpm/@iarna+toml@3.0.0/node_modules/@iarna/toml/lib/create-time.js"(exports2, module2) {
     "use strict";
     var f = require_format_num();
     var Time = class extends Date {
@@ -20089,9 +20089,9 @@ var require_create_time = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@iarna+toml@2.2.5/node_modules/@iarna/toml/lib/toml-parser.js
+// node_modules/.pnpm/@iarna+toml@3.0.0/node_modules/@iarna/toml/lib/toml-parser.js
 var require_toml_parser = __commonJS({
-  "node_modules/.pnpm/@iarna+toml@2.2.5/node_modules/@iarna/toml/lib/toml-parser.js"(exports, module) {
+  "node_modules/.pnpm/@iarna+toml@3.0.0/node_modules/@iarna/toml/lib/toml-parser.js"(exports, module) {
     "use strict";
     module.exports = makeParserClass(require_parser());
     module.exports.makeParserClass = makeParserClass;
@@ -20379,7 +20379,7 @@ var require_toml_parser = __commonJS({
           let target = this.ctx;
           let finalKey = kv.key.pop();
           for (let kw of kv.key) {
-            if (hasKey(target, kw) && (!isTable(target[kw]) || target[kw][_declared])) {
+            if (hasKey(target, kw) && !isTable(target[kw])) {
               throw this.error(new TomlError("Can't redefine existing key"));
             }
             target = target[kw] = target[kw] || Table();
@@ -20387,6 +20387,7 @@ var require_toml_parser = __commonJS({
           if (hasKey(target, finalKey)) {
             throw this.error(new TomlError("Can't redefine existing key"));
           }
+          target[_declared] = true;
           if (isInteger(kv.value) || isFloat(kv.value)) {
             target[finalKey] = kv.value.valueOf();
           } else {
@@ -20440,6 +20441,8 @@ var require_toml_parser = __commonJS({
           do {
             if (this.char === Parser.END || this.char === CTRL_J) {
               return this.return();
+            } else if (this.char === CHAR_DEL || this.char <= CTRL_CHAR_BOUNDARY && this.char !== CTRL_I) {
+              throw this.errorControlCharIn("comments");
             }
           } while (this.nextChar());
         }
@@ -20645,7 +20648,7 @@ var require_toml_parser = __commonJS({
             } else if (this.atEndOfLine()) {
               throw this.error(new TomlError("Unterminated string"));
             } else if (this.char === CHAR_DEL || this.char <= CTRL_CHAR_BOUNDARY && this.char !== CTRL_I) {
-              throw this.errorControlCharInString();
+              throw this.errorControlCharIn("strings");
             } else {
               this.consume();
             }
@@ -20674,7 +20677,7 @@ var require_toml_parser = __commonJS({
             } else if (this.char === Parser.END) {
               throw this.error(new TomlError("Unterminated multi-line string"));
             } else if (this.char === CHAR_DEL || this.char <= CTRL_CHAR_BOUNDARY && this.char !== CTRL_I && this.char !== CTRL_J && this.char !== CTRL_M) {
-              throw this.errorControlCharInString();
+              throw this.errorControlCharIn("strings");
             } else {
               this.consume();
             }
@@ -20690,10 +20693,26 @@ var require_toml_parser = __commonJS({
         }
         parseLiteralMultiEnd2() {
           if (this.char === CHAR_APOS) {
-            return this.return();
+            return this.next(this.parseLiteralMultiEnd3);
           } else {
             this.state.buf += "''";
             return this.goto(this.parseLiteralMultiStringContent);
+          }
+        }
+        parseLiteralMultiEnd3() {
+          if (this.char === CHAR_APOS) {
+            this.state.buf += "'";
+            return this.next(this.parseLiteralMultiEnd4);
+          } else {
+            return this.returnNow();
+          }
+        }
+        parseLiteralMultiEnd4() {
+          if (this.char === CHAR_APOS) {
+            this.state.buf += "'";
+            return this.return();
+          } else {
+            return this.returnNow();
           }
         }
         /* STRINGS double quoted */
@@ -20713,7 +20732,7 @@ var require_toml_parser = __commonJS({
             } else if (this.atEndOfLine()) {
               throw this.error(new TomlError("Unterminated string"));
             } else if (this.char === CHAR_DEL || this.char <= CTRL_CHAR_BOUNDARY && this.char !== CTRL_I) {
-              throw this.errorControlCharInString();
+              throw this.errorControlCharIn("strings");
             } else {
               this.consume();
             }
@@ -20748,19 +20767,19 @@ var require_toml_parser = __commonJS({
             } else if (this.char === Parser.END) {
               throw this.error(new TomlError("Unterminated multi-line string"));
             } else if (this.char === CHAR_DEL || this.char <= CTRL_CHAR_BOUNDARY && this.char !== CTRL_I && this.char !== CTRL_J && this.char !== CTRL_M) {
-              throw this.errorControlCharInString();
+              throw this.errorControlCharIn("strings");
             } else {
               this.consume();
             }
           } while (this.nextChar());
         }
-        errorControlCharInString() {
+        errorControlCharIn(type) {
           let displayCode = "\\u00";
           if (this.char < 16) {
             displayCode += "0";
           }
           displayCode += this.char.toString(16);
-          return this.error(new TomlError(`Control characters (codes < 0x1f and 0x7f) are not allowed in strings, use ${displayCode} instead`));
+          return this.error(new TomlError(`Control characters (codes < 0x1f and 0x7f) are not allowed in ${type}, use ${displayCode} instead`));
         }
         recordMultiEscapeReplacement(replacement) {
           this.state.buf += replacement;
@@ -20776,10 +20795,26 @@ var require_toml_parser = __commonJS({
         }
         parseMultiEnd2() {
           if (this.char === CHAR_QUOT) {
-            return this.return();
+            return this.next(this.parseMultiEnd3);
           } else {
             this.state.buf += '""';
             return this.goto(this.parseMultiStringContent);
+          }
+        }
+        parseMultiEnd3() {
+          if (this.char === CHAR_QUOT) {
+            this.state.buf += '"';
+            return this.next(this.parseMultiEnd4);
+          } else {
+            return this.returnNow();
+          }
+        }
+        parseMultiEnd4() {
+          if (this.char === CHAR_QUOT) {
+            this.state.buf += '"';
+            return this.return();
+          } else {
+            return this.returnNow();
           }
         }
         parseMultiEscape() {
@@ -21322,13 +21357,7 @@ var require_toml_parser = __commonJS({
           }
         }
         recordInlineListValue(value) {
-          if (this.state.resultArr) {
-            const listType = this.state.resultArr[_contentType];
-            const valueType = tomlType(value);
-            if (listType !== valueType) {
-              throw this.error(new TomlError(`Inline lists must be a single type, not a mix of ${listType} and ${valueType}`));
-            }
-          } else {
+          if (!this.state.resultArr) {
             this.state.resultArr = InlineList(tomlType(value));
           }
           if (isFloat(value) || isInteger(value)) {
@@ -21389,11 +21418,24 @@ var require_toml_parser = __commonJS({
           } else if (this.char === Parser.END || this.char === CHAR_NUM || this.char === CTRL_J || this.char === CTRL_M) {
             throw this.error(new TomlError("Unterminated inline array"));
           } else if (this.char === CHAR_COMMA) {
-            return this.next(this.parseInlineTable);
+            return this.next(this.parseInlineTablePostComma);
           } else if (this.char === CHAR_RCUB) {
             return this.goto(this.parseInlineTable);
           } else {
             throw this.error(new TomlError("Invalid character, expected whitespace, comma (,) or close bracket (])"));
+          }
+        }
+        parseInlineTablePostComma() {
+          if (this.char === CHAR_SP || this.char === CTRL_I) {
+            return null;
+          } else if (this.char === Parser.END || this.char === CHAR_NUM || this.char === CTRL_J || this.char === CTRL_M) {
+            throw this.error(new TomlError("Unterminated inline array"));
+          } else if (this.char === CHAR_COMMA) {
+            throw this.error(new TomlError("Empty elements in inline tables are not permitted"));
+          } else if (this.char === CHAR_RCUB) {
+            throw this.error(new TomlError("Trailing commas in inline tables are not permitted"));
+          } else {
+            return this.goto(this.parseInlineTable);
           }
         }
       }
@@ -21402,9 +21444,9 @@ var require_toml_parser = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@iarna+toml@2.2.5/node_modules/@iarna/toml/parse-pretty-error.js
+// node_modules/.pnpm/@iarna+toml@3.0.0/node_modules/@iarna/toml/parse-pretty-error.js
 var require_parse_pretty_error = __commonJS({
-  "node_modules/.pnpm/@iarna+toml@2.2.5/node_modules/@iarna/toml/parse-pretty-error.js"(exports2, module2) {
+  "node_modules/.pnpm/@iarna+toml@3.0.0/node_modules/@iarna/toml/parse-pretty-error.js"(exports2, module2) {
     "use strict";
     module2.exports = prettyError;
     function prettyError(err, buf) {
@@ -21438,9 +21480,9 @@ var require_parse_pretty_error = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@iarna+toml@2.2.5/node_modules/@iarna/toml/parse-string.js
+// node_modules/.pnpm/@iarna+toml@3.0.0/node_modules/@iarna/toml/parse-string.js
 var require_parse_string = __commonJS({
-  "node_modules/.pnpm/@iarna+toml@2.2.5/node_modules/@iarna/toml/parse-string.js"(exports2, module2) {
+  "node_modules/.pnpm/@iarna+toml@3.0.0/node_modules/@iarna/toml/parse-string.js"(exports2, module2) {
     "use strict";
     module2.exports = parseString;
     var TOMLParser = require_toml_parser();
@@ -21460,9 +21502,9 @@ var require_parse_string = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@iarna+toml@2.2.5/node_modules/@iarna/toml/parse-async.js
+// node_modules/.pnpm/@iarna+toml@3.0.0/node_modules/@iarna/toml/parse-async.js
 var require_parse_async = __commonJS({
-  "node_modules/.pnpm/@iarna+toml@2.2.5/node_modules/@iarna/toml/parse-async.js"(exports2, module2) {
+  "node_modules/.pnpm/@iarna+toml@3.0.0/node_modules/@iarna/toml/parse-async.js"(exports2, module2) {
     "use strict";
     module2.exports = parseAsync;
     var TOMLParser = require_toml_parser();
@@ -21494,9 +21536,9 @@ var require_parse_async = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@iarna+toml@2.2.5/node_modules/@iarna/toml/parse-stream.js
+// node_modules/.pnpm/@iarna+toml@3.0.0/node_modules/@iarna/toml/parse-stream.js
 var require_parse_stream = __commonJS({
-  "node_modules/.pnpm/@iarna+toml@2.2.5/node_modules/@iarna/toml/parse-stream.js"(exports2, module2) {
+  "node_modules/.pnpm/@iarna+toml@3.0.0/node_modules/@iarna/toml/parse-stream.js"(exports2, module2) {
     "use strict";
     module2.exports = parseStream;
     var stream = require("stream");
@@ -21573,9 +21615,9 @@ var require_parse_stream = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@iarna+toml@2.2.5/node_modules/@iarna/toml/parse.js
+// node_modules/.pnpm/@iarna+toml@3.0.0/node_modules/@iarna/toml/parse.js
 var require_parse2 = __commonJS({
-  "node_modules/.pnpm/@iarna+toml@2.2.5/node_modules/@iarna/toml/parse.js"(exports2, module2) {
+  "node_modules/.pnpm/@iarna+toml@3.0.0/node_modules/@iarna/toml/parse.js"(exports2, module2) {
     "use strict";
     module2.exports = require_parse_string();
     module2.exports.async = require_parse_async();
@@ -21584,9 +21626,9 @@ var require_parse2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@iarna+toml@2.2.5/node_modules/@iarna/toml/stringify.js
+// node_modules/.pnpm/@iarna+toml@3.0.0/node_modules/@iarna/toml/stringify.js
 var require_stringify = __commonJS({
-  "node_modules/.pnpm/@iarna+toml@2.2.5/node_modules/@iarna/toml/stringify.js"(exports2, module2) {
+  "node_modules/.pnpm/@iarna+toml@3.0.0/node_modules/@iarna/toml/stringify.js"(exports2, module2) {
     "use strict";
     module2.exports = stringify;
     module2.exports.value = stringifyInline;
@@ -21602,9 +21644,6 @@ var require_stringify = __commonJS({
     }
     function typeError(type) {
       return new Error("Can only stringify objects, not " + type);
-    }
-    function arrayOneTypeError() {
-      return new Error("Array values can't have mixed types");
     }
     function getInlineKeys(obj) {
       return Object.keys(obj).filter((key) => isInline(obj[key]));
@@ -21625,12 +21664,12 @@ var require_stringify = __commonJS({
     }
     function stringifyObject(prefix, indent, obj) {
       obj = toJSON(obj);
-      var inlineKeys;
-      var complexKeys;
+      let inlineKeys;
+      let complexKeys;
       inlineKeys = getInlineKeys(obj);
       complexKeys = getComplexKeys(obj);
-      var result = [];
-      var inlineIndent = indent || "";
+      const result = [];
+      const inlineIndent = indent || "";
       inlineKeys.forEach((key) => {
         var type = tomlType2(obj[key]);
         if (type !== "undefined" && type !== "null") {
@@ -21638,7 +21677,7 @@ var require_stringify = __commonJS({
         }
       });
       if (result.length > 0) result.push("");
-      var complexIndent = prefix && inlineKeys.length > 0 ? indent + "  " : "";
+      const complexIndent = prefix && inlineKeys.length > 0 ? indent + "  " : "";
       complexKeys.forEach((key) => {
         result.push(stringifyComplex(prefix, complexIndent, key, obj[key]));
       });
@@ -21686,7 +21725,7 @@ var require_stringify = __commonJS({
       }
     }
     function stringifyKey(key) {
-      var keyStr = String(key);
+      const keyStr = String(key);
       if (/^[-A-Za-z0-9_]+$/.test(keyStr)) {
         return keyStr;
       } else {
@@ -21763,9 +21802,7 @@ var require_stringify = __commonJS({
       } else if (Object.is(value, -0)) {
         return "-0.0";
       }
-      var chunks = String(value).split(".");
-      var int = chunks[0];
-      var dec = chunks[1] || 0;
+      const [int, dec] = String(value).split(".");
       return stringifyInteger(int) + "." + dec;
     }
     function stringifyBoolean(value) {
@@ -21774,27 +21811,10 @@ var require_stringify = __commonJS({
     function stringifyDatetime(value) {
       return value.toISOString();
     }
-    function isNumber(type) {
-      return type === "float" || type === "integer";
-    }
-    function arrayType2(values) {
-      var contentType = tomlType2(values[0]);
-      if (values.every((_) => tomlType2(_) === contentType)) return contentType;
-      if (values.every((_) => isNumber(tomlType2(_)))) return "float";
-      return "mixed";
-    }
-    function validateArray(values) {
-      const type = arrayType2(values);
-      if (type === "mixed") {
-        throw arrayOneTypeError();
-      }
-      return type;
-    }
     function stringifyInlineArray(values) {
       values = toJSON(values);
-      const type = validateArray(values);
-      var result = "[";
-      var stringified = values.map((_) => stringifyInline(_, type));
+      let result = "[";
+      const stringified = values.map((_) => stringifyInline(_));
       if (stringified.join(", ").length > 60 || /\n/.test(stringified)) {
         result += "\n  " + stringified.join(",\n  ") + "\n";
       } else {
@@ -21804,14 +21824,14 @@ var require_stringify = __commonJS({
     }
     function stringifyInlineTable(value) {
       value = toJSON(value);
-      var result = [];
+      const result = [];
       Object.keys(value).forEach((key) => {
         result.push(stringifyKey(key) + " = " + stringifyAnyInline(value[key], false));
       });
       return "{ " + result.join(", ") + (result.length > 0 ? " " : "") + "}";
     }
     function stringifyComplex(prefix, indent, key, value) {
-      var valueType = tomlType2(value);
+      const valueType = tomlType2(value);
       if (valueType === "array") {
         return stringifyArrayOfTables(prefix, indent, key, value);
       } else if (valueType === "table") {
@@ -21822,11 +21842,10 @@ var require_stringify = __commonJS({
     }
     function stringifyArrayOfTables(prefix, indent, key, values) {
       values = toJSON(values);
-      validateArray(values);
-      var firstValueType = tomlType2(values[0]);
+      const firstValueType = tomlType2(values[0]);
       if (firstValueType !== "table") throw typeError(firstValueType);
-      var fullKey = prefix + stringifyKey(key);
-      var result = "";
+      const fullKey = prefix + stringifyKey(key);
+      let result = "";
       values.forEach((table) => {
         if (result.length > 0) result += "\n";
         result += indent + "[[" + fullKey + "]]\n";
@@ -21835,8 +21854,8 @@ var require_stringify = __commonJS({
       return result;
     }
     function stringifyComplexTable(prefix, indent, key, value) {
-      var fullKey = prefix + stringifyKey(key);
-      var result = "";
+      const fullKey = prefix + stringifyKey(key);
+      let result = "";
       if (getInlineKeys(value).length > 0) {
         result += indent + "[" + fullKey + "]\n";
       }
@@ -21845,9 +21864,9 @@ var require_stringify = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@iarna+toml@2.2.5/node_modules/@iarna/toml/toml.js
+// node_modules/.pnpm/@iarna+toml@3.0.0/node_modules/@iarna/toml/toml.js
 var require_toml = __commonJS({
-  "node_modules/.pnpm/@iarna+toml@2.2.5/node_modules/@iarna/toml/toml.js"(exports2) {
+  "node_modules/.pnpm/@iarna+toml@3.0.0/node_modules/@iarna/toml/toml.js"(exports2) {
     "use strict";
     exports2.parse = require_parse2();
     exports2.stringify = require_stringify();
