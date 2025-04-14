@@ -5,7 +5,7 @@ import { existsSync, readFileSync } from 'fs'
 import * as core from '@actions/core'
 import * as z from 'zod'
 import untildify from 'untildify'
-import { parse } from '@iarna/toml'
+import { load } from 'js-toml'
 import which from 'which'
 
 type Inputs = Readonly<{
@@ -241,12 +241,14 @@ const inferOptions = (inputs: Inputs): Options => {
     } else if (existsSync(pyprojectPath)) {
       try {
         const fileContent = readFileSync(pyprojectPath, 'utf-8')
-        const parsedContent: Record<string, unknown> = parse(fileContent)
-
+        const parsedContent = load(fileContent)
         // Test if the tool.pixi table is present in the pyproject.toml file, if so, use it as the manifest file.
-        if (parsedContent.tool && typeof parsedContent.tool === 'object' && 'pixi' in parsedContent.tool) {
-          core.debug(`The tool.pixi table found, using ${pyprojectPath} as manifest file.`)
-          manifestPath = pyprojectPath
+        if ('tool' in parsedContent && typeof parsedContent.tool === 'object') {
+          const pyprojectTool = parsedContent.tool
+          if (pyprojectTool !== null && 'pixi' in pyprojectTool) {
+            core.debug(`The tool.pixi table found, using ${pyprojectPath} as manifest file.`)
+            manifestPath = pyprojectPath
+          }
         }
       } catch (error) {
         core.error(`Error while trying to read ${pyprojectPath} file.`)
