@@ -25,7 +25,7 @@ export default defineConfig({
     '@actions/io',
     '@actions/tool-cache',
     'untildify',
-    '@iarna/toml',
+    'js-toml',
     'which',
     'zod'
   ]
