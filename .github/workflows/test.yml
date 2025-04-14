@@ -751,6 +751,7 @@ jobs:
         run: mv test/pyproject-manifest/* .
       - uses: ./
       - run: test -f .pixi/envs/default/bin/python
+        shell: bash
       - run: pixi run test
 
   custom-pyproject-manifest-path:
