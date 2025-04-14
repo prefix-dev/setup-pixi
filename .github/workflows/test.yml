@@ -751,6 +751,10 @@ jobs:
         run: mv test/pyproject-manifest/* .
       - uses: ./
       - run: test -f .pixi/envs/default/bin/python
+        if: matrix.os != 'windows-latest'
+        shell: bash
+      - run: test -f .pixi/envs/default/python.exe
+        if: matrix.os == 'windows-latest'
         shell: bash
       - run: pixi run test
 
