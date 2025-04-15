@@ -16,6 +16,7 @@ jobs:
   default:
     strategy:
       matrix:
+        # TODO: add windows-11-arm: https://github.com/conda-forge/conda-forge.github.io/issues/1940
         os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest, windows-latest, macos-13]
         cache: [true, false]
     runs-on: ${{ matrix.os }}
