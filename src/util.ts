@@ -13,7 +13,8 @@ export const getCondaArch = () => {
     'linux-x64': 'linux-64',
     'linux-arm64': 'linux-aarch64',
     'linux-ppc64': 'linux-ppc64le',
-    'win32-x64': 'win-64'
+    'win32-x64': 'win-64',
+    'win32-arm64': 'win-arm64'
   }
   const arch = archDict[`${os.platform()}-${os.arch()}`]
   if (!arch) {
@@ -52,9 +53,6 @@ export const getPixiUrlFromVersion = (version: string) => {
   const arch = getArch()
   const platform = getPlatform()
   const pixiFile = `pixi-${arch}-${platform}${platform === 'pc-windows-msvc' ? '.exe' : ''}`
-  if (arch === 'aarch64' && platform === 'pc-windows-msvc') {
-    throw new Error('Windows on ARM is currently not supported')
-  }
   if (version === 'latest') {
     return `https://github.com/prefix-dev/pixi/releases/latest/download/${pixiFile}`
   }

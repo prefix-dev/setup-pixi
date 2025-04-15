@@ -69122,7 +69122,8 @@ var getCondaArch = () => {
     "linux-x64": "linux-64",
     "linux-arm64": "linux-aarch64",
     "linux-ppc64": "linux-ppc64le",
-    "win32-x64": "win-64"
+    "win32-x64": "win-64",
+    "win32-arm64": "win-arm64"
   };
   const arch2 = archDict[`${import_os2.default.platform()}-${import_os2.default.arch()}`];
   if (!arch2) {
@@ -69158,9 +69159,6 @@ var getPixiUrlFromVersion = (version2) => {
   const arch2 = getArch();
   const platform = getPlatform();
   const pixiFile = `pixi-${arch2}-${platform}${platform === "pc-windows-msvc" ? ".exe" : ""}`;
-  if (arch2 === "aarch64" && platform === "pc-windows-msvc") {
-    throw new Error("Windows on ARM is currently not supported");
-  }
   if (version2 === "latest") {
     return `https://github.com/prefix-dev/pixi/releases/latest/download/${pixiFile}`;
   }
