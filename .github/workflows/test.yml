@@ -259,18 +259,18 @@ jobs:
       - name: Download pixi binary (Ubuntu)
         run: |
           set -o pipefail
-          curl -L --output "$HOME/custom existing pixi/pixi" https://github.com/prefix-dev/pixi/releases/download/v0.14.0/pixi-x86_64-unknown-linux-musl
+          curl -L --output "$HOME/custom existing pixi/pixi" https://github.com/prefix-dev/pixi/releases/download/v0.43.0/pixi-x86_64-unknown-linux-musl
           chmod +x "$HOME/custom existing pixi/pixi"
         if: matrix.os == 'ubuntu-latest'
       - name: Download pixi binary (macOS)
         run: |
           set -o pipefail
-          curl -L --output "$HOME/custom existing pixi/pixi" https://github.com/prefix-dev/pixi/releases/download/v0.14.0/pixi-x86_64-apple-darwin
+          curl -L --output "$HOME/custom existing pixi/pixi" https://github.com/prefix-dev/pixi/releases/download/v0.43.0/pixi-x86_64-apple-darwin
           chmod +x "$HOME/custom existing pixi/pixi"
         if: matrix.os == 'macos-latest'
       - name: Download pixi binary (Windows)
         run: |
-          curl -L --output "$HOME/custom existing pixi/pixi.exe" https://github.com/prefix-dev/pixi/releases/download/v0.14.0/pixi-x86_64-pc-windows-msvc.exe
+          curl -L --output "$HOME/custom existing pixi/pixi.exe" https://github.com/prefix-dev/pixi/releases/download/v0.43.0/pixi-x86_64-pc-windows-msvc.exe
         if: matrix.os == 'windows-latest'
       - run: |
           echo "Path: $PATH"
@@ -278,7 +278,7 @@ jobs:
       - name: Verify pixi version (before setup-pixi)
         run: |
           pixi --version
-          pixi --version | grep -q "pixi 0.14.0"
+          pixi --version | grep -q "pixi 0.43.0"
         shell: bash
       - name: Verify pixi path (before setup-pixi)
         run: |
@@ -299,7 +299,7 @@ jobs:
         uses: ./
         with:
           cache: false
-          pixi-version: v0.16.0
+          pixi-version: v0.44.0
         if: matrix.ignore-reason == 'version'
       - name: Run Action (url should overwrite preinstalled pixi)
         uses: ./
@@ -308,10 +308,10 @@ jobs:
           pixi-url: |
             ${{
                 matrix.os == 'ubuntu-latest' &&
-                    'https://github.com/prefix-dev/pixi/releases/download/v0.16.0/pixi-x86_64-unknown-linux-musl'
+                    'https://github.com/prefix-dev/pixi/releases/download/v0.44.0/pixi-x86_64-unknown-linux-musl'
                 || matrix.os == 'macos-latest' &&
-                    'https://github.com/prefix-dev/pixi/releases/download/v0.16.0/pixi-x86_64-apple-darwin'
-                || 'https://github.com/prefix-dev/pixi/releases/download/v0.16.0/pixi-x86_64-pc-windows-msvc.exe'
+                    'https://github.com/prefix-dev/pixi/releases/download/v0.44.0/pixi-x86_64-apple-darwin'
+                    || 'https://github.com/prefix-dev/pixi/releases/download/v0.44.0/pixi-x86_64-pc-windows-msvc.exe'
             }}
         if: matrix.ignore-reason == 'url'
       - name: Create custom bin directory
@@ -325,23 +325,23 @@ jobs:
           # this will implicitly set pixi-version to latest
           pixi-bin-path: custom-bin/pixi${{ matrix.os == 'windows-latest' && '.exe' || '' }}
         if: matrix.ignore-reason == 'bin-path'
-      - name: Verify pixi version (after setup-pixi) - still at 0.14.0
+      - name: Verify pixi version (after setup-pixi) - still at 0.43.0
         run: |
           pixi --version
-          pixi --version | grep -q 0.14.0
+          pixi --version | grep -q 0.43.0
         shell: bash
         if: matrix.ignore-reason == 'none'
-      - name: Verify pixi version (after setup-pixi) - should be 0.16.0
+      - name: Verify pixi version (after setup-pixi) - should be 0.44.0
         run: |
           pixi --version
-          pixi --version | grep -q 0.16.0
+          pixi --version | grep -q 0.44.0
         shell: bash
         if: matrix.ignore-reason != 'none' && matrix.ignore-reason != 'bin-path' && matrix.ignore-reason != 'version-latest'
       - name: Verify pixi version (after setup-pixi) - should be latest
         run: |
           pixi --version
-          pixi --version | grep -vq 0.14.0
-          pixi --version | grep -vq 0.16.0
+          pixi --version | grep -vq 0.43.0
+          pixi --version | grep -vq 0.44.0
         shell: bash
         if: matrix.ignore-reason == 'bin-path' || matrix.ignore-reason == 'version-latest'
       - name: Verify pixi path (after setup-pixi, no ignore reason)
