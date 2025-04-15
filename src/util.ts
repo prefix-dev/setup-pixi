@@ -52,9 +52,6 @@ export const getPixiUrlFromVersion = (version: string) => {
   const arch = getArch()
   const platform = getPlatform()
   const pixiFile = `pixi-${arch}-${platform}${platform === 'pc-windows-msvc' ? '.exe' : ''}`
-  if (arch === 'aarch64' && platform === 'pc-windows-msvc') {
-    throw new Error('Windows on ARM is currently not supported')
-  }
   if (version === 'latest') {
     return `https://github.com/prefix-dev/pixi/releases/latest/download/${pixiFile}`
   }
