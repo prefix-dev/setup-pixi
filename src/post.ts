@@ -9,7 +9,7 @@ const removeEmptyParentDirs = (dirPath: string): Promise<void> => {
   return fs.readdir(dirPath).then((files) => {
     if (files.length === 0) {
       core.debug(`Removing empty directory ${dirPath}.`)
-      return fs.rm(dirPath, { recursive: true }).then(() => {
+      return fs.rm(dirPath, { recursive: true, force: true }).then(() => {
         const parentDir = path.dirname(dirPath)
         if (parentDir !== dirPath) {
           return removeEmptyParentDirs(parentDir)
