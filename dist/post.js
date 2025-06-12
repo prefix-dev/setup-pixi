@@ -25005,7 +25005,12 @@ var cleanupPixiBin = () => {
   const pixiBinPath = options.pixiBinPath;
   const pixiBinDir = import_path2.default.dirname(pixiBinPath);
   core2.debug(`Cleaning up pixi binary ${pixiBinPath}.`);
-  return import_promises.default.rm(pixiBinPath).then(() => removeEmptyParentDirs(pixiBinDir));
+  return import_promises.default.rm(pixiBinPath, {
+    // Ignore exceptions if pixi binary does not exist anymore,
+    // to avoid errors if setup-pixi is used multiple times within the same workflow.
+    // This could, for instance, be the case for composite actions using setup-pixi.
+    force: true
+  }).then(() => removeEmptyParentDirs(pixiBinDir));
 };
 var cleanupEnv = () => {
   if (!options.runInstall) {
@@ -25014,7 +25019,12 @@ var cleanupEnv = () => {
   }
   const envDir = import_path2.default.join(import_path2.default.dirname(options.manifestPath), ".pixi");
   core2.debug(`Cleaning up .pixi directory ${envDir}.`);
-  return import_promises.default.rm(envDir, { recursive: true });
+  return import_promises.default.rm(envDir, {
+    recursive: true,
+    // Ignore exceptions if environment does not exist anymore,
+    // to avoid errors if setup-pixi is used multiple times within the same workflow.
+    force: true
+  });
 };
 var determineCacheDir = () => {
   if (import_os2.default.platform() === "win32") {
