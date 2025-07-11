@@ -393,6 +393,18 @@ If you only want to install pixi and not install the current project, you can us
     run-install: false
 ```
 
+### Download pixi from a custom URL
+
+You can also download pixi from a custom URL by setting the `pixi-url` input argument.
+Optionally, you can combine this with the `pixi-url-bearer-token` input argument to authenticate the download request.
+
+```yml
+- uses: prefix-dev/setup-pixi@v0.8.10
+  with:
+    pixi-url: https://pixi-mirror.example.com/releases/download/v0.48.0/pixi-x86_64-unknown-linux-musl
+    pixi-url-bearer-token: ${{ secrets.PIXI_MIRROR_BEARER_TOKEN }}
+```
+
 ## More examples
 
 If you want to see more examples, you can take a look at the [GitHub Workflows of this repository](.github/workflows/test.yml).
