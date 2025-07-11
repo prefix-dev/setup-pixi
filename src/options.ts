@@ -11,6 +11,7 @@ import which from 'which'
 type Inputs = Readonly<{
   pixiVersion?: string
   pixiUrl?: string
+  pixiUrlBearerToken?: string
   logLevel?: LogLevel
   manifestPath?: string
   runInstall?: boolean
@@ -39,6 +40,7 @@ export type PixiSource =
     }
   | {
       url: string
+      bearerToken?: string
     }
 
 type Auth = {
@@ -133,6 +135,9 @@ const validateInputs = (inputs: Inputs): void => {
   if (inputs.pixiVersion && inputs.pixiUrl) {
     throw new Error('You need to specify either pixi-version or pixi-url')
   }
+  if (inputs.pixiUrlBearerToken && !inputs.pixiUrl) {
+    throw new Error('You need to specify pixi-url when using pixi-url-bearer-token')
+  }
   if (inputs.cacheKey !== undefined && inputs.cache === false) {
     throw new Error('Cannot specify cache key without caching')
   }
@@ -223,7 +228,7 @@ const inferOptions = (inputs: Inputs): Options => {
   const pixiSource = inputs.pixiVersion
     ? { version: inputs.pixiVersion }
     : inputs.pixiUrl
-      ? { url: inputs.pixiUrl }
+      ? { url: inputs.pixiUrl, bearerToken: inputs.pixiUrlBearerToken }
       : { version: 'latest' }
 
   const { downloadPixi, pixiBinPath } = determinePixiInstallation(
@@ -340,6 +345,7 @@ const getOptions = () => {
       'pixi-version must either be `latest` or a version string matching `vX.Y.Z`.'
     ),
     pixiUrl: parseOrUndefined('pixi-url', z.string().url()),
+    pixiUrlBearerToken: parseOrUndefined('pixi-url-bearer-token', z.string()),
     logLevel: parseOrUndefined(
       'log-level',
       logLevelSchema,

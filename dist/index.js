@@ -22425,9 +22425,9 @@ var require_balanced_match = __commonJS({
   }
 });
 
-// node_modules/.pnpm/brace-expansion@1.1.12/node_modules/brace-expansion/index.js
+// node_modules/.pnpm/brace-expansion@1.1.11/node_modules/brace-expansion/index.js
 var require_brace_expansion = __commonJS({
-  "node_modules/.pnpm/brace-expansion@1.1.12/node_modules/brace-expansion/index.js"(exports2, module2) {
+  "node_modules/.pnpm/brace-expansion@1.1.11/node_modules/brace-expansion/index.js"(exports2, module2) {
     "use strict";
     var concatMap = require_concat_map();
     var balanced = require_balanced_match();
@@ -22495,7 +22495,7 @@ var require_brace_expansion = __commonJS({
       var isSequence = isNumericSequence || isAlphaSequence;
       var isOptions = m.body.indexOf(",") >= 0;
       if (!isSequence && !isOptions) {
-        if (m.post.match(/,(?!,).*\}/)) {
+        if (m.post.match(/,.*\}/)) {
           str = m.pre + "{" + m.body + escClose + m.post;
           return expand(str);
         }
@@ -64246,7 +64246,7 @@ var import_process = require("process");
 var import_fs = require("fs");
 var core = __toESM(require_core());
 
-// node_modules/.pnpm/zod@3.25.67/node_modules/zod/dist/esm/v3/helpers/util.js
+// node_modules/.pnpm/zod@3.25.45/node_modules/zod/dist/esm/v3/helpers/util.js
 var util;
 (function(util4) {
   util4.assertEqual = (_) => {
@@ -64380,7 +64380,7 @@ var getParsedType = (data) => {
   }
 };
 
-// node_modules/.pnpm/zod@3.25.67/node_modules/zod/dist/esm/v3/ZodError.js
+// node_modules/.pnpm/zod@3.25.45/node_modules/zod/dist/esm/v3/ZodError.js
 var ZodIssueCode = util.arrayToEnum([
   "invalid_type",
   "invalid_literal",
@@ -64493,7 +64493,7 @@ ZodError.create = (issues) => {
   return error3;
 };
 
-// node_modules/.pnpm/zod@3.25.67/node_modules/zod/dist/esm/v3/locales/en.js
+// node_modules/.pnpm/zod@3.25.45/node_modules/zod/dist/esm/v3/locales/en.js
 var errorMap = (issue, _ctx) => {
   let message;
   switch (issue.code) {
@@ -64594,13 +64594,13 @@ var errorMap = (issue, _ctx) => {
 };
 var en_default = errorMap;
 
-// node_modules/.pnpm/zod@3.25.67/node_modules/zod/dist/esm/v3/errors.js
+// node_modules/.pnpm/zod@3.25.45/node_modules/zod/dist/esm/v3/errors.js
 var overrideErrorMap = en_default;
 function getErrorMap() {
   return overrideErrorMap;
 }
 
-// node_modules/.pnpm/zod@3.25.67/node_modules/zod/dist/esm/v3/helpers/parseUtil.js
+// node_modules/.pnpm/zod@3.25.45/node_modules/zod/dist/esm/v3/helpers/parseUtil.js
 var makeIssue = (params) => {
   const { data, path: path4, errorMaps, issueData } = params;
   const fullPath = [...path4, ...issueData.path || []];
@@ -64709,14 +64709,14 @@ var isDirty = (x) => x.status === "dirty";
 var isValid = (x) => x.status === "valid";
 var isAsync = (x) => typeof Promise !== "undefined" && x instanceof Promise;
 
-// node_modules/.pnpm/zod@3.25.67/node_modules/zod/dist/esm/v3/helpers/errorUtil.js
+// node_modules/.pnpm/zod@3.25.45/node_modules/zod/dist/esm/v3/helpers/errorUtil.js
 var errorUtil;
 (function(errorUtil2) {
   errorUtil2.errToObj = (message) => typeof message === "string" ? { message } : message || {};
   errorUtil2.toString = (message) => typeof message === "string" ? message : message?.message;
 })(errorUtil || (errorUtil = {}));
 
-// node_modules/.pnpm/zod@3.25.67/node_modules/zod/dist/esm/v3/types.js
+// node_modules/.pnpm/zod@3.25.45/node_modules/zod/dist/esm/v3/types.js
 var ParseInputLazyPath = class {
   constructor(parent, value, path4, key) {
     this._cachedPath = [];
@@ -68128,7 +68128,7 @@ function untildify(pathWithTilde) {
   return homeDirectory ? pathWithTilde.replace(/^~(?=$|\/|\\)/, homeDirectory) : pathWithTilde;
 }
 
-// node_modules/.pnpm/smol-toml@1.4.0/node_modules/smol-toml/dist/error.js
+// node_modules/.pnpm/smol-toml@1.3.4/node_modules/smol-toml/dist/error.js
 function getLineColFromPtr(string, ptr) {
   let lines = string.slice(0, ptr).split(/\r\n|\n|\r/g);
   return [lines.length, lines.pop().length + 1];
@@ -68168,7 +68168,7 @@ ${codeblock}`, options2);
   }
 };
 
-// node_modules/.pnpm/smol-toml@1.4.0/node_modules/smol-toml/dist/util.js
+// node_modules/.pnpm/smol-toml@1.3.4/node_modules/smol-toml/dist/util.js
 function indexOfNewline(str, start = 0, end = str.length) {
   let idx = str.indexOf("\n", start);
   if (str[idx - 1] === "\r")
@@ -68236,7 +68236,7 @@ function getStringEnd(str, seek) {
   return seek;
 }
 
-// node_modules/.pnpm/smol-toml@1.4.0/node_modules/smol-toml/dist/date.js
+// node_modules/.pnpm/smol-toml@1.3.4/node_modules/smol-toml/dist/date.js
 var DATE_TIME_RE = /^(\d{4}-\d{2}-\d{2})?[T ]?(?:(\d{2}):\d{2}:\d{2}(?:\.\d+)?)?(Z|[-+]\d{2}:\d{2})?$/i;
 var _hasDate, _hasTime, _offset;
 var _TomlDate = class _TomlDate extends Date {
@@ -68333,7 +68333,7 @@ _hasTime = new WeakMap();
 _offset = new WeakMap();
 var TomlDate = _TomlDate;
 
-// node_modules/.pnpm/smol-toml@1.4.0/node_modules/smol-toml/dist/primitive.js
+// node_modules/.pnpm/smol-toml@1.3.4/node_modules/smol-toml/dist/primitive.js
 var INT_REGEX = /^((0x[0-9a-fA-F](_?[0-9a-fA-F])*)|(([+-]|0[ob])?\d(_?\d)*))$/;
 var FLOAT_REGEX = /^[+-]?\d(_?\d)*(\.\d(_?\d)*)?([eE][+-]?\d(_?\d)*)?$/;
 var LEADING_ZERO = /^[+-]?0[0-9_]/;
@@ -68420,7 +68420,7 @@ function parseString(str, ptr = 0, endPtr = str.length) {
   }
   return parsed + str.slice(sliceStart, endPtr - 1);
 }
-function parseValue(value, toml, ptr, integersAsBigInt) {
+function parseValue(value, toml, ptr) {
   if (value === "true")
     return true;
   if (value === "false")
@@ -68432,36 +68432,31 @@ function parseValue(value, toml, ptr, integersAsBigInt) {
   if (value === "nan" || value === "+nan" || value === "-nan")
     return NaN;
   if (value === "-0")
-    return integersAsBigInt ? 0n : 0;
-  let isInt = INT_REGEX.test(value);
-  if (isInt || FLOAT_REGEX.test(value)) {
+    return 0;
+  let isInt;
+  if ((isInt = INT_REGEX.test(value)) || FLOAT_REGEX.test(value)) {
     if (LEADING_ZERO.test(value)) {
       throw new TomlError("leading zeroes are not allowed", {
         toml,
         ptr
       });
     }
-    value = value.replace(/_/g, "");
-    let numeric = +value;
+    let numeric = +value.replace(/_/g, "");
     if (isNaN(numeric)) {
       throw new TomlError("invalid number", {
         toml,
         ptr
       });
     }
-    if (isInt) {
-      if ((isInt = !Number.isSafeInteger(numeric)) && !integersAsBigInt) {
-        throw new TomlError("integer value cannot be represented losslessly", {
-          toml,
-          ptr
-        });
-      }
-      if (isInt || integersAsBigInt)
-        numeric = BigInt(value);
+    if (isInt && !Number.isSafeInteger(numeric)) {
+      throw new TomlError("integer value cannot be represented losslessly", {
+        toml,
+        ptr
+      });
     }
     return numeric;
   }
-  const date = new TomlDate(value);
+  let date = new TomlDate(value);
   if (!date.isValid()) {
     throw new TomlError("invalid value", {
       toml,
@@ -68471,7 +68466,7 @@ function parseValue(value, toml, ptr, integersAsBigInt) {
   return date;
 }
 
-// node_modules/.pnpm/smol-toml@1.4.0/node_modules/smol-toml/dist/extract.js
+// node_modules/.pnpm/smol-toml@1.3.4/node_modules/smol-toml/dist/extract.js
 function sliceAndTrimEndOf(str, startPtr, endPtr, allowNewLines) {
   let value = str.slice(startPtr, endPtr);
   let commentIdx = value.indexOf("#");
@@ -68491,7 +68486,7 @@ function sliceAndTrimEndOf(str, startPtr, endPtr, allowNewLines) {
   }
   return [trimmed, commentIdx];
 }
-function extractValue(str, ptr, end, depth, integersAsBigInt) {
+function extractValue(str, ptr, end, depth = -1) {
   if (depth === 0) {
     throw new TomlError("document contains excessively nested structures. aborting.", {
       toml: str,
@@ -68500,7 +68495,7 @@ function extractValue(str, ptr, end, depth, integersAsBigInt) {
   }
   let c = str[ptr];
   if (c === "[" || c === "{") {
-    let [value, endPtr2] = c === "[" ? parseArray(str, ptr, depth, integersAsBigInt) : parseInlineTable(str, ptr, depth, integersAsBigInt);
+    let [value, endPtr2] = c === "[" ? parseArray(str, ptr, depth) : parseInlineTable(str, ptr, depth);
     let newPtr = end ? skipUntil(str, endPtr2, ",", end) : endPtr2;
     if (endPtr2 - newPtr && end === "}") {
       let nextNewLine = indexOfNewline(str, endPtr2, newPtr);
@@ -68542,12 +68537,12 @@ function extractValue(str, ptr, end, depth, integersAsBigInt) {
     endPtr += +(str[endPtr] === ",");
   }
   return [
-    parseValue(slice[0], str, ptr, integersAsBigInt),
+    parseValue(slice[0], str, ptr),
     endPtr
   ];
 }
 
-// node_modules/.pnpm/smol-toml@1.4.0/node_modules/smol-toml/dist/struct.js
+// node_modules/.pnpm/smol-toml@1.3.4/node_modules/smol-toml/dist/struct.js
 var KEY_PART_RE = /^[a-zA-Z0-9-_]+[ \t]*$/;
 function parseKey(str, ptr, end = "=") {
   let dot = ptr - 1;
@@ -68616,20 +68611,28 @@ function parseKey(str, ptr, end = "=") {
   } while (dot + 1 && dot < endPtr);
   return [parsed, skipVoid(str, endPtr + 1, true, true)];
 }
-function parseInlineTable(str, ptr, depth, integersAsBigInt) {
+function parseInlineTable(str, ptr, depth = -1) {
   let res = {};
   let seen = /* @__PURE__ */ new Set();
   let c;
   let comma = 0;
   ptr++;
   while ((c = str[ptr++]) !== "}" && c) {
-    let err = { toml: str, ptr: ptr - 1 };
     if (c === "\n") {
-      throw new TomlError("newlines are not allowed in inline tables", err);
+      throw new TomlError("newlines are not allowed in inline tables", {
+        toml: str,
+        ptr: ptr - 1
+      });
     } else if (c === "#") {
-      throw new TomlError("inline tables cannot contain comments", err);
+      throw new TomlError("inline tables cannot contain comments", {
+        toml: str,
+        ptr: ptr - 1
+      });
     } else if (c === ",") {
-      throw new TomlError("expected key-value, found comma", err);
+      throw new TomlError("expected key-value, found comma", {
+        toml: str,
+        ptr: ptr - 1
+      });
     } else if (c !== " " && c !== "	") {
       let k;
       let t = res;
@@ -68655,7 +68658,7 @@ function parseInlineTable(str, ptr, depth, integersAsBigInt) {
           ptr
         });
       }
-      let [value, valueEndPtr] = extractValue(str, keyEndPtr, "}", depth - 1, integersAsBigInt);
+      let [value, valueEndPtr] = extractValue(str, keyEndPtr, "}", depth - 1);
       seen.add(value);
       t[k] = value;
       ptr = valueEndPtr;
@@ -68676,7 +68679,7 @@ function parseInlineTable(str, ptr, depth, integersAsBigInt) {
   }
   return [res, ptr];
 }
-function parseArray(str, ptr, depth, integersAsBigInt) {
+function parseArray(str, ptr, depth = -1) {
   let res = [];
   let c;
   ptr++;
@@ -68689,7 +68692,7 @@ function parseArray(str, ptr, depth, integersAsBigInt) {
     } else if (c === "#")
       ptr = skipComment(str, ptr);
     else if (c !== " " && c !== "	" && c !== "\n" && c !== "\r") {
-      let e = extractValue(str, ptr - 1, "]", depth - 1, integersAsBigInt);
+      let e = extractValue(str, ptr - 1, "]", depth - 1);
       res.push(e[0]);
       ptr = e[1];
     }
@@ -68703,7 +68706,7 @@ function parseArray(str, ptr, depth, integersAsBigInt) {
   return [res, ptr];
 }
 
-// node_modules/.pnpm/smol-toml@1.4.0/node_modules/smol-toml/dist/parse.js
+// node_modules/.pnpm/smol-toml@1.3.4/node_modules/smol-toml/dist/parse.js
 function peekTable(key, table, meta, type2) {
   let t = table;
   let m = meta;
@@ -68763,7 +68766,8 @@ function peekTable(key, table, meta, type2) {
   }
   return [k, t, state3.c];
 }
-function parse(toml, { maxDepth = 1e3, integersAsBigInt } = {}) {
+function parse(toml, opts) {
+  let maxDepth = opts?.maxDepth ?? 1e3;
   let res = {};
   let meta = {};
   let tbl = res;
@@ -68812,7 +68816,7 @@ function parse(toml, { maxDepth = 1e3, integersAsBigInt } = {}) {
           ptr
         });
       }
-      let v = extractValue(toml, k[1], void 0, maxDepth, integersAsBigInt);
+      let v = extractValue(toml, k[1], void 0, maxDepth);
       p[1][p[0]] = v[0];
       ptr = v[1];
     }
@@ -68867,6 +68871,9 @@ var parseOrUndefinedList = (key, schema) => {
 var validateInputs = (inputs) => {
   if (inputs.pixiVersion && inputs.pixiUrl) {
     throw new Error("You need to specify either pixi-version or pixi-url");
+  }
+  if (inputs.pixiUrlBearerToken && !inputs.pixiUrl) {
+    throw new Error("You need to specify pixi-url when using pixi-url-bearer-token");
   }
   if (inputs.cacheKey !== void 0 && inputs.cache === false) {
     throw new Error("Cannot specify cache key without caching");
@@ -68946,7 +68953,7 @@ var determinePixiInstallation = (pixiUrlOrVersionSet, pixiBinPath) => {
 };
 var inferOptions = (inputs) => {
   const runInstall = inputs.runInstall ?? true;
-  const pixiSource = inputs.pixiVersion ? { version: inputs.pixiVersion } : inputs.pixiUrl ? { url: inputs.pixiUrl } : { version: "latest" };
+  const pixiSource = inputs.pixiVersion ? { version: inputs.pixiVersion } : inputs.pixiUrl ? { url: inputs.pixiUrl, bearerToken: inputs.pixiUrlBearerToken } : { version: "latest" };
   const { downloadPixi: downloadPixi2, pixiBinPath } = determinePixiInstallation(
     !!inputs.pixiVersion || !!inputs.pixiUrl,
     inputs.pixiBinPath
@@ -69037,6 +69044,7 @@ var getOptions = () => {
       "pixi-version must either be `latest` or a version string matching `vX.Y.Z`."
     ),
     pixiUrl: parseOrUndefined("pixi-url", stringType().url()),
+    pixiUrlBearerToken: parseOrUndefined("pixi-url-bearer-token", stringType()),
     logLevel: parseOrUndefined(
       "log-level",
       logLevelSchema,
@@ -69302,10 +69310,12 @@ var activateEnvironment = async (environment) => {
 // src/main.ts
 var downloadPixi = (source) => {
   const url2 = "version" in source ? getPixiUrlFromVersion(source.version) : source.url;
+  const auth = "bearerToken" in source && source.bearerToken ? `Bearer ${source.bearerToken}` : "";
   return core5.group("Downloading Pixi", () => {
     core5.debug("Installing pixi");
     core5.debug(`Downloading pixi from ${url2}`);
-    return import_promises2.default.mkdir(import_path3.default.dirname(options.pixiBinPath), { recursive: true }).then(() => (0, import_tool_cache.downloadTool)(url2, options.pixiBinPath)).then((_downloadPath) => import_promises2.default.chmod(options.pixiBinPath, 493)).then(() => {
+    core5.debug(`Using Bearer auth: ${auth ? "yes" : "no"}`);
+    return import_promises2.default.mkdir(import_path3.default.dirname(options.pixiBinPath), { recursive: true }).then(() => (0, import_tool_cache.downloadTool)(url2, options.pixiBinPath, auth)).then((_downloadPath) => import_promises2.default.chmod(options.pixiBinPath, 493)).then(() => {
       core5.info(`Pixi installed to ${options.pixiBinPath}`);
     });
   });

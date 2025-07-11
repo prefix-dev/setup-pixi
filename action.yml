@@ -10,6 +10,8 @@ inputs:
     description: Version of pixi to install
   pixi-url:
     description: URL of pixi to install
+  pixi-url-bearer-token:
+    description: Bearer token to use for authentication when downloading pixi from a URL.
   log-level:
     description: |
       Log level for the pixi CLI.
