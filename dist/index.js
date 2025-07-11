@@ -68868,6 +68868,9 @@ var validateInputs = (inputs) => {
   if (inputs.pixiVersion && inputs.pixiUrl) {
     throw new Error("You need to specify either pixi-version or pixi-url");
   }
+  if (inputs.pixiUrlBearerToken && !inputs.pixiUrl) {
+    throw new Error("You need to specify pixi-url when using pixi-url-bearer-token");
+  }
   if (inputs.cacheKey !== void 0 && inputs.cache === false) {
     throw new Error("Cannot specify cache key without caching");
   }
@@ -68946,7 +68949,7 @@ var determinePixiInstallation = (pixiUrlOrVersionSet, pixiBinPath) => {
 };
 var inferOptions = (inputs) => {
   const runInstall = inputs.runInstall ?? true;
-  const pixiSource = inputs.pixiVersion ? { version: inputs.pixiVersion } : inputs.pixiUrl ? { url: inputs.pixiUrl } : { version: "latest" };
+  const pixiSource = inputs.pixiVersion ? { version: inputs.pixiVersion } : inputs.pixiUrl ? { url: inputs.pixiUrl, bearerToken: inputs.pixiUrlBearerToken } : { version: "latest" };
   const { downloadPixi: downloadPixi2, pixiBinPath } = determinePixiInstallation(
     !!inputs.pixiVersion || !!inputs.pixiUrl,
     inputs.pixiBinPath
@@ -69037,6 +69040,7 @@ var getOptions = () => {
       "pixi-version must either be `latest` or a version string matching `vX.Y.Z`."
     ),
     pixiUrl: parseOrUndefined("pixi-url", stringType().url()),
+    pixiUrlBearerToken: parseOrUndefined("pixi-url-bearer-token", stringType()),
     logLevel: parseOrUndefined(
       "log-level",
       logLevelSchema,
@@ -69302,10 +69306,12 @@ var activateEnvironment = async (environment) => {
 // src/main.ts
 var downloadPixi = (source) => {
   const url2 = "version" in source ? getPixiUrlFromVersion(source.version) : source.url;
+  const auth = "bearerToken" in source && source.bearerToken ? `Bearer ${source.bearerToken}` : "";
   return core5.group("Downloading Pixi", () => {
     core5.debug("Installing pixi");
     core5.debug(`Downloading pixi from ${url2}`);
-    return import_promises2.default.mkdir(import_path3.default.dirname(options.pixiBinPath), { recursive: true }).then(() => (0, import_tool_cache.downloadTool)(url2, options.pixiBinPath)).then((_downloadPath) => import_promises2.default.chmod(options.pixiBinPath, 493)).then(() => {
+    core5.debug(`Using Bearer auth: ${auth ? "yes" : "no"}`);
+    return import_promises2.default.mkdir(import_path3.default.dirname(options.pixiBinPath), { recursive: true }).then(() => (0, import_tool_cache.downloadTool)(url2, options.pixiBinPath, auth)).then((_downloadPath) => import_promises2.default.chmod(options.pixiBinPath, 493)).then(() => {
       core5.info(`Pixi installed to ${options.pixiBinPath}`);
     });
   });

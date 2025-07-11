@@ -1,0 +1,7 @@
+:8080 {
+    @unauthorized not header Authorization "Bearer s3cr3tT0k3nABC123"
+    respond @unauthorized "Unauthorized: Invalid token" 401
+
+    root * ./assets
+    file_server
+}
