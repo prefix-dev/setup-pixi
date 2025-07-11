@@ -210,7 +210,8 @@ jobs:
 
           ./caddy run --config Caddyfile &
       - run: ps -aux | grep caddy
-      - uses: ./
+      - name: Run with wrong token
+        uses: ./
         id: wrongtoken
         with:
           cache: false
@@ -222,7 +223,8 @@ jobs:
           echo "Unexpected success!"
           exit 1
         if: ${{ steps.wrongtoken.outcome != 'failure' }}
-      - uses: ./
+      - name: Run with correct token
+        uses: ./
         with:
           cache: false
           pixi-url: http://localhost:8080/pixi
