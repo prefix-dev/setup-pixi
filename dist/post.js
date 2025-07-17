@@ -24969,13 +24969,17 @@ var options = _options;
 
 // src/post.ts
 var removeEmptyParentDirs = (dirPath) => {
-  return import_promises.default.readdir(dirPath).then((files) => {
-    if (files.length === 0) {
-      core2.debug(`Removing empty directory ${dirPath}.`);
-      return import_promises.default.rm(dirPath, { recursive: true, force: true }).then(() => {
-        const parentDir = import_path2.default.dirname(dirPath);
-        if (parentDir !== dirPath) {
-          return removeEmptyParentDirs(parentDir);
+  return import_promises.default.lstat(dirPath).then((stats) => {
+    if (stats.isDirectory()) {
+      return import_promises.default.readdir(dirPath).then((files) => {
+        if (files.length === 0) {
+          core2.debug(`Removing empty directory ${dirPath}.`);
+          return import_promises.default.rm(dirPath, { recursive: true, force: true }).then(() => {
+            const parentDir = import_path2.default.dirname(dirPath);
+            if (parentDir !== dirPath) {
+              return removeEmptyParentDirs(parentDir);
+            }
+          });
         }
       });
     }
