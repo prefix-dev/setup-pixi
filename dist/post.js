@@ -24989,7 +24989,11 @@ var cleanupPixiBin = () => {
   const pixiBinPath = options.pixiBinPath;
   const pixiBinDir = import_path2.default.dirname(pixiBinPath);
   core2.debug(`Cleaning up pixi binary ${pixiBinPath}.`);
-  return import_promises.default.unlink(pixiBinPath).then(() => removeEmptyParentDirs(pixiBinDir));
+  if ((0, import_fs2.existsSync)(pixiBinPath)) {
+    return import_promises.default.rm(pixiBinPath).then(() => removeEmptyParentDirs(pixiBinDir));
+  } else {
+    return removeEmptyParentDirs(pixiBinDir);
+  }
 };
 var cleanupEnv = () => {
   if (!options.runInstall) {
