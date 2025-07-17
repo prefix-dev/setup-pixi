@@ -24989,12 +24989,7 @@ var cleanupPixiBin = () => {
   const pixiBinPath = options.pixiBinPath;
   const pixiBinDir = import_path2.default.dirname(pixiBinPath);
   core2.debug(`Cleaning up pixi binary ${pixiBinPath}.`);
-  return import_promises.default.rm(pixiBinPath, {
-    // Ignore exceptions if pixi binary does not exist anymore,
-    // to avoid errors if setup-pixi is used multiple times within the same workflow.
-    // This could, for instance, be the case for composite actions using setup-pixi.
-    force: true
-  }).then(() => removeEmptyParentDirs(pixiBinDir));
+  return import_promises.default.unlink(pixiBinPath).then(() => removeEmptyParentDirs(pixiBinDir));
 };
 var cleanupEnv = () => {
   if (!options.runInstall) {

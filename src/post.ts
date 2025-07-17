@@ -28,12 +28,7 @@ const cleanupPixiBin = () => {
   const pixiBinDir = path.dirname(pixiBinPath)
   core.debug(`Cleaning up pixi binary ${pixiBinPath}.`)
   return fs
-    .rm(pixiBinPath, {
-      // Ignore exceptions if pixi binary does not exist anymore,
-      // to avoid errors if setup-pixi is used multiple times within the same workflow.
-      // This could, for instance, be the case for composite actions using setup-pixi.
-      force: true
-    })
+    .unlink(pixiBinPath)
     .then(() => removeEmptyParentDirs(pixiBinDir))
 }
 
