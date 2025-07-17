@@ -28,9 +28,7 @@ const cleanupPixiBin = () => {
   const pixiBinDir = path.dirname(pixiBinPath)
   core.debug(`Cleaning up pixi binary ${pixiBinPath}.`)
   if (existsSync(pixiBinPath)) {
-    return fs
-      .rm(pixiBinPath)
-      .then(() => removeEmptyParentDirs(pixiBinDir))
+    return fs.rm(pixiBinPath).then(() => removeEmptyParentDirs(pixiBinDir))
   } else {
     return removeEmptyParentDirs(pixiBinDir)
   }
