@@ -1,4 +1,5 @@
 import fs from 'fs/promises'
+import { existsSync } from 'fs'
 import path from 'path'
 import os from 'os'
 import { exit } from 'process'
@@ -6,22 +7,20 @@ import * as core from '@actions/core'
 import { options } from './options'
 
 const removeEmptyParentDirs = (dirPath: string): Promise<void> => {
-  return fs.lstat(dirPath).then((stats) => {
-    if (stats.isDirectory()) {
-      return fs.readdir(dirPath).then((files) => {
-        if (files.length === 0) {
-          core.debug(`Removing empty directory ${dirPath}.`)
-          return fs.rm(dirPath, { recursive: true, force: true }).then(() => {
-            const parentDir = path.dirname(dirPath)
-            if (parentDir !== dirPath) {
-              return removeEmptyParentDirs(parentDir)
-            }
-          })
-        }
-      })
-    }
-    return Promise.resolve()
-  })
+  if (existsSync(dirPath)) {
+    return fs.readdir(dirPath).then((files) => {
+      if (files.length === 0) {
+        core.debug(`Removing empty directory ${dirPath}.`)
+        return fs.rm(dirPath, { recursive: true, force: true }).then(() => {
+          const parentDir = path.dirname(dirPath)
+          if (parentDir !== dirPath) {
+            return removeEmptyParentDirs(parentDir)
+          }
+        })
+      }
+    })
+  }
+  return Promise.resolve()
 }
 
 const cleanupPixiBin = () => {
