@@ -1,4 +1,5 @@
 import fs from 'fs/promises'
+import { existsSync } from 'fs'
 import path from 'path'
 import os from 'os'
 import { exit } from 'process'
@@ -6,32 +7,31 @@ import * as core from '@actions/core'
 import { options } from './options'
 
 const removeEmptyParentDirs = (dirPath: string): Promise<void> => {
-  return fs.readdir(dirPath).then((files) => {
-    if (files.length === 0) {
-      core.debug(`Removing empty directory ${dirPath}.`)
-      return fs.rm(dirPath, { recursive: true, force: true }).then(() => {
-        const parentDir = path.dirname(dirPath)
-        if (parentDir !== dirPath) {
-          return removeEmptyParentDirs(parentDir)
-        }
-      })
-    }
-    return Promise.resolve()
-  })
+  if (existsSync(dirPath)) {
+    return fs.readdir(dirPath).then((files) => {
+      if (files.length === 0) {
+        core.debug(`Removing empty directory ${dirPath}.`)
+        return fs.rm(dirPath, { recursive: true, force: true }).then(() => {
+          const parentDir = path.dirname(dirPath)
+          if (parentDir !== dirPath) {
+            return removeEmptyParentDirs(parentDir)
+          }
+        })
+      }
+    })
+  }
+  return Promise.resolve()
 }
 
 const cleanupPixiBin = () => {
   const pixiBinPath = options.pixiBinPath
   const pixiBinDir = path.dirname(pixiBinPath)
   core.debug(`Cleaning up pixi binary ${pixiBinPath}.`)
-  return fs
-    .rm(pixiBinPath, {
-      // Ignore exceptions if pixi binary does not exist anymore,
-      // to avoid errors if setup-pixi is used multiple times within the same workflow.
-      // This could, for instance, be the case for composite actions using setup-pixi.
-      force: true
-    })
-    .then(() => removeEmptyParentDirs(pixiBinDir))
+  if (existsSync(pixiBinPath)) {
+    return fs.rm(pixiBinPath).then(() => removeEmptyParentDirs(pixiBinDir))
+  } else {
+    return removeEmptyParentDirs(pixiBinDir)
+  }
 }
 
 const cleanupEnv = () => {

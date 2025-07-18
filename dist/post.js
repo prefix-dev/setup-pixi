@@ -20110,6 +20110,7 @@ var require_lib2 = __commonJS({
 
 // src/post.ts
 var import_promises = __toESM(require("fs/promises"));
+var import_fs2 = require("fs");
 var import_path2 = __toESM(require("path"));
 var import_os2 = __toESM(require("os"));
 var import_process2 = require("process");
@@ -24969,29 +24970,30 @@ var options = _options;
 
 // src/post.ts
 var removeEmptyParentDirs = (dirPath) => {
-  return import_promises.default.readdir(dirPath).then((files) => {
-    if (files.length === 0) {
-      core2.debug(`Removing empty directory ${dirPath}.`);
-      return import_promises.default.rm(dirPath, { recursive: true, force: true }).then(() => {
-        const parentDir = import_path2.default.dirname(dirPath);
-        if (parentDir !== dirPath) {
-          return removeEmptyParentDirs(parentDir);
-        }
-      });
-    }
-    return Promise.resolve();
-  });
+  if ((0, import_fs2.existsSync)(dirPath)) {
+    return import_promises.default.readdir(dirPath).then((files) => {
+      if (files.length === 0) {
+        core2.debug(`Removing empty directory ${dirPath}.`);
+        return import_promises.default.rm(dirPath, { recursive: true, force: true }).then(() => {
+          const parentDir = import_path2.default.dirname(dirPath);
+          if (parentDir !== dirPath) {
+            return removeEmptyParentDirs(parentDir);
+          }
+        });
+      }
+    });
+  }
+  return Promise.resolve();
 };
 var cleanupPixiBin = () => {
   const pixiBinPath = options.pixiBinPath;
   const pixiBinDir = import_path2.default.dirname(pixiBinPath);
   core2.debug(`Cleaning up pixi binary ${pixiBinPath}.`);
-  return import_promises.default.rm(pixiBinPath, {
-    // Ignore exceptions if pixi binary does not exist anymore,
-    // to avoid errors if setup-pixi is used multiple times within the same workflow.
-    // This could, for instance, be the case for composite actions using setup-pixi.
-    force: true
-  }).then(() => removeEmptyParentDirs(pixiBinDir));
+  if ((0, import_fs2.existsSync)(pixiBinPath)) {
+    return import_promises.default.rm(pixiBinPath).then(() => removeEmptyParentDirs(pixiBinDir));
+  } else {
+    return removeEmptyParentDirs(pixiBinDir);
+  }
 };
 var cleanupEnv = () => {
   if (!options.runInstall) {

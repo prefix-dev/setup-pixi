@@ -925,6 +925,24 @@ jobs:
       - run: which python | grep '.pixi/envs/py311/bin/python'
       - run: '[[ $PIXI_ENVIRONMENT_NAME = "py311" ]]'
 
+  multiple-invokations:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Move pixi.toml
+        run: mv test/multiple-environments/* .
+      - uses: ./
+        with:
+          run-install: false
+      - uses: ./
+        with:
+          environments: >-
+            py311 py312
+          activate-environment: py311
+
   # not properly testable
   # https://github.com/actions/runner/issues/2347
   # https://github.com/orgs/community/discussions/15452
