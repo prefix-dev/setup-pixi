@@ -9,7 +9,7 @@ inputs:
   pixi-version:
     description: Version of pixi to install
   pixi-url:
-    description: URL of pixi to install
+    description: URL of pixi to install. Can be a Handlebars template receiving `version`, `latest`, and `pixiFile` as variables.
   pixi-url-bearer-token:
     description: Bearer token to use for authentication when downloading pixi from a URL.
   log-level:
