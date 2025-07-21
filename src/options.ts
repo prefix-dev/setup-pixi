@@ -223,7 +223,7 @@ const inferOptions = (inputs: Inputs): Options => {
   const pixiSource: PixiSource = {
     urlTemplate: inputs.pixiUrl ?? DEFAULT_PIXI_URL_TEMPLATE,
     bearerToken: inputs.pixiUrlBearerToken,
-    version: inputs.pixiVersion ?? "latest",
+    version: inputs.pixiVersion ?? 'latest'
   }
 
   const { downloadPixi, pixiBinPath } = determinePixiInstallation(

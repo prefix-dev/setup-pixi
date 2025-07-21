@@ -58,7 +58,7 @@ const getArch = () => {
 }
 
 export const renderPixiUrl = (urlTemplate: string, version: string) => {
-  const latest = (version == 'latest')
+  const latest = version == 'latest'
   const arch = getArch()
   const platform = getPlatform()
   const pixiFile = `pixi-${arch}-${platform}${platform === 'pc-windows-msvc' ? '.exe' : ''}`
@@ -66,7 +66,7 @@ export const renderPixiUrl = (urlTemplate: string, version: string) => {
   return template({
     version,
     latest,
-    pixiFile,
+    pixiFile
   })
 }
 

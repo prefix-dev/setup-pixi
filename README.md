@@ -405,7 +405,6 @@ Optionally, you can combine this with the `pixi-url-bearer-token` input argument
     pixi-url-bearer-token: ${{ secrets.PIXI_MIRROR_BEARER_TOKEN }}
 ```
 
-
 The `pixi-url` input argument can also be a [Handlebars](https://handlebarsjs.com/) template string.
 It will be rendered with the following variables:
 
