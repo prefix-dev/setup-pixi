@@ -74685,11 +74685,11 @@ var import_os = __toESM(require("os"));
 var core = __toESM(require_core());
 var import_exec = __toESM(require_exec());
 var import_handlebars = __toESM(require_lib3());
-var DEFAULT_PIXI_URL_TEMPLATE = `{{#if latest}}
+var DEFAULT_PIXI_URL_TEMPLATE = `{{#if latest~}}
 https://github.com/prefix-dev/pixi/releases/latest/download/{{pixiFile}}
-{{else}}
+{{~else~}}
 https://github.com/prefix-dev/pixi/releases/download/{{version}}/{{pixiFile}}
-{{/if}}`;
+{{~/if}}`;
 var getCondaArch = () => {
   const archDict = {
     "darwin-x64": "osx-64",
