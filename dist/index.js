@@ -64241,10 +64241,10 @@ var import_tool_cache = __toESM(require_tool_cache());
 
 // src/options.ts
 var import_path = __toESM(require("path"));
-var import_os = __toESM(require("os"));
+var import_os2 = __toESM(require("os"));
 var import_process = require("process");
 var import_fs = require("fs");
-var core = __toESM(require_core());
+var core2 = __toESM(require_core());
 
 // node_modules/.pnpm/zod@3.25.67/node_modules/zod/dist/esm/v3/helpers/util.js
 var util;
@@ -68830,14 +68830,115 @@ function parse(toml, { maxDepth = 1e3, integersAsBigInt } = {}) {
 
 // src/options.ts
 var import_which = __toESM(require_lib2());
+
+// src/util.ts
+var import_crypto = require("crypto");
+var import_os = __toESM(require("os"));
+var core = __toESM(require_core());
+var import_exec = __toESM(require_exec());
+var import_handlebars = __toESM(require("handlebars"));
+var DEFAULT_PIXI_URL_TEMPLATE = `{{#if latest}}
+https://github.com/prefix-dev/pixi/releases/latest/download/{{pixiFile}}
+{{else}}
+https://github.com/prefix-dev/pixi/releases/download/{{version}}/{{pixiFile}}
+{{/if}}`;
+var getCondaArch = () => {
+  const archDict = {
+    "darwin-x64": "osx-64",
+    "darwin-arm64": "osx-arm64",
+    "linux-x64": "linux-64",
+    "linux-arm64": "linux-aarch64",
+    "linux-ppc64": "linux-ppc64le",
+    "win32-x64": "win-64",
+    "win32-arm64": "win-arm64"
+  };
+  const arch2 = archDict[`${import_os.default.platform()}-${import_os.default.arch()}`];
+  if (!arch2) {
+    throw new Error(`Unsupported platform: ${import_os.default.platform()}-${import_os.default.arch()}`);
+  }
+  return arch2;
+};
+var getPlatform = () => {
+  const platform = import_os.default.platform();
+  switch (platform) {
+    case "darwin":
+      return "apple-darwin";
+    case "linux":
+      return "unknown-linux-musl";
+    case "win32":
+      return "pc-windows-msvc";
+    default:
+      throw new Error(`Unsupported architecture: ${platform}`);
+  }
+};
+var getArch = () => {
+  const arch2 = import_os.default.arch();
+  switch (arch2) {
+    case "x64":
+      return "x86_64";
+    case "arm64":
+      return "aarch64";
+    default:
+      throw new Error(`Unsupported architecture: ${arch2}`);
+  }
+};
+var renderPixiUrl = (urlTemplate, version2) => {
+  const latest = version2 == "latest";
+  const arch2 = getArch();
+  const platform = getPlatform();
+  const pixiFile = `pixi-${arch2}-${platform}${platform === "pc-windows-msvc" ? ".exe" : ""}`;
+  const template = import_handlebars.default.compile(urlTemplate);
+  return template({
+    version: version2,
+    latest,
+    pixiFile
+  });
+};
+var sha256 = (s) => {
+  return (0, import_crypto.createHash)("sha256").update(s).digest("hex");
+};
+var execute = (cmd) => {
+  core.debug(`Executing: \`${cmd.toString()}\``);
+  return (0, import_exec.exec)(`"${cmd[0]}"`, cmd.slice(1));
+};
+var executeGetOutput = (cmd, options2) => {
+  core.debug(`Executing: \`${cmd.toString()}\``);
+  return (0, import_exec.getExecOutput)(`"${cmd[0]}"`, cmd.slice(1), options2);
+};
+var pixiCmd = (command, withManifestPath = true) => {
+  let commandArray = [options.pixiBinPath].concat(command.split(" ").filter((x) => x !== ""));
+  if (withManifestPath) {
+    commandArray = commandArray.concat(["--manifest-path", options.manifestPath]);
+  }
+  commandArray = commandArray.concat(["--color", "always"]);
+  switch (options.logLevel) {
+    case "vvv":
+      commandArray = commandArray.concat(["-vvv"]);
+      break;
+    case "vv":
+      commandArray = commandArray.concat(["-vv"]);
+      break;
+    case "v":
+      commandArray = commandArray.concat(["-v"]);
+      break;
+    case "default":
+      break;
+    case "q":
+      commandArray = commandArray.concat(["-q"]);
+      break;
+  }
+  return commandArray;
+};
+
+// src/options.ts
 var pixiPath = "pixi.toml";
 var pyprojectPath = "pyproject.toml";
 var logLevelSchema = enumType(["q", "default", "v", "vv", "vvv"]);
 var PATHS = {
-  pixiBin: import_path.default.join(import_os.default.homedir(), ".pixi", "bin", `pixi${import_os.default.platform() === "win32" ? ".exe" : ""}`)
+  pixiBin: import_path.default.join(import_os2.default.homedir(), ".pixi", "bin", `pixi${import_os2.default.platform() === "win32" ? ".exe" : ""}`)
 };
 var parseOrUndefined = (key, schema, errorMessage) => {
-  const input = core.getInput(key);
+  const input = core2.getInput(key);
   if (input === "") {
     return void 0;
   }
@@ -68851,23 +68952,20 @@ var parseOrUndefined = (key, schema, errorMessage) => {
   return maybeResult.data;
 };
 var parseOrUndefinedJSON = (key, schema) => {
-  const input = core.getInput(key);
+  const input = core2.getInput(key);
   if (input === "") {
     return void 0;
   }
   return schema.parse(JSON.parse(input));
 };
 var parseOrUndefinedList = (key, schema) => {
-  const input = core.getInput(key);
+  const input = core2.getInput(key);
   if (input === "") {
     return void 0;
   }
   return input.split(" ").map((s) => schema.parse(s)).filter((s) => s !== "");
 };
 var validateInputs = (inputs) => {
-  if (inputs.pixiVersion && inputs.pixiUrl) {
-    throw new Error("You need to specify either pixi-version or pixi-url");
-  }
   if (inputs.pixiUrlBearerToken && !inputs.pixiUrl) {
     throw new Error("You need to specify pixi-url when using pixi-url-bearer-token");
   }
@@ -68934,7 +69032,7 @@ var determinePixiInstallation = (pixiUrlOrVersionSet, pixiBinPath) => {
   const preinstalledPixi = import_which.default.sync("pixi", { nothrow: true });
   if (pixiUrlOrVersionSet || pixiBinPath) {
     if (preinstalledPixi) {
-      core.debug(`Local pixi found at ${preinstalledPixi} is being ignored.`);
+      core2.debug(`Local pixi found at ${preinstalledPixi} is being ignored.`);
     }
     return {
       downloadPixi: true,
@@ -68942,19 +69040,23 @@ var determinePixiInstallation = (pixiUrlOrVersionSet, pixiBinPath) => {
     };
   }
   if (preinstalledPixi) {
-    core.info(`Using pre-installed pixi at ${preinstalledPixi}`);
+    core2.info(`Using pre-installed pixi at ${preinstalledPixi}`);
     return { downloadPixi: false, pixiBinPath: preinstalledPixi };
   }
   return { downloadPixi: true, pixiBinPath: PATHS.pixiBin };
 };
 var inferOptions = (inputs) => {
   const runInstall = inputs.runInstall ?? true;
-  const pixiSource = inputs.pixiVersion ? { version: inputs.pixiVersion } : inputs.pixiUrl ? { url: inputs.pixiUrl, bearerToken: inputs.pixiUrlBearerToken } : { version: "latest" };
+  const pixiSource = {
+    urlTemplate: inputs.pixiUrl ?? DEFAULT_PIXI_URL_TEMPLATE,
+    bearerToken: inputs.pixiUrlBearerToken,
+    version: inputs.pixiVersion ?? "latest"
+  };
   const { downloadPixi: downloadPixi2, pixiBinPath } = determinePixiInstallation(
     !!inputs.pixiVersion || !!inputs.pixiUrl,
     inputs.pixiBinPath
   );
-  const logLevel = inputs.logLevel ?? (core.isDebug() ? "vv" : "default");
+  const logLevel = inputs.logLevel ?? (core2.isDebug() ? "vv" : "default");
   let manifestPath = pixiPath;
   if (inputs.manifestPath) {
     manifestPath = import_path.default.resolve(untildify(inputs.manifestPath));
@@ -68966,20 +69068,20 @@ var inferOptions = (inputs) => {
         const fileContent = (0, import_fs.readFileSync)(pyprojectPath, "utf-8");
         const parsedContent = parse(fileContent);
         if (parsedContent.tool && typeof parsedContent.tool === "object" && "pixi" in parsedContent.tool) {
-          core.debug(`The tool.pixi table found, using ${pyprojectPath} as manifest file.`);
+          core2.debug(`The tool.pixi table found, using ${pyprojectPath} as manifest file.`);
           manifestPath = pyprojectPath;
         }
       } catch (error3) {
-        core.error(`Error while trying to read ${pyprojectPath} file.`);
-        core.error(error3);
+        core2.error(`Error while trying to read ${pyprojectPath} file.`);
+        core2.error(error3);
       }
     } else if (runInstall) {
-      core.warning(`Could not find any manifest file. Defaulting to ${pixiPath}.`);
+      core2.warning(`Could not find any manifest file. Defaulting to ${pixiPath}.`);
     }
   }
   const pixiLockFile = import_path.default.join(import_path.default.dirname(manifestPath), "pixi.lock");
   const lockFileAvailable = (0, import_fs.existsSync)(pixiLockFile);
-  core.debug(`lockFileAvailable: ${lockFileAvailable ? "yes" : "no"}`);
+  core2.debug(`lockFileAvailable: ${lockFileAvailable ? "yes" : "no"}`);
   if (!lockFileAvailable && inputs.cacheWrite === true) {
     throw new Error("You cannot specify cache-write = true without a lock file present");
   }
@@ -69066,10 +69168,10 @@ var getOptions = () => {
     authS3SessionToken: parseOrUndefined("auth-s3-session-token", stringType()),
     postCleanup: parseOrUndefinedJSON("post-cleanup", booleanType())
   };
-  core.debug(`Inputs: ${JSON.stringify(inputs)}`);
+  core2.debug(`Inputs: ${JSON.stringify(inputs)}`);
   validateInputs(inputs);
   const options2 = inferOptions(inputs);
-  core.debug(`Inferred options: ${JSON.stringify(options2)}`);
+  core2.debug(`Inferred options: ${JSON.stringify(options2)}`);
   assertOptions(options2);
   return options2;
 };
@@ -69077,109 +69179,19 @@ var _options;
 try {
   _options = getOptions();
 } catch (error3) {
-  if (core.isDebug()) {
+  if (core2.isDebug()) {
     throw error3;
   }
   if (error3 instanceof Error) {
-    core.setFailed(error3.message);
+    core2.setFailed(error3.message);
     (0, import_process.exit)(1);
   } else if (typeof error3 === "string") {
-    core.setFailed(error3);
+    core2.setFailed(error3);
     (0, import_process.exit)(1);
   }
   throw error3;
 }
 var options = _options;
-
-// src/util.ts
-var import_crypto = require("crypto");
-var import_os2 = __toESM(require("os"));
-var core2 = __toESM(require_core());
-var import_exec = __toESM(require_exec());
-var getCondaArch = () => {
-  const archDict = {
-    "darwin-x64": "osx-64",
-    "darwin-arm64": "osx-arm64",
-    "linux-x64": "linux-64",
-    "linux-arm64": "linux-aarch64",
-    "linux-ppc64": "linux-ppc64le",
-    "win32-x64": "win-64",
-    "win32-arm64": "win-arm64"
-  };
-  const arch2 = archDict[`${import_os2.default.platform()}-${import_os2.default.arch()}`];
-  if (!arch2) {
-    throw new Error(`Unsupported platform: ${import_os2.default.platform()}-${import_os2.default.arch()}`);
-  }
-  return arch2;
-};
-var getPlatform = () => {
-  const platform = import_os2.default.platform();
-  switch (platform) {
-    case "darwin":
-      return "apple-darwin";
-    case "linux":
-      return "unknown-linux-musl";
-    case "win32":
-      return "pc-windows-msvc";
-    default:
-      throw new Error(`Unsupported architecture: ${platform}`);
-  }
-};
-var getArch = () => {
-  const arch2 = import_os2.default.arch();
-  switch (arch2) {
-    case "x64":
-      return "x86_64";
-    case "arm64":
-      return "aarch64";
-    default:
-      throw new Error(`Unsupported architecture: ${arch2}`);
-  }
-};
-var getPixiUrlFromVersion = (version2) => {
-  const arch2 = getArch();
-  const platform = getPlatform();
-  const pixiFile = `pixi-${arch2}-${platform}${platform === "pc-windows-msvc" ? ".exe" : ""}`;
-  if (version2 === "latest") {
-    return `https://github.com/prefix-dev/pixi/releases/latest/download/${pixiFile}`;
-  }
-  return `https://github.com/prefix-dev/pixi/releases/download/${version2}/${pixiFile}`;
-};
-var sha256 = (s) => {
-  return (0, import_crypto.createHash)("sha256").update(s).digest("hex");
-};
-var execute = (cmd) => {
-  core2.debug(`Executing: \`${cmd.toString()}\``);
-  return (0, import_exec.exec)(`"${cmd[0]}"`, cmd.slice(1));
-};
-var executeGetOutput = (cmd, options2) => {
-  core2.debug(`Executing: \`${cmd.toString()}\``);
-  return (0, import_exec.getExecOutput)(`"${cmd[0]}"`, cmd.slice(1), options2);
-};
-var pixiCmd = (command, withManifestPath = true) => {
-  let commandArray = [options.pixiBinPath].concat(command.split(" ").filter((x) => x !== ""));
-  if (withManifestPath) {
-    commandArray = commandArray.concat(["--manifest-path", options.manifestPath]);
-  }
-  commandArray = commandArray.concat(["--color", "always"]);
-  switch (options.logLevel) {
-    case "vvv":
-      commandArray = commandArray.concat(["-vvv"]);
-      break;
-    case "vv":
-      commandArray = commandArray.concat(["-vv"]);
-      break;
-    case "v":
-      commandArray = commandArray.concat(["-v"]);
-      break;
-    case "default":
-      break;
-    case "q":
-      commandArray = commandArray.concat(["-q"]);
-      break;
-  }
-  return commandArray;
-};
 
 // src/cache.ts
 var import_promises = __toESM(require("fs/promises"));
@@ -69305,7 +69317,7 @@ var activateEnvironment = async (environment) => {
 
 // src/main.ts
 var downloadPixi = (source) => {
-  const url2 = "version" in source ? getPixiUrlFromVersion(source.version) : source.url;
+  const url2 = renderPixiUrl(source.urlTemplate, source.version);
   const auth = "bearerToken" in source && source.bearerToken ? `Bearer ${source.bearerToken}` : "";
   return core5.group("Downloading Pixi", () => {
     core5.debug("Installing pixi");

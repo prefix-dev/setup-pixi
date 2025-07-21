@@ -6,12 +6,12 @@ import * as core from '@actions/core'
 import { downloadTool } from '@actions/tool-cache'
 import type { PixiSource } from './options'
 import { options } from './options'
-import { execute, getPixiUrlFromVersion, pixiCmd } from './util'
+import { execute, pixiCmd, renderPixiUrl } from './util'
 import { saveCache, tryRestoreCache } from './cache'
 import { activateEnvironment } from './activate'
 
 const downloadPixi = (source: PixiSource) => {
-  const url = 'version' in source ? getPixiUrlFromVersion(source.version) : source.url
+  const url = renderPixiUrl(source.urlTemplate, source.version)
   const auth = 'bearerToken' in source && source.bearerToken ? `Bearer ${source.bearerToken}` : ''
   return core.group('Downloading Pixi', () => {
     core.debug('Installing pixi')

@@ -405,6 +405,27 @@ Optionally, you can combine this with the `pixi-url-bearer-token` input argument
     pixi-url-bearer-token: ${{ secrets.PIXI_MIRROR_BEARER_TOKEN }}
 ```
 
+
+The `pixi-url` input argument can also be a [Handlebars](https://handlebarsjs.com/) template string.
+It will be rendered with the following variables:
+
+- `version`: The version of pixi that is being installed (`latest` or a version like `v0.48.0`).
+- `latest`: A boolean indicating if the version is `latest`.
+- `pixiFile`: The name of the pixi binary to download, as determined by the system of the runner (e.g., `pixi-x86_64-unknown-linux-musl`).
+
+By default, `pixi-url` is equivalent to the following template:
+
+```yml
+- uses: prefix-dev/setup-pixi@v0.8.12
+  with:
+    pixi-url: |
+      {{#if latest}}
+      https://github.com/prefix-dev/pixi/releases/latest/download/{{pixiFile}}
+      {{else}}
+      https://github.com/prefix-dev/pixi/releases/download/{{version}}/{{pixiFile}}
+      {{/if}}
+```
+
 ## More examples
 
 If you want to see more examples, you can take a look at the [GitHub Workflows of this repository](.github/workflows/test.yml).

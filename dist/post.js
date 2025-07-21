@@ -403,7 +403,7 @@ var require_tunnel = __commonJS({
         connectOptions.headers = connectOptions.headers || {};
         connectOptions.headers["Proxy-Authorization"] = "Basic " + new Buffer(connectOptions.proxyAuth).toString("base64");
       }
-      debug3("making CONNECT request");
+      debug4("making CONNECT request");
       var connectReq = self.request(connectOptions);
       connectReq.useChunkedEncodingByDefault = false;
       connectReq.once("response", onResponse);
@@ -423,7 +423,7 @@ var require_tunnel = __commonJS({
         connectReq.removeAllListeners();
         socket.removeAllListeners();
         if (res.statusCode !== 200) {
-          debug3(
+          debug4(
             "tunneling socket could not be established, statusCode=%d",
             res.statusCode
           );
@@ -435,7 +435,7 @@ var require_tunnel = __commonJS({
           return;
         }
         if (head.length > 0) {
-          debug3("got illegal response body from proxy");
+          debug4("got illegal response body from proxy");
           socket.destroy();
           var error2 = new Error("got illegal response body from proxy");
           error2.code = "ECONNRESET";
@@ -443,13 +443,13 @@ var require_tunnel = __commonJS({
           self.removeSocket(placeholder);
           return;
         }
-        debug3("tunneling connection has established");
+        debug4("tunneling connection has established");
         self.sockets[self.sockets.indexOf(placeholder)] = socket;
         return cb(socket);
       }
       function onError(cause) {
         connectReq.removeAllListeners();
-        debug3(
+        debug4(
           "tunneling socket could not be established, cause=%s\n",
           cause.message,
           cause.stack
@@ -511,9 +511,9 @@ var require_tunnel = __commonJS({
       }
       return target;
     }
-    var debug3;
+    var debug4;
     if (process.env.NODE_DEBUG && /\btunnel\b/.test(process.env.NODE_DEBUG)) {
-      debug3 = function() {
+      debug4 = function() {
         var args = Array.prototype.slice.call(arguments);
         if (typeof args[0] === "string") {
           args[0] = "TUNNEL: " + args[0];
@@ -523,10 +523,10 @@ var require_tunnel = __commonJS({
         console.error.apply(console, args);
       };
     } else {
-      debug3 = function() {
+      debug4 = function() {
       };
     }
-    exports2.debug = debug3;
+    exports2.debug = debug4;
   }
 });
 
@@ -19462,7 +19462,7 @@ var require_exec = __commonJS({
     exports2.getExecOutput = exports2.exec = void 0;
     var string_decoder_1 = require("string_decoder");
     var tr = __importStar(require_toolrunner());
-    function exec(commandLine, args, options2) {
+    function exec2(commandLine, args, options2) {
       return __awaiter(this, void 0, void 0, function* () {
         const commandArgs = tr.argStringToArray(commandLine);
         if (commandArgs.length === 0) {
@@ -19474,8 +19474,8 @@ var require_exec = __commonJS({
         return runner.exec();
       });
     }
-    exports2.exec = exec;
-    function getExecOutput(commandLine, args, options2) {
+    exports2.exec = exec2;
+    function getExecOutput2(commandLine, args, options2) {
       var _a, _b;
       return __awaiter(this, void 0, void 0, function* () {
         let stdout = "";
@@ -19497,7 +19497,7 @@ var require_exec = __commonJS({
           }
         };
         const listeners = Object.assign(Object.assign({}, options2 === null || options2 === void 0 ? void 0 : options2.listeners), { stdout: stdOutListener, stderr: stdErrListener });
-        const exitCode = yield exec(commandLine, args, Object.assign(Object.assign({}, options2), { listeners }));
+        const exitCode = yield exec2(commandLine, args, Object.assign(Object.assign({}, options2), { listeners }));
         stdout += stdoutDecoder.end();
         stderr += stderrDecoder.end();
         return {
@@ -19507,7 +19507,7 @@ var require_exec = __commonJS({
         };
       });
     }
-    exports2.getExecOutput = getExecOutput;
+    exports2.getExecOutput = getExecOutput2;
   }
 });
 
@@ -19575,12 +19575,12 @@ var require_platform = __commonJS({
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getDetails = exports2.isLinux = exports2.isMacOS = exports2.isWindows = exports2.arch = exports2.platform = void 0;
     var os_1 = __importDefault(require("os"));
-    var exec = __importStar(require_exec());
+    var exec2 = __importStar(require_exec());
     var getWindowsInfo = () => __awaiter(void 0, void 0, void 0, function* () {
-      const { stdout: version } = yield exec.getExecOutput('powershell -command "(Get-CimInstance -ClassName Win32_OperatingSystem).Version"', void 0, {
+      const { stdout: version } = yield exec2.getExecOutput('powershell -command "(Get-CimInstance -ClassName Win32_OperatingSystem).Version"', void 0, {
         silent: true
       });
-      const { stdout: name } = yield exec.getExecOutput('powershell -command "(Get-CimInstance -ClassName Win32_OperatingSystem).Caption"', void 0, {
+      const { stdout: name } = yield exec2.getExecOutput('powershell -command "(Get-CimInstance -ClassName Win32_OperatingSystem).Caption"', void 0, {
         silent: true
       });
       return {
@@ -19590,7 +19590,7 @@ var require_platform = __commonJS({
     });
     var getMacOsInfo = () => __awaiter(void 0, void 0, void 0, function* () {
       var _a, _b, _c, _d;
-      const { stdout } = yield exec.getExecOutput("sw_vers", void 0, {
+      const { stdout } = yield exec2.getExecOutput("sw_vers", void 0, {
         silent: true
       });
       const version = (_b = (_a = stdout.match(/ProductVersion:\s*(.+)/)) === null || _a === void 0 ? void 0 : _a[1]) !== null && _b !== void 0 ? _b : "";
@@ -19601,7 +19601,7 @@ var require_platform = __commonJS({
       };
     });
     var getLinuxInfo = () => __awaiter(void 0, void 0, void 0, function* () {
-      const { stdout } = yield exec.getExecOutput("lsb_release", ["-i", "-r", "-s"], {
+      const { stdout } = yield exec2.getExecOutput("lsb_release", ["-i", "-r", "-s"], {
         silent: true
       });
       const [name, version] = stdout.trim().split("\n");
@@ -19778,10 +19778,10 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       return process.env["RUNNER_DEBUG"] === "1";
     }
     exports2.isDebug = isDebug3;
-    function debug3(message) {
+    function debug4(message) {
       (0, command_1.issueCommand)("debug", {}, message);
     }
-    exports2.debug = debug3;
+    exports2.debug = debug4;
     function error2(message, properties = {}) {
       (0, command_1.issueCommand)("error", (0, utils_1.toCommandProperties)(properties), message instanceof Error ? message.toString() : message);
     }
@@ -20114,14 +20114,14 @@ var import_fs2 = require("fs");
 var import_path2 = __toESM(require("path"));
 var import_os2 = __toESM(require("os"));
 var import_process2 = require("process");
-var core2 = __toESM(require_core());
+var core3 = __toESM(require_core());
 
 // src/options.ts
 var import_path = __toESM(require("path"));
 var import_os = __toESM(require("os"));
 var import_process = require("process");
 var import_fs = require("fs");
-var core = __toESM(require_core());
+var core2 = __toESM(require_core());
 
 // node_modules/.pnpm/zod@3.25.67/node_modules/zod/dist/esm/v3/helpers/util.js
 var util;
@@ -24707,6 +24707,18 @@ function parse(toml, { maxDepth = 1e3, integersAsBigInt } = {}) {
 
 // src/options.ts
 var import_which = __toESM(require_lib2());
+
+// src/util.ts
+var core = __toESM(require_core());
+var import_exec = __toESM(require_exec());
+var import_handlebars = __toESM(require("handlebars"));
+var DEFAULT_PIXI_URL_TEMPLATE = `{{#if latest}}
+https://github.com/prefix-dev/pixi/releases/latest/download/{{pixiFile}}
+{{else}}
+https://github.com/prefix-dev/pixi/releases/download/{{version}}/{{pixiFile}}
+{{/if}}`;
+
+// src/options.ts
 var pixiPath = "pixi.toml";
 var pyprojectPath = "pyproject.toml";
 var logLevelSchema = enumType(["q", "default", "v", "vv", "vvv"]);
@@ -24714,7 +24726,7 @@ var PATHS = {
   pixiBin: import_path.default.join(import_os.default.homedir(), ".pixi", "bin", `pixi${import_os.default.platform() === "win32" ? ".exe" : ""}`)
 };
 var parseOrUndefined = (key, schema, errorMessage) => {
-  const input = core.getInput(key);
+  const input = core2.getInput(key);
   if (input === "") {
     return void 0;
   }
@@ -24728,23 +24740,20 @@ var parseOrUndefined = (key, schema, errorMessage) => {
   return maybeResult.data;
 };
 var parseOrUndefinedJSON = (key, schema) => {
-  const input = core.getInput(key);
+  const input = core2.getInput(key);
   if (input === "") {
     return void 0;
   }
   return schema.parse(JSON.parse(input));
 };
 var parseOrUndefinedList = (key, schema) => {
-  const input = core.getInput(key);
+  const input = core2.getInput(key);
   if (input === "") {
     return void 0;
   }
   return input.split(" ").map((s) => schema.parse(s)).filter((s) => s !== "");
 };
 var validateInputs = (inputs) => {
-  if (inputs.pixiVersion && inputs.pixiUrl) {
-    throw new Error("You need to specify either pixi-version or pixi-url");
-  }
   if (inputs.pixiUrlBearerToken && !inputs.pixiUrl) {
     throw new Error("You need to specify pixi-url when using pixi-url-bearer-token");
   }
@@ -24811,7 +24820,7 @@ var determinePixiInstallation = (pixiUrlOrVersionSet, pixiBinPath) => {
   const preinstalledPixi = import_which.default.sync("pixi", { nothrow: true });
   if (pixiUrlOrVersionSet || pixiBinPath) {
     if (preinstalledPixi) {
-      core.debug(`Local pixi found at ${preinstalledPixi} is being ignored.`);
+      core2.debug(`Local pixi found at ${preinstalledPixi} is being ignored.`);
     }
     return {
       downloadPixi: true,
@@ -24819,19 +24828,23 @@ var determinePixiInstallation = (pixiUrlOrVersionSet, pixiBinPath) => {
     };
   }
   if (preinstalledPixi) {
-    core.info(`Using pre-installed pixi at ${preinstalledPixi}`);
+    core2.info(`Using pre-installed pixi at ${preinstalledPixi}`);
     return { downloadPixi: false, pixiBinPath: preinstalledPixi };
   }
   return { downloadPixi: true, pixiBinPath: PATHS.pixiBin };
 };
 var inferOptions = (inputs) => {
   const runInstall = inputs.runInstall ?? true;
-  const pixiSource = inputs.pixiVersion ? { version: inputs.pixiVersion } : inputs.pixiUrl ? { url: inputs.pixiUrl, bearerToken: inputs.pixiUrlBearerToken } : { version: "latest" };
+  const pixiSource = {
+    urlTemplate: inputs.pixiUrl ?? DEFAULT_PIXI_URL_TEMPLATE,
+    bearerToken: inputs.pixiUrlBearerToken,
+    version: inputs.pixiVersion ?? "latest"
+  };
   const { downloadPixi, pixiBinPath } = determinePixiInstallation(
     !!inputs.pixiVersion || !!inputs.pixiUrl,
     inputs.pixiBinPath
   );
-  const logLevel = inputs.logLevel ?? (core.isDebug() ? "vv" : "default");
+  const logLevel = inputs.logLevel ?? (core2.isDebug() ? "vv" : "default");
   let manifestPath = pixiPath;
   if (inputs.manifestPath) {
     manifestPath = import_path.default.resolve(untildify(inputs.manifestPath));
@@ -24843,20 +24856,20 @@ var inferOptions = (inputs) => {
         const fileContent = (0, import_fs.readFileSync)(pyprojectPath, "utf-8");
         const parsedContent = parse(fileContent);
         if (parsedContent.tool && typeof parsedContent.tool === "object" && "pixi" in parsedContent.tool) {
-          core.debug(`The tool.pixi table found, using ${pyprojectPath} as manifest file.`);
+          core2.debug(`The tool.pixi table found, using ${pyprojectPath} as manifest file.`);
           manifestPath = pyprojectPath;
         }
       } catch (error2) {
-        core.error(`Error while trying to read ${pyprojectPath} file.`);
-        core.error(error2);
+        core2.error(`Error while trying to read ${pyprojectPath} file.`);
+        core2.error(error2);
       }
     } else if (runInstall) {
-      core.warning(`Could not find any manifest file. Defaulting to ${pixiPath}.`);
+      core2.warning(`Could not find any manifest file. Defaulting to ${pixiPath}.`);
     }
   }
   const pixiLockFile = import_path.default.join(import_path.default.dirname(manifestPath), "pixi.lock");
   const lockFileAvailable = (0, import_fs.existsSync)(pixiLockFile);
-  core.debug(`lockFileAvailable: ${lockFileAvailable ? "yes" : "no"}`);
+  core2.debug(`lockFileAvailable: ${lockFileAvailable ? "yes" : "no"}`);
   if (!lockFileAvailable && inputs.cacheWrite === true) {
     throw new Error("You cannot specify cache-write = true without a lock file present");
   }
@@ -24943,10 +24956,10 @@ var getOptions = () => {
     authS3SessionToken: parseOrUndefined("auth-s3-session-token", stringType()),
     postCleanup: parseOrUndefinedJSON("post-cleanup", booleanType())
   };
-  core.debug(`Inputs: ${JSON.stringify(inputs)}`);
+  core2.debug(`Inputs: ${JSON.stringify(inputs)}`);
   validateInputs(inputs);
   const options2 = inferOptions(inputs);
-  core.debug(`Inferred options: ${JSON.stringify(options2)}`);
+  core2.debug(`Inferred options: ${JSON.stringify(options2)}`);
   assertOptions(options2);
   return options2;
 };
@@ -24954,14 +24967,14 @@ var _options;
 try {
   _options = getOptions();
 } catch (error2) {
-  if (core.isDebug()) {
+  if (core2.isDebug()) {
     throw error2;
   }
   if (error2 instanceof Error) {
-    core.setFailed(error2.message);
+    core2.setFailed(error2.message);
     (0, import_process.exit)(1);
   } else if (typeof error2 === "string") {
-    core.setFailed(error2);
+    core2.setFailed(error2);
     (0, import_process.exit)(1);
   }
   throw error2;
@@ -24973,7 +24986,7 @@ var removeEmptyParentDirs = (dirPath) => {
   if ((0, import_fs2.existsSync)(dirPath)) {
     return import_promises.default.readdir(dirPath).then((files) => {
       if (files.length === 0) {
-        core2.debug(`Removing empty directory ${dirPath}.`);
+        core3.debug(`Removing empty directory ${dirPath}.`);
         return import_promises.default.rm(dirPath, { recursive: true, force: true }).then(() => {
           const parentDir = import_path2.default.dirname(dirPath);
           if (parentDir !== dirPath) {
@@ -24988,7 +25001,7 @@ var removeEmptyParentDirs = (dirPath) => {
 var cleanupPixiBin = () => {
   const pixiBinPath = options.pixiBinPath;
   const pixiBinDir = import_path2.default.dirname(pixiBinPath);
-  core2.debug(`Cleaning up pixi binary ${pixiBinPath}.`);
+  core3.debug(`Cleaning up pixi binary ${pixiBinPath}.`);
   if ((0, import_fs2.existsSync)(pixiBinPath)) {
     return import_promises.default.rm(pixiBinPath).then(() => removeEmptyParentDirs(pixiBinDir));
   } else {
@@ -24997,11 +25010,11 @@ var cleanupPixiBin = () => {
 };
 var cleanupEnv = () => {
   if (!options.runInstall) {
-    core2.debug("Skipping cleanup of .pixi directory.");
+    core3.debug("Skipping cleanup of .pixi directory.");
     return Promise.resolve();
   }
   const envDir = import_path2.default.join(import_path2.default.dirname(options.manifestPath), ".pixi");
-  core2.debug(`Cleaning up .pixi directory ${envDir}.`);
+  core3.debug(`Cleaning up .pixi directory ${envDir}.`);
   return import_promises.default.rm(envDir, {
     recursive: true,
     // Ignore exceptions if environment does not exist anymore,
@@ -25022,7 +25035,7 @@ var cleanupRattler = () => {
   const rattlerPath = import_path2.default.join(import_os2.default.homedir(), ".rattler");
   const cacheDir = determineCacheDir();
   const rattlerCachePath = import_path2.default.join(cacheDir, "rattler");
-  core2.debug(`Cleaning up rattler directories ${rattlerPath} and ${rattlerCachePath}.`);
+  core3.debug(`Cleaning up rattler directories ${rattlerPath} and ${rattlerCachePath}.`);
   return Promise.all([
     import_promises.default.rm(rattlerPath, { recursive: true, force: true }),
     import_promises.default.rm(rattlerCachePath, { recursive: true, force: true })
@@ -25033,18 +25046,18 @@ var run = () => {
   if (postCleanup) {
     return Promise.all([cleanupPixiBin(), cleanupEnv(), cleanupRattler()]);
   }
-  core2.debug("Skipping post-cleanup.");
+  core3.debug("Skipping post-cleanup.");
   return Promise.resolve();
 };
 run().then(() => (0, import_process2.exit)(0)).catch((error2) => {
-  if (core2.isDebug()) {
+  if (core3.isDebug()) {
     throw error2;
   }
   if (error2 instanceof Error) {
-    core2.setFailed(error2.message);
+    core3.setFailed(error2.message);
     (0, import_process2.exit)(1);
   } else if (typeof error2 === "string") {
-    core2.setFailed(error2);
+    core3.setFailed(error2);
     (0, import_process2.exit)(1);
   }
   throw error2;
