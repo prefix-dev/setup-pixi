@@ -231,6 +231,53 @@ jobs:
           pixi-url-bearer-token: s3cr3tT0k3nABC123
       - run: pixi --version | grep -q "pixi 0.14.0"
 
+  pixi-url-custom-template-no-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: ./
+        with:
+          pixi-url: |
+            {{#if latest}}
+            https://github.com/prefix-dev/pixi/releases/download/v0.14.0/{{pixiFile}}
+            {{else}}
+            https://github.com/prefix-dev/pixi/releases/download/{{version}}/{{pixiFile}}
+            {{/if}}
+          run-install: false
+      - run: pixi --version | grep -q "pixi 0.14.0"
+
+  pixi-url-custom-template-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: ./
+        with:
+          pixi-url: |
+            {{#if latest}}
+            https://github.com/prefix-dev/pixi/releases/download/v0.14.0/{{pixiFile}}
+            {{else}}
+            https://github.com/prefix-dev/pixi/releases/download/{{version}}/{{pixiFile}}
+            {{/if}}
+          run-install: false
+          pixi-version: v0.15.0
+      - run: pixi --version | grep -q "pixi 0.15.0"
+
+  pixi-url-custom-template-version-latest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: ./
+        with:
+          pixi-url: |
+            {{#if latest}}
+            https://github.com/prefix-dev/pixi/releases/download/v0.14.0/{{pixiFile}}
+            {{else}}
+            https://github.com/prefix-dev/pixi/releases/download/{{version}}/{{pixiFile}}
+            {{/if}}
+          run-install: false
+          pixi-version: latest
+      - run: pixi --version | grep -q "pixi 0.14.0"
+
   custom-manifest-path:
     strategy:
       matrix:
