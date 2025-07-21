@@ -339,7 +339,7 @@ const getOptions = () => {
       z.union([z.literal('latest'), z.string().regex(/^v\d+\.\d+\.\d+$/)]),
       'pixi-version must either be `latest` or a version string matching `vX.Y.Z`.'
     ),
-    pixiUrl: parseOrUndefined('pixi-url', z.string().url()),
+    pixiUrl: parseOrUndefined('pixi-url', z.string()),
     pixiUrlBearerToken: parseOrUndefined('pixi-url-bearer-token', z.string()),
     logLevel: parseOrUndefined(
       'log-level',

@@ -74989,7 +74989,7 @@ var getOptions = () => {
       unionType([literalType("latest"), stringType().regex(/^v\d+\.\d+\.\d+$/)]),
       "pixi-version must either be `latest` or a version string matching `vX.Y.Z`."
     ),
-    pixiUrl: parseOrUndefined("pixi-url", stringType().url()),
+    pixiUrl: parseOrUndefined("pixi-url", stringType()),
     pixiUrlBearerToken: parseOrUndefined("pixi-url-bearer-token", stringType()),
     logLevel: parseOrUndefined(
       "log-level",
