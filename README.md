@@ -418,11 +418,11 @@ By default, `pixi-url` is equivalent to the following template:
 - uses: prefix-dev/setup-pixi@v0.8.12
   with:
     pixi-url: |
-      {{#if latest}}
+      {{#if latest~}}
       https://github.com/prefix-dev/pixi/releases/latest/download/{{pixiFile}}
-      {{else}}
+      {{else~}}
       https://github.com/prefix-dev/pixi/releases/download/{{version}}/{{pixiFile}}
-      {{/if}}
+      {{~/if}}
 ```
 
 ## More examples
