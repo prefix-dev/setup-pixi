@@ -35,7 +35,7 @@ type Inputs = Readonly<{
   postCleanup?: boolean
 }>
 
-export type PixiSource = {
+export interface PixiSource {
   urlTemplate: string
   bearerToken?: string
   version: string
