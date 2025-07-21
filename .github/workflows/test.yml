@@ -240,7 +240,7 @@ jobs:
           pixi-url: |
             {{#if latest ~}}
             https://github.com/prefix-dev/pixi/releases/download/v0.14.0/{{pixiFile}}
-            {{else~}}
+            {{~else~}}
             https://github.com/prefix-dev/pixi/releases/download/{{version}}/{{pixiFile}}
             {{~/if}}
           run-install: false
@@ -255,7 +255,7 @@ jobs:
           pixi-url: |
             {{#if latest ~}}
             https://github.com/prefix-dev/pixi/releases/download/v0.14.0/{{pixiFile}}
-            {{else~}}
+            {{~else~}}
             https://github.com/prefix-dev/pixi/releases/download/{{version}}/{{pixiFile}}
             {{~/if}}
           run-install: false
@@ -271,7 +271,7 @@ jobs:
           pixi-url: |
             {{#if latest ~}}
             https://github.com/prefix-dev/pixi/releases/download/v0.14.0/{{pixiFile}}
-            {{else~}}
+            {{~else~}}
             https://github.com/prefix-dev/pixi/releases/download/{{version}}/{{pixiFile}}
             {{~/if}}
           run-install: false

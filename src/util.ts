@@ -8,11 +8,11 @@ import { options } from './options'
 import Handlebars from 'handlebars'
 
 export const DEFAULT_PIXI_URL_TEMPLATE = `\
-{{#if latest}}
+{{#if latest~}}
 https://github.com/prefix-dev/pixi/releases/latest/download/{{pixiFile}}
-{{else}}
+{{~else~}}
 https://github.com/prefix-dev/pixi/releases/download/{{version}}/{{pixiFile}}
-{{/if}}`
+{{~/if}}`
 
 export const getCondaArch = () => {
   const archDict: Record<string, string> = {
