@@ -68840,14 +68840,17 @@ var getEnvironmentVariableName = (key) => {
   return `SETUP_PIXI_${key.toUpperCase().replace(/-/g, "_")}`;
 };
 var inputOrEnvironmentVariable = (key) => {
+  const inputValue = core.getInput(key);
+  if (inputValue != "") {
+    return inputValue;
+  }
   const envVarName = getEnvironmentVariableName(key);
   const envVarValue = process.env[envVarName];
   if (envVarValue !== void 0 && envVarValue !== "") {
     core.debug(`Using environment variable ${envVarName} with value: ${envVarValue}`);
     return envVarValue;
   }
-  const inputValue = core.getInput(key);
-  return inputValue !== "" ? inputValue : void 0;
+  return void 0;
 };
 var parseOrUndefined = (key, schema, errorMessage) => {
   const input = inputOrEnvironmentVariable(key);

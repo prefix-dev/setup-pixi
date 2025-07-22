@@ -414,6 +414,8 @@ For example, the `pixi-bin-path` input can be set using the `SETUP_PIXI_PIXI_BIN
 
 This is particularly useful if executing the action on a self-hosted runner.
 
+Inputs always take precedence over environment variables.
+
 ## More examples
 
 If you want to see more examples, you can take a look at the [GitHub Workflows of this repository](.github/workflows/test.yml).

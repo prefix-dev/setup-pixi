@@ -99,6 +99,12 @@ const getEnvironmentVariableName = (key: string): string => {
 }
 
 const inputOrEnvironmentVariable = (key: string): string | undefined => {
+  const inputValue = core.getInput(key)
+  // GitHub actions sets empty inputs to the empty string
+  if (inputValue != '') {
+    return inputValue
+  }
+
   const envVarName = getEnvironmentVariableName(key)
   const envVarValue = process.env[envVarName]
   // Empty environment variables are treated as undefined
@@ -106,9 +112,7 @@ const inputOrEnvironmentVariable = (key: string): string | undefined => {
     core.debug(`Using environment variable ${envVarName} with value: ${envVarValue}`)
     return envVarValue
   }
-  const inputValue = core.getInput(key)
-  // GitHub actions sets empty inputs to the empty string, but we want undefined
-  return inputValue !== '' ? inputValue : undefined
+  return undefined
 }
 
 const parseOrUndefined = <T>(key: string, schema: z.ZodSchema<T>, errorMessage?: string): T | undefined => {
