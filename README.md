@@ -405,6 +405,15 @@ Optionally, you can combine this with the `pixi-url-bearer-token` input argument
     pixi-url-bearer-token: ${{ secrets.PIXI_MIRROR_BEARER_TOKEN }}
 ```
 
+### Setting inputs from environment variables
+
+Alternatively to setting the inputs in the `with` section, you can also set each of them using environment variables.
+The corresponding environment variable names are derived from the input names by converting them to uppercase, replacing hyphens with underscores, and prefixing them with `SETUP_PIXI_`.
+
+For example, the `pixi-bin-path` input can be set using the `SETUP_PIXI_PIXI_BIN_PATH` environment variable.
+
+This is particularly useful if executing the action on a self-hosted runner.
+
 ## More examples
 
 If you want to see more examples, you can take a look at the [GitHub Workflows of this repository](.github/workflows/test.yml).

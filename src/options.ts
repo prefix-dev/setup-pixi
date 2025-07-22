@@ -94,10 +94,26 @@ export const PATHS = {
   pixiBin: path.join(os.homedir(), '.pixi', 'bin', `pixi${os.platform() === 'win32' ? '.exe' : ''}`)
 }
 
-const parseOrUndefined = <T>(key: string, schema: z.ZodSchema<T>, errorMessage?: string): T | undefined => {
-  const input = core.getInput(key)
+const getEnvironmentVariableName = (key: string): string => {
+  return `SETUP_PIXI_${key.toUpperCase().replace(/-/g, '_')}`
+}
+
+const inputOrEnvironmentVariable = (key: string): string | undefined => {
+  const envVarName = getEnvironmentVariableName(key)
+  const envVarValue = process.env[envVarName]
+  // Empty environment variables are treated as undefined
+  if (envVarValue !== undefined && envVarValue !== '') {
+    core.debug(`Using environment variable ${envVarName} with value: ${envVarValue}`)
+    return envVarValue
+  }
+  const inputValue = core.getInput(key)
   // GitHub actions sets empty inputs to the empty string, but we want undefined
-  if (input === '') {
+  return inputValue !== '' ? inputValue : undefined
+}
+
+const parseOrUndefined = <T>(key: string, schema: z.ZodSchema<T>, errorMessage?: string): T | undefined => {
+  const input = inputOrEnvironmentVariable(key)
+  if (input === undefined) {
     return undefined
   }
   const maybeResult = schema.safeParse(input)
@@ -111,18 +127,16 @@ const parseOrUndefined = <T>(key: string, schema: z.ZodSchema<T>, errorMessage?:
 }
 
 const parseOrUndefinedJSON = <T>(key: string, schema: z.ZodSchema<T>): T | undefined => {
-  const input = core.getInput(key)
-  // GitHub actions sets empty inputs to the empty string, but we want undefined
-  if (input === '') {
+  const input = inputOrEnvironmentVariable(key)
+  if (input === undefined) {
     return undefined
   }
   return schema.parse(JSON.parse(input))
 }
 
 const parseOrUndefinedList = <T>(key: string, schema: z.ZodSchema<T>): T[] | undefined => {
-  const input = core.getInput(key)
-  // GitHub actions sets empty inputs to the empty string, but we want undefined
-  if (input === '') {
+  const input = inputOrEnvironmentVariable(key)
+  if (input === undefined) {
     return undefined
   }
   return input

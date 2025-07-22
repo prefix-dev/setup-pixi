@@ -943,6 +943,40 @@ jobs:
             py311 py312
           activate-environment: py311
 
+  env-variable-input-custom-bin-path:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Move pixi.toml
+        run: mv test/default/* .
+      - uses: ./
+        env:
+          SETUP_PIXI_PIXI_BIN_PATH: custom-bin/pixi${{ matrix.os == 'windows-latest' && '.exe' || '' }}
+        with:
+          cache: false
+      - run: |
+          test -f custom-bin/pixi${{ matrix.os == 'windows-latest' && '.exe' || '' }}
+          pixi --help
+          which pixi | grep -q custom-bin/pixi
+          # which pixi should be absolute
+          which pixi | grep -q "^/"
+
+  env-variable-input-custom-pixi-url:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Move pixi.toml
+        run: mv test/old-pixi-lockfiles/* .
+      - uses: ./
+        env:
+          SETUP_PIXI_PIXI_URL: https://github.com/prefix-dev/pixi/releases/download/v0.14.0/pixi-x86_64-unknown-linux-musl
+        with:
+          cache: false
+      - run: pixi --version | grep -q "pixi 0.14.0"
+
   # not properly testable
   # https://github.com/actions/runner/issues/2347
   # https://github.com/orgs/community/discussions/15452
