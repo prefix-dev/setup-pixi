@@ -101,7 +101,7 @@ const getEnvironmentVariableName = (key: string): string => {
 const inputOrEnvironmentVariable = (key: string): string | undefined => {
   const inputValue = core.getInput(key)
   // GitHub actions sets empty inputs to the empty string
-  if (inputValue != '') {
+  if (inputValue !== '') {
     return inputValue
   }
 

@@ -24718,7 +24718,7 @@ var getEnvironmentVariableName = (key) => {
 };
 var inputOrEnvironmentVariable = (key) => {
   const inputValue = core.getInput(key);
-  if (inputValue != "") {
+  if (inputValue !== "") {
     return inputValue;
   }
   const envVarName = getEnvironmentVariableName(key);
