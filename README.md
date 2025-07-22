@@ -425,6 +425,17 @@ By default, `pixi-url` is equivalent to the following template:
       {{~/if}}
 ```
 
+### Setting inputs from environment variables
+
+Alternatively to setting the inputs in the `with` section, you can also set each of them using environment variables.
+The corresponding environment variable names are derived from the input names by converting them to uppercase, replacing hyphens with underscores, and prefixing them with `SETUP_PIXI_`.
+
+For example, the `pixi-bin-path` input can be set using the `SETUP_PIXI_PIXI_BIN_PATH` environment variable.
+
+This is particularly useful if executing the action on a self-hosted runner.
+
+Inputs always take precedence over environment variables.
+
 ## More examples
 
 If you want to see more examples, you can take a look at the [GitHub Workflows of this repository](.github/workflows/test.yml).

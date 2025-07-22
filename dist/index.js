@@ -74785,9 +74785,25 @@ var logLevelSchema = enumType(["q", "default", "v", "vv", "vvv"]);
 var PATHS = {
   pixiBin: import_path.default.join(import_os2.default.homedir(), ".pixi", "bin", `pixi${import_os2.default.platform() === "win32" ? ".exe" : ""}`)
 };
+var getEnvironmentVariableName = (key) => {
+  return `SETUP_PIXI_${key.toUpperCase().replace(/-/g, "_")}`;
+};
+var inputOrEnvironmentVariable = (key) => {
+  const inputValue = core2.getInput(key);
+  if (inputValue !== "") {
+    return inputValue;
+  }
+  const envVarName = getEnvironmentVariableName(key);
+  const envVarValue = process.env[envVarName];
+  if (envVarValue !== void 0 && envVarValue !== "") {
+    core2.debug(`Using environment variable ${envVarName} with value: ${envVarValue}`);
+    return envVarValue;
+  }
+  return void 0;
+};
 var parseOrUndefined = (key, schema, errorMessage) => {
-  const input = core2.getInput(key);
-  if (input === "") {
+  const input = inputOrEnvironmentVariable(key);
+  if (input === void 0) {
     return void 0;
   }
   const maybeResult = schema.safeParse(input);
@@ -74800,15 +74816,15 @@ var parseOrUndefined = (key, schema, errorMessage) => {
   return maybeResult.data;
 };
 var parseOrUndefinedJSON = (key, schema) => {
-  const input = core2.getInput(key);
-  if (input === "") {
+  const input = inputOrEnvironmentVariable(key);
+  if (input === void 0) {
     return void 0;
   }
   return schema.parse(JSON.parse(input));
 };
 var parseOrUndefinedList = (key, schema) => {
-  const input = core2.getInput(key);
-  if (input === "") {
+  const input = inputOrEnvironmentVariable(key);
+  if (input === void 0) {
     return void 0;
   }
   return input.split(" ").map((s) => schema.parse(s)).filter((s) => s !== "");
