@@ -977,118 +977,152 @@ jobs:
           cache: false
       - run: pixi --version | grep -q "pixi 0.14.0"
 
-  # not properly testable
-  # https://github.com/actions/runner/issues/2347
-  # https://github.com/orgs/community/discussions/15452
-  # test-cache-fail-no-lockfile:
-  #   runs-on: ${{ matrix.os }}
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       os: [windows-latest, ubuntu-latest, macos-latest]
-  #   steps:
-  #     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-  #     - name: Move pixi files
-  #       run: mv test/no-lockfile/* .
-  #     - uses: ./
-  #       with:
-  #         cache: true
-  #         cache-key: test-cache-no-lockfile-${{ github.sha }}-${{ github.run_attempt }}-
-  #     - run: exit 1
-  #       if: success()
+  test-cache-fail-no-lockfile:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Move pixi files
+        run: mv test/no-lockfile/* .
+      - uses: ./
+        id: test
+        with:
+          cache: true
+          cache-key: test-cache-no-lockfile-${{ github.sha }}-${{ github.run_attempt }}-
+        continue-on-error: true
+      - name: Fail on unexpected success
+        run: |
+          echo "Unexpected success!"
+          exit 1
+        if: ${{ steps.test.outcome != 'failure' }}
 
-  # test-incorrect-version:
-  #   runs-on: ${{ matrix.os }}
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       os: [windows-latest, ubuntu-latest, macos-latest]
-  #   steps:
-  #     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-  #     - name: Move pixi files
-  #       run: mv test/default/* .
-  #     - uses: ./
-  #       with:
-  #         pixi-version: 0.1.0
-  #     - run: exit 1
-  #       if: success()
+  test-incorrect-version:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Move pixi files
+        run: mv test/default/* .
+      - uses: ./
+        id: test
+        with:
+          pixi-version: 0.1.0
+        continue-on-error: true
+      - name: Fail on unexpected success
+        run: |
+          echo "Unexpected success!"
+          exit 1
+        if: ${{ steps.test.outcome != 'failure' }}
 
-  # test-frozen-and-locked:
-  #   runs-on: ${{ matrix.os }}
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       os: [windows-latest, ubuntu-latest, macos-latest]
-  #   steps:
-  #     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-  #     - name: Move pixi files
-  #       run: mv test/default/* .
-  #     - uses: ./
-  #       with:
-  #         pixi-version: v0.5.0
-  #         frozen: true
-  #         locked: true
-  #     - run: exit 1
-  #       if: success()
+  test-frozen-and-locked:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Move pixi files
+        run: mv test/default/* .
+      - uses: ./
+        id: test
+        with:
+          pixi-version: v0.5.0
+          frozen: true
+          locked: true
+        continue-on-error: true
+      - name: Fail on unexpected success
+        run: |
+          echo "Unexpected success!"
+          exit 1
+        if: ${{ steps.test.outcome != 'failure' }}
 
-  # test-frozen-no-lockfile:
-  #   runs-on: ${{ matrix.os }}
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       os: [windows-latest, ubuntu-latest, macos-latest]
-  #   steps:
-  #     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-  #     - name: Move pixi files
-  #       run: mv test/no-lockfile/* .
-  #     - uses: ./
-  #       with:
-  #         frozen: true
-  #     - run: exit 1
-  #       if: success()
+  test-frozen-no-lockfile:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Move pixi files
+        run: mv test/no-lockfile/* .
+      - uses: ./
+        id: test
+        with:
+          frozen: true
+        continue-on-error: true
+      - name: Fail on unexpected success
+        run: |
+          echo "Unexpected success!"
+          exit 1
+        if: ${{ steps.test.outcome != 'failure' }}
 
-  # test-locked-no-lockfile:
-  #   runs-on: ${{ matrix.os }}
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       os: [windows-latest, ubuntu-latest, macos-latest]
-  #   steps:
-  #     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-  #     - name: Move pixi files
-  #       run: mv test/no-lockfile/* .
-  #     - uses: ./
-  #       with:
-  #         locked: true
-  #     - run: exit 1
-  #       if: success()
+  test-locked-no-lockfile:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Move pixi files
+        run: mv test/no-lockfile/* .
+      - uses: ./
+        id: test
+        with:
+          locked: true
+        continue-on-error: true
+      - name: Fail on unexpected success
+        run: |
+          echo "Unexpected success!"
+          exit 1
+        if: ${{ steps.test.outcome != 'failure' }}
 
-  # test-lockfile-not-up-to-date:
-  #   runs-on: ${{ matrix.os }}
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       os: [windows-latest, ubuntu-latest, macos-latest]
-  #   steps:
-  #     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-  #     - name: Move pixi files
-  #       run: mv test/lockfile-not-up-to-date/* .
-  #     - uses: ./
-  #       # locked: true is implicit
-  #     - run: exit 1
-  #       if: success()
+  test-lockfile-not-up-to-date:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Move pixi files
+        run: mv test/lockfile-not-up-to-date/* .
+      - uses: ./
+        id: test
+        # locked: true is implicit
+        continue-on-error: true
+      - name: Fail on unexpected success
+        run: |
+          echo "Unexpected success!"
+          exit 1
+        if: ${{ steps.test.outcome != 'failure' }}
 
-  # cache-write-true-no-lockfile:
-  #   timeout-minutes: 10
-  #   runs-on: ${{ matrix.os }}
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       os: [windows-latest, ubuntu-latest, macos-latest]
-  #   steps:
-  #     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-  #     - name: Move pixi files
-  #       run: mv test/no-lockfile/* .
-  #     - uses: ./
-  #       with:
-  #         cache-write: true
+  cache-write-true-no-lockfile:
+    timeout-minutes: 10
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Move pixi files
+        run: mv test/no-lockfile/* .
+      - uses: ./
+        id: test
+        with:
+          cache-write: true
+        continue-on-error: true
+      - name: Fail on unexpected success
+        run: |
+          echo "Unexpected success!"
+          exit 1
+        if: ${{ steps.test.outcome != 'failure' }}
