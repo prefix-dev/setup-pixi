@@ -23,6 +23,9 @@ importers:
       '@actions/tool-cache':
         specifier: ^2.0.2
         version: 2.0.2
+      handlebars:
+        specifier: ^4.7.8
+        version: 4.7.8
       smol-toml:
         specifier: ^1.4.0
         version: 1.4.0
@@ -48,9 +51,6 @@ importers:
       eslint:
         specifier: ^9.30.0
         version: 9.30.0
-      handlebars:
-        specifier: ^4.7.8
-        version: 4.7.8
       prettier:
         specifier: ^3.6.2
         version: 3.6.2
