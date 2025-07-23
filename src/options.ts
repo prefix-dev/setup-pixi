@@ -7,6 +7,7 @@ import * as z from 'zod'
 import untildify from 'untildify'
 import { parse } from 'smol-toml'
 import which from 'which'
+import { DEFAULT_PIXI_URL_TEMPLATE } from './util'
 
 type Inputs = Readonly<{
   pixiVersion?: string
@@ -34,14 +35,11 @@ type Inputs = Readonly<{
   postCleanup?: boolean
 }>
 
-export type PixiSource =
-  | {
-      version: string
-    }
-  | {
-      url: string
-      bearerToken?: string
-    }
+export interface PixiSource {
+  urlTemplate: string
+  bearerToken?: string
+  version: string
+}
 
 type Auth = {
   host: string
@@ -150,9 +148,6 @@ const parseOrUndefinedList = <T>(key: string, schema: z.ZodSchema<T>): T[] | und
 }
 
 const validateInputs = (inputs: Inputs): void => {
-  if (inputs.pixiVersion && inputs.pixiUrl) {
-    throw new Error('You need to specify either pixi-version or pixi-url')
-  }
   if (inputs.pixiUrlBearerToken && !inputs.pixiUrl) {
     throw new Error('You need to specify pixi-url when using pixi-url-bearer-token')
   }
@@ -243,11 +238,11 @@ const determinePixiInstallation = (pixiUrlOrVersionSet: boolean, pixiBinPath: st
 
 const inferOptions = (inputs: Inputs): Options => {
   const runInstall = inputs.runInstall ?? true
-  const pixiSource = inputs.pixiVersion
-    ? { version: inputs.pixiVersion }
-    : inputs.pixiUrl
-      ? { url: inputs.pixiUrl, bearerToken: inputs.pixiUrlBearerToken }
-      : { version: 'latest' }
+  const pixiSource: PixiSource = {
+    urlTemplate: inputs.pixiUrl ?? DEFAULT_PIXI_URL_TEMPLATE,
+    bearerToken: inputs.pixiUrlBearerToken,
+    version: inputs.pixiVersion ?? 'latest'
+  }
 
   const { downloadPixi, pixiBinPath } = determinePixiInstallation(
     !!inputs.pixiVersion || !!inputs.pixiUrl,
@@ -362,7 +357,7 @@ const getOptions = () => {
       z.union([z.literal('latest'), z.string().regex(/^v\d+\.\d+\.\d+$/)]),
       'pixi-version must either be `latest` or a version string matching `vX.Y.Z`.'
     ),
-    pixiUrl: parseOrUndefined('pixi-url', z.string().url()),
+    pixiUrl: parseOrUndefined('pixi-url', z.string()),
     pixiUrlBearerToken: parseOrUndefined('pixi-url-bearer-token', z.string()),
     logLevel: parseOrUndefined(
       'log-level',

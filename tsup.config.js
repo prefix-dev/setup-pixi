@@ -24,6 +24,7 @@ export default defineConfig({
     '@actions/cache',
     '@actions/io',
     '@actions/tool-cache',
+    'handlebars',
     'untildify',
     'smol-toml',
     'which',

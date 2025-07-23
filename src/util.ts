@@ -5,6 +5,14 @@ import * as core from '@actions/core'
 import type { ExecOptions } from '@actions/exec'
 import { exec, getExecOutput } from '@actions/exec'
 import { options } from './options'
+import Handlebars from 'handlebars'
+
+export const DEFAULT_PIXI_URL_TEMPLATE = `\
+{{#if latest~}}
+https://github.com/prefix-dev/pixi/releases/latest/download/{{pixiFile}}
+{{~else~}}
+https://github.com/prefix-dev/pixi/releases/download/{{version}}/{{pixiFile}}
+{{~/if}}`
 
 export const getCondaArch = () => {
   const archDict: Record<string, string> = {
@@ -49,14 +57,17 @@ const getArch = () => {
   }
 }
 
-export const getPixiUrlFromVersion = (version: string) => {
+export const renderPixiUrl = (urlTemplate: string, version: string) => {
+  const latest = version == 'latest'
   const arch = getArch()
   const platform = getPlatform()
   const pixiFile = `pixi-${arch}-${platform}${platform === 'pc-windows-msvc' ? '.exe' : ''}`
-  if (version === 'latest') {
-    return `https://github.com/prefix-dev/pixi/releases/latest/download/${pixiFile}`
-  }
-  return `https://github.com/prefix-dev/pixi/releases/download/${version}/${pixiFile}`
+  const template = Handlebars.compile(urlTemplate)
+  return template({
+    version,
+    latest,
+    pixiFile
+  })
 }
 
 export const sha256 = (s: BinaryLike) => {
