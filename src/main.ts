@@ -12,14 +12,13 @@ import { activateEnvironment } from './activate'
 
 const downloadPixi = (source: PixiSource) => {
   const url = renderPixiUrl(source.urlTemplate, source.version)
-  const auth = 'bearerToken' in source && source.bearerToken ? `Bearer ${source.bearerToken}` : ''
   return core.group('Downloading Pixi', () => {
     core.debug('Installing pixi')
     core.debug(`Downloading pixi from ${url}`)
-    core.debug(`Using Bearer auth: ${auth ? 'yes' : 'no'}`)
+    core.debug(`Using headers: ${JSON.stringify(source.headers)}`)
     return fs
       .mkdir(path.dirname(options.pixiBinPath), { recursive: true })
-      .then(() => downloadTool(url, options.pixiBinPath, auth))
+      .then(() => downloadTool(url, options.pixiBinPath, undefined, source.headers))
       .then((_downloadPath) => fs.chmod(options.pixiBinPath, 0o755))
       .then(() => {
         core.info(`Pixi installed to ${options.pixiBinPath}`)

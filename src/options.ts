@@ -12,7 +12,7 @@ import { DEFAULT_PIXI_URL_TEMPLATE } from './util'
 type Inputs = Readonly<{
   pixiVersion?: string
   pixiUrl?: string
-  pixiUrlBearerToken?: string
+  pixiUrlHeaders?: NodeJS.Dict<string>
   logLevel?: LogLevel
   manifestPath?: string
   runInstall?: boolean
@@ -37,7 +37,7 @@ type Inputs = Readonly<{
 
 export interface PixiSource {
   urlTemplate: string
-  bearerToken?: string
+  headers?: NodeJS.Dict<string>
   version: string
 }
 
@@ -148,8 +148,8 @@ const parseOrUndefinedList = <T>(key: string, schema: z.ZodSchema<T>): T[] | und
 }
 
 const validateInputs = (inputs: Inputs): void => {
-  if (inputs.pixiUrlBearerToken && !inputs.pixiUrl) {
-    throw new Error('You need to specify pixi-url when using pixi-url-bearer-token')
+  if (inputs.pixiUrlHeaders && !inputs.pixiUrl) {
+    throw new Error('You need to specify pixi-url when using pixi-url-headers')
   }
   if (inputs.cacheKey !== undefined && inputs.cache === false) {
     throw new Error('Cannot specify cache key without caching')
@@ -240,7 +240,7 @@ const inferOptions = (inputs: Inputs): Options => {
   const runInstall = inputs.runInstall ?? true
   const pixiSource: PixiSource = {
     urlTemplate: inputs.pixiUrl ?? DEFAULT_PIXI_URL_TEMPLATE,
-    bearerToken: inputs.pixiUrlBearerToken,
+    headers: inputs.pixiUrlHeaders,
     version: inputs.pixiVersion ?? 'latest'
   }
 
@@ -358,7 +358,7 @@ const getOptions = () => {
       'pixi-version must either be `latest` or a version string matching `vX.Y.Z`.'
     ),
     pixiUrl: parseOrUndefined('pixi-url', z.string()),
-    pixiUrlBearerToken: parseOrUndefined('pixi-url-bearer-token', z.string()),
+    pixiUrlHeaders: parseOrUndefinedJSON('pixi-url-headers', z.record(z.string(), z.string())),
     logLevel: parseOrUndefined(
       'log-level',
       logLevelSchema,

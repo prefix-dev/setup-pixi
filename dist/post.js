@@ -30618,8 +30618,8 @@ var parseOrUndefinedList = (key, schema) => {
   return input.split(" ").map((s) => schema.parse(s)).filter((s) => s !== "");
 };
 var validateInputs = (inputs) => {
-  if (inputs.pixiUrlBearerToken && !inputs.pixiUrl) {
-    throw new Error("You need to specify pixi-url when using pixi-url-bearer-token");
+  if (inputs.pixiUrlHeaders && !inputs.pixiUrl) {
+    throw new Error("You need to specify pixi-url when using pixi-url-headers");
   }
   if (inputs.cacheKey !== void 0 && inputs.cache === false) {
     throw new Error("Cannot specify cache key without caching");
@@ -30701,7 +30701,7 @@ var inferOptions = (inputs) => {
   const runInstall = inputs.runInstall ?? true;
   const pixiSource = {
     urlTemplate: inputs.pixiUrl ?? DEFAULT_PIXI_URL_TEMPLATE,
-    bearerToken: inputs.pixiUrlBearerToken,
+    headers: inputs.pixiUrlHeaders,
     version: inputs.pixiVersion ?? "latest"
   };
   const { downloadPixi, pixiBinPath } = determinePixiInstallation(
@@ -30794,7 +30794,7 @@ var getOptions = () => {
       "pixi-version must either be `latest` or a version string matching `vX.Y.Z`."
     ),
     pixiUrl: parseOrUndefined("pixi-url", stringType()),
-    pixiUrlBearerToken: parseOrUndefined("pixi-url-bearer-token", stringType()),
+    pixiUrlHeaders: parseOrUndefinedJSON("pixi-url-headers", recordType(stringType(), stringType())),
     logLevel: parseOrUndefined(
       "log-level",
       logLevelSchema,

@@ -10,8 +10,8 @@ inputs:
     description: Version of pixi to install
   pixi-url:
     description: URL of pixi to install. Can be a Handlebars template receiving `version`, `latest`, and `pixiFile` as variables.
-  pixi-url-bearer-token:
-    description: Bearer token to use for authentication when downloading pixi from a URL.
+  pixi-url-headers:
+    description: Headers to use when fetching the pixi binary from `pixi-url`. Should be a JSON string.
   log-level:
     description: |
       Log level for the pixi CLI.
