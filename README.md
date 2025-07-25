@@ -396,13 +396,13 @@ If you only want to install pixi and not install the current project, you can us
 ### Download pixi from a custom URL
 
 You can also download pixi from a custom URL by setting the `pixi-url` input argument.
-Optionally, you can combine this with the `pixi-url-bearer-token` input argument to authenticate the download request.
+Optionally, you can combine this with the `pixi-url-headers` input argument to supply additional headers for the download request, such as a bearer token.
 
 ```yml
 - uses: prefix-dev/setup-pixi@v0.8.13
   with:
     pixi-url: https://pixi-mirror.example.com/releases/download/v0.48.0/pixi-x86_64-unknown-linux-musl
-    pixi-url-bearer-token: ${{ secrets.PIXI_MIRROR_BEARER_TOKEN }}
+    pixi-url-headers: '{"Authorization": "Bearer ${{ secrets.PIXI_MIRROR_BEARER_TOKEN }}"}'
 ```
 
 The `pixi-url` input argument can also be a [Handlebars](https://handlebarsjs.com/) template string.
