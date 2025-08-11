@@ -113,7 +113,7 @@ const inputOrEnvironmentVariable = (key: string): string | undefined => {
   return undefined
 }
 
-const parseOrUndefined = <T>(key: string, schema: z.ZodSchema<T>, errorMessage?: string): T | undefined => {
+const parseOrUndefined = <T>(key: string, schema: z.ZodType<T>, errorMessage?: string): T | undefined => {
   const input = inputOrEnvironmentVariable(key)
   if (input === undefined) {
     return undefined
@@ -128,7 +128,7 @@ const parseOrUndefined = <T>(key: string, schema: z.ZodSchema<T>, errorMessage?:
   return maybeResult.data
 }
 
-const parseOrUndefinedJSON = <T>(key: string, schema: z.ZodSchema<T>): T | undefined => {
+const parseOrUndefinedJSON = <T>(key: string, schema: z.ZodType<T>): T | undefined => {
   const input = inputOrEnvironmentVariable(key)
   if (input === undefined) {
     return undefined
@@ -136,7 +136,7 @@ const parseOrUndefinedJSON = <T>(key: string, schema: z.ZodSchema<T>): T | undef
   return schema.parse(JSON.parse(input))
 }
 
-const parseOrUndefinedList = <T>(key: string, schema: z.ZodSchema<T>): T[] | undefined => {
+const parseOrUndefinedList = <T>(key: string, schema: z.ZodType<T>): T[] | undefined => {
   const input = inputOrEnvironmentVariable(key)
   if (input === undefined) {
     return undefined
