@@ -69,6 +69,6 @@ inputs:
       If `true`, the pixi environment, the pixi binary and the rattler files in ~/.rattler and ~/.cache/rattler are removed.
 
 runs:
-  using: node20
+  using: node24
   main: dist/index.js
   post: dist/post.js
