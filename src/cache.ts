@@ -18,10 +18,12 @@ export const generateCacheKey = async (cacheKeyPrefix: string) =>
       core.debug(`lockfilePathSha: ${lockfilePathSha}`)
       const environments = sha256(options.environments?.join(' ') ?? '')
       core.debug(`environments: ${environments}`)
+      const globalEnvironments = sha256(options.globalEnvironments?.join(' ') ?? '')
+      core.debug(`globalEnvironments: ${globalEnvironments}`)
       // since the lockfile path is not necessarily absolute, we need to include the cwd in the cache key
       const cwdSha = sha256(process.cwd())
       core.debug(`cwdSha: ${cwdSha}`)
-      const sha = sha256(lockfileSha + environments + pixiSha + lockfilePathSha + cwdSha)
+      const sha = sha256(lockfileSha + environments + globalEnvironments + pixiSha + lockfilePathSha + cwdSha)
       core.debug(`sha: ${sha}`)
       return `${cacheKeyPrefix}${getCondaArch()}-${sha}`
     })
@@ -30,7 +32,14 @@ export const generateCacheKey = async (cacheKeyPrefix: string) =>
       throw new Error(`Failed to generate cache key: ${err}`)
     })
 
-const cachePath = path.join(path.dirname(options.pixiLockFile), '.pixi')
+const projectCachePath = path.join(path.dirname(options.pixiLockFile), '.pixi')
+const home = process.env.HOME
+if (!home) {
+  throw new Error('HOME environment variable is not set.')
+}
+const globalCachePath = path.join(home, '.pixi', 'envs')
+
+const cachePaths = [projectCachePath, globalCachePath]
 
 let cacheHit = false
 
@@ -43,8 +52,8 @@ export const tryRestoreCache = (): Promise<string | undefined> => {
   return core.group('Restoring pixi cache', () =>
     generateCacheKey(cache_.cacheKeyPrefix).then((cacheKey) => {
       core.debug(`Cache key: ${cacheKey}`)
-      core.debug(`Cache path: ${cachePath}`)
-      return cache.restoreCache([cachePath], cacheKey, undefined, undefined, false).then((key) => {
+      core.debug(`Cache paths: ${cachePaths.join(', ')}`)
+      return cache.restoreCache(cachePaths, cacheKey, undefined, undefined, false).then((key) => {
         if (key) {
           core.info(`Restored cache with key \`${key}\``)
           cacheHit = true
@@ -70,7 +79,7 @@ export const saveCache = () => {
   return core.group('Saving pixi cache', () =>
     generateCacheKey(cache_.cacheKeyPrefix).then((cacheKey) =>
       cache
-        .saveCache([cachePath], cacheKey, undefined, false)
+        .saveCache(cachePaths, cacheKey, undefined, false)
         .then((cacheId) => {
           core.info(`Saved cache with ID "${cacheId.toString()}"`)
         })
