@@ -66,10 +66,13 @@ const pixiInstall = async () => {
   }
   return tryRestoreCache()
     .then(async (_cacheKey) => {
-      const environments = options.environments ?? ['default']
+      const environments = options.environments ?? [undefined]
       for (const environment of environments) {
-        core.debug(`Installing environment ${environment}`)
-        let command = `install -e ${environment}`
+        core.debug(`Installing environment ${environment ?? 'default'}`)
+        let command = `install`
+        if (environment) {
+          command += ` -e ${environment}`
+        }
         if (options.frozen) {
           command += ' --frozen'
         }

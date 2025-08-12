@@ -80092,10 +80092,13 @@ var pixiInstall = async () => {
     return Promise.resolve();
   }
   return tryRestoreCache().then(async (_cacheKey) => {
-    const environments = options.environments ?? ["default"];
+    const environments = options.environments ?? [void 0];
     for (const environment of environments) {
-      core5.debug(`Installing environment ${environment}`);
-      let command = `install -e ${environment}`;
+      core5.debug(`Installing environment ${environment ?? "default"}`);
+      let command = `install`;
+      if (environment) {
+        command += ` -e ${environment}`;
+      }
       if (options.frozen) {
         command += " --frozen";
       }
