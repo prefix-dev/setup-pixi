@@ -344,7 +344,7 @@ const inferOptions = (inputs: Inputs): Options => {
     cache,
     pixiBinPath,
     auth,
-    postCleanup,
+    postCleanup
   }
 }
 
