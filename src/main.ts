@@ -59,6 +59,20 @@ const addPixiToPath = () => {
   core.addPath(path.dirname(options.pixiBinPath))
 }
 
+const pixiGlobalInstall = async () => {
+  const { globalEnvironments } = options
+  if (!globalEnvironments) {
+    core.debug('Skipping pixi global install.')
+    return
+  }
+  await core.group('Installing global environments', async () => {
+    for (const env of globalEnvironments) {
+      const command = `global install ${env}`
+      await core.group(`pixi ${command}`, () => execute(pixiCmd(command)))
+    }
+  })
+}
+
 const pixiInstall = async () => {
   if (!options.runInstall) {
     core.debug('Skipping pixi install.')
@@ -131,6 +145,7 @@ const run = async () => {
   }
   addPixiToPath()
   await pixiLogin()
+  await pixiGlobalInstall()
   await pixiInstall()
   await generateInfo()
   await generateList()

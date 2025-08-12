@@ -33,6 +33,7 @@ type Inputs = Readonly<{
   authS3SecretAccessKey?: string
   authS3SessionToken?: string
   postCleanup?: boolean
+  globalEnvironments?: string[]
 }>
 
 export interface PixiSource {
@@ -81,6 +82,7 @@ export type Options = Readonly<{
   auth?: Auth
   postCleanup: boolean
   activatedEnvironment?: string
+  globalEnvironments?: string[]
 }>
 const pixiPath = 'pixi.toml'
 const pyprojectPath = 'pyproject.toml'
@@ -144,6 +146,17 @@ const parseOrUndefinedList = <T>(key: string, schema: z.ZodType<T>): T[] | undef
   return input
     .split(' ')
     .map((s) => schema.parse(s))
+    .filter((s) => s !== '')
+}
+
+const parseOrUndefinedMultilineList = <T>(key: string, schema: z.ZodType<T>): T[] | undefined => {
+  const input = inputOrEnvironmentVariable(key)
+  if (input === undefined) {
+    return undefined
+  }
+  return input
+    .split('\n')
+    .map((s) => schema.parse(s.trim()))
     .filter((s) => s !== '')
 }
 
@@ -212,6 +225,9 @@ const validateInputs = (inputs: Inputs): void => {
   }
   if (inputs.activateEnvironment === 'true' && inputs.environments && inputs.environments.length > 1) {
     throw new Error('When installing multiple environments, `activate-environment` must specify the environment name')
+  }
+  if (inputs.globalEnvironments && inputs.runInstall === false) {
+    throw new Error('Cannot specify global-environments without running install')
   }
 }
 
@@ -324,6 +340,7 @@ const inferOptions = (inputs: Inputs): Options => {
               }) as Auth)
   const postCleanup = inputs.postCleanup ?? true
   return {
+    globalEnvironments: inputs.globalEnvironments,
     pixiSource,
     downloadPixi,
     logLevel,
@@ -382,7 +399,8 @@ const getOptions = () => {
     authS3AccessKeyId: parseOrUndefined('auth-s3-access-key-id', z.string()),
     authS3SecretAccessKey: parseOrUndefined('auth-s3-secret-access-key', z.string()),
     authS3SessionToken: parseOrUndefined('auth-s3-session-token', z.string()),
-    postCleanup: parseOrUndefinedJSON('post-cleanup', z.boolean())
+    postCleanup: parseOrUndefinedJSON('post-cleanup', z.boolean()),
+    globalEnvironments: parseOrUndefinedMultilineList('global-environments', z.string())
   }
   core.debug(`Inputs: ${JSON.stringify(inputs)}`)
   validateInputs(inputs)

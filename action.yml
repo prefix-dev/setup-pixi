@@ -67,6 +67,9 @@ inputs:
     description: |
       If the action should clean up after itself. Defaults to `true`.
       If `true`, the pixi environment, the pixi binary and the rattler files in ~/.rattler and ~/.cache/rattler are removed.
+  global-environments:
+    description: |
+      A newline-separated list of packages to install globally with `pixi global install`.
 
 runs:
   using: node24
