@@ -47,6 +47,24 @@ jobs:
           pixi run python --version | grep -q 3.11
           pixi run test | grep -q "Hello world"
 
+  global-environments:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Move pixi.toml
+        run: mv test/global-environments/* .
+      - uses: ./
+        with:
+          global-environments: |
+            cowpy
+            keyring --with keyrings.google-artifactregistry-auth
+      - run: |
+          cowpy hello world
+          keyring --list-backends
+
   no-run-install:
     strategy:
       matrix:

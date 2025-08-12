@@ -1,0 +1,5 @@
+[project]
+name = "global-environments"
+version = "0.1.0"
+
+[dependencies]
