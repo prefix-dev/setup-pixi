@@ -59,7 +59,7 @@ jobs:
           run-install: false
           global-environments: |
             cowpy
-            keyring --with keyring.google-auth
+            keyring --with keyrings.google-artifactregistry-auth
       - run: |
           set -o pipefail
           cowpy hello world
