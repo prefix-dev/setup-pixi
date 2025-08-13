@@ -67,7 +67,7 @@ const pixiGlobalInstall = async () => {
   core.debug('Installing global environments')
   for (const env of globalEnvironments) {
     const command = `global install ${env}`
-    await core.group(`pixi ${command}`, () => execute(pixiCmd(command)))
+    await core.group(`pixi ${command}`, () => execute(pixiCmd(command, false)))
   }
 
   await saveGlobalCache()

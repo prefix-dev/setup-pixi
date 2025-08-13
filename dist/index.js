@@ -74380,7 +74380,7 @@ var pixiGlobalInstall = async () => {
   core5.debug("Installing global environments");
   for (const env of globalEnvironments) {
     const command = `global install ${env}`;
-    await core5.group(`pixi ${command}`, () => execute(pixiCmd(command)));
+    await core5.group(`pixi ${command}`, () => execute(pixiCmd(command, false)));
   }
   await saveGlobalCache();
 };
