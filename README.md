@@ -213,14 +213,14 @@ You can also specify the session token using the `auth-session-token` input argu
 
 See the [pixi documentation](https://pixi.sh/latest/advanced/s3) for more information about S3 authentication.
 
-#### PyPI Keyring
+#### PyPI keyring provider
 
 You can specify whether to use keyring to look up credentials for PyPI.
 
 ```yml
 - uses: prefix-dev/setup-pixi@v0.9.0
   with:
-    pypi-keyring-provider: subprocess
+    pypi-keyring-provider: subprocess # one of 'subprocess', 'disabled'
 ```
 
 ### Custom shell wrapper
