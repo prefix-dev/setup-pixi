@@ -5,40 +5,48 @@ import * as cache from '@actions/cache'
 import { options } from './options'
 import { getCondaArch, sha256 } from './util'
 
-export const generateProjectCacheKey = async (cacheKeyPrefix: string) =>
-  Promise.all([fs.readFile(options.pixiLockFile), fs.readFile(options.pixiBinPath)])
-    .then(([lockfileContent, pixiBinary]) => {
-      const lockfileSha = sha256(lockfileContent)
-      core.debug(`lockfileSha: ${lockfileSha}`)
-      const pixiSha = sha256(pixiBinary)
-      core.debug(`pixiSha: ${pixiSha}`)
-      // the path to the lock file decides where the pixi env is created (../.pixi/env)
-      // since conda envs are not relocatable, we need to include the path in the cache key
-      const lockfilePathSha = sha256(options.pixiLockFile)
-      core.debug(`lockfilePathSha: ${lockfilePathSha}`)
-      const environments = sha256(options.environments?.join(' ') ?? '')
-      core.debug(`environments: ${environments}`)
-      // since the lockfile path is not necessarily absolute, we need to include the cwd in the cache key
-      const cwdSha = sha256(process.cwd())
-      core.debug(`cwdSha: ${cwdSha}`)
-      const sha = sha256(lockfileSha + environments + pixiSha + lockfilePathSha + cwdSha)
-      core.debug(`sha: ${sha}`)
-      return `${cacheKeyPrefix}${getCondaArch()}-${sha}`
-    })
-    .catch((err: unknown) => {
-      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-      throw new Error(`Failed to generate cache key: ${err}`)
-    })
+export const generateProjectCacheKey = async (cacheKeyPrefix: string) => {
+  try {
+    const [lockfileContent, pixiBinary] = await Promise.all([
+      fs.readFile(options.pixiLockFile),
+      fs.readFile(options.pixiBinPath)
+    ])
+    const lockfileSha = sha256(lockfileContent)
+    core.debug(`lockfileSha: ${lockfileSha}`)
+    const pixiSha = sha256(pixiBinary)
+    core.debug(`pixiSha: ${pixiSha}`)
+    // the path to the lock file decides where the pixi env is created (../.pixi/env)
+    // since conda envs are not relocatable, we need to include the path in the cache key
+    const lockfilePathSha = sha256(options.pixiLockFile)
+    core.debug(`lockfilePathSha: ${lockfilePathSha}`)
+    const environments = sha256(options.environments?.join(' ') ?? '')
+    core.debug(`environments: ${environments}`)
+    // since the lockfile path is not necessarily absolute, we need to include the cwd in the cache key
+    const cwdSha = sha256(process.cwd())
+    core.debug(`cwdSha: ${cwdSha}`)
+    const sha = sha256(lockfileSha + environments + pixiSha + lockfilePathSha + cwdSha)
+    core.debug(`sha: ${sha}`)
+    return `${cacheKeyPrefix}${getCondaArch()}-${sha}`
+  } catch (err: unknown) {
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    throw new Error(`Failed to generate cache key: ${err}`)
+  }
+}
 
 export const generateGlobalCacheKey = async (cacheKeyPrefix: string) => {
-  const pixiBinary = await fs.readFile(options.pixiBinPath)
-  const pixiSha = sha256(pixiBinary)
-  core.debug(`pixiSha: ${pixiSha}`)
-  const globalEnvironments = sha256(options.globalEnvironments?.join(' ') ?? '')
-  core.debug(`globalEnvironments: ${globalEnvironments}`)
-  const sha = sha256(globalEnvironments + pixiSha)
-  core.debug(`sha: ${sha}`)
-  return `${cacheKeyPrefix}${getCondaArch()}-${sha}`
+  try {
+    const pixiBinary = await fs.readFile(options.pixiBinPath)
+    const pixiSha = sha256(pixiBinary)
+    core.debug(`pixiSha: ${pixiSha}`)
+    const globalEnvironments = sha256(options.globalEnvironments?.join(' ') ?? '')
+    core.debug(`globalEnvironments: ${globalEnvironments}`)
+    const sha = sha256(globalEnvironments + pixiSha)
+    core.debug(`sha: ${sha}`)
+    return `${cacheKeyPrefix}${getCondaArch()}-${sha}`
+  } catch (err: unknown) {
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    throw new Error(`Failed to generate cache key: ${err}`)
+  }
 }
 
 const projectCachePath = path.join(path.dirname(options.pixiLockFile), '.pixi')
@@ -54,27 +62,25 @@ const getGlobalCachePath = () => {
 let projectCacheHit = false
 let globalCacheHit = false
 
-export const tryRestoreProjectCache = (): Promise<string | undefined> => {
+export const tryRestoreProjectCache = async (): Promise<string | undefined> => {
   const cache_ = options.cache
   if (!cache_) {
     core.debug('Skipping pixi cache restore.')
-    return Promise.resolve(undefined)
+    return undefined
   }
-  return core.group('Restoring pixi cache', () =>
-    generateProjectCacheKey(cache_.cacheKeyPrefix).then((cacheKey) => {
-      core.debug(`Cache key: ${cacheKey}`)
-      core.debug(`Cache path: ${projectCachePath}`)
-      return cache.restoreCache([projectCachePath], cacheKey, undefined, undefined, false).then((key) => {
-        if (key) {
-          core.info(`Restored cache with key \`${key}\``)
-          projectCacheHit = true
-        } else {
-          core.info(`Cache miss`)
-        }
-        return key
-      })
-    })
-  )
+  return core.group('Restoring pixi cache', async () => {
+    const cacheKey = await generateProjectCacheKey(cache_.projectCacheKeyPrefix)
+    core.debug(`Cache key: ${cacheKey}`)
+    core.debug(`Cache path: ${projectCachePath}`)
+    const key = await cache.restoreCache([projectCachePath], cacheKey, undefined, undefined, false)
+    if (key) {
+      core.info(`Restored cache with key \`${key}\``)
+      projectCacheHit = true
+    } else {
+      core.info(`Cache miss`)
+    }
+    return key
+  })
 }
 
 export const tryRestoreGlobalCache = async (): Promise<boolean> => {
@@ -112,7 +118,7 @@ export const saveProjectCache = async () => {
   await core.group('Saving project cache', async () => {
     const cacheKey = await generateProjectCacheKey(cache_.projectCacheKeyPrefix)
     try {
-      const cacheId = await cache.saveCache([getProjectCachePath()], cacheKey, undefined, false)
+      const cacheId = await cache.saveCache([projectCachePath], cacheKey, undefined, false)
       core.info(`Saved cache with ID "${cacheId.toString()}"`)
     } catch (err: unknown) {
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
