@@ -83,11 +83,11 @@ export const tryRestoreProjectCache = async (): Promise<string | undefined> => {
   })
 }
 
-export const tryRestoreGlobalCache = async (): Promise<boolean> => {
+export const tryRestoreGlobalCache = async (): Promise<string | undefined> => {
   const cache_ = options.cache
   if (!cache_ || !options.globalEnvironments || options.globalEnvironments.length === 0) {
     core.debug('Skipping global cache restore.')
-    return false
+    return undefined
   }
   return core.group('Restoring global cache', async () => {
     const cacheKey = await generateGlobalCacheKey(cache_.globalCacheKeyPrefix)
@@ -101,7 +101,7 @@ export const tryRestoreGlobalCache = async (): Promise<boolean> => {
     } else {
       core.info(`Cache miss`)
     }
-    return globalCacheHit
+    return key
   })
 }
 
