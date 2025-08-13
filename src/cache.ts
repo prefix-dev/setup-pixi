@@ -110,7 +110,7 @@ async function _saveCache(
 
 export const tryRestoreProjectCache = async (): Promise<string | undefined> => {
   const cache_ = options.cache
-  if (!cache_ || !options.lockFileAvailable) {
+  if (!cache_) {
     core.debug('Skipping project cache restore.')
     return undefined
   }

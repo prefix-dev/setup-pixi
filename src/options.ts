@@ -76,7 +76,6 @@ export type Options = Readonly<{
   logLevel: LogLevel
   manifestPath: string
   pixiLockFile: string
-  lockFileAvailable: boolean
   runInstall: boolean
   environments?: string[]
   frozen: boolean
@@ -171,6 +170,9 @@ const parseOrUndefinedMultilineList = <T>(key: string, schema: z.ZodType<T>): T[
 const validateInputs = (inputs: Inputs): void => {
   if (inputs.pixiUrlHeaders && !inputs.pixiUrl) {
     throw new Error('You need to specify pixi-url when using pixi-url-headers')
+  }
+  if ((inputs.projectCacheKey !== undefined || inputs.globalCacheKey !== undefined) && inputs.cache === false) {
+    throw new Error('Cannot specify cache key without caching')
   }
   if (
     inputs.runInstall === false &&
@@ -357,7 +359,6 @@ const inferOptions = (inputs: Inputs): Options => {
     logLevel,
     manifestPath,
     pixiLockFile,
-    lockFileAvailable,
     runInstall,
     environments: inputs.environments,
     activatedEnvironment,

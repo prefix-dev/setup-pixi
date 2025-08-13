@@ -73926,6 +73926,9 @@ var validateInputs = (inputs) => {
   if (inputs.pixiUrlHeaders && !inputs.pixiUrl) {
     throw new Error("You need to specify pixi-url when using pixi-url-headers");
   }
+  if ((inputs.projectCacheKey !== void 0 || inputs.globalCacheKey !== void 0) && inputs.cache === false) {
+    throw new Error("Cannot specify cache key without caching");
+  }
   if (inputs.runInstall === false && inputs.cache === true && !(inputs.globalEnvironments && inputs.globalEnvironments.length > 0)) {
     throw new Error("Cannot cache without running install or specifying global-environments");
   }
@@ -74082,7 +74085,6 @@ var inferOptions = (inputs) => {
     logLevel,
     manifestPath,
     pixiLockFile,
-    lockFileAvailable,
     runInstall,
     environments: inputs.environments,
     activatedEnvironment,
@@ -74242,7 +74244,7 @@ async function _saveCache(type2, wasHit, keyPrefix, generateKey, cachePath) {
 }
 var tryRestoreProjectCache = async () => {
   const cache_ = options.cache;
-  if (!cache_ || !options.lockFileAvailable) {
+  if (!cache_) {
     core3.debug("Skipping project cache restore.");
     return void 0;
   }
