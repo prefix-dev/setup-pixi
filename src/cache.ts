@@ -5,7 +5,7 @@ import * as cache from '@actions/cache'
 import { options } from './options'
 import { getCondaArch, sha256 } from './util'
 
-export const generateCacheKey = async (cacheKeyPrefix: string) =>
+export const generateProjectCacheKey = async (cacheKeyPrefix: string) =>
   Promise.all([fs.readFile(options.pixiLockFile), fs.readFile(options.pixiBinPath)])
     .then(([lockfileContent, pixiBinary]) => {
       const lockfileSha = sha256(lockfileContent)
@@ -18,12 +18,10 @@ export const generateCacheKey = async (cacheKeyPrefix: string) =>
       core.debug(`lockfilePathSha: ${lockfilePathSha}`)
       const environments = sha256(options.environments?.join(' ') ?? '')
       core.debug(`environments: ${environments}`)
-      const globalEnvironments = sha256(options.globalEnvironments?.join(' ') ?? '')
-      core.debug(`globalEnvironments: ${globalEnvironments}`)
       // since the lockfile path is not necessarily absolute, we need to include the cwd in the cache key
       const cwdSha = sha256(process.cwd())
       core.debug(`cwdSha: ${cwdSha}`)
-      const sha = sha256(lockfileSha + environments + globalEnvironments + pixiSha + lockfilePathSha + cwdSha)
+      const sha = sha256(lockfileSha + environments + pixiSha + lockfilePathSha + cwdSha)
       core.debug(`sha: ${sha}`)
       return `${cacheKeyPrefix}${getCondaArch()}-${sha}`
     })
@@ -32,31 +30,44 @@ export const generateCacheKey = async (cacheKeyPrefix: string) =>
       throw new Error(`Failed to generate cache key: ${err}`)
     })
 
-const projectCachePath = path.join(path.dirname(options.pixiLockFile), '.pixi')
-const home = process.env.HOME
-if (!home) {
-  throw new Error('HOME environment variable is not set.')
+export const generateGlobalCacheKey = async (cacheKeyPrefix: string) => {
+  const pixiBinary = await fs.readFile(options.pixiBinPath)
+  const pixiSha = sha256(pixiBinary)
+  core.debug(`pixiSha: ${pixiSha}`)
+  const globalEnvironments = sha256(options.globalEnvironments?.join(' ') ?? '')
+  core.debug(`globalEnvironments: ${globalEnvironments}`)
+  const sha = sha256(globalEnvironments + pixiSha)
+  core.debug(`sha: ${sha}`)
+  return `${cacheKeyPrefix}${getCondaArch()}-${sha}`
 }
-const globalCachePath = path.join(home, '.pixi', 'envs')
 
-const cachePaths = [projectCachePath, globalCachePath]
+const projectCachePath = path.join(path.dirname(options.pixiLockFile), '.pixi')
 
-let cacheHit = false
+const getGlobalCachePath = () => {
+  const home = process.env.HOME
+  if (!home) {
+    throw new Error('HOME environment variable is not set.')
+  }
+  return path.join(home, '.pixi', 'envs')
+}
 
-export const tryRestoreCache = (): Promise<string | undefined> => {
+let projectCacheHit = false
+let globalCacheHit = false
+
+export const tryRestoreProjectCache = (): Promise<string | undefined> => {
   const cache_ = options.cache
   if (!cache_) {
     core.debug('Skipping pixi cache restore.')
     return Promise.resolve(undefined)
   }
   return core.group('Restoring pixi cache', () =>
-    generateCacheKey(cache_.cacheKeyPrefix).then((cacheKey) => {
+    generateProjectCacheKey(cache_.cacheKeyPrefix).then((cacheKey) => {
       core.debug(`Cache key: ${cacheKey}`)
-      core.debug(`Cache paths: ${cachePaths.join(', ')}`)
-      return cache.restoreCache(cachePaths, cacheKey, undefined, undefined, false).then((key) => {
+      core.debug(`Cache path: ${projectCachePath}`)
+      return cache.restoreCache([projectCachePath], cacheKey, undefined, undefined, false).then((key) => {
         if (key) {
           core.info(`Restored cache with key \`${key}\``)
-          cacheHit = true
+          projectCacheHit = true
         } else {
           core.info(`Cache miss`)
         }
@@ -66,27 +77,68 @@ export const tryRestoreCache = (): Promise<string | undefined> => {
   )
 }
 
-export const saveCache = () => {
+export const tryRestoreGlobalCache = async (): Promise<boolean> => {
   const cache_ = options.cache
-  if (!cache_?.cacheWrite) {
-    core.debug('Skipping pixi cache save.')
-    return Promise.resolve(undefined)
+  if (!cache_ || !options.globalEnvironments || options.globalEnvironments.length === 0) {
+    core.debug('Skipping global cache restore.')
+    return false
   }
-  if (cacheHit) {
-    core.debug('Skipping pixi cache save because cache was restored.')
-    return Promise.resolve(undefined)
+  return core.group('Restoring global cache', async () => {
+    const cacheKey = await generateGlobalCacheKey(cache_.globalCacheKeyPrefix)
+    const cachePath = getGlobalCachePath()
+    core.debug(`Cache key: ${cacheKey}`)
+    core.debug(`Cache path: ${cachePath}`)
+    const key = await cache.restoreCache([cachePath], cacheKey, undefined, undefined, false)
+    if (key) {
+      core.info(`Restored cache with key \`${key}\``)
+      globalCacheHit = true
+    } else {
+      core.info(`Cache miss`)
+    }
+    return globalCacheHit
+  })
+}
+
+export const saveProjectCache = async () => {
+  const cache_ = options.cache
+  if (!cache_?.cacheWrite || !options.runInstall) {
+    core.debug('Skipping project cache save.')
+    return
   }
-  return core.group('Saving pixi cache', () =>
-    generateCacheKey(cache_.cacheKeyPrefix).then((cacheKey) =>
-      cache
-        .saveCache(cachePaths, cacheKey, undefined, false)
-        .then((cacheId) => {
-          core.info(`Saved cache with ID "${cacheId.toString()}"`)
-        })
-        .catch((err: unknown) => {
-          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-          core.error(`Error saving cache: ${err}`)
-        })
-    )
-  )
+  if (projectCacheHit) {
+    core.debug('Skipping project cache save because cache was restored.')
+    return
+  }
+  await core.group('Saving project cache', async () => {
+    const cacheKey = await generateProjectCacheKey(cache_.projectCacheKeyPrefix)
+    try {
+      const cacheId = await cache.saveCache([getProjectCachePath()], cacheKey, undefined, false)
+      core.info(`Saved cache with ID "${cacheId.toString()}"`)
+    } catch (err: unknown) {
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+      core.error(`Error saving cache: ${err}`)
+    }
+  })
+}
+
+export const saveGlobalCache = async () => {
+  const cache_ = options.cache
+  if (!cache_?.cacheWrite || !options.globalEnvironments || options.globalEnvironments.length === 0) {
+    core.debug('Skipping global cache save.')
+    return
+  }
+  if (globalCacheHit) {
+    core.debug('Skipping global cache save because cache was restored.')
+    return
+  }
+  await core.group('Saving global cache', async () => {
+    const cacheKey = await generateGlobalCacheKey(cache_.globalCacheKeyPrefix)
+    try {
+      const cacheId = await cache.saveCache([getGlobalCachePath()], cacheKey, undefined, false)
+      core.info(`Saved cache with ID "${cacheId.toString()}"`)
+    } catch (err: unknown) {
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+      core.error(`Error saving cache: ${err}`)
+    }
+  })
 }

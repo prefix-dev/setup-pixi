@@ -7,7 +7,12 @@ import { downloadTool } from '@actions/tool-cache'
 import type { PixiSource } from './options'
 import { options } from './options'
 import { execute, pixiCmd, renderPixiUrl } from './util'
-import { saveCache, tryRestoreCache } from './cache'
+import {
+  tryRestoreGlobalCache,
+  tryRestoreProjectCache,
+  saveGlobalCache,
+  saveProjectCache
+} from './cache'
 import { activateEnvironment } from './activate'
 
 const downloadPixi = (source: PixiSource) => {
@@ -60,17 +65,18 @@ const addPixiToPath = () => {
 }
 
 const pixiGlobalInstall = async () => {
-  const { globalEnvironments } = options
-  if (!globalEnvironments) {
-    core.debug('Skipping pixi global install.')
-    return
-  }
-  await core.group('Installing global environments', async () => {
+    const { globalEnvironments } = options
+    if (!globalEnvironments) {
+      core.debug('Skipping pixi global install.')
+      return Promise.resolve()
+    }
+  return tryRestoreGlobalCache().then(async (_cacheKey) => {
+    core.debug('Installing global environments')
     for (const env of globalEnvironments) {
       const command = `global install ${env}`
       await core.group(`pixi ${command}`, () => execute(pixiCmd(command)))
     }
-  })
+  }).then(saveGlobalCache)
 }
 
 const pixiInstall = async () => {
@@ -78,7 +84,7 @@ const pixiInstall = async () => {
     core.debug('Skipping pixi install.')
     return Promise.resolve()
   }
-  return tryRestoreCache()
+  return tryRestoreProjectCache()
     .then(async (_cacheKey) => {
       if (options.environments) {
         for (const environment of options.environments) {
@@ -93,7 +99,7 @@ const pixiInstall = async () => {
         return core.group(`pixi ${command}`, () => execute(pixiCmd(command)))
       }
     })
-    .then(saveCache)
+    .then(saveProjectCache)
 }
 
 const generateList = async () => {
