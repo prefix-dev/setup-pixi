@@ -23,6 +23,9 @@ inputs:
   environments:
     description: |
       A space-separated list of environments to install. If not specified, only the default environment is installed.
+  global-environments:
+    description: |
+      A newline-separated list of packages / commands to install globally with `pixi global install`.
   activate-environment:
     description: |
       If the installed environment should be "activated" for the current job, modifying `$GITHUB_ENV` and
@@ -33,7 +36,9 @@ inputs:
   frozen:
     description: Whether to use `pixi install --frozen`. Defaults to `false`.
   cache:
-    description: Whether to cache the pixi environment. Defaults to `true`. Only works if `pixi.lock` is present.
+    description: |
+      Whether to cache the project and/or global environment(s). Defaults to `true`. Only works if `pixi.lock` is present
+      for project environment(s).
   cache-key:
     description: |
       Cache key prefix to use for caching the project environment.
@@ -71,9 +76,6 @@ inputs:
     description: |
       If the action should clean up after itself. Defaults to `true`.
       If `true`, the pixi environment, the pixi binary and the rattler files in ~/.rattler and ~/.cache/rattler are removed.
-  global-environments:
-    description: |
-      A newline-separated list of packages to install globally with `pixi global install`.
 
 runs:
   using: node24

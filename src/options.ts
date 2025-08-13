@@ -75,6 +75,7 @@ export type Options = Readonly<{
   logLevel: LogLevel
   manifestPath: string
   pixiLockFile: string
+  lockFileAvailable: boolean
   runInstall: boolean
   environments?: string[]
   frozen: boolean
@@ -308,9 +309,7 @@ const inferOptions = (inputs: Inputs): Options => {
     activatedEnvironment = inputs.activateEnvironment
   }
   const cache =
-    inputs.cache === true ||
-    ((lockFileAvailable || (inputs.globalEnvironments && inputs.globalEnvironments.length > 0)) &&
-      inputs.cache !== false)
+    inputs.cache === true
       ? {
           projectCacheKeyPrefix: inputs.projectCacheKey ?? 'pixi-',
           globalCacheKeyPrefix: inputs.globalCacheKey ?? 'pixi-global-',
@@ -351,6 +350,7 @@ const inferOptions = (inputs: Inputs): Options => {
     logLevel,
     manifestPath,
     pixiLockFile,
+    lockFileAvailable,
     runInstall,
     environments: inputs.environments,
     activatedEnvironment,
