@@ -33,6 +33,7 @@ type Inputs = Readonly<{
   authS3AccessKeyId?: string
   authS3SecretAccessKey?: string
   authS3SessionToken?: string
+  pypiKeyringProvider?: 'disabled' | 'subprocess'
   postCleanup?: boolean
   globalEnvironments?: string[]
 }>
@@ -83,6 +84,7 @@ export type Options = Readonly<{
   cache?: Cache
   pixiBinPath: string
   auth?: Auth
+  pypiKeyringProvider?: 'disabled' | 'subprocess'
   postCleanup: boolean
   activatedEnvironment?: string
   globalEnvironments?: string[]
@@ -92,6 +94,9 @@ const pyprojectPath = 'pyproject.toml'
 
 const logLevelSchema = z.enum(['q', 'default', 'v', 'vv', 'vvv'])
 export type LogLevel = z.infer<typeof logLevelSchema>
+
+const pypiKeyringProviderSchema = z.enum(['disabled', 'subprocess'])
+export type PypiKeyringProvider = z.infer<typeof pypiKeyringProviderSchema>
 
 export const PATHS = {
   pixiBin: path.join(os.homedir(), '.pixi', 'bin', `pixi${os.platform() === 'win32' ? '.exe' : ''}`)
@@ -343,9 +348,11 @@ const inferOptions = (inputs: Inputs): Options => {
                 s3SessionToken: inputs.authS3SessionToken
               }) as Auth)
   const postCleanup = inputs.postCleanup ?? true
+  const pypiKeyringProvider = inputs.pypiKeyringProvider
   return {
     globalEnvironments: inputs.globalEnvironments,
     pixiSource,
+    pypiKeyringProvider,
     downloadPixi,
     logLevel,
     manifestPath,
@@ -405,8 +412,9 @@ const getOptions = () => {
     authS3AccessKeyId: parseOrUndefined('auth-s3-access-key-id', z.string()),
     authS3SecretAccessKey: parseOrUndefined('auth-s3-secret-access-key', z.string()),
     authS3SessionToken: parseOrUndefined('auth-s3-session-token', z.string()),
-    postCleanup: parseOrUndefinedJSON('post-cleanup', z.boolean()),
-    globalEnvironments: parseOrUndefinedMultilineList('global-environments', z.string())
+    pypiKeyringProvider: parseOrUndefined('pypi-keyring-provider', pypiKeyringProviderSchema),
+    globalEnvironments: parseOrUndefinedMultilineList('global-environments', z.string()),
+    postCleanup: parseOrUndefinedJSON('post-cleanup', z.boolean())
   }
   core.debug(`Inputs: ${JSON.stringify(inputs)}`)
   validateInputs(inputs)
