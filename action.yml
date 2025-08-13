@@ -63,6 +63,10 @@ inputs:
     description: Secret access key to use for S3 authentication.
   auth-s3-session-token:
     description: Session token to use for S3 authentication.
+  pypi-keyring-provider:
+    description: |
+      Specifies whether to use keyring to look up credentials for PyPI.
+      options: disabled, subprocess
   post-cleanup:
     description: |
       If the action should clean up after itself. Defaults to `true`.

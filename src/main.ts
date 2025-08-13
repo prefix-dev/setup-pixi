@@ -66,17 +66,23 @@ const pixiInstall = async () => {
   }
   return tryRestoreCache()
     .then(async (_cacheKey) => {
-      if (options.environments) {
-        for (const environment of options.environments) {
-          core.debug(`Installing environment ${environment}`)
-          const command = `install -e ${environment}${options.frozen ? ' --frozen' : ''}${
-            options.locked ? ' --locked' : ''
-          }`
-          await core.group(`pixi ${command}`, () => execute(pixiCmd(command)))
+      const environments = options.environments ?? [undefined]
+      for (const environment of environments) {
+        core.debug(`Installing environment ${environment ?? 'default'}`)
+        let command = `install`
+        if (environment) {
+          command += ` -e ${environment}`
         }
-      } else {
-        const command = `install${options.frozen ? ' --frozen' : ''}${options.locked ? ' --locked' : ''}`
-        return core.group(`pixi ${command}`, () => execute(pixiCmd(command)))
+        if (options.frozen) {
+          command += ' --frozen'
+        }
+        if (options.locked) {
+          command += ' --locked'
+        }
+        if (options.pypiKeyringProvider) {
+          command += ` --pypi-keyring-provider ${options.pypiKeyringProvider}`
+        }
+        await core.group(`pixi ${command}`, () => execute(pixiCmd(command)))
       }
     })
     .then(saveCache)

@@ -73867,6 +73867,7 @@ var pixiCmd = (command, withManifestPath = true) => {
 var pixiPath = "pixi.toml";
 var pyprojectPath = "pyproject.toml";
 var logLevelSchema = _enum(["q", "default", "v", "vv", "vvv"]);
+var pypiKeyringProviderSchema = _enum(["disabled", "subprocess"]);
 var PATHS = {
   pixiBin: import_path.default.join(import_os2.default.homedir(), ".pixi", "bin", `pixi${import_os2.default.platform() === "win32" ? ".exe" : ""}`)
 };
@@ -74064,8 +74065,10 @@ var inferOptions = (inputs) => {
     s3SessionToken: inputs.authS3SessionToken
   };
   const postCleanup = inputs.postCleanup ?? true;
+  const pypiKeyringProvider = inputs.pypiKeyringProvider;
   return {
     pixiSource,
+    pypiKeyringProvider,
     downloadPixi: downloadPixi2,
     logLevel,
     manifestPath,
@@ -74115,6 +74118,7 @@ var getOptions = () => {
     authS3AccessKeyId: parseOrUndefined("auth-s3-access-key-id", string2()),
     authS3SecretAccessKey: parseOrUndefined("auth-s3-secret-access-key", string2()),
     authS3SessionToken: parseOrUndefined("auth-s3-session-token", string2()),
+    pypiKeyringProvider: parseOrUndefined("pypi-keyring-provider", pypiKeyringProviderSchema),
     postCleanup: parseOrUndefinedJSON("post-cleanup", boolean2())
   };
   core2.debug(`Inputs: ${JSON.stringify(inputs)}`);
@@ -74310,15 +74314,23 @@ var pixiInstall = async () => {
     return Promise.resolve();
   }
   return tryRestoreCache().then(async (_cacheKey) => {
-    if (options.environments) {
-      for (const environment of options.environments) {
-        core5.debug(`Installing environment ${environment}`);
-        const command = `install -e ${environment}${options.frozen ? " --frozen" : ""}${options.locked ? " --locked" : ""}`;
-        await core5.group(`pixi ${command}`, () => execute(pixiCmd(command)));
+    const environments = options.environments ?? [void 0];
+    for (const environment of environments) {
+      core5.debug(`Installing environment ${environment ?? "default"}`);
+      let command = `install`;
+      if (environment) {
+        command += ` -e ${environment}`;
       }
-    } else {
-      const command = `install${options.frozen ? " --frozen" : ""}${options.locked ? " --locked" : ""}`;
-      return core5.group(`pixi ${command}`, () => execute(pixiCmd(command)));
+      if (options.frozen) {
+        command += " --frozen";
+      }
+      if (options.locked) {
+        command += " --locked";
+      }
+      if (options.pypiKeyringProvider) {
+        command += ` --pypi-keyring-provider ${options.pypiKeyringProvider}`;
+      }
+      await core5.group(`pixi ${command}`, () => execute(pixiCmd(command)));
     }
   }).then(saveCache2);
 };
