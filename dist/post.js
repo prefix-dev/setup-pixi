@@ -29659,6 +29659,7 @@ https://github.com/prefix-dev/pixi/releases/download/{{version}}/{{pixiFile}}
 var pixiPath = "pixi.toml";
 var pyprojectPath = "pyproject.toml";
 var logLevelSchema = _enum(["q", "default", "v", "vv", "vvv"]);
+var pypiKeyringProviderSchema = _enum(["disabled", "subprocess"]);
 var PATHS = {
   pixiBin: import_path.default.join(import_os.default.homedir(), ".pixi", "bin", `pixi${import_os.default.platform() === "win32" ? ".exe" : ""}`)
 };
@@ -29864,9 +29865,11 @@ var inferOptions = (inputs) => {
     s3SessionToken: inputs.authS3SessionToken
   };
   const postCleanup = inputs.postCleanup ?? true;
+  const pypiKeyringProvider = inputs.pypiKeyringProvider;
   return {
     globalEnvironments: inputs.globalEnvironments,
     pixiSource,
+    pypiKeyringProvider,
     downloadPixi,
     logLevel,
     manifestPath,
@@ -29918,8 +29921,9 @@ var getOptions = () => {
     authS3AccessKeyId: parseOrUndefined("auth-s3-access-key-id", string2()),
     authS3SecretAccessKey: parseOrUndefined("auth-s3-secret-access-key", string2()),
     authS3SessionToken: parseOrUndefined("auth-s3-session-token", string2()),
-    postCleanup: parseOrUndefinedJSON("post-cleanup", boolean2()),
-    globalEnvironments: parseOrUndefinedMultilineList("global-environments", string2())
+    pypiKeyringProvider: parseOrUndefined("pypi-keyring-provider", pypiKeyringProviderSchema),
+    globalEnvironments: parseOrUndefinedMultilineList("global-environments", string2()),
+    postCleanup: parseOrUndefinedJSON("post-cleanup", boolean2())
   };
   core2.debug(`Inputs: ${JSON.stringify(inputs)}`);
   validateInputs(inputs);
