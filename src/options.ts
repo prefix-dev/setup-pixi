@@ -21,7 +21,8 @@ type Inputs = Readonly<{
   frozen?: boolean
   locked?: boolean
   cache?: boolean
-  cacheKey?: string
+  projectCacheKey?: string
+  globalCacheKey?: string
   cacheWrite?: boolean
   pixiBinPath?: string
   authHost?: string
@@ -34,6 +35,7 @@ type Inputs = Readonly<{
   authS3SessionToken?: string
   pypiKeyringProvider?: 'disabled' | 'subprocess'
   postCleanup?: boolean
+  globalEnvironments?: string[]
 }>
 
 export interface PixiSource {
@@ -63,7 +65,8 @@ type Auth = {
 )
 
 interface Cache {
-  cacheKeyPrefix: string
+  projectCacheKeyPrefix: string
+  globalCacheKeyPrefix: string
   cacheWrite: boolean
 }
 
@@ -83,6 +86,7 @@ export type Options = Readonly<{
   pypiKeyringProvider?: 'disabled' | 'subprocess'
   postCleanup: boolean
   activatedEnvironment?: string
+  globalEnvironments?: string[]
 }>
 const pixiPath = 'pixi.toml'
 const pyprojectPath = 'pyproject.toml'
@@ -152,15 +156,30 @@ const parseOrUndefinedList = <T>(key: string, schema: z.ZodType<T>): T[] | undef
     .filter((s) => s !== '')
 }
 
+const parseOrUndefinedMultilineList = <T>(key: string, schema: z.ZodType<T>): T[] | undefined => {
+  const input = inputOrEnvironmentVariable(key)
+  if (input === undefined) {
+    return undefined
+  }
+  return input
+    .split('\n')
+    .map((s) => schema.parse(s.trim()))
+    .filter((s) => s !== '')
+}
+
 const validateInputs = (inputs: Inputs): void => {
   if (inputs.pixiUrlHeaders && !inputs.pixiUrl) {
     throw new Error('You need to specify pixi-url when using pixi-url-headers')
   }
-  if (inputs.cacheKey !== undefined && inputs.cache === false) {
+  if ((inputs.projectCacheKey !== undefined || inputs.globalCacheKey !== undefined) && inputs.cache === false) {
     throw new Error('Cannot specify cache key without caching')
   }
-  if (inputs.runInstall === false && inputs.cache === true) {
-    throw new Error('Cannot cache without running install')
+  if (
+    inputs.runInstall === false &&
+    inputs.cache === true &&
+    !(inputs.globalEnvironments && inputs.globalEnvironments.length > 0)
+  ) {
+    throw new Error('Cannot cache without running install or specifying global-environments')
   }
   if (inputs.runInstall === false && inputs.frozen === true) {
     throw new Error('Cannot use `frozen: true` when not running install')
@@ -296,10 +315,13 @@ const inferOptions = (inputs: Inputs): Options => {
   } else if (inputs.activateEnvironment && inputs.activateEnvironment !== 'false') {
     activatedEnvironment = inputs.activateEnvironment
   }
-  const cache = inputs.cacheKey
-    ? { cacheKeyPrefix: inputs.cacheKey, cacheWrite: inputs.cacheWrite ?? true }
-    : inputs.cache === true || (lockFileAvailable && inputs.cache !== false)
-      ? { cacheKeyPrefix: 'pixi-', cacheWrite: inputs.cacheWrite ?? true }
+  const cache =
+    inputs.cache === true
+      ? {
+          projectCacheKeyPrefix: inputs.projectCacheKey ?? 'pixi-',
+          globalCacheKeyPrefix: inputs.globalCacheKey ?? 'pixi-global-',
+          cacheWrite: inputs.cacheWrite ?? true
+        }
       : undefined
   const frozen = inputs.frozen ?? false
   const locked = inputs.locked ?? (lockFileAvailable && !frozen)
@@ -330,6 +352,7 @@ const inferOptions = (inputs: Inputs): Options => {
   const postCleanup = inputs.postCleanup ?? true
   const pypiKeyringProvider = inputs.pypiKeyringProvider
   return {
+    globalEnvironments: inputs.globalEnvironments,
     pixiSource,
     pypiKeyringProvider,
     downloadPixi,
@@ -378,7 +401,8 @@ const getOptions = () => {
     locked: parseOrUndefinedJSON('locked', z.boolean()),
     frozen: parseOrUndefinedJSON('frozen', z.boolean()),
     cache: parseOrUndefinedJSON('cache', z.boolean()),
-    cacheKey: parseOrUndefined('cache-key', z.string()),
+    projectCacheKey: parseOrUndefined('cache-key', z.string()),
+    globalCacheKey: parseOrUndefined('global-cache-key', z.string()),
     cacheWrite: parseOrUndefinedJSON('cache-write', z.boolean()),
     pixiBinPath: parseOrUndefined('pixi-bin-path', z.string()),
     authHost: parseOrUndefined('auth-host', z.string()),
@@ -390,6 +414,7 @@ const getOptions = () => {
     authS3SecretAccessKey: parseOrUndefined('auth-s3-secret-access-key', z.string()),
     authS3SessionToken: parseOrUndefined('auth-s3-session-token', z.string()),
     pypiKeyringProvider: parseOrUndefined('pypi-keyring-provider', pypiKeyringProviderSchema),
+    globalEnvironments: parseOrUndefinedMultilineList('global-environments', z.string()),
     postCleanup: parseOrUndefinedJSON('post-cleanup', z.boolean())
   }
   core.debug(`Inputs: ${JSON.stringify(inputs)}`)

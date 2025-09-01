@@ -29707,15 +29707,22 @@ var parseOrUndefinedList = (key, schema) => {
   }
   return input.split(" ").map((s) => schema.parse(s)).filter((s) => s !== "");
 };
+var parseOrUndefinedMultilineList = (key, schema) => {
+  const input = inputOrEnvironmentVariable(key);
+  if (input === void 0) {
+    return void 0;
+  }
+  return input.split("\n").map((s) => schema.parse(s.trim())).filter((s) => s !== "");
+};
 var validateInputs = (inputs) => {
   if (inputs.pixiUrlHeaders && !inputs.pixiUrl) {
     throw new Error("You need to specify pixi-url when using pixi-url-headers");
   }
-  if (inputs.cacheKey !== void 0 && inputs.cache === false) {
+  if ((inputs.projectCacheKey !== void 0 || inputs.globalCacheKey !== void 0) && inputs.cache === false) {
     throw new Error("Cannot specify cache key without caching");
   }
-  if (inputs.runInstall === false && inputs.cache === true) {
-    throw new Error("Cannot cache without running install");
+  if (inputs.runInstall === false && inputs.cache === true && !(inputs.globalEnvironments && inputs.globalEnvironments.length > 0)) {
+    throw new Error("Cannot cache without running install or specifying global-environments");
   }
   if (inputs.runInstall === false && inputs.frozen === true) {
     throw new Error("Cannot use `frozen: true` when not running install");
@@ -29837,7 +29844,11 @@ var inferOptions = (inputs) => {
   } else if (inputs.activateEnvironment && inputs.activateEnvironment !== "false") {
     activatedEnvironment = inputs.activateEnvironment;
   }
-  const cache = inputs.cacheKey ? { cacheKeyPrefix: inputs.cacheKey, cacheWrite: inputs.cacheWrite ?? true } : inputs.cache === true || lockFileAvailable && inputs.cache !== false ? { cacheKeyPrefix: "pixi-", cacheWrite: inputs.cacheWrite ?? true } : void 0;
+  const cache = inputs.cache === true ? {
+    projectCacheKeyPrefix: inputs.projectCacheKey ?? "pixi-",
+    globalCacheKeyPrefix: inputs.globalCacheKey ?? "pixi-global-",
+    cacheWrite: inputs.cacheWrite ?? true
+  } : void 0;
   const frozen = inputs.frozen ?? false;
   const locked = inputs.locked ?? (lockFileAvailable && !frozen);
   const auth = !inputs.authHost ? void 0 : inputs.authToken ? {
@@ -29859,6 +29870,7 @@ var inferOptions = (inputs) => {
   const postCleanup = inputs.postCleanup ?? true;
   const pypiKeyringProvider = inputs.pypiKeyringProvider;
   return {
+    globalEnvironments: inputs.globalEnvironments,
     pixiSource,
     pypiKeyringProvider,
     downloadPixi,
@@ -29899,7 +29911,8 @@ var getOptions = () => {
     locked: parseOrUndefinedJSON("locked", boolean2()),
     frozen: parseOrUndefinedJSON("frozen", boolean2()),
     cache: parseOrUndefinedJSON("cache", boolean2()),
-    cacheKey: parseOrUndefined("cache-key", string2()),
+    projectCacheKey: parseOrUndefined("cache-key", string2()),
+    globalCacheKey: parseOrUndefined("global-cache-key", string2()),
     cacheWrite: parseOrUndefinedJSON("cache-write", boolean2()),
     pixiBinPath: parseOrUndefined("pixi-bin-path", string2()),
     authHost: parseOrUndefined("auth-host", string2()),
@@ -29911,6 +29924,7 @@ var getOptions = () => {
     authS3SecretAccessKey: parseOrUndefined("auth-s3-secret-access-key", string2()),
     authS3SessionToken: parseOrUndefined("auth-s3-session-token", string2()),
     pypiKeyringProvider: parseOrUndefined("pypi-keyring-provider", pypiKeyringProviderSchema),
+    globalEnvironments: parseOrUndefinedMultilineList("global-environments", string2()),
     postCleanup: parseOrUndefinedJSON("post-cleanup", boolean2())
   };
   core2.debug(`Inputs: ${JSON.stringify(inputs)}`);
