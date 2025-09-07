@@ -14393,7 +14393,7 @@ var require_util4 = __commonJS({
     var { serializeAMimeType, parseMIMEType } = require_dataURL();
     var { types } = require("util");
     var { StringDecoder } = require("string_decoder");
-    var { btoa } = require("buffer");
+    var { btoa: btoa2 } = require("buffer");
     var staticPropertyDescriptors = {
       enumerable: true,
       writable: false,
@@ -14485,9 +14485,9 @@ var require_util4 = __commonJS({
           dataURL += ";base64,";
           const decoder = new StringDecoder("latin1");
           for (const chunk of bytes) {
-            dataURL += btoa(decoder.write(chunk));
+            dataURL += btoa2(decoder.write(chunk));
           }
-          dataURL += btoa(decoder.end());
+          dataURL += btoa2(decoder.end());
           return dataURL;
         }
         case "Text": {
@@ -14504,7 +14504,7 @@ var require_util4 = __commonJS({
           if (encoding === "failure") {
             encoding = "UTF-8";
           }
-          return decode(bytes, encoding);
+          return decode2(bytes, encoding);
         }
         case "ArrayBuffer": {
           const sequence = combineByteSequences(bytes);
@@ -14521,7 +14521,7 @@ var require_util4 = __commonJS({
         }
       }
     }
-    function decode(ioQueue, encoding) {
+    function decode2(ioQueue, encoding) {
       const bytes = combineByteSequences(ioQueue);
       const BOMEncoding = BOMSniffing(bytes);
       let slice = 0;
@@ -21554,7 +21554,7 @@ var require_parser = __commonJS({
         parseError: function parseError(str, hash) {
           throw new Error(str);
         },
-        parse: function parse3(input) {
+        parse: function parse4(input) {
           var self = this, stack = [0], vstack = [null], lstack = [], table = this.table, yytext = "", yylineno = 0, yyleng = 0, recovering = 0, TERROR = 2, EOF = 1;
           this.lexer.setInput(input);
           this.lexer.yy = this.yy;
@@ -22467,7 +22467,7 @@ var require_base2 = __commonJS({
     "use strict";
     exports2.__esModule = true;
     exports2.parseWithoutProcessing = parseWithoutProcessing;
-    exports2.parse = parse3;
+    exports2.parse = parse4;
     function _interopRequireWildcard(obj) {
       if (obj && obj.__esModule) {
         return obj;
@@ -22506,7 +22506,7 @@ var require_base2 = __commonJS({
       var ast = _parser2["default"].parse(input);
       return ast;
     }
-    function parse3(input, options2) {
+    function parse4(input, options2) {
       var ast = parseWithoutProcessing(input, options2);
       var strip = new _whitespaceControl2["default"](options2);
       return strip.accept(ast);
@@ -25975,7 +25975,7 @@ var import_process = require("process");
 var import_fs = require("fs");
 var core2 = __toESM(require_core());
 
-// node_modules/.pnpm/zod@4.0.14/node_modules/zod/v4/core/core.js
+// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/core/core.js
 var NEVER = Object.freeze({
   status: "aborted"
 });
@@ -26028,6 +26028,12 @@ var $ZodAsyncError = class extends Error {
     super(`Encountered Promise during synchronous parse. Use .parseAsync() instead.`);
   }
 };
+var $ZodEncodeError = class extends Error {
+  constructor(name) {
+    super(`Encountered unidirectional transform during encode: ${name}`);
+    this.name = "ZodEncodeError";
+  }
+};
 var globalConfig = {};
 function config(newConfig) {
   if (newConfig)
@@ -26035,7 +26041,7 @@ function config(newConfig) {
   return globalConfig;
 }
 
-// node_modules/.pnpm/zod@4.0.14/node_modules/zod/v4/core/util.js
+// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/core/util.js
 var util_exports = {};
 __export(util_exports, {
   BIGINT_FORMAT_RANGES: () => BIGINT_FORMAT_RANGES,
@@ -26049,6 +26055,8 @@ __export(util_exports, {
   assertNever: () => assertNever,
   assertNotEqual: () => assertNotEqual,
   assignProp: () => assignProp,
+  base64ToUint8Array: () => base64ToUint8Array,
+  base64urlToUint8Array: () => base64urlToUint8Array,
   cached: () => cached,
   captureStackTrace: () => captureStackTrace,
   cleanEnum: () => cleanEnum,
@@ -26067,6 +26075,7 @@ __export(util_exports, {
   getLengthableOrigin: () => getLengthableOrigin,
   getParsedType: () => getParsedType,
   getSizableOrigin: () => getSizableOrigin,
+  hexToUint8Array: () => hexToUint8Array,
   isObject: () => isObject,
   isPlainObject: () => isPlainObject,
   issue: () => issue,
@@ -26077,6 +26086,7 @@ __export(util_exports, {
   normalizeParams: () => normalizeParams,
   nullish: () => nullish,
   numKeys: () => numKeys,
+  objectClone: () => objectClone,
   omit: () => omit,
   optionalKeys: () => optionalKeys,
   partial: () => partial,
@@ -26087,7 +26097,12 @@ __export(util_exports, {
   propertyKeyTypes: () => propertyKeyTypes,
   randomString: () => randomString,
   required: () => required,
+  safeExtend: () => safeExtend,
+  shallowClone: () => shallowClone,
   stringifyPrimitive: () => stringifyPrimitive,
+  uint8ArrayToBase64: () => uint8ArrayToBase64,
+  uint8ArrayToBase64url: () => uint8ArrayToBase64url,
+  uint8ArrayToHex: () => uint8ArrayToHex,
   unwrapMessage: () => unwrapMessage
 });
 function assertEqual(val) {
@@ -26175,6 +26190,9 @@ function defineLazy(object, key, getter) {
     configurable: true
   });
 }
+function objectClone(obj) {
+  return Object.create(Object.getPrototypeOf(obj), Object.getOwnPropertyDescriptors(obj));
+}
 function assignProp(target, prop, value) {
   Object.defineProperty(target, prop, {
     value,
@@ -26251,6 +26269,11 @@ function isPlainObject(o) {
     return false;
   }
   return true;
+}
+function shallowClone(o) {
+  if (isPlainObject(o))
+    return { ...o };
+  return o;
 }
 function numKeys(data) {
   let keyCount = 0;
@@ -26432,6 +26455,11 @@ function extend(schema, shape) {
   if (!isPlainObject(shape)) {
     throw new Error("Invalid input to extend: expected a plain object");
   }
+  const checks = schema._zod.def.checks;
+  const hasChecks = checks && checks.length > 0;
+  if (hasChecks) {
+    throw new Error("Object schemas containing refinements cannot be extended. Use `.safeExtend()` instead.");
+  }
   const def = mergeDefs(schema._zod.def, {
     get shape() {
       const _shape = { ...schema._zod.def.shape, ...shape };
@@ -26440,6 +26468,21 @@ function extend(schema, shape) {
     },
     checks: []
   });
+  return clone(schema, def);
+}
+function safeExtend(schema, shape) {
+  if (!isPlainObject(shape)) {
+    throw new Error("Invalid input to safeExtend: expected a plain object");
+  }
+  const def = {
+    ...schema._zod.def,
+    get shape() {
+      const _shape = { ...schema._zod.def.shape, ...shape };
+      assignProp(this, "shape", _shape);
+      return _shape;
+    },
+    checks: schema._zod.def.checks
+  };
   return clone(schema, def);
 }
 function merge(a, b) {
@@ -26522,6 +26565,8 @@ function required(Class2, schema, mask) {
   return clone(schema, def);
 }
 function aborted(x, startIndex = 0) {
+  if (x.aborted === true)
+    return true;
   for (let i = startIndex; i < x.issues.length; i++) {
     if (x.issues[i]?.continue !== true) {
       return true;
@@ -26586,12 +26631,49 @@ function cleanEnum(obj) {
     return Number.isNaN(Number.parseInt(k, 10));
   }).map((el) => el[1]);
 }
+function base64ToUint8Array(base642) {
+  const binaryString = atob(base642);
+  const bytes = new Uint8Array(binaryString.length);
+  for (let i = 0; i < binaryString.length; i++) {
+    bytes[i] = binaryString.charCodeAt(i);
+  }
+  return bytes;
+}
+function uint8ArrayToBase64(bytes) {
+  let binaryString = "";
+  for (let i = 0; i < bytes.length; i++) {
+    binaryString += String.fromCharCode(bytes[i]);
+  }
+  return btoa(binaryString);
+}
+function base64urlToUint8Array(base64url2) {
+  const base642 = base64url2.replace(/-/g, "+").replace(/_/g, "/");
+  const padding = "=".repeat((4 - base642.length % 4) % 4);
+  return base64ToUint8Array(base642 + padding);
+}
+function uint8ArrayToBase64url(bytes) {
+  return uint8ArrayToBase64(bytes).replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
+}
+function hexToUint8Array(hex) {
+  const cleanHex = hex.replace(/^0x/, "");
+  if (cleanHex.length % 2 !== 0) {
+    throw new Error("Invalid hex string length");
+  }
+  const bytes = new Uint8Array(cleanHex.length / 2);
+  for (let i = 0; i < cleanHex.length; i += 2) {
+    bytes[i / 2] = Number.parseInt(cleanHex.slice(i, i + 2), 16);
+  }
+  return bytes;
+}
+function uint8ArrayToHex(bytes) {
+  return Array.from(bytes).map((b) => b.toString(16).padStart(2, "0")).join("");
+}
 var Class = class {
   constructor(..._args) {
   }
 };
 
-// node_modules/.pnpm/zod@4.0.14/node_modules/zod/v4/core/errors.js
+// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/core/errors.js
 var initializer = (inst, def) => {
   inst.name = "$ZodError";
   Object.defineProperty(inst, "_zod", {
@@ -26660,7 +26742,7 @@ function formatError(error2, _mapper) {
   return fieldErrors;
 }
 
-// node_modules/.pnpm/zod@4.0.14/node_modules/zod/v4/core/parse.js
+// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/core/parse.js
 var _parse = (_Err) => (schema, value, _ctx, _params) => {
   const ctx = _ctx ? Object.assign(_ctx, { async: false }) : { async: false };
   const result = schema._zod.run({ value, issues: [] }, ctx);
@@ -26709,8 +26791,36 @@ var _safeParseAsync = (_Err) => async (schema, value, _ctx) => {
   } : { success: true, data: result.value };
 };
 var safeParseAsync = /* @__PURE__ */ _safeParseAsync($ZodRealError);
+var _encode = (_Err) => (schema, value, _ctx) => {
+  const ctx = _ctx ? Object.assign(_ctx, { direction: "backward" }) : { direction: "backward" };
+  return _parse(_Err)(schema, value, ctx);
+};
+var _decode = (_Err) => (schema, value, _ctx) => {
+  return _parse(_Err)(schema, value, _ctx);
+};
+var _encodeAsync = (_Err) => async (schema, value, _ctx) => {
+  const ctx = _ctx ? Object.assign(_ctx, { direction: "backward" }) : { direction: "backward" };
+  return _parseAsync(_Err)(schema, value, ctx);
+};
+var _decodeAsync = (_Err) => async (schema, value, _ctx) => {
+  return _parseAsync(_Err)(schema, value, _ctx);
+};
+var _safeEncode = (_Err) => (schema, value, _ctx) => {
+  const ctx = _ctx ? Object.assign(_ctx, { direction: "backward" }) : { direction: "backward" };
+  return _safeParse(_Err)(schema, value, ctx);
+};
+var _safeDecode = (_Err) => (schema, value, _ctx) => {
+  return _safeParse(_Err)(schema, value, _ctx);
+};
+var _safeEncodeAsync = (_Err) => async (schema, value, _ctx) => {
+  const ctx = _ctx ? Object.assign(_ctx, { direction: "backward" }) : { direction: "backward" };
+  return _safeParseAsync(_Err)(schema, value, ctx);
+};
+var _safeDecodeAsync = (_Err) => async (schema, value, _ctx) => {
+  return _safeParseAsync(_Err)(schema, value, _ctx);
+};
 
-// node_modules/.pnpm/zod@4.0.14/node_modules/zod/v4/core/regexes.js
+// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/core/regexes.js
 var cuid = /^[cC][^\s-]{8,}$/;
 var cuid2 = /^[0-9a-z]+$/;
 var ulid = /^[0-9A-HJKMNP-TV-Za-hjkmnp-tv-z]{26}$/;
@@ -26721,7 +26831,7 @@ var duration = /^P(?:(\d+W)|(?!.*W)(?=\d|T\d)(\d+Y)?(\d+M)?(\d+D)?(T(?=\d)(\d+H)
 var guid = /^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$/;
 var uuid = (version2) => {
   if (!version2)
-    return /^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000)$/;
+    return /^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/;
   return new RegExp(`^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-${version2}[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$`);
 };
 var email = /^(?!\.)(?!.*\.\.)([A-Za-z0-9_'+\-\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\-]*\.)+[A-Za-z]{2,}$/;
@@ -26765,7 +26875,7 @@ var boolean = /true|false/i;
 var lowercase = /^[^A-Z]*$/;
 var uppercase = /^[^a-z]*$/;
 
-// node_modules/.pnpm/zod@4.0.14/node_modules/zod/v4/core/checks.js
+// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/core/checks.js
 var $ZodCheck = /* @__PURE__ */ $constructor("$ZodCheck", (inst, def) => {
   var _a;
   inst._zod ?? (inst._zod = {});
@@ -26993,14 +27103,14 @@ var $ZodCheckOverwrite = /* @__PURE__ */ $constructor("$ZodCheckOverwrite", (ins
   };
 });
 
-// node_modules/.pnpm/zod@4.0.14/node_modules/zod/v4/core/versions.js
+// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/core/versions.js
 var version = {
   major: 4,
-  minor: 0,
-  patch: 14
+  minor: 1,
+  patch: 5
 };
 
-// node_modules/.pnpm/zod@4.0.14/node_modules/zod/v4/core/schemas.js
+// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/core/schemas.js
 var $ZodType = /* @__PURE__ */ $constructor("$ZodType", (inst, def) => {
   var _a;
   inst ?? (inst = {});
@@ -27062,7 +27172,32 @@ var $ZodType = /* @__PURE__ */ $constructor("$ZodType", (inst, def) => {
       }
       return payload;
     };
+    const handleCanaryResult = (canary, payload, ctx) => {
+      if (aborted(canary)) {
+        canary.aborted = true;
+        return canary;
+      }
+      const checkResult = runChecks(payload, checks, ctx);
+      if (checkResult instanceof Promise) {
+        if (ctx.async === false)
+          throw new $ZodAsyncError();
+        return checkResult.then((checkResult2) => inst._zod.parse(checkResult2, ctx));
+      }
+      return inst._zod.parse(checkResult, ctx);
+    };
     inst._zod.run = (payload, ctx) => {
+      if (ctx.skipChecks) {
+        return inst._zod.parse(payload, ctx);
+      }
+      if (ctx.direction === "backward") {
+        const canary = inst._zod.parse({ value: payload.value, issues: [] }, { ...ctx, skipChecks: true });
+        if (canary instanceof Promise) {
+          return canary.then((canary2) => {
+            return handleCanaryResult(canary2, payload, ctx);
+          });
+        }
+        return handleCanaryResult(canary, payload, ctx);
+      }
       const result = inst._zod.parse(payload, ctx);
       if (result instanceof Promise) {
         if (ctx.async === false)
@@ -27720,9 +27855,12 @@ var $ZodLiteral = /* @__PURE__ */ $constructor("$ZodLiteral", (inst, def) => {
 });
 var $ZodTransform = /* @__PURE__ */ $constructor("$ZodTransform", (inst, def) => {
   $ZodType.init(inst, def);
-  inst._zod.parse = (payload, _ctx) => {
+  inst._zod.parse = (payload, ctx) => {
+    if (ctx.direction === "backward") {
+      throw new $ZodEncodeError(inst.constructor.name);
+    }
     const _out = def.transform(payload.value, payload);
-    if (_ctx.async) {
+    if (ctx.async) {
       const output = _out instanceof Promise ? _out : Promise.resolve(_out);
       return output.then((output2) => {
         payload.value = output2;
@@ -27788,6 +27926,9 @@ var $ZodDefault = /* @__PURE__ */ $constructor("$ZodDefault", (inst, def) => {
   inst._zod.optin = "optional";
   defineLazy(inst._zod, "values", () => def.innerType._zod.values);
   inst._zod.parse = (payload, ctx) => {
+    if (ctx.direction === "backward") {
+      return def.innerType._zod.run(payload, ctx);
+    }
     if (payload.value === void 0) {
       payload.value = def.defaultValue;
       return payload;
@@ -27810,6 +27951,9 @@ var $ZodPrefault = /* @__PURE__ */ $constructor("$ZodPrefault", (inst, def) => {
   inst._zod.optin = "optional";
   defineLazy(inst._zod, "values", () => def.innerType._zod.values);
   inst._zod.parse = (payload, ctx) => {
+    if (ctx.direction === "backward") {
+      return def.innerType._zod.run(payload, ctx);
+    }
     if (payload.value === void 0) {
       payload.value = def.defaultValue;
     }
@@ -27847,6 +27991,9 @@ var $ZodCatch = /* @__PURE__ */ $constructor("$ZodCatch", (inst, def) => {
   defineLazy(inst._zod, "optout", () => def.innerType._zod.optout);
   defineLazy(inst._zod, "values", () => def.innerType._zod.values);
   inst._zod.parse = (payload, ctx) => {
+    if (ctx.direction === "backward") {
+      return def.innerType._zod.run(payload, ctx);
+    }
     const result = def.innerType._zod.run(payload, ctx);
     if (result instanceof Promise) {
       return result.then((result2) => {
@@ -27885,18 +28032,26 @@ var $ZodPipe = /* @__PURE__ */ $constructor("$ZodPipe", (inst, def) => {
   defineLazy(inst._zod, "optout", () => def.out._zod.optout);
   defineLazy(inst._zod, "propValues", () => def.in._zod.propValues);
   inst._zod.parse = (payload, ctx) => {
+    if (ctx.direction === "backward") {
+      const right = def.out._zod.run(payload, ctx);
+      if (right instanceof Promise) {
+        return right.then((right2) => handlePipeResult(right2, def.in, ctx));
+      }
+      return handlePipeResult(right, def.in, ctx);
+    }
     const left = def.in._zod.run(payload, ctx);
     if (left instanceof Promise) {
-      return left.then((left2) => handlePipeResult(left2, def, ctx));
+      return left.then((left2) => handlePipeResult(left2, def.out, ctx));
     }
-    return handlePipeResult(left, def, ctx);
+    return handlePipeResult(left, def.out, ctx);
   };
 });
-function handlePipeResult(left, def, ctx) {
+function handlePipeResult(left, next, ctx) {
   if (left.issues.length) {
+    left.aborted = true;
     return left;
   }
-  return def.out._zod.run({ value: left.value, issues: left.issues }, ctx);
+  return next._zod.run({ value: left.value, issues: left.issues }, ctx);
 }
 var $ZodReadonly = /* @__PURE__ */ $constructor("$ZodReadonly", (inst, def) => {
   $ZodType.init(inst, def);
@@ -27905,6 +28060,9 @@ var $ZodReadonly = /* @__PURE__ */ $constructor("$ZodReadonly", (inst, def) => {
   defineLazy(inst._zod, "optin", () => def.innerType._zod.optin);
   defineLazy(inst._zod, "optout", () => def.innerType._zod.optout);
   inst._zod.parse = (payload, ctx) => {
+    if (ctx.direction === "backward") {
+      return def.innerType._zod.run(payload, ctx);
+    }
     const result = def.innerType._zod.run(payload, ctx);
     if (result instanceof Promise) {
       return result.then(handleReadonlyResult);
@@ -27950,7 +28108,7 @@ function handleRefineResult(result, payload, input, inst) {
   }
 }
 
-// node_modules/.pnpm/zod@4.0.14/node_modules/zod/v4/core/registries.js
+// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/core/registries.js
 var $output = Symbol("ZodOutput");
 var $input = Symbol("ZodInput");
 var $ZodRegistry = class {
@@ -28001,7 +28159,7 @@ function registry() {
 }
 var globalRegistry = /* @__PURE__ */ registry();
 
-// node_modules/.pnpm/zod@4.0.14/node_modules/zod/v4/core/api.js
+// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/core/api.js
 function _string(Class2, params) {
   return new Class2({
     type: "string",
@@ -28385,7 +28543,7 @@ function _check(fn, params) {
   return ch;
 }
 
-// node_modules/.pnpm/zod@4.0.14/node_modules/zod/v4/classic/iso.js
+// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/classic/iso.js
 var ZodISODateTime = /* @__PURE__ */ $constructor("ZodISODateTime", (inst, def) => {
   $ZodISODateTime.init(inst, def);
   ZodStringFormat.init(inst, def);
@@ -28415,7 +28573,7 @@ function duration2(params) {
   return _isoDuration(ZodISODuration, params);
 }
 
-// node_modules/.pnpm/zod@4.0.14/node_modules/zod/v4/classic/errors.js
+// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/classic/errors.js
 var initializer2 = (inst, issues) => {
   $ZodError.init(inst, issues);
   inst.name = "ZodError";
@@ -28455,16 +28613,25 @@ var ZodRealError = $constructor("ZodError", initializer2, {
   Parent: Error
 });
 
-// node_modules/.pnpm/zod@4.0.14/node_modules/zod/v4/classic/parse.js
-var parse = /* @__PURE__ */ _parse(ZodRealError);
-var parseAsync = /* @__PURE__ */ _parseAsync(ZodRealError);
+// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/classic/parse.js
+var parse2 = /* @__PURE__ */ _parse(ZodRealError);
+var parseAsync2 = /* @__PURE__ */ _parseAsync(ZodRealError);
 var safeParse2 = /* @__PURE__ */ _safeParse(ZodRealError);
 var safeParseAsync2 = /* @__PURE__ */ _safeParseAsync(ZodRealError);
+var encode = /* @__PURE__ */ _encode(ZodRealError);
+var decode = /* @__PURE__ */ _decode(ZodRealError);
+var encodeAsync = /* @__PURE__ */ _encodeAsync(ZodRealError);
+var decodeAsync = /* @__PURE__ */ _decodeAsync(ZodRealError);
+var safeEncode = /* @__PURE__ */ _safeEncode(ZodRealError);
+var safeDecode = /* @__PURE__ */ _safeDecode(ZodRealError);
+var safeEncodeAsync = /* @__PURE__ */ _safeEncodeAsync(ZodRealError);
+var safeDecodeAsync = /* @__PURE__ */ _safeDecodeAsync(ZodRealError);
 
-// node_modules/.pnpm/zod@4.0.14/node_modules/zod/v4/classic/schemas.js
+// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/classic/schemas.js
 var ZodType = /* @__PURE__ */ $constructor("ZodType", (inst, def) => {
   $ZodType.init(inst, def);
   inst.def = def;
+  inst.type = def.type;
   Object.defineProperty(inst, "_def", { value: def });
   inst.check = (...checks) => {
     return inst.clone(
@@ -28484,11 +28651,19 @@ var ZodType = /* @__PURE__ */ $constructor("ZodType", (inst, def) => {
     reg.add(inst, meta);
     return inst;
   };
-  inst.parse = (data, params) => parse(inst, data, params, { callee: inst.parse });
+  inst.parse = (data, params) => parse2(inst, data, params, { callee: inst.parse });
   inst.safeParse = (data, params) => safeParse2(inst, data, params);
-  inst.parseAsync = async (data, params) => parseAsync(inst, data, params, { callee: inst.parseAsync });
+  inst.parseAsync = async (data, params) => parseAsync2(inst, data, params, { callee: inst.parseAsync });
   inst.safeParseAsync = async (data, params) => safeParseAsync2(inst, data, params);
   inst.spa = inst.safeParseAsync;
+  inst.encode = (data, params) => encode(inst, data, params);
+  inst.decode = (data, params) => decode(inst, data, params);
+  inst.encodeAsync = async (data, params) => encodeAsync(inst, data, params);
+  inst.decodeAsync = async (data, params) => decodeAsync(inst, data, params);
+  inst.safeEncode = (data, params) => safeEncode(inst, data, params);
+  inst.safeDecode = (data, params) => safeDecode(inst, data, params);
+  inst.safeEncodeAsync = async (data, params) => safeEncodeAsync(inst, data, params);
+  inst.safeDecodeAsync = async (data, params) => safeDecodeAsync(inst, data, params);
   inst.refine = (check, params) => inst.check(refine(check, params));
   inst.superRefine = (refinement) => inst.check(superRefine(refinement));
   inst.overwrite = (fn) => inst.check(_overwrite(fn));
@@ -28790,6 +28965,9 @@ var ZodTransform = /* @__PURE__ */ $constructor("ZodTransform", (inst, def) => {
   $ZodTransform.init(inst, def);
   ZodType.init(inst, def);
   inst._zod.parse = (payload, _ctx) => {
+    if (_ctx.direction === "backward") {
+      throw new $ZodEncodeError(inst.constructor.name);
+    }
     payload.addIssue = (issue2) => {
       if (typeof issue2 === "string") {
         payload.issues.push(util_exports.issue(issue2, payload.value, def));
@@ -28853,7 +29031,7 @@ function _default(innerType, defaultValue) {
     type: "default",
     innerType,
     get defaultValue() {
-      return typeof defaultValue === "function" ? defaultValue() : defaultValue;
+      return typeof defaultValue === "function" ? defaultValue() : util_exports.shallowClone(defaultValue);
     }
   });
 }
@@ -28867,7 +29045,7 @@ function prefault(innerType, defaultValue) {
     type: "prefault",
     innerType,
     get defaultValue() {
-      return typeof defaultValue === "function" ? defaultValue() : defaultValue;
+      return typeof defaultValue === "function" ? defaultValue() : util_exports.shallowClone(defaultValue);
     }
   });
 }
@@ -28942,7 +29120,7 @@ function untildify(pathWithTilde) {
   return homeDirectory ? pathWithTilde.replace(/^~(?=$|\/|\\)/, homeDirectory) : pathWithTilde;
 }
 
-// node_modules/.pnpm/smol-toml@1.4.1/node_modules/smol-toml/dist/error.js
+// node_modules/.pnpm/smol-toml@1.4.2/node_modules/smol-toml/dist/error.js
 function getLineColFromPtr(string3, ptr) {
   let lines = string3.slice(0, ptr).split(/\r\n|\n|\r/g);
   return [lines.length, lines.pop().length + 1];
@@ -28982,7 +29160,13 @@ ${codeblock}`, options2);
   }
 };
 
-// node_modules/.pnpm/smol-toml@1.4.1/node_modules/smol-toml/dist/util.js
+// node_modules/.pnpm/smol-toml@1.4.2/node_modules/smol-toml/dist/util.js
+function isEscaped(str, ptr) {
+  let i = 0;
+  while (str[ptr - ++i] === "\\")
+    ;
+  return --i && i % 2;
+}
 function indexOfNewline(str, start = 0, end = str.length) {
   let idx = str.indexOf("\n", start);
   if (str[idx - 1] === "\r")
@@ -29037,7 +29221,7 @@ function getStringEnd(str, seek) {
   seek += target.length - 1;
   do
     seek = str.indexOf(target, ++seek);
-  while (seek > -1 && first !== "'" && str[seek - 1] === "\\" && (str[seek - 2] !== "\\" || str[seek - 3] === "\\"));
+  while (seek > -1 && first !== "'" && isEscaped(str, seek));
   if (seek > -1) {
     seek += target.length;
     if (target.length > 1) {
@@ -29050,7 +29234,7 @@ function getStringEnd(str, seek) {
   return seek;
 }
 
-// node_modules/.pnpm/smol-toml@1.4.1/node_modules/smol-toml/dist/date.js
+// node_modules/.pnpm/smol-toml@1.4.2/node_modules/smol-toml/dist/date.js
 var DATE_TIME_RE = /^(\d{4}-\d{2}-\d{2})?[T ]?(?:(\d{2}):\d{2}:\d{2}(?:\.\d+)?)?(Z|[-+]\d{2}:\d{2})?$/i;
 var _hasDate, _hasTime, _offset;
 var _TomlDate = class _TomlDate extends Date {
@@ -29147,7 +29331,7 @@ _hasTime = new WeakMap();
 _offset = new WeakMap();
 var TomlDate = _TomlDate;
 
-// node_modules/.pnpm/smol-toml@1.4.1/node_modules/smol-toml/dist/primitive.js
+// node_modules/.pnpm/smol-toml@1.4.2/node_modules/smol-toml/dist/primitive.js
 var INT_REGEX = /^((0x[0-9a-fA-F](_?[0-9a-fA-F])*)|(([+-]|0[ob])?\d(_?\d)*))$/;
 var FLOAT_REGEX = /^[+-]?\d(_?\d)*(\.\d(_?\d)*)?([eE][+-]?\d(_?\d)*)?$/;
 var LEADING_ZERO = /^[+-]?0[0-9_]/;
@@ -29285,7 +29469,7 @@ function parseValue(value, toml, ptr, integersAsBigInt) {
   return date3;
 }
 
-// node_modules/.pnpm/smol-toml@1.4.1/node_modules/smol-toml/dist/extract.js
+// node_modules/.pnpm/smol-toml@1.4.2/node_modules/smol-toml/dist/extract.js
 function sliceAndTrimEndOf(str, startPtr, endPtr, allowNewLines) {
   let value = str.slice(startPtr, endPtr);
   let commentIdx = value.indexOf("#");
@@ -29361,7 +29545,7 @@ function extractValue(str, ptr, end, depth, integersAsBigInt) {
   ];
 }
 
-// node_modules/.pnpm/smol-toml@1.4.1/node_modules/smol-toml/dist/struct.js
+// node_modules/.pnpm/smol-toml@1.4.2/node_modules/smol-toml/dist/struct.js
 var KEY_PART_RE = /^[a-zA-Z0-9-_]+[ \t]*$/;
 function parseKey(str, ptr, end = "=") {
   let dot = ptr - 1;
@@ -29517,7 +29701,7 @@ function parseArray(str, ptr, depth, integersAsBigInt) {
   return [res, ptr];
 }
 
-// node_modules/.pnpm/smol-toml@1.4.1/node_modules/smol-toml/dist/parse.js
+// node_modules/.pnpm/smol-toml@1.4.2/node_modules/smol-toml/dist/parse.js
 function peekTable(key, table, meta, type) {
   let t = table;
   let m = meta;
@@ -29577,7 +29761,7 @@ function peekTable(key, table, meta, type) {
   }
   return [k, t, state.c];
 }
-function parse2(toml, { maxDepth = 1e3, integersAsBigInt } = {}) {
+function parse3(toml, { maxDepth = 1e3, integersAsBigInt } = {}) {
   let res = {};
   let meta = {};
   let tbl = res;
@@ -29815,7 +29999,7 @@ var inferOptions = (inputs) => {
     } else if ((0, import_fs.existsSync)(pyprojectPath)) {
       try {
         const fileContent = (0, import_fs.readFileSync)(pyprojectPath, "utf-8");
-        const parsedContent = parse2(fileContent);
+        const parsedContent = parse3(fileContent);
         if (parsedContent.tool && typeof parsedContent.tool === "object" && "pixi" in parsedContent.tool) {
           core2.debug(`The tool.pixi table found, using ${pyprojectPath} as manifest file.`);
           manifestPath = pyprojectPath;
