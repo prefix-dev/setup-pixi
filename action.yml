@@ -38,7 +38,7 @@ inputs:
   cache:
     description: |
       Whether to cache the project and/or global environment(s). Defaults to `true`. Only works if `pixi.lock` is present
-      for project environment(s). 
+      for project environment(s).
   cache-key:
     description: |
       Cache key prefix to use for caching the pixi environment.
