@@ -21662,11 +21662,11 @@ var require_tool_cache = __commonJS({
       let toolPath = "";
       if (versionSpec) {
         versionSpec = semver.clean(versionSpec) || "";
-        const cachePath2 = path4.join(_getCacheDirectory(), toolName, versionSpec, arch);
-        core6.debug(`checking cache: ${cachePath2}`);
-        if (fs3.existsSync(cachePath2) && fs3.existsSync(`${cachePath2}.complete`)) {
+        const cachePath = path4.join(_getCacheDirectory(), toolName, versionSpec, arch);
+        core6.debug(`checking cache: ${cachePath}`);
+        if (fs3.existsSync(cachePath) && fs3.existsSync(`${cachePath}.complete`)) {
           core6.debug(`Found tool in cache ${toolName} ${versionSpec} ${arch}`);
-          toolPath = cachePath2;
+          toolPath = cachePath;
         } else {
           core6.debug("not found");
         }
@@ -22996,11 +22996,11 @@ var require_runtime = __commonJS({
             depths = [context];
           }
         }
-        function main(context2) {
+        function main2(context2) {
           return "" + templateSpec.main(container, context2, container.helpers, container.partials, data, blockParams, depths);
         }
-        main = executeDecorators(templateSpec.main, main, container, options2.depths || [], data, blockParams);
-        return main(context, options2);
+        main2 = executeDecorators(templateSpec.main, main2, container, options2.depths || [], data, blockParams);
+        return main2(context, options2);
       }
       ret.isTop = true;
       ret._setup = function(options2) {
@@ -70262,7 +70262,7 @@ Other caches with similar key:`);
         }));
       });
     }
-    function saveCache3(cacheId, archivePath, signedUploadURL, options2) {
+    function saveCache2(cacheId, archivePath, signedUploadURL, options2) {
       return __awaiter7(this, void 0, void 0, function* () {
         const uploadOptions = (0, options_1.getUploadOptions)(options2);
         if (uploadOptions.useAzureSdk) {
@@ -70285,7 +70285,7 @@ Other caches with similar key:`);
         }
       });
     }
-    exports2.saveCache = saveCache3;
+    exports2.saveCache = saveCache2;
   }
 });
 
@@ -75622,7 +75622,7 @@ var require_cache4 = __commonJS({
         return void 0;
       });
     }
-    function saveCache3(paths, key, options2, enableCrossOsArchive = false) {
+    function saveCache2(paths, key, options2, enableCrossOsArchive = false) {
       return __awaiter7(this, void 0, void 0, function* () {
         const cacheServiceVersion = (0, config_1.getCacheServiceVersion)();
         core6.debug(`Cache service version: ${cacheServiceVersion}`);
@@ -75637,7 +75637,7 @@ var require_cache4 = __commonJS({
         }
       });
     }
-    exports2.saveCache = saveCache3;
+    exports2.saveCache = saveCache2;
     function saveCacheV1(paths, key, options2, enableCrossOsArchive = false) {
       var _a, _b, _c, _d, _e;
       return __awaiter7(this, void 0, void 0, function* () {
@@ -79803,15 +79803,22 @@ var parseOrUndefinedList = (key, schema) => {
   }
   return input.split(" ").map((s) => schema.parse(s)).filter((s) => s !== "");
 };
+var parseOrUndefinedMultilineList = (key, schema) => {
+  const input = inputOrEnvironmentVariable(key);
+  if (input === void 0) {
+    return void 0;
+  }
+  return input.split("\n").map((s) => schema.parse(s.trim())).filter((s) => s !== "");
+};
 var validateInputs = (inputs) => {
   if (inputs.pixiUrlHeaders && !inputs.pixiUrl) {
     throw new Error("You need to specify pixi-url when using pixi-url-headers");
   }
-  if (inputs.cacheKey !== void 0 && inputs.cache === false) {
+  if ((inputs.projectCacheKey !== void 0 || inputs.globalCacheKey !== void 0) && inputs.cache === false) {
     throw new Error("Cannot specify cache key without caching");
   }
-  if (inputs.runInstall === false && inputs.cache === true) {
-    throw new Error("Cannot cache without running install");
+  if (inputs.runInstall === false && inputs.cache === true && !(inputs.globalEnvironments && inputs.globalEnvironments.length > 0)) {
+    throw new Error("Cannot cache without running install or specifying global-environments");
   }
   if (inputs.runInstall === false && inputs.frozen === true) {
     throw new Error("Cannot use `frozen: true` when not running install");
@@ -79933,7 +79940,11 @@ var inferOptions = (inputs) => {
   } else if (inputs.activateEnvironment && inputs.activateEnvironment !== "false") {
     activatedEnvironment = inputs.activateEnvironment;
   }
-  const cache2 = inputs.cacheKey ? { cacheKeyPrefix: inputs.cacheKey, cacheWrite: inputs.cacheWrite ?? true } : inputs.cache === true || lockFileAvailable && inputs.cache !== false ? { cacheKeyPrefix: "pixi-", cacheWrite: inputs.cacheWrite ?? true } : void 0;
+  const cache2 = inputs.cache === true ? {
+    projectCacheKeyPrefix: inputs.projectCacheKey ?? "pixi-",
+    globalCacheKeyPrefix: inputs.globalCacheKey ?? "pixi-global-",
+    cacheWrite: inputs.cacheWrite ?? true
+  } : void 0;
   const frozen = inputs.frozen ?? false;
   const locked = inputs.locked ?? (lockFileAvailable && !frozen);
   const auth = !inputs.authHost ? void 0 : inputs.authToken ? {
@@ -79955,6 +79966,7 @@ var inferOptions = (inputs) => {
   const postCleanup = inputs.postCleanup ?? true;
   const pypiKeyringProvider = inputs.pypiKeyringProvider;
   return {
+    globalEnvironments: inputs.globalEnvironments,
     pixiSource,
     pypiKeyringProvider,
     downloadPixi: downloadPixi2,
@@ -79995,7 +80007,8 @@ var getOptions = () => {
     locked: parseOrUndefinedJSON("locked", boolean2()),
     frozen: parseOrUndefinedJSON("frozen", boolean2()),
     cache: parseOrUndefinedJSON("cache", boolean2()),
-    cacheKey: parseOrUndefined("cache-key", string2()),
+    projectCacheKey: parseOrUndefined("cache-key", string2()),
+    globalCacheKey: parseOrUndefined("global-cache-key", string2()),
     cacheWrite: parseOrUndefinedJSON("cache-write", boolean2()),
     pixiBinPath: parseOrUndefined("pixi-bin-path", string2()),
     authHost: parseOrUndefined("auth-host", string2()),
@@ -80007,6 +80020,7 @@ var getOptions = () => {
     authS3SecretAccessKey: parseOrUndefined("auth-s3-secret-access-key", string2()),
     authS3SessionToken: parseOrUndefined("auth-s3-session-token", string2()),
     pypiKeyringProvider: parseOrUndefined("pypi-keyring-provider", pypiKeyringProviderSchema),
+    globalEnvironments: parseOrUndefinedMultilineList("global-environments", string2()),
     postCleanup: parseOrUndefinedJSON("post-cleanup", boolean2())
   };
   core2.debug(`Inputs: ${JSON.stringify(inputs)}`);
@@ -80039,68 +80053,118 @@ var import_promises = __toESM(require("fs/promises"));
 var import_path2 = __toESM(require("path"));
 var core3 = __toESM(require_core());
 var cache = __toESM(require_cache4());
-var generateCacheKey = async (cacheKeyPrefix) => Promise.all([import_promises.default.readFile(options.pixiLockFile), import_promises.default.readFile(options.pixiBinPath)]).then(([lockfileContent, pixiBinary]) => {
-  const lockfileSha = sha256(lockfileContent);
-  core3.debug(`lockfileSha: ${lockfileSha}`);
-  const pixiSha = sha256(pixiBinary);
-  core3.debug(`pixiSha: ${pixiSha}`);
-  const lockfilePathSha = sha256(options.pixiLockFile);
-  core3.debug(`lockfilePathSha: ${lockfilePathSha}`);
-  const environments = sha256(options.environments?.join(" ") ?? "");
-  core3.debug(`environments: ${environments}`);
-  const cwdSha = sha256(process.cwd());
-  core3.debug(`cwdSha: ${cwdSha}`);
-  const sha = sha256(lockfileSha + environments + pixiSha + lockfilePathSha + cwdSha);
-  core3.debug(`sha: ${sha}`);
-  return `${cacheKeyPrefix}${getCondaArch()}-${sha}`;
-}).catch((err) => {
-  throw new Error(`Failed to generate cache key: ${err}`);
-});
-var cachePath = import_path2.default.join(import_path2.default.dirname(options.pixiLockFile), ".pixi");
-var cacheHit = false;
-var tryRestoreCache = () => {
+var generateProjectCacheKey = async (cacheKeyPrefix) => {
+  try {
+    const [lockfileContent, pixiBinary] = await Promise.all([
+      import_promises.default.readFile(options.pixiLockFile),
+      import_promises.default.readFile(options.pixiBinPath)
+    ]);
+    const lockfileSha = sha256(lockfileContent);
+    core3.debug(`lockfileSha: ${lockfileSha}`);
+    const pixiSha = sha256(pixiBinary);
+    core3.debug(`pixiSha: ${pixiSha}`);
+    const lockfilePathSha = sha256(options.pixiLockFile);
+    core3.debug(`lockfilePathSha: ${lockfilePathSha}`);
+    const environments = sha256(options.environments?.join(" ") ?? "");
+    core3.debug(`environments: ${environments}`);
+    const cwdSha = sha256(process.cwd());
+    core3.debug(`cwdSha: ${cwdSha}`);
+    const sha = sha256(lockfileSha + environments + pixiSha + lockfilePathSha + cwdSha);
+    core3.debug(`sha: ${sha}`);
+    return `${cacheKeyPrefix}${getCondaArch()}-${sha}`;
+  } catch (err) {
+    throw new Error(`Failed to generate cache key: ${err}`);
+  }
+};
+var generateGlobalCacheKey = async (cacheKeyPrefix) => {
+  try {
+    const pixiBinary = await import_promises.default.readFile(options.pixiBinPath);
+    const pixiSha = sha256(pixiBinary);
+    core3.debug(`pixiSha: ${pixiSha}`);
+    const globalEnvironments = sha256(options.globalEnvironments?.join(" ") ?? "");
+    core3.debug(`globalEnvironments: ${globalEnvironments}`);
+    const sha = sha256(globalEnvironments + pixiSha);
+    core3.debug(`sha: ${sha}`);
+    return `${cacheKeyPrefix}${getCondaArch()}-${sha}`;
+  } catch (err) {
+    throw new Error(`Failed to generate cache key: ${err}`);
+  }
+};
+var projectCachePath = import_path2.default.join(import_path2.default.dirname(options.pixiLockFile), ".pixi");
+var getGlobalCachePath = () => {
+  const home = process.env.HOME;
+  if (!home) {
+    throw new Error("HOME environment variable is not set.");
+  }
+  return import_path2.default.join(home, ".pixi", "envs");
+};
+var projectCacheHit = false;
+var globalCacheHit = false;
+async function _tryRestoreCache(type, keyPrefix, generateKey, cachePath, onHit) {
+  return core3.group(`Restoring ${type.toLowerCase()} cache`, async () => {
+    const cacheKey = await generateKey(keyPrefix);
+    core3.debug(`Cache key: ${cacheKey}`);
+    core3.debug(`Cache path: ${cachePath}`);
+    const key = await cache.restoreCache([cachePath], cacheKey, void 0, void 0, false);
+    if (key) {
+      core3.info(`Restored cache with key \`${key}\``);
+      onHit();
+    } else {
+      core3.info(`Cache miss`);
+    }
+    return key;
+  });
+}
+async function _saveCache(type, wasHit, keyPrefix, generateKey, cachePath) {
+  if (wasHit) {
+    core3.debug(`Skipping ${type.toLowerCase()} cache save because cache was restored.`);
+    return;
+  }
+  await core3.group(`Saving ${type.toLowerCase()} cache`, async () => {
+    const cacheKey = await generateKey(keyPrefix);
+    try {
+      const cacheId = await cache.saveCache([cachePath], cacheKey, void 0, false);
+      core3.info(`Saved cache with ID "${cacheId.toString()}"`);
+    } catch (err) {
+      core3.error(`Error saving ${type.toLowerCase()} cache: ${err}`);
+    }
+  });
+}
+var tryRestoreProjectCache = async () => {
   const cache_ = options.cache;
   if (!cache_) {
-    core3.debug("Skipping pixi cache restore.");
-    return Promise.resolve(void 0);
+    core3.debug("Skipping project cache restore.");
+    return void 0;
   }
-  return core3.group(
-    "Restoring pixi cache",
-    () => generateCacheKey(cache_.cacheKeyPrefix).then((cacheKey) => {
-      core3.debug(`Cache key: ${cacheKey}`);
-      core3.debug(`Cache path: ${cachePath}`);
-      return cache.restoreCache([cachePath], cacheKey, void 0, void 0, false).then((key) => {
-        if (key) {
-          core3.info(`Restored cache with key \`${key}\``);
-          cacheHit = true;
-        } else {
-          core3.info(`Cache miss`);
-        }
-        return key;
-      });
-    })
-  );
+  return _tryRestoreCache("Project", cache_.projectCacheKeyPrefix, generateProjectCacheKey, projectCachePath, () => {
+    projectCacheHit = true;
+  });
 };
-var saveCache2 = () => {
+var tryRestoreGlobalCache = async () => {
   const cache_ = options.cache;
-  if (!cache_?.cacheWrite) {
-    core3.debug("Skipping pixi cache save.");
-    return Promise.resolve(void 0);
+  if (!cache_ || !options.globalEnvironments || options.globalEnvironments.length === 0) {
+    core3.debug("Skipping global cache restore.");
+    return void 0;
   }
-  if (cacheHit) {
-    core3.debug("Skipping pixi cache save because cache was restored.");
-    return Promise.resolve(void 0);
+  return _tryRestoreCache("Global", cache_.globalCacheKeyPrefix, generateGlobalCacheKey, getGlobalCachePath(), () => {
+    globalCacheHit = true;
+  });
+};
+var saveProjectCache = async () => {
+  const cache_ = options.cache;
+  if (!cache_?.cacheWrite || !options.runInstall) {
+    core3.debug("Skipping project cache save.");
+    return;
   }
-  return core3.group(
-    "Saving pixi cache",
-    () => generateCacheKey(cache_.cacheKeyPrefix).then(
-      (cacheKey) => cache.saveCache([cachePath], cacheKey, void 0, false).then((cacheId) => {
-        core3.info(`Saved cache with ID "${cacheId.toString()}"`);
-      }).catch((err) => {
-        core3.error(`Error saving cache: ${err}`);
-      })
-    )
-  );
+  await _saveCache("Project", projectCacheHit, cache_.projectCacheKeyPrefix, generateProjectCacheKey, projectCachePath);
+};
+var saveGlobalCache = async () => {
+  const cache_ = options.cache;
+  if (!cache_?.cacheWrite || !options.globalEnvironments || options.globalEnvironments.length === 0) {
+    core3.debug("Skipping global cache save.");
+    return;
+  }
+  await _saveCache("Global", globalCacheHit, cache_.globalCacheKeyPrefix, generateGlobalCacheKey, getGlobalCachePath());
 };
 
 // src/activate.ts
@@ -80157,81 +80221,95 @@ var activateEnvironment = async (environment) => {
 };
 
 // src/main.ts
-var downloadPixi = (source) => {
+var downloadPixi = async (source) => {
   const url = renderPixiUrl(source.urlTemplate, source.version);
-  return core5.group("Downloading Pixi", () => {
+  await core5.group("Downloading Pixi", async () => {
     core5.debug("Installing pixi");
     core5.debug(`Downloading pixi from ${url}`);
     core5.debug(`Using headers: ${JSON.stringify(source.headers)}`);
-    return import_promises2.default.mkdir(import_path3.default.dirname(options.pixiBinPath), { recursive: true }).then(() => (0, import_tool_cache.downloadTool)(url, options.pixiBinPath, void 0, source.headers)).then((_downloadPath) => import_promises2.default.chmod(options.pixiBinPath, 493)).then(() => {
-      core5.info(`Pixi installed to ${options.pixiBinPath}`);
-    });
+    await import_promises2.default.mkdir(import_path3.default.dirname(options.pixiBinPath), { recursive: true });
+    await (0, import_tool_cache.downloadTool)(url, options.pixiBinPath, void 0, source.headers);
+    await import_promises2.default.chmod(options.pixiBinPath, 493);
+    core5.info(`Pixi installed to ${options.pixiBinPath}`);
   });
 };
-var pixiLogin = () => {
+var pixiLogin = async () => {
   const auth = options.auth;
   if (!auth) {
     core5.debug("Skipping pixi login.");
-    return Promise.resolve(0);
+    return;
   }
   core5.debug(`auth keys: ${Object.keys(auth).toString()}`);
-  return core5.group("Logging in to private channel", () => {
+  await core5.group("Logging in to private channel", async () => {
     if ("token" in auth) {
       core5.debug(`Logging in to ${auth.host} with token`);
-      return execute(pixiCmd(`auth login --token ${auth.token} ${auth.host}`, false));
-    }
-    if ("username" in auth) {
+      await execute(pixiCmd(`auth login --token ${auth.token} ${auth.host}`, false));
+    } else if ("username" in auth) {
       core5.debug(`Logging in to ${auth.host} with username and password`);
-      return execute(pixiCmd(`auth login --username ${auth.username} --password ${auth.password} ${auth.host}`, false));
-    }
-    if ("s3AccessKeyId" in auth) {
+      await execute(pixiCmd(`auth login --username ${auth.username} --password ${auth.password} ${auth.host}`, false));
+    } else if ("s3AccessKeyId" in auth) {
       core5.debug(`Logging in to ${auth.host} with s3 credentials`);
       const command = auth.s3SessionToken ? `auth login --s3-access-key-id ${auth.s3AccessKeyId} --s3-secret-access-key ${auth.s3SecretAccessKey} --s3-session-token ${auth.s3SessionToken} ${auth.host}` : `auth login --s3-access-key-id ${auth.s3AccessKeyId} --s3-secret-access-key ${auth.s3SecretAccessKey} ${auth.host}`;
-      return execute(pixiCmd(command, false));
+      await execute(pixiCmd(command, false));
+    } else if ("condaToken" in auth) {
+      core5.debug(`Logging in to ${auth.host} with conda token`);
+      await execute(pixiCmd(`auth login --conda-token ${auth.condaToken} ${auth.host}`, false));
     }
-    core5.debug(`Logging in to ${auth.host} with conda token`);
-    return execute(pixiCmd(`auth login --conda-token ${auth.condaToken} ${auth.host}`, false));
   });
 };
 var addPixiToPath = () => {
   core5.addPath(import_path3.default.dirname(options.pixiBinPath));
 };
+var pixiGlobalInstall = async () => {
+  const { globalEnvironments } = options;
+  if (!globalEnvironments) {
+    core5.debug("Skipping pixi global install.");
+    return;
+  }
+  await tryRestoreGlobalCache();
+  core5.debug("Installing global environments");
+  for (const env of globalEnvironments) {
+    const command = `global install ${env}`;
+    await core5.group(`pixi ${command}`, () => execute(pixiCmd(command, false)));
+  }
+  await saveGlobalCache();
+};
 var pixiInstall = async () => {
   if (!options.runInstall) {
     core5.debug("Skipping pixi install.");
-    return Promise.resolve();
+    return;
   }
-  return tryRestoreCache().then(async (_cacheKey) => {
-    const environments = options.environments ?? [void 0];
-    for (const environment of environments) {
-      core5.debug(`Installing environment ${environment ?? "default"}`);
-      let command = `install`;
-      if (environment) {
-        command += ` -e ${environment}`;
-      }
-      if (options.frozen) {
-        command += " --frozen";
-      }
-      if (options.locked) {
-        command += " --locked";
-      }
-      if (options.pypiKeyringProvider) {
-        command += ` --pypi-keyring-provider ${options.pypiKeyringProvider}`;
-      }
-      await core5.group(`pixi ${command}`, () => execute(pixiCmd(command)));
+  await tryRestoreProjectCache();
+  const environments = options.environments ?? [void 0];
+  for (const environment of environments) {
+    core5.debug(`Installing environment ${environment ?? "default"}`);
+    let command = `install`;
+    if (environment) {
+      command += ` -e ${environment}`;
     }
-  }).then(saveCache2);
+    if (options.frozen) {
+      command += " --frozen";
+    }
+    if (options.locked) {
+      command += " --locked";
+    }
+    if (options.pypiKeyringProvider) {
+      command += ` --pypi-keyring-provider ${options.pypiKeyringProvider}`;
+    }
+    await core5.group(`pixi ${command}`, () => execute(pixiCmd(command)));
+  }
+  await saveProjectCache();
 };
 var generateList = async () => {
   if (!options.runInstall) {
     core5.debug("Skipping pixi list.");
-    return Promise.resolve();
+    return;
   }
   if ("version" in options.pixiSource && options.pixiSource.version !== "latest" && options.pixiSource.version < "v0.13.0") {
     core5.warning(
       "pixi list is not supported for pixi versions < `v0.13.0`. Please set `pixi-version` to `v0.13.0` or later."
     );
-    return Promise.resolve();
+    return;
   }
   let command = "list";
   if ("version" in options.pixiSource && options.pixiSource.version !== "latest" && options.pixiSource.version < "v0.14.0") {
@@ -80243,15 +80321,19 @@ var generateList = async () => {
   if (options.environments) {
     for (const environment of options.environments) {
       core5.debug(`Listing environment ${environment}`);
-      await core5.group(`pixi ${command} -e ${environment}`, () => execute(pixiCmd(`${command} -e ${environment}`)));
+      const cmd = `${command} -e ${environment}`;
+      await core5.group(`pixi ${cmd}`, () => execute(pixiCmd(cmd)));
     }
-    return Promise.resolve();
   } else {
-    return core5.group(`pixi ${command}`, () => execute(pixiCmd(command)));
+    await core5.group(`pixi ${command}`, () => execute(pixiCmd(command)));
   }
 };
-var generateInfo = () => core5.group("pixi info", () => execute(pixiCmd("info")));
-var activateEnv = (environment) => core5.group("Activate environment", () => activateEnvironment(environment));
+var generateInfo = async () => {
+  await core5.group("pixi info", () => execute(pixiCmd("info")));
+};
+var activateEnv = async (environment) => {
+  await core5.group("Activate environment", () => activateEnvironment(environment));
+};
 var run = async () => {
   core5.debug(`process.env.HOME: ${process.env.HOME ?? "-"}`);
   core5.debug(`os.homedir(): ${import_os4.default.homedir()}`);
@@ -80260,6 +80342,7 @@ var run = async () => {
   }
   addPixiToPath();
   await pixiLogin();
+  await pixiGlobalInstall();
   await pixiInstall();
   await generateInfo();
   await generateList();
@@ -80267,19 +80350,26 @@ var run = async () => {
     await activateEnv(options.activatedEnvironment);
   }
 };
-run().then(() => (0, import_process2.exit)(0)).catch((error3) => {
-  if (core5.isDebug()) {
-    throw error3;
+var main = async () => {
+  try {
+    await run();
+    (0, import_process2.exit)(0);
+  } catch (error3) {
+    if (core5.isDebug()) {
+      throw error3;
+    }
+    if (error3 instanceof Error) {
+      core5.setFailed(error3.message);
+      (0, import_process2.exit)(1);
+    } else if (typeof error3 === "string") {
+      core5.setFailed(error3);
+      (0, import_process2.exit)(1);
+    } else {
+      throw error3;
+    }
   }
-  if (error3 instanceof Error) {
-    core5.setFailed(error3.message);
-    (0, import_process2.exit)(1);
-  } else if (typeof error3 === "string") {
-    core5.setFailed(error3);
-    (0, import_process2.exit)(1);
-  }
-  throw error3;
-});
+};
+void main();
 /*! Bundled license information:
 
 undici/lib/fetch/body.js:

@@ -10,48 +10,44 @@ import { execute, pixiCmd, renderPixiUrl } from './util'
 import { saveCache, tryRestoreCache } from './cache'
 import { activateEnvironment } from './activate'
 
-const downloadPixi = (source: PixiSource) => {
+const downloadPixi = async (source: PixiSource) => {
   const url = renderPixiUrl(source.urlTemplate, source.version)
-  return core.group('Downloading Pixi', () => {
+  await core.group('Downloading Pixi', async () => {
     core.debug('Installing pixi')
     core.debug(`Downloading pixi from ${url}`)
     core.debug(`Using headers: ${JSON.stringify(source.headers)}`)
-    return fs
-      .mkdir(path.dirname(options.pixiBinPath), { recursive: true })
-      .then(() => downloadTool(url, options.pixiBinPath, undefined, source.headers))
-      .then((_downloadPath) => fs.chmod(options.pixiBinPath, 0o755))
-      .then(() => {
-        core.info(`Pixi installed to ${options.pixiBinPath}`)
-      })
+    await fs.mkdir(path.dirname(options.pixiBinPath), { recursive: true })
+    await downloadTool(url, options.pixiBinPath, undefined, source.headers)
+    await fs.chmod(options.pixiBinPath, 0o755)
+    core.info(`Pixi installed to ${options.pixiBinPath}`)
   })
 }
 
-const pixiLogin = () => {
+const pixiLogin = async () => {
   const auth = options.auth
   if (!auth) {
     core.debug('Skipping pixi login.')
-    return Promise.resolve(0)
+    return
   }
   core.debug(`auth keys: ${Object.keys(auth).toString()}`)
-  return core.group('Logging in to private channel', () => {
+  await core.group('Logging in to private channel', async () => {
     // tokens get censored in the logs as long as they are a github secret
     if ('token' in auth) {
       core.debug(`Logging in to ${auth.host} with token`)
-      return execute(pixiCmd(`auth login --token ${auth.token} ${auth.host}`, false))
-    }
-    if ('username' in auth) {
+      await execute(pixiCmd(`auth login --token ${auth.token} ${auth.host}`, false))
+    } else if ('username' in auth) {
       core.debug(`Logging in to ${auth.host} with username and password`)
-      return execute(pixiCmd(`auth login --username ${auth.username} --password ${auth.password} ${auth.host}`, false))
-    }
-    if ('s3AccessKeyId' in auth) {
+      await execute(pixiCmd(`auth login --username ${auth.username} --password ${auth.password} ${auth.host}`, false))
+    } else if ('s3AccessKeyId' in auth) {
       core.debug(`Logging in to ${auth.host} with s3 credentials`)
       const command = auth.s3SessionToken
         ? `auth login --s3-access-key-id ${auth.s3AccessKeyId} --s3-secret-access-key ${auth.s3SecretAccessKey} --s3-session-token ${auth.s3SessionToken} ${auth.host}`
         : `auth login --s3-access-key-id ${auth.s3AccessKeyId} --s3-secret-access-key ${auth.s3SecretAccessKey} ${auth.host}`
-      return execute(pixiCmd(command, false))
+      await execute(pixiCmd(command, false))
+    } else if ('condaToken' in auth) {
+      core.debug(`Logging in to ${auth.host} with conda token`)
+      await execute(pixiCmd(`auth login --conda-token ${auth.condaToken} ${auth.host}`, false))
     }
-    core.debug(`Logging in to ${auth.host} with conda token`)
-    return execute(pixiCmd(`auth login --conda-token ${auth.condaToken} ${auth.host}`, false))
   })
 }
 
@@ -59,39 +55,53 @@ const addPixiToPath = () => {
   core.addPath(path.dirname(options.pixiBinPath))
 }
 
+const pixiGlobalInstall = async () => {
+  const { globalEnvironments } = options
+  if (!globalEnvironments) {
+    core.debug('Skipping pixi global install.')
+    return
+  }
+  core.debug('Installing global environments')
+  for (const env of globalEnvironments) {
+    const command = `global install ${env}`
+    await core.group(`pixi ${command}`, () => execute(pixiCmd(command, false)))
+  }
+}
+
 const pixiInstall = async () => {
   if (!options.runInstall) {
     core.debug('Skipping pixi install.')
-    return Promise.resolve()
+    return
   }
-  return tryRestoreCache()
-    .then(async (_cacheKey) => {
-      const environments = options.environments ?? [undefined]
-      for (const environment of environments) {
-        core.debug(`Installing environment ${environment ?? 'default'}`)
-        let command = `install`
-        if (environment) {
-          command += ` -e ${environment}`
-        }
-        if (options.frozen) {
-          command += ' --frozen'
-        }
-        if (options.locked) {
-          command += ' --locked'
-        }
-        if (options.pypiKeyringProvider) {
-          command += ` --pypi-keyring-provider ${options.pypiKeyringProvider}`
-        }
-        await core.group(`pixi ${command}`, () => execute(pixiCmd(command)))
-      }
-    })
-    .then(saveCache)
+
+  await tryRestoreCache()
+
+  const environments = options.environments ?? [undefined]
+  for (const environment of environments) {
+    core.debug(`Installing environment ${environment ?? 'default'}`)
+    let command = `install`
+    if (environment) {
+      command += ` -e ${environment}`
+    }
+    if (options.frozen) {
+      command += ' --frozen'
+    }
+    if (options.locked) {
+      command += ' --locked'
+    }
+    if (options.pypiKeyringProvider) {
+      command += ` --pypi-keyring-provider ${options.pypiKeyringProvider}`
+    }
+    await core.group(`pixi ${command}`, () => execute(pixiCmd(command)))
+  }
+
+  await saveCache()
 }
 
 const generateList = async () => {
   if (!options.runInstall) {
     core.debug('Skipping pixi list.')
-    return Promise.resolve()
+    return
   }
   if (
     'version' in options.pixiSource &&
@@ -101,7 +111,7 @@ const generateList = async () => {
     core.warning(
       'pixi list is not supported for pixi versions < `v0.13.0`. Please set `pixi-version` to `v0.13.0` or later.'
     )
-    return Promise.resolve()
+    return
   }
   let command = 'list'
   if (
@@ -117,17 +127,21 @@ const generateList = async () => {
   if (options.environments) {
     for (const environment of options.environments) {
       core.debug(`Listing environment ${environment}`)
-      await core.group(`pixi ${command} -e ${environment}`, () => execute(pixiCmd(`${command} -e ${environment}`)))
+      const cmd = `${command} -e ${environment}`
+      await core.group(`pixi ${cmd}`, () => execute(pixiCmd(cmd)))
     }
-    return Promise.resolve()
   } else {
-    return core.group(`pixi ${command}`, () => execute(pixiCmd(command)))
+    await core.group(`pixi ${command}`, () => execute(pixiCmd(command)))
   }
 }
 
-const generateInfo = () => core.group('pixi info', () => execute(pixiCmd('info')))
+const generateInfo = async () => {
+  await core.group('pixi info', () => execute(pixiCmd('info')))
+}
 
-const activateEnv = (environment: string) => core.group('Activate environment', () => activateEnvironment(environment))
+const activateEnv = async (environment: string) => {
+  await core.group('Activate environment', () => activateEnvironment(environment))
+}
 
 const run = async () => {
   core.debug(`process.env.HOME: ${process.env.HOME ?? '-'}`)
@@ -137,6 +151,7 @@ const run = async () => {
   }
   addPixiToPath()
   await pixiLogin()
+  await pixiGlobalInstall()
   await pixiInstall()
   await generateInfo()
   await generateList()
@@ -145,9 +160,12 @@ const run = async () => {
   }
 }
 
-run()
-  .then(() => exit(0)) // workaround for https://github.com/actions/toolkit/issues/1578
-  .catch((error: unknown) => {
+const main = async () => {
+  try {
+    await run()
+    // workaround for https://github.com/actions/toolkit/issues/1578
+    exit(0)
+  } catch (error: unknown) {
     if (core.isDebug()) {
       throw error
     }
@@ -157,6 +175,10 @@ run()
     } else if (typeof error === 'string') {
       core.setFailed(error)
       exit(1)
+    } else {
+      throw error
     }
-    throw error
-  })
+  }
+}
+
+void main()

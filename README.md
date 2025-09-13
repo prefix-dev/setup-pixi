@@ -59,14 +59,15 @@ To see all available input arguments, see the [`action.yml`](action.yml) file.
 
 ### Caching
 
-The action supports caching of the pixi environment.
-By default, caching is enabled if a `pixi.lock` file is present.
+The action supports caching of the project and global pixi environments.
+By default, caching is enabled if a `pixi.lock` file is present for project environments.
 It will then use the `pixi.lock` file to generate a hash of the environment and cache it.
+For global environments, a hash is generated from the list of globally installed environments.
 If the cache is hit, the action will skip the installation and use the cached environment.
 You can specify the behavior by setting the `cache` input argument.
 
-If you need to customize your cache-key, you can use the `cache-key` input argument.
-This will be the prefix of the cache key. The full cache key will be `<cache-key><conda-arch>-<hash>`.
+If you need to customize your cache-key, you can use the `cache-key` and `global-cache-key` input arguments.
+These will be the prefixes of the cache keys. The full cache keys will be `<cache-key><conda-arch>-<hash>` and `<global-cache-key><conda-arch>-<hash>` respectively.
 
 #### Only save caches on `main`
 
@@ -143,14 +144,34 @@ The following example will install both the `py311` and the `py312` environment 
 > [!WARNING]
 > If you don't specify any environment, the `default` environment will be installed and cached, even if you use other environments.
 
+### Global Environments
+
+You can specify `pixi global install` commands by setting the `global-environments` input argument.
+
+This will create one environement per line, install and cache them.
+
+This is useful in particular to install executables that are needed for `pixi install` to work properly. For instance, the `keyring`, or `gcloud` executables. The following example shows how to install both in separate global environments
+
+```yml
+- uses: prefix-dev/setup-pixi@v0.9.0
+  with:
+    global-environments: |
+      google-cloud-sdk
+      keyring --with keyrings.google-artifactregistry-auth
+- run: |
+    gcloud --version
+    keyring --list-backends
+```
+
 ### Authentication
 
-There are currently three ways to authenticate with pixi:
+There are currently five ways to authenticate with pixi:
 
 - using a token
 - using a username and password
 - using a conda-token
 - using an S3 key pair
+- using keyring for PyPI registries
 
 For more information, see the [pixi documentation](https://prefix.dev/docs/pixi/authentication).
 
@@ -222,6 +243,8 @@ You can specify whether to use keyring to look up credentials for PyPI.
   with:
     pypi-keyring-provider: subprocess # one of 'subprocess', 'disabled'
 ```
+
+You can use the [`global-environments`](#global-environments) input to install `keyring` and its backends.
 
 ### Custom shell wrapper
 
