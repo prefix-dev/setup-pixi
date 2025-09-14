@@ -23,6 +23,9 @@ inputs:
   environments:
     description: |
       A space-separated list of environments to install. If not specified, only the default environment is installed.
+  global-environments:
+    description: |
+      A newline-separated list of packages to install globally with `pixi global install`.
   activate-environment:
     description: |
       If the installed environment should be "activated" for the current job, modifying `$GITHUB_ENV` and

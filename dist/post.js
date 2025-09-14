@@ -29891,6 +29891,13 @@ var parseOrUndefinedList = (key, schema) => {
   }
   return input.split(" ").map((s) => schema.parse(s)).filter((s) => s !== "");
 };
+var parseOrUndefinedMultilineList = (key, schema) => {
+  const input = inputOrEnvironmentVariable(key);
+  if (input === void 0) {
+    return void 0;
+  }
+  return input.split("\n").map((s) => schema.parse(s.trim())).filter((s) => s !== "");
+};
 var validateInputs = (inputs) => {
   if (inputs.pixiUrlHeaders && !inputs.pixiUrl) {
     throw new Error("You need to specify pixi-url when using pixi-url-headers");
@@ -30043,6 +30050,7 @@ var inferOptions = (inputs) => {
   const postCleanup = inputs.postCleanup ?? true;
   const pypiKeyringProvider = inputs.pypiKeyringProvider;
   return {
+    globalEnvironments: inputs.globalEnvironments,
     pixiSource,
     pypiKeyringProvider,
     downloadPixi,
@@ -30095,6 +30103,7 @@ var getOptions = () => {
     authS3SecretAccessKey: parseOrUndefined("auth-s3-secret-access-key", string2()),
     authS3SessionToken: parseOrUndefined("auth-s3-session-token", string2()),
     pypiKeyringProvider: parseOrUndefined("pypi-keyring-provider", pypiKeyringProviderSchema),
+    globalEnvironments: parseOrUndefinedMultilineList("global-environments", string2()),
     postCleanup: parseOrUndefinedJSON("post-cleanup", boolean2())
   };
   core2.debug(`Inputs: ${JSON.stringify(inputs)}`);
