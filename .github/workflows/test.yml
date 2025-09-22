@@ -66,7 +66,7 @@ jobs:
           set -o pipefail
           pixi info
           test -f .pixi/envs/default/bin/python${{ matrix.os == 'windows-latest' && '.exe' || '' }}
-          ./.pixi/envs/default/bin/python ${{ matrix.os == 'windows-latest' && '.exe' || '' }} --version | grep -q 3.11
+          ./.pixi/envs/default/bin/python${{ matrix.os == 'windows-latest' && '.exe' || '' }} --version | grep -q 3.11
         shell: bash
       - run: |
           pixi run python --version | grep -q 3.11
