@@ -34,6 +34,7 @@ type Inputs = Readonly<{
   authS3SessionToken?: string
   pypiKeyringProvider?: 'disabled' | 'subprocess'
   postCleanup?: boolean
+  globalEnvironments?: string[]
 }>
 
 export interface PixiSource {
@@ -83,6 +84,7 @@ export type Options = Readonly<{
   pypiKeyringProvider?: 'disabled' | 'subprocess'
   postCleanup: boolean
   activatedEnvironment?: string
+  globalEnvironments?: string[]
 }>
 const pixiPath = 'pixi.toml'
 const pyprojectPath = 'pyproject.toml'
@@ -149,6 +151,17 @@ const parseOrUndefinedList = <T>(key: string, schema: z.ZodType<T>): T[] | undef
   return input
     .split(' ')
     .map((s) => schema.parse(s))
+    .filter((s) => s !== '')
+}
+
+const parseOrUndefinedMultilineList = <T>(key: string, schema: z.ZodType<T>): T[] | undefined => {
+  const input = inputOrEnvironmentVariable(key)
+  if (input === undefined) {
+    return undefined
+  }
+  return input
+    .split('\n')
+    .map((s) => schema.parse(s.trim()))
     .filter((s) => s !== '')
 }
 
@@ -330,6 +343,7 @@ const inferOptions = (inputs: Inputs): Options => {
   const postCleanup = inputs.postCleanup ?? true
   const pypiKeyringProvider = inputs.pypiKeyringProvider
   return {
+    globalEnvironments: inputs.globalEnvironments,
     pixiSource,
     pypiKeyringProvider,
     downloadPixi,
@@ -390,6 +404,7 @@ const getOptions = () => {
     authS3SecretAccessKey: parseOrUndefined('auth-s3-secret-access-key', z.string()),
     authS3SessionToken: parseOrUndefined('auth-s3-session-token', z.string()),
     pypiKeyringProvider: parseOrUndefined('pypi-keyring-provider', pypiKeyringProviderSchema),
+    globalEnvironments: parseOrUndefinedMultilineList('global-environments', z.string()),
     postCleanup: parseOrUndefinedJSON('post-cleanup', z.boolean())
   }
   core.debug(`Inputs: ${JSON.stringify(inputs)}`)
