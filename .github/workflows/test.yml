@@ -61,26 +61,17 @@ jobs:
           global-environments: |
             cowpy
       - run: |
-          set -o pipefail
           cowpy hello world
-        shell: bash
       - run: |
           set -o pipefail
           pixi info
-          test -f .pixi/envs/default/bin/python
-          ./.pixi/envs/default/bin/python --version | grep -q 3.11
+          test -f .pixi/envs/default/bin/python${{ matrix.os == 'windows-latest' && '.exe' || '' }}
+          ./.pixi/envs/default/bin/python ${{ matrix.os == 'windows-latest' && '.exe' || '' }} --version | grep -q 3.11
         shell: bash
-        if: matrix.os != 'windows-latest'
-      - run: |
-          set -o pipefail
-          pixi info
-          test -f .pixi/envs/default/python.exe
-          ./.pixi/envs/default/python.exe --version | grep -q 3.11
-        shell: bash
-        if: matrix.os == 'windows-latest'
       - run: |
           pixi run python --version | grep -q 3.11
           pixi run test | grep -q "Hello world"
+
   global-environments-with-project-install:
     strategy:
       matrix:

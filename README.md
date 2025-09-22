@@ -146,12 +146,10 @@ The following example will install both the `py311` and the `py312` environment 
 ### Global Environments
 
 You can specify `pixi global install` commands by setting the `global-environments` input argument.
-
 This will create one environement per line, install them.
-
-This is useful in particular to install executables that are needed for `pixi install` to work properly. For instance, the `keyring`, or `gcloud` executables. The following example shows how to install both in separate global environments.
-
-Note tha global environments are not cached.
+This is useful in particular to install executables that are needed for `pixi install` to work properly.
+For instance, the `keyring`, or `gcloud` executables. The following example shows how to install both in separate global environments.
+Note that global environments are not cached.
 
 ```yml
 - uses: prefix-dev/setup-pixi@v0.9.0
