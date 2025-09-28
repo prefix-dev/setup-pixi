@@ -59,14 +59,17 @@ To see all available input arguments, see the [`action.yml`](action.yml) file.
 
 ### Caching
 
-The action supports caching of the pixi environment.
-By default, caching is enabled if a `pixi.lock` file is present.
+The action supports caching of the project and global pixi environments.
+By default, project environment caching is enabled if a `pixi.lock` file is present.
 It will then use the `pixi.lock` file to generate a hash of the environment and cache it.
 If the cache is hit, the action will skip the installation and use the cached environment.
 You can specify the behavior by setting the `cache` input argument.
 
-If you need to customize your cache-key, you can use the `cache-key` input argument.
-This will be the prefix of the cache key. The full cache key will be `<cache-key><conda-arch>-<hash>`.
+Global environment caching is disabled by default and can be enabled by setting the `global-cache` input to `true`.
+As there is no lockfile for global environments, the cache will expire at the end of every month to ensure it does not go stale.
+
+If you need to customize your cache-key, you can use the `cache-key` and `global-cache-key` input arguments.
+These will be the prefixes of the cache keys. The full cache keys will be `<cache-key><conda-arch>-<hash>` and `<global-cache-key><conda-arch>-<hash>` respectively.
 
 #### Only save caches on `main`
 
@@ -149,7 +152,7 @@ You can specify `pixi global install` commands by setting the `global-environmen
 This will create one environment per line, and install them.
 This is useful in particular to install executables that are needed for `pixi install` to work properly.
 For instance, the `keyring`, or `gcloud` executables. The following example shows how to install both in separate global environments.
-Note that global environments are not cached.
+By default, global environments are not cached. You can enable caching by setting the `global-cache` input to `true`.
 
 ```yml
 - uses: prefix-dev/setup-pixi@v0.9.1

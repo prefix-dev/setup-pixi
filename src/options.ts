@@ -21,7 +21,9 @@ type Inputs = Readonly<{
   frozen?: boolean
   locked?: boolean
   cache?: boolean
-  cacheKey?: string
+  globalCache?: boolean
+  projectCacheKey?: string
+  globalCacheKey?: string
   cacheWrite?: boolean
   pixiBinPath?: string
   authHost?: string
@@ -68,6 +70,11 @@ interface Cache {
   cacheWrite: boolean
 }
 
+interface GlobalCache {
+  cacheKeyPrefix: string
+  cacheWrite: boolean
+}
+
 export type Options = Readonly<{
   pixiSource: PixiSource
   downloadPixi: boolean
@@ -79,6 +86,7 @@ export type Options = Readonly<{
   frozen: boolean
   locked: boolean
   cache?: Cache
+  globalCache?: GlobalCache
   pixiBinPath: string
   auth?: Auth
   pypiKeyringProvider?: 'disabled' | 'subprocess'
@@ -169,11 +177,17 @@ const validateInputs = (inputs: Inputs): void => {
   if (inputs.pixiUrlHeaders && !inputs.pixiUrl) {
     throw new Error('You need to specify pixi-url when using pixi-url-headers')
   }
-  if (inputs.cacheKey !== undefined && inputs.cache === false) {
-    throw new Error('Cannot specify cache key without caching')
+  if (inputs.projectCacheKey !== undefined && inputs.cache === false) {
+    throw new Error('Cannot specify project cache key without project caching')
+  }
+  if (inputs.globalCacheKey !== undefined && inputs.globalCache === false) {
+    throw new Error('Cannot specify global cache key without global caching')
   }
   if (inputs.runInstall === false && inputs.cache === true) {
     throw new Error('Cannot cache without running install')
+  }
+  if (inputs.globalCache === true && (!inputs.globalEnvironments || inputs.globalEnvironments.length === 0)) {
+    throw new Error('Cannot use global-cache without specifying global-environments')
   }
   if (inputs.runInstall === false && inputs.frozen === true) {
     throw new Error('Cannot use `frozen: true` when not running install')
@@ -309,10 +323,19 @@ const inferOptions = (inputs: Inputs): Options => {
   } else if (inputs.activateEnvironment && inputs.activateEnvironment !== 'false') {
     activatedEnvironment = inputs.activateEnvironment
   }
-  const cache = inputs.cacheKey
-    ? { cacheKeyPrefix: inputs.cacheKey, cacheWrite: inputs.cacheWrite ?? true }
-    : inputs.cache === true || (lockFileAvailable && inputs.cache !== false)
-      ? { cacheKeyPrefix: 'pixi-', cacheWrite: inputs.cacheWrite ?? true }
+  const cache =
+    inputs.cache === true || (lockFileAvailable && inputs.cache !== false)
+      ? {
+          cacheKeyPrefix: inputs.projectCacheKey ?? 'pixi-',
+          cacheWrite: inputs.cacheWrite ?? true
+        }
+      : undefined
+  const globalCache =
+    inputs.globalCache === true && inputs.globalEnvironments && inputs.globalEnvironments.length > 0
+      ? {
+          cacheKeyPrefix: inputs.globalCacheKey ?? 'pixi-global-',
+          cacheWrite: inputs.cacheWrite ?? true
+        }
       : undefined
   const frozen = inputs.frozen ?? false
   const locked = inputs.locked ?? (lockFileAvailable && !frozen)
@@ -356,6 +379,7 @@ const inferOptions = (inputs: Inputs): Options => {
     frozen,
     locked,
     cache,
+    globalCache,
     pixiBinPath,
     auth,
     postCleanup
@@ -392,7 +416,9 @@ const getOptions = () => {
     locked: parseOrUndefinedJSON('locked', z.boolean()),
     frozen: parseOrUndefinedJSON('frozen', z.boolean()),
     cache: parseOrUndefinedJSON('cache', z.boolean()),
-    cacheKey: parseOrUndefined('cache-key', z.string()),
+    globalCache: parseOrUndefinedJSON('global-cache', z.boolean()),
+    projectCacheKey: parseOrUndefined('cache-key', z.string()),
+    globalCacheKey: parseOrUndefined('global-cache-key', z.string()),
     cacheWrite: parseOrUndefinedJSON('cache-write', z.boolean()),
     pixiBinPath: parseOrUndefined('pixi-bin-path', z.string()),
     authHost: parseOrUndefined('auth-host', z.string()),
