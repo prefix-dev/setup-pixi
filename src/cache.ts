@@ -10,15 +10,24 @@ const getYearMonth = () => {
   return new Date().toLocaleDateString('en-CA', { year: 'numeric', month: '2-digit' })
 }
 
+let pixiSha: string | undefined
+const getPixiSha = async () => {
+  if (pixiSha) {
+    return pixiSha
+  }
+  const pixiBinary = await fs.readFile(options.pixiBinPath)
+  pixiSha = sha256(pixiBinary)
+  return pixiSha
+}
+
 export const generateProjectCacheKey = async (cacheKeyPrefix: string) => {
   try {
-    const [lockfileContent, pixiBinary] = await Promise.all([
+    const [lockfileContent, pixiSha] = await Promise.all([
       fs.readFile(options.pixiLockFile),
-      fs.readFile(options.pixiBinPath)
+      getPixiSha()
     ])
     const lockfileSha = sha256(lockfileContent)
     core.debug(`lockfileSha: ${lockfileSha}`)
-    const pixiSha = sha256(pixiBinary)
     core.debug(`pixiSha: ${pixiSha}`)
     // the path to the lock file decides where the pixi env is created (../.pixi/env)
     // since conda envs are not relocatable, we need to include the path in the cache key
@@ -40,8 +49,7 @@ export const generateProjectCacheKey = async (cacheKeyPrefix: string) => {
 
 export const generateGlobalCacheKey = async (cacheKeyPrefix: string) => {
   try {
-    const pixiBinary = await fs.readFile(options.pixiBinPath)
-    const pixiSha = sha256(pixiBinary)
+    const pixiSha = await getPixiSha()
     core.debug(`pixiSha: ${pixiSha}`)
     const globalEnvironments = sha256(options.globalEnvironments?.join(' ') ?? '')
     core.debug(`globalEnvironments: ${globalEnvironments}`)
