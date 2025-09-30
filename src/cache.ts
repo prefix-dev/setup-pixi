@@ -22,10 +22,7 @@ const getPixiSha = async () => {
 
 export const generateProjectCacheKey = async (cacheKeyPrefix: string) => {
   try {
-    const [lockfileContent, pixiSha] = await Promise.all([
-      fs.readFile(options.pixiLockFile),
-      getPixiSha()
-    ])
+    const [lockfileContent, pixiSha] = await Promise.all([fs.readFile(options.pixiLockFile), getPixiSha()])
     const lockfileSha = sha256(lockfileContent)
     core.debug(`lockfileSha: ${lockfileSha}`)
     core.debug(`pixiSha: ${pixiSha}`)

@@ -80078,10 +80078,7 @@ var getPixiSha = async () => {
 };
 var generateProjectCacheKey = async (cacheKeyPrefix) => {
   try {
-    const [lockfileContent, pixiSha2] = await Promise.all([
-      import_promises.default.readFile(options.pixiLockFile),
-      getPixiSha()
-    ]);
+    const [lockfileContent, pixiSha2] = await Promise.all([import_promises.default.readFile(options.pixiLockFile), getPixiSha()]);
     const lockfileSha = sha256(lockfileContent);
     core3.debug(`lockfileSha: ${lockfileSha}`);
     core3.debug(`pixiSha: ${pixiSha2}`);
