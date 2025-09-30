@@ -22,7 +22,7 @@ type Inputs = Readonly<{
   locked?: boolean
   cache?: boolean
   globalCache?: boolean
-  projectCacheKey?: string
+  cacheKey?: string
   globalCacheKey?: string
   cacheWrite?: boolean
   pixiBinPath?: string
@@ -177,7 +177,7 @@ const validateInputs = (inputs: Inputs): void => {
   if (inputs.pixiUrlHeaders && !inputs.pixiUrl) {
     throw new Error('You need to specify pixi-url when using pixi-url-headers')
   }
-  if (inputs.projectCacheKey !== undefined && inputs.cache === false) {
+  if (inputs.cacheKey !== undefined && inputs.cache === false) {
     throw new Error('Cannot specify project cache key without project caching')
   }
   if (inputs.globalCacheKey !== undefined && inputs.globalCache === false) {
@@ -323,12 +323,10 @@ const inferOptions = (inputs: Inputs): Options => {
   } else if (inputs.activateEnvironment && inputs.activateEnvironment !== 'false') {
     activatedEnvironment = inputs.activateEnvironment
   }
-  const cache =
-    inputs.cache === true || (lockFileAvailable && inputs.cache !== false)
-      ? {
-          cacheKeyPrefix: inputs.projectCacheKey ?? 'pixi-',
-          cacheWrite: inputs.cacheWrite ?? true
-        }
+  const cache = inputs.cacheKey
+    ? { projectCacheKeyPrefix: inputs.cacheKey, cacheWrite: inputs.cacheWrite ?? true }
+      : inputs.cache === true || (lockFileAvailable && inputs.cache !== false)
+      ? { cacheKeyPrefix: 'pixi-', cacheWrite: inputs.cacheWrite ?? true }
       : undefined
   const globalCache =
     inputs.globalCache === true && inputs.globalEnvironments && inputs.globalEnvironments.length > 0
@@ -417,7 +415,7 @@ const getOptions = () => {
     frozen: parseOrUndefinedJSON('frozen', z.boolean()),
     cache: parseOrUndefinedJSON('cache', z.boolean()),
     globalCache: parseOrUndefinedJSON('global-cache', z.boolean()),
-    projectCacheKey: parseOrUndefined('cache-key', z.string()),
+    cacheKey: parseOrUndefined('cache-key', z.string()),
     globalCacheKey: parseOrUndefined('global-cache-key', z.string()),
     cacheWrite: parseOrUndefinedJSON('cache-write', z.boolean()),
     pixiBinPath: parseOrUndefined('pixi-bin-path', z.string()),
