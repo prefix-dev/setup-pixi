@@ -69,7 +69,7 @@ Global environment caching is disabled by default and can be enabled by setting 
 As there is no lockfile for global environments, the cache will expire at the end of every month to ensure it does not go stale.
 
 If you need to customize your cache-key, you can use the `cache-key` and `global-cache-key` input arguments.
-These will be the prefixes of the cache keys. The full cache keys will be `<cache-key><conda-arch>-<hash>` and `<global-cache-key><conda-arch>-<hash>` respectively.
+These will be the prefixes of the cache keys. The full cache keys will be `<cache-key><conda-arch>-<hash>` and `<global-cache-key><conda-arch>-<YYYY-MM>-<hash>` respectively.
 
 #### Only save caches on `main`
 

@@ -45,9 +45,9 @@ export const generateGlobalCacheKey = async (cacheKeyPrefix: string) => {
     core.debug(`pixiSha: ${pixiSha}`)
     const globalEnvironments = sha256(options.globalEnvironments?.join(' ') ?? '')
     core.debug(`globalEnvironments: ${globalEnvironments}`)
-    const sha = sha256(globalEnvironments + pixiSha + getYearMonth())
+    const sha = sha256(globalEnvironments + pixiSha)
     core.debug(`sha: ${sha}`)
-    return `${cacheKeyPrefix}${getCondaArch()}-${sha}`
+    return `${cacheKeyPrefix}${getCondaArch()}-${getYearMonth()}-${sha}`
   } catch (err: unknown) {
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     throw new Error(`Failed to generate cache key: ${err}`)
