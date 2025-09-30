@@ -68,13 +68,13 @@ let projectCacheHit = false
 let globalCacheHit = false
 
 async function _tryRestoreCache(
-  type: 'Project' | 'Global',
+  type: 'project' | 'global',
   keyPrefix: string,
   generateKey: (prefix: string) => Promise<string>,
   cachePath: string,
   onHit: () => void
 ): Promise<string | undefined> {
-  return core.group(`Restoring ${type.toLowerCase()} cache`, async () => {
+  return core.group(`Restoring ${type} cache`, async () => {
     const cacheKey = await generateKey(keyPrefix)
     core.debug(`Cache key: ${cacheKey}`)
     core.debug(`Cache path: ${cachePath}`)
@@ -90,14 +90,14 @@ async function _tryRestoreCache(
 }
 
 async function _saveCache(
-  type: 'Project' | 'Global',
+  type: 'project' | 'global',
   wasHit: boolean,
   keyPrefix: string,
   generateKey: (prefix: string) => Promise<string>,
   cachePath: string
 ) {
   if (wasHit) {
-    core.debug(`Skipping ${type.toLowerCase()} cache save because cache was restored.`)
+    core.debug(`Skipping ${type} cache save because cache was restored.`)
     return
   }
 
@@ -108,7 +108,7 @@ async function _saveCache(
       core.info(`Saved cache with ID "${cacheId.toString()}"`)
     } catch (err: unknown) {
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-      core.error(`Error saving ${type.toLowerCase()} cache: ${err}`)
+      core.error(`Error saving ${type} cache: ${err}`)
     }
   })
 }
@@ -119,7 +119,7 @@ export const tryRestoreProjectCache = async (): Promise<string | undefined> => {
     core.debug('Skipping project cache restore.')
     return undefined
   }
-  return _tryRestoreCache('Project', cache_.cacheKeyPrefix, generateProjectCacheKey, projectCachePath, () => {
+  return _tryRestoreCache('project', cache_.cacheKeyPrefix, generateProjectCacheKey, projectCachePath, () => {
     projectCacheHit = true
   })
 }
@@ -130,7 +130,7 @@ export const tryRestoreGlobalCache = async (): Promise<string | undefined> => {
     core.debug('Skipping global cache restore.')
     return undefined
   }
-  return _tryRestoreCache('Global', cache_.cacheKeyPrefix, generateGlobalCacheKey, getGlobalCachePath(), () => {
+  return _tryRestoreCache('global', cache_.cacheKeyPrefix, generateGlobalCacheKey, getGlobalCachePath(), () => {
     globalCacheHit = true
   })
 }
@@ -141,7 +141,7 @@ export const saveProjectCache = async () => {
     core.debug('Skipping project cache save.')
     return
   }
-  await _saveCache('Project', projectCacheHit, cache_.cacheKeyPrefix, generateProjectCacheKey, projectCachePath)
+  await _saveCache('project', projectCacheHit, cache_.cacheKeyPrefix, generateProjectCacheKey, projectCachePath)
 }
 
 export const saveGlobalCache = async () => {
@@ -150,5 +150,5 @@ export const saveGlobalCache = async () => {
     core.debug('Skipping global cache save.')
     return
   }
-  await _saveCache('Global', globalCacheHit, cache_.cacheKeyPrefix, generateGlobalCacheKey, getGlobalCachePath())
+  await _saveCache('global', globalCacheHit, cache_.cacheKeyPrefix, generateGlobalCacheKey, getGlobalCachePath())
 }
