@@ -323,10 +323,12 @@ const inferOptions = (inputs: Inputs): Options => {
   } else if (inputs.activateEnvironment && inputs.activateEnvironment !== 'false') {
     activatedEnvironment = inputs.activateEnvironment
   }
-  const cache = inputs.cacheKey
-    ? { projectCacheKeyPrefix: inputs.cacheKey, cacheWrite: inputs.cacheWrite ?? true }
-      : inputs.cache === true || (lockFileAvailable && inputs.cache !== false)
-      ? { cacheKeyPrefix: 'pixi-', cacheWrite: inputs.cacheWrite ?? true }
+  const cache =
+    inputs.cache === true || (lockFileAvailable && inputs.cache !== false)
+      ? {
+          cacheKeyPrefix: inputs.cacheKey ?? 'pixi-',
+          cacheWrite: inputs.cacheWrite ?? true
+        }
       : undefined
   const globalCache =
     inputs.globalCache === true && inputs.globalEnvironments && inputs.globalEnvironments.length > 0

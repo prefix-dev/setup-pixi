@@ -29902,7 +29902,7 @@ var validateInputs = (inputs) => {
   if (inputs.pixiUrlHeaders && !inputs.pixiUrl) {
     throw new Error("You need to specify pixi-url when using pixi-url-headers");
   }
-  if (inputs.projectCacheKey !== void 0 && inputs.cache === false) {
+  if (inputs.cacheKey !== void 0 && inputs.cache === false) {
     throw new Error("Cannot specify project cache key without project caching");
   }
   if (inputs.globalCacheKey !== void 0 && inputs.globalCache === false) {
@@ -30035,7 +30035,7 @@ var inferOptions = (inputs) => {
     activatedEnvironment = inputs.activateEnvironment;
   }
   const cache = inputs.cache === true || lockFileAvailable && inputs.cache !== false ? {
-    cacheKeyPrefix: inputs.projectCacheKey ?? "pixi-",
+    cacheKeyPrefix: inputs.cacheKey ?? "pixi-",
     cacheWrite: inputs.cacheWrite ?? true
   } : void 0;
   const globalCache = inputs.globalCache === true && inputs.globalEnvironments && inputs.globalEnvironments.length > 0 ? {
@@ -30106,7 +30106,7 @@ var getOptions = () => {
     frozen: parseOrUndefinedJSON("frozen", boolean2()),
     cache: parseOrUndefinedJSON("cache", boolean2()),
     globalCache: parseOrUndefinedJSON("global-cache", boolean2()),
-    projectCacheKey: parseOrUndefined("cache-key", string2()),
+    cacheKey: parseOrUndefined("cache-key", string2()),
     globalCacheKey: parseOrUndefined("global-cache-key", string2()),
     cacheWrite: parseOrUndefinedJSON("cache-write", boolean2()),
     pixiBinPath: parseOrUndefined("pixi-bin-path", string2()),

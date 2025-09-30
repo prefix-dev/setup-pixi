@@ -79814,7 +79814,7 @@ var validateInputs = (inputs) => {
   if (inputs.pixiUrlHeaders && !inputs.pixiUrl) {
     throw new Error("You need to specify pixi-url when using pixi-url-headers");
   }
-  if (inputs.projectCacheKey !== void 0 && inputs.cache === false) {
+  if (inputs.cacheKey !== void 0 && inputs.cache === false) {
     throw new Error("Cannot specify project cache key without project caching");
   }
   if (inputs.globalCacheKey !== void 0 && inputs.globalCache === false) {
@@ -79947,7 +79947,7 @@ var inferOptions = (inputs) => {
     activatedEnvironment = inputs.activateEnvironment;
   }
   const cache2 = inputs.cache === true || lockFileAvailable && inputs.cache !== false ? {
-    cacheKeyPrefix: inputs.projectCacheKey ?? "pixi-",
+    cacheKeyPrefix: inputs.cacheKey ?? "pixi-",
     cacheWrite: inputs.cacheWrite ?? true
   } : void 0;
   const globalCache = inputs.globalCache === true && inputs.globalEnvironments && inputs.globalEnvironments.length > 0 ? {
@@ -80018,7 +80018,7 @@ var getOptions = () => {
     frozen: parseOrUndefinedJSON("frozen", boolean2()),
     cache: parseOrUndefinedJSON("cache", boolean2()),
     globalCache: parseOrUndefinedJSON("global-cache", boolean2()),
-    projectCacheKey: parseOrUndefined("cache-key", string2()),
+    cacheKey: parseOrUndefined("cache-key", string2()),
     globalCacheKey: parseOrUndefined("global-cache-key", string2()),
     cacheWrite: parseOrUndefinedJSON("cache-write", boolean2()),
     pixiBinPath: parseOrUndefined("pixi-bin-path", string2()),
@@ -80067,23 +80067,31 @@ var cache = __toESM(require_cache4());
 var getYearMonth = () => {
   return (/* @__PURE__ */ new Date()).toLocaleDateString("en-CA", { year: "numeric", month: "2-digit" });
 };
+var pixiSha;
+var getPixiSha = async () => {
+  if (pixiSha) {
+    return pixiSha;
+  }
+  const pixiBinary = await import_promises.default.readFile(options.pixiBinPath);
+  pixiSha = sha256(pixiBinary);
+  return pixiSha;
+};
 var generateProjectCacheKey = async (cacheKeyPrefix) => {
   try {
-    const [lockfileContent, pixiBinary] = await Promise.all([
+    const [lockfileContent, pixiSha2] = await Promise.all([
       import_promises.default.readFile(options.pixiLockFile),
-      import_promises.default.readFile(options.pixiBinPath)
+      getPixiSha()
     ]);
     const lockfileSha = sha256(lockfileContent);
     core3.debug(`lockfileSha: ${lockfileSha}`);
-    const pixiSha = sha256(pixiBinary);
-    core3.debug(`pixiSha: ${pixiSha}`);
+    core3.debug(`pixiSha: ${pixiSha2}`);
     const lockfilePathSha = sha256(options.pixiLockFile);
     core3.debug(`lockfilePathSha: ${lockfilePathSha}`);
     const environments = sha256(options.environments?.join(" ") ?? "");
     core3.debug(`environments: ${environments}`);
     const cwdSha = sha256(process.cwd());
     core3.debug(`cwdSha: ${cwdSha}`);
-    const sha = sha256(lockfileSha + environments + pixiSha + lockfilePathSha + cwdSha);
+    const sha = sha256(lockfileSha + environments + pixiSha2 + lockfilePathSha + cwdSha);
     core3.debug(`sha: ${sha}`);
     return `${cacheKeyPrefix}${getCondaArch()}-${sha}`;
   } catch (err) {
@@ -80092,30 +80100,33 @@ var generateProjectCacheKey = async (cacheKeyPrefix) => {
 };
 var generateGlobalCacheKey = async (cacheKeyPrefix) => {
   try {
-    const pixiBinary = await import_promises.default.readFile(options.pixiBinPath);
-    const pixiSha = sha256(pixiBinary);
-    core3.debug(`pixiSha: ${pixiSha}`);
+    const pixiSha2 = await getPixiSha();
+    core3.debug(`pixiSha: ${pixiSha2}`);
     const globalEnvironments = sha256(options.globalEnvironments?.join(" ") ?? "");
     core3.debug(`globalEnvironments: ${globalEnvironments}`);
-    const sha = sha256(globalEnvironments + pixiSha + getYearMonth());
+    const sha = sha256(globalEnvironments + pixiSha2);
     core3.debug(`sha: ${sha}`);
-    return `${cacheKeyPrefix}${getCondaArch()}-${sha}`;
+    return `${cacheKeyPrefix}${getCondaArch()}-${getYearMonth()}-${sha}`;
   } catch (err) {
     throw new Error(`Failed to generate cache key: ${err}`);
   }
 };
 var projectCachePath = import_path2.default.join(import_path2.default.dirname(options.pixiLockFile), ".pixi");
 var getGlobalCachePath = () => {
-  const home = process.env.HOME;
-  if (!home) {
-    throw new Error("HOME environment variable is not set.");
+  const pixiHome = process.env.PIXI_HOME;
+  if (pixiHome) {
+    return import_path2.default.join(pixiHome, "envs");
   }
-  return import_path2.default.join(home, ".pixi", "envs");
+  const home = process.env.HOME;
+  if (home) {
+    return import_path2.default.join(home, ".pixi", "envs");
+  }
+  throw new Error("Neither PIXI_HOME nor HOME environment variables are set.");
 };
 var projectCacheHit = false;
 var globalCacheHit = false;
 async function _tryRestoreCache(type, keyPrefix, generateKey, cachePath, onHit) {
-  return core3.group(`Restoring ${type.toLowerCase()} cache`, async () => {
+  return core3.group(`Restoring ${type} cache`, async () => {
     const cacheKey = await generateKey(keyPrefix);
     core3.debug(`Cache key: ${cacheKey}`);
     core3.debug(`Cache path: ${cachePath}`);
@@ -80131,7 +80142,7 @@ async function _tryRestoreCache(type, keyPrefix, generateKey, cachePath, onHit) 
 }
 async function _saveCache(type, wasHit, keyPrefix, generateKey, cachePath) {
   if (wasHit) {
-    core3.debug(`Skipping ${type.toLowerCase()} cache save because cache was restored.`);
+    core3.debug(`Skipping ${type} cache save because cache was restored.`);
     return;
   }
   await core3.group(`Saving ${type.toLowerCase()} cache`, async () => {
@@ -80140,7 +80151,7 @@ async function _saveCache(type, wasHit, keyPrefix, generateKey, cachePath) {
       const cacheId = await cache.saveCache([cachePath], cacheKey, void 0, false);
       core3.info(`Saved cache with ID "${cacheId.toString()}"`);
     } catch (err) {
-      core3.error(`Error saving ${type.toLowerCase()} cache: ${err}`);
+      core3.error(`Error saving ${type} cache: ${err}`);
     }
   });
 }
@@ -80150,7 +80161,7 @@ var tryRestoreProjectCache = async () => {
     core3.debug("Skipping project cache restore.");
     return void 0;
   }
-  return _tryRestoreCache("Project", cache_.cacheKeyPrefix, generateProjectCacheKey, projectCachePath, () => {
+  return _tryRestoreCache("project", cache_.cacheKeyPrefix, generateProjectCacheKey, projectCachePath, () => {
     projectCacheHit = true;
   });
 };
@@ -80160,7 +80171,7 @@ var tryRestoreGlobalCache = async () => {
     core3.debug("Skipping global cache restore.");
     return void 0;
   }
-  return _tryRestoreCache("Global", cache_.cacheKeyPrefix, generateGlobalCacheKey, getGlobalCachePath(), () => {
+  return _tryRestoreCache("global", cache_.cacheKeyPrefix, generateGlobalCacheKey, getGlobalCachePath(), () => {
     globalCacheHit = true;
   });
 };
@@ -80170,7 +80181,7 @@ var saveProjectCache = async () => {
     core3.debug("Skipping project cache save.");
     return;
   }
-  await _saveCache("Project", projectCacheHit, cache_.cacheKeyPrefix, generateProjectCacheKey, projectCachePath);
+  await _saveCache("project", projectCacheHit, cache_.cacheKeyPrefix, generateProjectCacheKey, projectCachePath);
 };
 var saveGlobalCache = async () => {
   const cache_ = options.globalCache;
@@ -80178,7 +80189,7 @@ var saveGlobalCache = async () => {
     core3.debug("Skipping global cache save.");
     return;
   }
-  await _saveCache("Global", globalCacheHit, cache_.cacheKeyPrefix, generateGlobalCacheKey, getGlobalCachePath());
+  await _saveCache("global", globalCacheHit, cache_.cacheKeyPrefix, generateGlobalCacheKey, getGlobalCachePath());
 };
 
 // src/activate.ts
