@@ -80104,7 +80104,7 @@ var generateGlobalCacheKey = async (cacheKeyPrefix) => {
     core3.debug(`pixiSha: ${pixiSha2}`);
     const globalEnvironments = sha256(options.globalEnvironments?.join(" ") ?? "");
     core3.debug(`globalEnvironments: ${globalEnvironments}`);
-    const sha = sha256(globalEnvironments + pixiSha2);
+    const sha = sha256(globalEnvironments + pixiSha2 + getGlobalCachePath());
     core3.debug(`sha: ${sha}`);
     return `${cacheKeyPrefix}${getCondaArch()}-${getYearMonth()}-${sha}`;
   } catch (err) {
