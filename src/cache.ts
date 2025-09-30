@@ -65,11 +65,17 @@ export const generateGlobalCacheKey = async (cacheKeyPrefix: string) => {
 const projectCachePath = path.join(path.dirname(options.pixiLockFile), '.pixi')
 
 const getGlobalCachePath = () => {
-  const home = process.env.HOME
-  if (!home) {
-    throw new Error('HOME environment variable is not set.')
+  const pixiHome = process.env.PIXI_HOME
+  if (pixiHome) {
+    return path.join(pixiHome, 'envs')
   }
-  return path.join(home, '.pixi', 'envs')
+
+  const home = process.env.HOME
+  if (home) {
+    return path.join(home, '.pixi', 'envs')
+  }
+
+  throw new Error('Neither PIXI_HOME nor HOME environment variables are set.')
 }
 
 let projectCacheHit = false
