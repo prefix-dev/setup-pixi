@@ -37,13 +37,21 @@ inputs:
     description: Whether to use `pixi install --frozen`. Defaults to `false`.
   cache:
     description: Whether to cache the pixi environment. Defaults to `true`. Only works if `pixi.lock` is present.
+  global-cache:
+    description: |
+      Whether to cache the global environment(s). Defaults to `false`. As there is no lockfile for global environment,
+      the global cache will expire at the end of every month, to ensure it does not go stale.
   cache-key:
     description: |
       Cache key prefix to use for caching the pixi environment.
       Defaults to `pixi-`. The full cache key is `<cache-key><conda-arch>-<sha-256-of-pixi-lock>`.
+  global-cache-key:
+    description: |
+      Cache key prefix to use for caching the global environments.
+      Defaults to `pixi-global-`. The full cache key is `<global-cache-key><conda-arch>-<sha-256-of-global-environments>`.
   cache-write:
     description: |
-      Whether to write to the cache or only read from it. Defaults to `true`.
+      Whether to write to the cache or only read from it. Defaults to `true`. Applies to both project and global caches as the case may be.
   pixi-bin-path:
     description: |
       Path to the pixi binary to use. Defaults to `~/.pixi/bin/pixi`.
