@@ -175,7 +175,7 @@ There are currently five ways to authenticate with pixi:
 - using an S3 key pair
 - using keyring for PyPI registries
 
-For more information, see the [pixi documentation](https://prefix.dev/docs/pixi/authentication).
+For more information, see the [pixi documentation](https://pixi.sh/latest/deployment/authentication/).
 
 > [!WARNING]
 > Please only store sensitive information using [GitHub secrets](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions). Do not store them in your repository.
@@ -331,7 +331,7 @@ However, be aware that this option augments the environment of your job.
 ### `--frozen` and `--locked`
 
 You can specify whether `setup-pixi` should run `pixi install --frozen` or `pixi install --locked` depending on the `frozen` or the `locked` input argument.
-See the [official documentation](https://prefix.dev/docs/pixi/cli#install) for more information about the `--frozen` and `--locked` flags.
+See the [official documentation](https://pixi.sh/latest/reference/cli/pixi/install/#update-options) for more information about the `--frozen` and `--locked` flags.
 
 ```yml
 - uses: prefix-dev/setup-pixi@v0.9.2
