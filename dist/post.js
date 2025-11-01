@@ -25975,7 +25975,7 @@ var import_process = require("process");
 var import_fs = require("fs");
 var core2 = __toESM(require_core());
 
-// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/core/core.js
+// node_modules/.pnpm/zod@4.1.12/node_modules/zod/v4/core/core.js
 var NEVER = Object.freeze({
   status: "aborted"
 });
@@ -26041,7 +26041,7 @@ function config(newConfig) {
   return globalConfig;
 }
 
-// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/core/util.js
+// node_modules/.pnpm/zod@4.1.12/node_modules/zod/v4/core/util.js
 var util_exports = {};
 __export(util_exports, {
   BIGINT_FORMAT_RANGES: () => BIGINT_FORMAT_RANGES,
@@ -26273,6 +26273,8 @@ function isPlainObject(o) {
 function shallowClone(o) {
   if (isPlainObject(o))
     return { ...o };
+  if (Array.isArray(o))
+    return [...o];
   return o;
 }
 function numKeys(data) {
@@ -26673,7 +26675,7 @@ var Class = class {
   }
 };
 
-// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/core/errors.js
+// node_modules/.pnpm/zod@4.1.12/node_modules/zod/v4/core/errors.js
 var initializer = (inst, def) => {
   inst.name = "$ZodError";
   Object.defineProperty(inst, "_zod", {
@@ -26705,10 +26707,7 @@ function flattenError(error2, mapper = (issue2) => issue2.message) {
   }
   return { formErrors, fieldErrors };
 }
-function formatError(error2, _mapper) {
-  const mapper = _mapper || function(issue2) {
-    return issue2.message;
-  };
+function formatError(error2, mapper = (issue2) => issue2.message) {
   const fieldErrors = { _errors: [] };
   const processError = (error3) => {
     for (const issue2 of error3.issues) {
@@ -26742,7 +26741,7 @@ function formatError(error2, _mapper) {
   return fieldErrors;
 }
 
-// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/core/parse.js
+// node_modules/.pnpm/zod@4.1.12/node_modules/zod/v4/core/parse.js
 var _parse = (_Err) => (schema, value, _ctx, _params) => {
   const ctx = _ctx ? Object.assign(_ctx, { async: false }) : { async: false };
   const result = schema._zod.run({ value, issues: [] }, ctx);
@@ -26820,7 +26819,7 @@ var _safeDecodeAsync = (_Err) => async (schema, value, _ctx) => {
   return _safeParseAsync(_Err)(schema, value, _ctx);
 };
 
-// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/core/regexes.js
+// node_modules/.pnpm/zod@4.1.12/node_modules/zod/v4/core/regexes.js
 var cuid = /^[cC][^\s-]{8,}$/;
 var cuid2 = /^[0-9a-z]+$/;
 var ulid = /^[0-9A-HJKMNP-TV-Za-hjkmnp-tv-z]{26}$/;
@@ -26840,7 +26839,7 @@ function emoji() {
   return new RegExp(_emoji, "u");
 }
 var ipv4 = /^(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])$/;
-var ipv6 = /^(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|::|([0-9a-fA-F]{1,4})?::([0-9a-fA-F]{1,4}:?){0,6})$/;
+var ipv6 = /^(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:))$/;
 var cidrv4 = /^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\/([0-9]|[1-2][0-9]|3[0-2])$/;
 var cidrv6 = /^(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|::|([0-9a-fA-F]{1,4})?::([0-9a-fA-F]{1,4}:?){0,6})\/(12[0-8]|1[01][0-9]|[1-9]?[0-9])$/;
 var base64 = /^$|^(?:[0-9a-zA-Z+/]{4})*(?:(?:[0-9a-zA-Z+/]{2}==)|(?:[0-9a-zA-Z+/]{3}=))?$/;
@@ -26871,11 +26870,11 @@ var string = (params) => {
   const regex = params ? `[\\s\\S]{${params?.minimum ?? 0},${params?.maximum ?? ""}}` : `[\\s\\S]*`;
   return new RegExp(`^${regex}$`);
 };
-var boolean = /true|false/i;
+var boolean = /^(?:true|false)$/i;
 var lowercase = /^[^A-Z]*$/;
 var uppercase = /^[^a-z]*$/;
 
-// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/core/checks.js
+// node_modules/.pnpm/zod@4.1.12/node_modules/zod/v4/core/checks.js
 var $ZodCheck = /* @__PURE__ */ $constructor("$ZodCheck", (inst, def) => {
   var _a;
   inst._zod ?? (inst._zod = {});
@@ -27103,14 +27102,14 @@ var $ZodCheckOverwrite = /* @__PURE__ */ $constructor("$ZodCheckOverwrite", (ins
   };
 });
 
-// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/core/versions.js
+// node_modules/.pnpm/zod@4.1.12/node_modules/zod/v4/core/versions.js
 var version = {
   major: 4,
   minor: 1,
-  patch: 5
+  patch: 12
 };
 
-// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/core/schemas.js
+// node_modules/.pnpm/zod@4.1.12/node_modules/zod/v4/core/schemas.js
 var $ZodType = /* @__PURE__ */ $constructor("$ZodType", (inst, def) => {
   var _a;
   inst ?? (inst = {});
@@ -27404,8 +27403,11 @@ var $ZodCIDRv6 = /* @__PURE__ */ $constructor("$ZodCIDRv6", (inst, def) => {
   def.pattern ?? (def.pattern = cidrv6);
   $ZodStringFormat.init(inst, def);
   inst._zod.check = (payload) => {
-    const [address, prefix] = payload.value.split("/");
+    const parts = payload.value.split("/");
     try {
+      if (parts.length !== 2)
+        throw new Error();
+      const [address, prefix] = parts;
       if (!prefix)
         throw new Error();
       const prefixNum = Number(prefix);
@@ -28108,12 +28110,12 @@ function handleRefineResult(result, payload, input, inst) {
   }
 }
 
-// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/core/registries.js
+// node_modules/.pnpm/zod@4.1.12/node_modules/zod/v4/core/registries.js
 var $output = Symbol("ZodOutput");
 var $input = Symbol("ZodInput");
 var $ZodRegistry = class {
   constructor() {
-    this._map = /* @__PURE__ */ new Map();
+    this._map = /* @__PURE__ */ new WeakMap();
     this._idmap = /* @__PURE__ */ new Map();
   }
   add(schema, ..._meta) {
@@ -28128,7 +28130,7 @@ var $ZodRegistry = class {
     return this;
   }
   clear() {
-    this._map = /* @__PURE__ */ new Map();
+    this._map = /* @__PURE__ */ new WeakMap();
     this._idmap = /* @__PURE__ */ new Map();
     return this;
   }
@@ -28159,7 +28161,7 @@ function registry() {
 }
 var globalRegistry = /* @__PURE__ */ registry();
 
-// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/core/api.js
+// node_modules/.pnpm/zod@4.1.12/node_modules/zod/v4/core/api.js
 function _string(Class2, params) {
   return new Class2({
     type: "string",
@@ -28543,7 +28545,7 @@ function _check(fn, params) {
   return ch;
 }
 
-// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/classic/iso.js
+// node_modules/.pnpm/zod@4.1.12/node_modules/zod/v4/classic/iso.js
 var ZodISODateTime = /* @__PURE__ */ $constructor("ZodISODateTime", (inst, def) => {
   $ZodISODateTime.init(inst, def);
   ZodStringFormat.init(inst, def);
@@ -28573,7 +28575,7 @@ function duration2(params) {
   return _isoDuration(ZodISODuration, params);
 }
 
-// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/classic/errors.js
+// node_modules/.pnpm/zod@4.1.12/node_modules/zod/v4/classic/errors.js
 var initializer2 = (inst, issues) => {
   $ZodError.init(inst, issues);
   inst.name = "ZodError";
@@ -28613,7 +28615,7 @@ var ZodRealError = $constructor("ZodError", initializer2, {
   Parent: Error
 });
 
-// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/classic/parse.js
+// node_modules/.pnpm/zod@4.1.12/node_modules/zod/v4/classic/parse.js
 var parse2 = /* @__PURE__ */ _parse(ZodRealError);
 var parseAsync2 = /* @__PURE__ */ _parseAsync(ZodRealError);
 var safeParse2 = /* @__PURE__ */ _safeParse(ZodRealError);
@@ -28627,23 +28629,19 @@ var safeDecode = /* @__PURE__ */ _safeDecode(ZodRealError);
 var safeEncodeAsync = /* @__PURE__ */ _safeEncodeAsync(ZodRealError);
 var safeDecodeAsync = /* @__PURE__ */ _safeDecodeAsync(ZodRealError);
 
-// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/classic/schemas.js
+// node_modules/.pnpm/zod@4.1.12/node_modules/zod/v4/classic/schemas.js
 var ZodType = /* @__PURE__ */ $constructor("ZodType", (inst, def) => {
   $ZodType.init(inst, def);
   inst.def = def;
   inst.type = def.type;
   Object.defineProperty(inst, "_def", { value: def });
   inst.check = (...checks) => {
-    return inst.clone(
-      {
-        ...def,
-        checks: [
-          ...def.checks ?? [],
-          ...checks.map((ch) => typeof ch === "function" ? { _zod: { check: ch, def: { check: "custom" }, onattach: [] } } : ch)
-        ]
-      }
-      // { parent: true }
-    );
+    return inst.clone(util_exports.mergeDefs(def, {
+      checks: [
+        ...def.checks ?? [],
+        ...checks.map((ch) => typeof ch === "function" ? { _zod: { check: ch, def: { check: "custom" }, onattach: [] } } : ch)
+      ]
+    }));
   };
   inst.clone = (def2, params) => clone(inst, def2, params);
   inst.brand = () => inst;
@@ -29110,14 +29108,34 @@ function superRefine(fn) {
   return _superRefine(fn);
 }
 
-// node_modules/.pnpm/untildify@5.0.0/node_modules/untildify/index.js
+// node_modules/.pnpm/untildify@6.0.0/node_modules/untildify/index.js
 var import_node_os = __toESM(require("os"), 1);
-var homeDirectory = import_node_os.default.homedir();
+var homeDirectory;
+var currentUser;
 function untildify(pathWithTilde) {
   if (typeof pathWithTilde !== "string") {
     throw new TypeError(`Expected a string, got ${typeof pathWithTilde}`);
   }
-  return homeDirectory ? pathWithTilde.replace(/^~(?=$|\/|\\)/, homeDirectory) : pathWithTilde;
+  if (homeDirectory === void 0) {
+    homeDirectory = import_node_os.default.homedir();
+  }
+  if (homeDirectory && /^~(?=$|\/|\\)/.test(pathWithTilde)) {
+    return pathWithTilde.replace(/^~/, homeDirectory);
+  }
+  const userMatch = pathWithTilde.match(/^~([^/\\]+)(.*)/);
+  if (userMatch) {
+    if (currentUser === void 0) {
+      currentUser = import_node_os.default.userInfo().username;
+    }
+    if (currentUser) {
+      const username = userMatch[1];
+      const rest = userMatch[2];
+      if (username === currentUser) {
+        return homeDirectory + rest;
+      }
+    }
+  }
+  return pathWithTilde;
 }
 
 // node_modules/.pnpm/smol-toml@1.4.2/node_modules/smol-toml/dist/error.js
