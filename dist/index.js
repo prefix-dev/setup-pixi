@@ -29612,9 +29612,9 @@ var require_glob = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/internal/constants.js
+// node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/internal/constants.js
 var require_constants6 = __commonJS({
-  "node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/internal/constants.js"(exports2) {
+  "node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/internal/constants.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.CacheFileSizeLimit = exports2.ManifestFilename = exports2.TarFilename = exports2.SystemTarPathOnWindows = exports2.GnuTarPathOnWindows = exports2.SocketTimeout = exports2.DefaultRetryDelay = exports2.DefaultRetryAttempts = exports2.ArchiveToolType = exports2.CompressionMethod = exports2.CacheFilename = void 0;
@@ -29645,9 +29645,9 @@ var require_constants6 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/internal/cacheUtils.js
+// node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/internal/cacheUtils.js
 var require_cacheUtils = __commonJS({
-  "node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/internal/cacheUtils.js"(exports2) {
+  "node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/internal/cacheUtils.js"(exports2) {
     "use strict";
     var __createBinding2 = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
@@ -30408,9 +30408,9 @@ var init_tslib_es6 = __esm({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/abort-controller/AbortError.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/abort-controller/AbortError.js
 var require_AbortError = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/abort-controller/AbortError.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/abort-controller/AbortError.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.AbortError = void 0;
@@ -30424,25 +30424,25 @@ var require_AbortError = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/logger/log.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/logger/log.js
 var require_log2 = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/logger/log.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/logger/log.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.log = log;
     var tslib_1 = (init_tslib_es6(), __toCommonJS(tslib_es6_exports));
     var node_os_1 = require("os");
     var node_util_1 = tslib_1.__importDefault(require("util"));
-    var process2 = tslib_1.__importStar(require("process"));
+    var node_process_1 = tslib_1.__importDefault(require("process"));
     function log(message, ...args) {
-      process2.stderr.write(`${node_util_1.default.format(message, ...args)}${node_os_1.EOL}`);
+      node_process_1.default.stderr.write(`${node_util_1.default.format(message, ...args)}${node_os_1.EOL}`);
     }
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/logger/debug.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/logger/debug.js
 var require_debug = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/logger/debug.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/logger/debug.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var log_js_1 = require_log2();
@@ -30466,13 +30466,12 @@ var require_debug = __commonJS({
       enabledString = namespaces;
       enabledNamespaces = [];
       skippedNamespaces = [];
-      const wildcard = /\*/g;
-      const namespaceList = namespaces.split(",").map((ns) => ns.trim().replace(wildcard, ".*?"));
+      const namespaceList = namespaces.split(",").map((ns) => ns.trim());
       for (const ns of namespaceList) {
         if (ns.startsWith("-")) {
-          skippedNamespaces.push(new RegExp(`^${ns.substr(1)}$`));
+          skippedNamespaces.push(ns.substring(1));
         } else {
-          enabledNamespaces.push(new RegExp(`^${ns}$`));
+          enabledNamespaces.push(ns);
         }
       }
       for (const instance of debuggers) {
@@ -30484,16 +30483,85 @@ var require_debug = __commonJS({
         return true;
       }
       for (const skipped of skippedNamespaces) {
-        if (skipped.test(namespace)) {
+        if (namespaceMatches(namespace, skipped)) {
           return false;
         }
       }
       for (const enabledNamespace of enabledNamespaces) {
-        if (enabledNamespace.test(namespace)) {
+        if (namespaceMatches(namespace, enabledNamespace)) {
           return true;
         }
       }
       return false;
+    }
+    function namespaceMatches(namespace, patternToMatch) {
+      if (patternToMatch.indexOf("*") === -1) {
+        return namespace === patternToMatch;
+      }
+      let pattern = patternToMatch;
+      if (patternToMatch.indexOf("**") !== -1) {
+        const patternParts = [];
+        let lastCharacter = "";
+        for (const character of patternToMatch) {
+          if (character === "*" && lastCharacter === "*") {
+            continue;
+          } else {
+            lastCharacter = character;
+            patternParts.push(character);
+          }
+        }
+        pattern = patternParts.join("");
+      }
+      let namespaceIndex = 0;
+      let patternIndex = 0;
+      const patternLength = pattern.length;
+      const namespaceLength = namespace.length;
+      let lastWildcard = -1;
+      let lastWildcardNamespace = -1;
+      while (namespaceIndex < namespaceLength && patternIndex < patternLength) {
+        if (pattern[patternIndex] === "*") {
+          lastWildcard = patternIndex;
+          patternIndex++;
+          if (patternIndex === patternLength) {
+            return true;
+          }
+          while (namespace[namespaceIndex] !== pattern[patternIndex]) {
+            namespaceIndex++;
+            if (namespaceIndex === namespaceLength) {
+              return false;
+            }
+          }
+          lastWildcardNamespace = namespaceIndex;
+          namespaceIndex++;
+          patternIndex++;
+          continue;
+        } else if (pattern[patternIndex] === namespace[namespaceIndex]) {
+          patternIndex++;
+          namespaceIndex++;
+        } else if (lastWildcard >= 0) {
+          patternIndex = lastWildcard + 1;
+          namespaceIndex = lastWildcardNamespace + 1;
+          if (namespaceIndex === namespaceLength) {
+            return false;
+          }
+          while (namespace[namespaceIndex] !== pattern[patternIndex]) {
+            namespaceIndex++;
+            if (namespaceIndex === namespaceLength) {
+              return false;
+            }
+          }
+          lastWildcardNamespace = namespaceIndex;
+          namespaceIndex++;
+          patternIndex++;
+          continue;
+        } else {
+          return false;
+        }
+      }
+      const namespaceDone = namespaceIndex === namespace.length;
+      const patternDone = patternIndex === pattern.length;
+      const trailingWildCard = patternIndex === pattern.length - 1 && pattern[patternIndex] === "*";
+      return namespaceDone && (patternDone || trailingWildCard);
     }
     function disable() {
       const result = enabledString || "";
@@ -30537,9 +30605,9 @@ var require_debug = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/logger/logger.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/logger/logger.js
 var require_logger2 = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/logger/logger.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/logger/logger.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.TypeSpecRuntimeLogger = void 0;
@@ -30644,9 +30712,9 @@ var require_logger2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/httpHeaders.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/httpHeaders.js
 var require_httpHeaders = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/httpHeaders.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/httpHeaders.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createHttpHeaders = createHttpHeaders;
@@ -30660,6 +30728,7 @@ var require_httpHeaders = __commonJS({
     }
     var HttpHeadersImpl = class {
       constructor(rawHeaders) {
+        __publicField(this, "_headersMap");
         this._headersMap = /* @__PURE__ */ new Map();
         if (rawHeaders) {
           for (const headerName of Object.keys(rawHeaders)) {
@@ -30682,8 +30751,7 @@ var require_httpHeaders = __commonJS({
        * @param name - The name of the header. This value is case-insensitive.
        */
       get(name) {
-        var _a;
-        return (_a = this._headersMap.get(normalizeName(name))) === null || _a === void 0 ? void 0 : _a.value;
+        return this._headersMap.get(normalizeName(name))?.value;
       }
       /**
        * Get whether or not this header collection contains a header entry for the provided header name.
@@ -30734,40 +30802,39 @@ var require_httpHeaders = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/auth/schemes.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/auth/schemes.js
 var require_schemes = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/auth/schemes.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/auth/schemes.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/auth/oauth2Flows.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/auth/oauth2Flows.js
 var require_oauth2Flows = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/auth/oauth2Flows.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/auth/oauth2Flows.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/uuidUtils.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/uuidUtils.js
 var require_uuidUtils = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/uuidUtils.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/uuidUtils.js"(exports2) {
     "use strict";
-    var _a;
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.randomUUID = randomUUID;
     var node_crypto_1 = require("crypto");
-    var uuidFunction = typeof ((_a = globalThis === null || globalThis === void 0 ? void 0 : globalThis.crypto) === null || _a === void 0 ? void 0 : _a.randomUUID) === "function" ? globalThis.crypto.randomUUID.bind(globalThis.crypto) : node_crypto_1.randomUUID;
+    var uuidFunction = typeof globalThis?.crypto?.randomUUID === "function" ? globalThis.crypto.randomUUID.bind(globalThis.crypto) : node_crypto_1.randomUUID;
     function randomUUID() {
       return uuidFunction();
     }
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/pipelineRequest.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/pipelineRequest.js
 var require_pipelineRequest = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/pipelineRequest.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/pipelineRequest.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createPipelineRequest = createPipelineRequest;
@@ -30775,24 +30842,42 @@ var require_pipelineRequest = __commonJS({
     var uuidUtils_js_1 = require_uuidUtils();
     var PipelineRequestImpl = class {
       constructor(options2) {
-        var _a, _b, _c, _d, _e, _f, _g;
+        __publicField(this, "url");
+        __publicField(this, "method");
+        __publicField(this, "headers");
+        __publicField(this, "timeout");
+        __publicField(this, "withCredentials");
+        __publicField(this, "body");
+        __publicField(this, "multipartBody");
+        __publicField(this, "formData");
+        __publicField(this, "streamResponseStatusCodes");
+        __publicField(this, "enableBrowserStreams");
+        __publicField(this, "proxySettings");
+        __publicField(this, "disableKeepAlive");
+        __publicField(this, "abortSignal");
+        __publicField(this, "requestId");
+        __publicField(this, "allowInsecureConnection");
+        __publicField(this, "onUploadProgress");
+        __publicField(this, "onDownloadProgress");
+        __publicField(this, "requestOverrides");
+        __publicField(this, "authSchemes");
         this.url = options2.url;
         this.body = options2.body;
-        this.headers = (_a = options2.headers) !== null && _a !== void 0 ? _a : (0, httpHeaders_js_1.createHttpHeaders)();
-        this.method = (_b = options2.method) !== null && _b !== void 0 ? _b : "GET";
-        this.timeout = (_c = options2.timeout) !== null && _c !== void 0 ? _c : 0;
+        this.headers = options2.headers ?? (0, httpHeaders_js_1.createHttpHeaders)();
+        this.method = options2.method ?? "GET";
+        this.timeout = options2.timeout ?? 0;
         this.multipartBody = options2.multipartBody;
         this.formData = options2.formData;
-        this.disableKeepAlive = (_d = options2.disableKeepAlive) !== null && _d !== void 0 ? _d : false;
+        this.disableKeepAlive = options2.disableKeepAlive ?? false;
         this.proxySettings = options2.proxySettings;
         this.streamResponseStatusCodes = options2.streamResponseStatusCodes;
-        this.withCredentials = (_e = options2.withCredentials) !== null && _e !== void 0 ? _e : false;
+        this.withCredentials = options2.withCredentials ?? false;
         this.abortSignal = options2.abortSignal;
         this.onUploadProgress = options2.onUploadProgress;
         this.onDownloadProgress = options2.onDownloadProgress;
         this.requestId = options2.requestId || (0, uuidUtils_js_1.randomUUID)();
-        this.allowInsecureConnection = (_f = options2.allowInsecureConnection) !== null && _f !== void 0 ? _f : false;
-        this.enableBrowserStreams = (_g = options2.enableBrowserStreams) !== null && _g !== void 0 ? _g : false;
+        this.allowInsecureConnection = options2.allowInsecureConnection ?? false;
+        this.enableBrowserStreams = options2.enableBrowserStreams ?? false;
         this.requestOverrides = options2.requestOverrides;
         this.authSchemes = options2.authSchemes;
       }
@@ -30803,18 +30888,18 @@ var require_pipelineRequest = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/pipeline.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/pipeline.js
 var require_pipeline = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/pipeline.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/pipeline.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createEmptyPipeline = createEmptyPipeline;
     var ValidPhaseNames = /* @__PURE__ */ new Set(["Deserialize", "Serialize", "Retry", "Sign"]);
     var HttpPipeline = class _HttpPipeline {
       constructor(policies) {
-        var _a;
-        this._policies = [];
-        this._policies = (_a = policies === null || policies === void 0 ? void 0 : policies.slice(0)) !== null && _a !== void 0 ? _a : [];
+        __publicField(this, "_policies", []);
+        __publicField(this, "_orderedPolicies");
+        this._policies = policies?.slice(0) ?? [];
         this._orderedPolicies = void 0;
       }
       addPolicy(policy, options2 = {}) {
@@ -30991,9 +31076,9 @@ var require_pipeline = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/object.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/object.js
 var require_object = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/object.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/object.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.isObject = isObject2;
@@ -31003,9 +31088,9 @@ var require_object = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/error.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/error.js
 var require_error = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/error.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/error.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.isError = isError;
@@ -31021,9 +31106,9 @@ var require_error = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/inspect.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/inspect.js
 var require_inspect = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/inspect.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/inspect.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.custom = void 0;
@@ -31032,9 +31117,9 @@ var require_inspect = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/sanitizer.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/sanitizer.js
 var require_sanitizer = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/sanitizer.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/sanitizer.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.Sanitizer = void 0;
@@ -31084,6 +31169,8 @@ var require_sanitizer = __commonJS({
     var defaultAllowedQueryParameters = ["api-version"];
     var Sanitizer = class {
       constructor({ additionalAllowedHeaderNames: allowedHeaderNames = [], additionalAllowedQueryParameters: allowedQueryParameters = [] } = {}) {
+        __publicField(this, "allowedHeaderNames");
+        __publicField(this, "allowedQueryParameters");
         allowedHeaderNames = defaultAllowedHeaderNames.concat(allowedHeaderNames);
         allowedQueryParameters = defaultAllowedQueryParameters.concat(allowedQueryParameters);
         this.allowedHeaderNames = new Set(allowedHeaderNames.map((n) => n.toLowerCase()));
@@ -31098,7 +31185,11 @@ var require_sanitizer = __commonJS({
         const seen = /* @__PURE__ */ new Set();
         return JSON.stringify(obj, (key, value) => {
           if (value instanceof Error) {
-            return Object.assign(Object.assign({}, value), { name: value.name, message: value.message });
+            return {
+              ...value,
+              name: value.name,
+              message: value.message
+            };
           }
           if (key === "headers") {
             return this.sanitizeHeaders(value);
@@ -31171,9 +31262,9 @@ var require_sanitizer = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/restError.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/restError.js
 var require_restError = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/restError.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/restError.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.RestError = void 0;
@@ -31182,27 +31273,67 @@ var require_restError = __commonJS({
     var inspect_js_1 = require_inspect();
     var sanitizer_js_1 = require_sanitizer();
     var errorSanitizer = new sanitizer_js_1.Sanitizer();
-    var RestError = class _RestError extends Error {
+    var _RestError = class _RestError extends Error {
       constructor(message, options2 = {}) {
         super(message);
+        /**
+         * The code of the error itself (use statics on RestError if possible.)
+         */
+        __publicField(this, "code");
+        /**
+         * The HTTP status code of the request (if applicable.)
+         */
+        __publicField(this, "statusCode");
+        /**
+         * The request that was made.
+         * This property is non-enumerable.
+         */
+        __publicField(this, "request");
+        /**
+         * The response received (if any.)
+         * This property is non-enumerable.
+         */
+        __publicField(this, "response");
+        /**
+         * Bonus property set by the throw site.
+         */
+        __publicField(this, "details");
         this.name = "RestError";
         this.code = options2.code;
         this.statusCode = options2.statusCode;
         Object.defineProperty(this, "request", { value: options2.request, enumerable: false });
         Object.defineProperty(this, "response", { value: options2.response, enumerable: false });
+        const agent = this.request?.agent ? {
+          maxFreeSockets: this.request.agent.maxFreeSockets,
+          maxSockets: this.request.agent.maxSockets
+        } : void 0;
         Object.defineProperty(this, inspect_js_1.custom, {
           value: () => {
             return `RestError: ${this.message} 
- ${errorSanitizer.sanitize(Object.assign(Object.assign({}, this), { request: this.request, response: this.response }))}`;
+ ${errorSanitizer.sanitize({
+              ...this,
+              request: { ...this.request, agent },
+              response: this.response
+            })}`;
           },
           enumerable: false
         });
         Object.setPrototypeOf(this, _RestError.prototype);
       }
     };
+    /**
+     * Something went wrong when making the request.
+     * This means the actual request failed for some reason,
+     * such as a DNS issue or the connection being lost.
+     */
+    __publicField(_RestError, "REQUEST_SEND_ERROR", "REQUEST_SEND_ERROR");
+    /**
+     * This means that parsing the response from the server failed.
+     * It may have been malformed.
+     */
+    __publicField(_RestError, "PARSE_ERROR", "PARSE_ERROR");
+    var RestError = _RestError;
     exports2.RestError = RestError;
-    RestError.REQUEST_SEND_ERROR = "REQUEST_SEND_ERROR";
-    RestError.PARSE_ERROR = "PARSE_ERROR";
     function isRestError(e) {
       if (e instanceof RestError) {
         return true;
@@ -31212,9 +31343,9 @@ var require_restError = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/bytesEncoding.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/bytesEncoding.js
 var require_bytesEncoding = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/bytesEncoding.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/bytesEncoding.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.uint8ArrayToString = uint8ArrayToString;
@@ -31228,9 +31359,9 @@ var require_bytesEncoding = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/log.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/log.js
 var require_log3 = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/log.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/log.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.logger = void 0;
@@ -31239,17 +31370,17 @@ var require_log3 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/nodeHttpClient.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/nodeHttpClient.js
 var require_nodeHttpClient = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/nodeHttpClient.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/nodeHttpClient.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getBodyLength = getBodyLength;
     exports2.createNodeHttpClient = createNodeHttpClient;
     var tslib_1 = (init_tslib_es6(), __toCommonJS(tslib_es6_exports));
-    var http = tslib_1.__importStar(require("http"));
-    var https = tslib_1.__importStar(require("https"));
-    var zlib = tslib_1.__importStar(require("zlib"));
+    var node_http_1 = tslib_1.__importDefault(require("http"));
+    var node_https_1 = tslib_1.__importDefault(require("https"));
+    var node_zlib_1 = tslib_1.__importDefault(require("zlib"));
     var node_stream_1 = require("stream");
     var AbortError_js_1 = require_AbortError();
     var httpHeaders_js_1 = require_httpHeaders();
@@ -31280,6 +31411,12 @@ var require_nodeHttpClient = __commonJS({
       return body && typeof body.byteLength === "number";
     }
     var ReportTransform = class extends node_stream_1.Transform {
+      constructor(progressCallback) {
+        super();
+        __publicField(this, "loadedBytes", 0);
+        __publicField(this, "progressCallback");
+        this.progressCallback = progressCallback;
+      }
       // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
       _transform(chunk, _encoding, callback) {
         this.push(chunk);
@@ -31291,22 +31428,17 @@ var require_nodeHttpClient = __commonJS({
           callback(e);
         }
       }
-      constructor(progressCallback) {
-        super();
-        this.loadedBytes = 0;
-        this.progressCallback = progressCallback;
-      }
     };
     var NodeHttpClient = class {
       constructor() {
-        this.cachedHttpsAgents = /* @__PURE__ */ new WeakMap();
+        __publicField(this, "cachedHttpAgent");
+        __publicField(this, "cachedHttpsAgents", /* @__PURE__ */ new WeakMap());
       }
       /**
        * Makes a request over an underlying transport layer and returns the response.
        * @param request - The request to be made.
        */
       async sendRequest(request) {
-        var _a, _b, _c;
         const abortController = new AbortController();
         let abortListener;
         if (request.abortSignal) {
@@ -31329,7 +31461,7 @@ var require_nodeHttpClient = __commonJS({
           }, request.timeout);
         }
         const acceptEncoding = request.headers.get("Accept-Encoding");
-        const shouldDecompress = (acceptEncoding === null || acceptEncoding === void 0 ? void 0 : acceptEncoding.includes("gzip")) || (acceptEncoding === null || acceptEncoding === void 0 ? void 0 : acceptEncoding.includes("deflate"));
+        const shouldDecompress = acceptEncoding?.includes("gzip") || acceptEncoding?.includes("deflate");
         let body = typeof request.body === "function" ? request.body() : request.body;
         if (body && !request.headers.has("Content-Length")) {
           const bodyLength = getBodyLength(body);
@@ -31357,7 +31489,7 @@ var require_nodeHttpClient = __commonJS({
             clearTimeout(timeoutId);
           }
           const headers = getResponseHeaders(res);
-          const status = (_a = res.statusCode) !== null && _a !== void 0 ? _a : 0;
+          const status = res.statusCode ?? 0;
           const response = {
             status,
             headers,
@@ -31379,7 +31511,7 @@ var require_nodeHttpClient = __commonJS({
           }
           if (
             // Value of POSITIVE_INFINITY in streamResponseStatusCodes is considered as any status code
-            ((_b = request.streamResponseStatusCodes) === null || _b === void 0 ? void 0 : _b.has(Number.POSITIVE_INFINITY)) || ((_c = request.streamResponseStatusCodes) === null || _c === void 0 ? void 0 : _c.has(response.status))
+            request.streamResponseStatusCodes?.has(Number.POSITIVE_INFINITY) || request.streamResponseStatusCodes?.has(response.status)
           ) {
             response.readableStreamBody = responseStream;
           } else {
@@ -31397,9 +31529,8 @@ var require_nodeHttpClient = __commonJS({
               downloadStreamDone = isStreamComplete(responseStream);
             }
             Promise.all([uploadStreamDone, downloadStreamDone]).then(() => {
-              var _a2;
               if (abortListener) {
-                (_a2 = request.abortSignal) === null || _a2 === void 0 ? void 0 : _a2.removeEventListener("abort", abortListener);
+                request.abortSignal?.removeEventListener("abort", abortListener);
               }
             }).catch((e) => {
               log_js_1.logger.warning("Error when cleaning up abortListener on httpRequest", e);
@@ -31408,19 +31539,25 @@ var require_nodeHttpClient = __commonJS({
         }
       }
       makeRequest(request, abortController, body) {
-        var _a;
         const url = new URL(request.url);
         const isInsecure = url.protocol !== "https:";
         if (isInsecure && !request.allowInsecureConnection) {
           throw new Error(`Cannot connect to ${request.url} while allowInsecureConnection is false.`);
         }
-        const agent = (_a = request.agent) !== null && _a !== void 0 ? _a : this.getOrCreateAgent(request, isInsecure);
-        const options2 = Object.assign({ agent, hostname: url.hostname, path: `${url.pathname}${url.search}`, port: url.port, method: request.method, headers: request.headers.toJSON({ preserveCase: true }) }, request.requestOverrides);
+        const agent = request.agent ?? this.getOrCreateAgent(request, isInsecure);
+        const options2 = {
+          agent,
+          hostname: url.hostname,
+          path: `${url.pathname}${url.search}`,
+          port: url.port,
+          method: request.method,
+          headers: request.headers.toJSON({ preserveCase: true }),
+          ...request.requestOverrides
+        };
         return new Promise((resolve, reject) => {
-          const req = isInsecure ? http.request(options2, resolve) : https.request(options2, resolve);
+          const req = isInsecure ? node_http_1.default.request(options2, resolve) : node_https_1.default.request(options2, resolve);
           req.once("error", (err) => {
-            var _a2;
-            reject(new restError_js_1.RestError(err.message, { code: (_a2 = err.code) !== null && _a2 !== void 0 ? _a2 : restError_js_1.RestError.REQUEST_SEND_ERROR, request }));
+            reject(new restError_js_1.RestError(err.message, { code: err.code ?? restError_js_1.RestError.REQUEST_SEND_ERROR, request }));
           });
           abortController.signal.addEventListener("abort", () => {
             const abortError = new AbortError_js_1.AbortError("The operation was aborted. Rejecting from abort signal callback while making request.");
@@ -31444,30 +31581,31 @@ var require_nodeHttpClient = __commonJS({
         });
       }
       getOrCreateAgent(request, isInsecure) {
-        var _a;
         const disableKeepAlive = request.disableKeepAlive;
         if (isInsecure) {
           if (disableKeepAlive) {
-            return http.globalAgent;
+            return node_http_1.default.globalAgent;
           }
           if (!this.cachedHttpAgent) {
-            this.cachedHttpAgent = new http.Agent({ keepAlive: true });
+            this.cachedHttpAgent = new node_http_1.default.Agent({ keepAlive: true });
           }
           return this.cachedHttpAgent;
         } else {
           if (disableKeepAlive && !request.tlsSettings) {
-            return https.globalAgent;
+            return node_https_1.default.globalAgent;
           }
-          const tlsSettings = (_a = request.tlsSettings) !== null && _a !== void 0 ? _a : DEFAULT_TLS_SETTINGS;
+          const tlsSettings = request.tlsSettings ?? DEFAULT_TLS_SETTINGS;
           let agent = this.cachedHttpsAgents.get(tlsSettings);
           if (agent && agent.options.keepAlive === !disableKeepAlive) {
             return agent;
           }
           log_js_1.logger.info("No cached TLS Agent exist, creating a new Agent");
-          agent = new https.Agent(Object.assign({
+          agent = new node_https_1.default.Agent({
             // keepAlive is true if disableKeepAlive is false.
-            keepAlive: !disableKeepAlive
-          }, tlsSettings));
+            keepAlive: !disableKeepAlive,
+            // Since we are spreading, if no tslSettings were provided, nothing is added to the agent options.
+            ...tlsSettings
+          });
           this.cachedHttpsAgents.set(tlsSettings, agent);
           return agent;
         }
@@ -31490,11 +31628,11 @@ var require_nodeHttpClient = __commonJS({
     function getDecodedResponseStream(stream, headers) {
       const contentEncoding = headers.get("Content-Encoding");
       if (contentEncoding === "gzip") {
-        const unzip = zlib.createGunzip();
+        const unzip = node_zlib_1.default.createGunzip();
         stream.pipe(unzip);
         return unzip;
       } else if (contentEncoding === "deflate") {
-        const inflate = zlib.createInflate();
+        const inflate = node_zlib_1.default.createInflate();
         stream.pipe(inflate);
         return inflate;
       }
@@ -31514,7 +31652,7 @@ var require_nodeHttpClient = __commonJS({
           resolve(Buffer.concat(buffer).toString("utf8"));
         });
         stream.on("error", (e) => {
-          if (e && (e === null || e === void 0 ? void 0 : e.name) === "AbortError") {
+          if (e && e?.name === "AbortError") {
             reject(e);
           } else {
             reject(new restError_js_1.RestError(`Error reading response as text: ${e.message}`, {
@@ -31545,9 +31683,9 @@ var require_nodeHttpClient = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/defaultHttpClient.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/defaultHttpClient.js
 var require_defaultHttpClient = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/defaultHttpClient.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/defaultHttpClient.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createDefaultHttpClient = createDefaultHttpClient;
@@ -31558,9 +31696,9 @@ var require_defaultHttpClient = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/logPolicy.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/logPolicy.js
 var require_logPolicy = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/logPolicy.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/logPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.logPolicyName = void 0;
@@ -31569,8 +31707,7 @@ var require_logPolicy = __commonJS({
     var sanitizer_js_1 = require_sanitizer();
     exports2.logPolicyName = "logPolicy";
     function logPolicy(options2 = {}) {
-      var _a;
-      const logger = (_a = options2.logger) !== null && _a !== void 0 ? _a : log_js_1.logger.info;
+      const logger = options2.logger ?? log_js_1.logger.info;
       const sanitizer = new sanitizer_js_1.Sanitizer({
         additionalAllowedHeaderNames: options2.additionalAllowedHeaderNames,
         additionalAllowedQueryParameters: options2.additionalAllowedQueryParameters
@@ -31592,9 +31729,9 @@ var require_logPolicy = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/redirectPolicy.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/redirectPolicy.js
 var require_redirectPolicy = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/redirectPolicy.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/redirectPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.redirectPolicyName = void 0;
@@ -31631,22 +31768,22 @@ var require_redirectPolicy = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/userAgentPlatform.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/userAgentPlatform.js
 var require_userAgentPlatform = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/userAgentPlatform.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/userAgentPlatform.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getHeaderName = getHeaderName;
     exports2.setPlatformSpecificData = setPlatformSpecificData;
     var tslib_1 = (init_tslib_es6(), __toCommonJS(tslib_es6_exports));
-    var os6 = tslib_1.__importStar(require("os"));
-    var process2 = tslib_1.__importStar(require("process"));
+    var node_os_1 = tslib_1.__importDefault(require("os"));
+    var node_process_1 = tslib_1.__importDefault(require("process"));
     function getHeaderName() {
       return "User-Agent";
     }
     async function setPlatformSpecificData(map) {
-      if (process2 && process2.versions) {
-        const versions = process2.versions;
+      if (node_process_1.default && node_process_1.default.versions) {
+        const versions = node_process_1.default.versions;
         if (versions.bun) {
           map.set("Bun", versions.bun);
         } else if (versions.deno) {
@@ -31655,25 +31792,25 @@ var require_userAgentPlatform = __commonJS({
           map.set("Node", versions.node);
         }
       }
-      map.set("OS", `(${os6.arch()}-${os6.type()}-${os6.release()})`);
+      map.set("OS", `(${node_os_1.default.arch()}-${node_os_1.default.type()}-${node_os_1.default.release()})`);
     }
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/constants.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/constants.js
 var require_constants7 = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/constants.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/constants.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.DEFAULT_RETRY_POLICY_COUNT = exports2.SDK_VERSION = void 0;
-    exports2.SDK_VERSION = "0.3.0";
+    exports2.SDK_VERSION = "0.3.1";
     exports2.DEFAULT_RETRY_POLICY_COUNT = 3;
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/userAgent.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/userAgent.js
 var require_userAgent = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/userAgent.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/userAgent.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getUserAgentHeaderName = getUserAgentHeaderName;
@@ -31702,9 +31839,9 @@ var require_userAgent = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/userAgentPolicy.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/userAgentPolicy.js
 var require_userAgentPolicy = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/userAgentPolicy.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/userAgentPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.userAgentPolicyName = void 0;
@@ -31727,9 +31864,9 @@ var require_userAgentPolicy = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/decompressResponsePolicy.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/decompressResponsePolicy.js
 var require_decompressResponsePolicy = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/decompressResponsePolicy.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/decompressResponsePolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.decompressResponsePolicyName = void 0;
@@ -31749,9 +31886,9 @@ var require_decompressResponsePolicy = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/random.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/random.js
 var require_random = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/random.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/random.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getRandomIntegerInclusive = getRandomIntegerInclusive;
@@ -31764,9 +31901,9 @@ var require_random = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/delay.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/delay.js
 var require_delay = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/delay.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/delay.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.calculateRetryDelay = calculateRetryDelay;
@@ -31780,9 +31917,9 @@ var require_delay = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/helpers.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/helpers.js
 var require_helpers3 = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/helpers.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/helpers.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.delay = delay2;
@@ -31794,10 +31931,10 @@ var require_helpers3 = __commonJS({
         let timer = void 0;
         let onAborted = void 0;
         const rejectOnAbort = () => {
-          return reject(new AbortError_js_1.AbortError((options2 === null || options2 === void 0 ? void 0 : options2.abortErrorMsg) ? options2 === null || options2 === void 0 ? void 0 : options2.abortErrorMsg : StandardAbortMessage));
+          return reject(new AbortError_js_1.AbortError(options2?.abortErrorMsg ? options2?.abortErrorMsg : StandardAbortMessage));
         };
         const removeListeners = () => {
-          if ((options2 === null || options2 === void 0 ? void 0 : options2.abortSignal) && onAborted) {
+          if (options2?.abortSignal && onAborted) {
             options2.abortSignal.removeEventListener("abort", onAborted);
           }
         };
@@ -31808,14 +31945,14 @@ var require_helpers3 = __commonJS({
           removeListeners();
           return rejectOnAbort();
         };
-        if ((options2 === null || options2 === void 0 ? void 0 : options2.abortSignal) && options2.abortSignal.aborted) {
+        if (options2?.abortSignal && options2.abortSignal.aborted) {
           return rejectOnAbort();
         }
         timer = setTimeout(() => {
           removeListeners();
           resolve(value);
         }, delayInMs);
-        if (options2 === null || options2 === void 0 ? void 0 : options2.abortSignal) {
+        if (options2?.abortSignal) {
           options2.abortSignal.addEventListener("abort", onAborted);
         }
       });
@@ -31832,9 +31969,9 @@ var require_helpers3 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/retryStrategies/throttlingRetryStrategy.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/retryStrategies/throttlingRetryStrategy.js
 var require_throttlingRetryStrategy = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/retryStrategies/throttlingRetryStrategy.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/retryStrategies/throttlingRetryStrategy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.isThrottlingRetryResponse = isThrottlingRetryResponse;
@@ -31859,7 +31996,7 @@ var require_throttlingRetryStrategy = __commonJS({
         const date3 = Date.parse(retryAfterHeader);
         const diff = date3 - Date.now();
         return Number.isFinite(diff) ? Math.max(0, diff) : void 0;
-      } catch (_a) {
+      } catch {
         return void 0;
       }
     }
@@ -31883,9 +32020,9 @@ var require_throttlingRetryStrategy = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/retryStrategies/exponentialRetryStrategy.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/retryStrategies/exponentialRetryStrategy.js
 var require_exponentialRetryStrategy = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/retryStrategies/exponentialRetryStrategy.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/retryStrategies/exponentialRetryStrategy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.exponentialRetryStrategy = exponentialRetryStrategy;
@@ -31896,9 +32033,8 @@ var require_exponentialRetryStrategy = __commonJS({
     var DEFAULT_CLIENT_RETRY_INTERVAL = 1e3;
     var DEFAULT_CLIENT_MAX_RETRY_INTERVAL = 1e3 * 64;
     function exponentialRetryStrategy(options2 = {}) {
-      var _a, _b;
-      const retryInterval = (_a = options2.retryDelayInMs) !== null && _a !== void 0 ? _a : DEFAULT_CLIENT_RETRY_INTERVAL;
-      const maxRetryInterval = (_b = options2.maxRetryDelayInMs) !== null && _b !== void 0 ? _b : DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
+      const retryInterval = options2.retryDelayInMs ?? DEFAULT_CLIENT_RETRY_INTERVAL;
+      const maxRetryInterval = options2.maxRetryDelayInMs ?? DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
       return {
         name: "exponentialRetryStrategy",
         retry({ retryCount, response, responseError }) {
@@ -31932,9 +32068,9 @@ var require_exponentialRetryStrategy = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/retryPolicy.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/retryPolicy.js
 var require_retryPolicy = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/retryPolicy.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/retryPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.retryPolicy = retryPolicy;
@@ -31949,7 +32085,6 @@ var require_retryPolicy = __commonJS({
       return {
         name: retryPolicyName,
         async sendRequest(request, next) {
-          var _a, _b;
           let response;
           let responseError;
           let retryCount = -1;
@@ -31969,12 +32104,12 @@ var require_retryPolicy = __commonJS({
               }
               response = responseError.response;
             }
-            if ((_a = request.abortSignal) === null || _a === void 0 ? void 0 : _a.aborted) {
+            if (request.abortSignal?.aborted) {
               logger.error(`Retry ${retryCount}: Request aborted.`);
               const abortError = new AbortError_js_1.AbortError();
               throw abortError;
             }
-            if (retryCount >= ((_b = options2.maxRetries) !== null && _b !== void 0 ? _b : constants_js_1.DEFAULT_RETRY_POLICY_COUNT)) {
+            if (retryCount >= (options2.maxRetries ?? constants_js_1.DEFAULT_RETRY_POLICY_COUNT)) {
               logger.info(`Retry ${retryCount}: Maximum retries reached. Returning the last received response, or throwing the last received error.`);
               if (responseError) {
                 throw responseError;
@@ -32028,9 +32163,9 @@ var require_retryPolicy = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/defaultRetryPolicy.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/defaultRetryPolicy.js
 var require_defaultRetryPolicy = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/defaultRetryPolicy.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/defaultRetryPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.defaultRetryPolicyName = void 0;
@@ -32041,40 +32176,35 @@ var require_defaultRetryPolicy = __commonJS({
     var constants_js_1 = require_constants7();
     exports2.defaultRetryPolicyName = "defaultRetryPolicy";
     function defaultRetryPolicy(options2 = {}) {
-      var _a;
       return {
         name: exports2.defaultRetryPolicyName,
         sendRequest: (0, retryPolicy_js_1.retryPolicy)([(0, throttlingRetryStrategy_js_1.throttlingRetryStrategy)(), (0, exponentialRetryStrategy_js_1.exponentialRetryStrategy)(options2)], {
-          maxRetries: (_a = options2.maxRetries) !== null && _a !== void 0 ? _a : constants_js_1.DEFAULT_RETRY_POLICY_COUNT
+          maxRetries: options2.maxRetries ?? constants_js_1.DEFAULT_RETRY_POLICY_COUNT
         }).sendRequest
       };
     }
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/checkEnvironment.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/checkEnvironment.js
 var require_checkEnvironment = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/checkEnvironment.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/checkEnvironment.js"(exports2) {
     "use strict";
-    var _a;
-    var _b;
-    var _c;
-    var _d;
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.isReactNative = exports2.isNodeRuntime = exports2.isNodeLike = exports2.isBun = exports2.isDeno = exports2.isWebWorker = exports2.isBrowser = void 0;
     exports2.isBrowser = typeof window !== "undefined" && typeof window.document !== "undefined";
-    exports2.isWebWorker = typeof self === "object" && typeof (self === null || self === void 0 ? void 0 : self.importScripts) === "function" && (((_a = self.constructor) === null || _a === void 0 ? void 0 : _a.name) === "DedicatedWorkerGlobalScope" || ((_b = self.constructor) === null || _b === void 0 ? void 0 : _b.name) === "ServiceWorkerGlobalScope" || ((_c = self.constructor) === null || _c === void 0 ? void 0 : _c.name) === "SharedWorkerGlobalScope");
+    exports2.isWebWorker = typeof self === "object" && typeof self?.importScripts === "function" && (self.constructor?.name === "DedicatedWorkerGlobalScope" || self.constructor?.name === "ServiceWorkerGlobalScope" || self.constructor?.name === "SharedWorkerGlobalScope");
     exports2.isDeno = typeof Deno !== "undefined" && typeof Deno.version !== "undefined" && typeof Deno.version.deno !== "undefined";
     exports2.isBun = typeof Bun !== "undefined" && typeof Bun.version !== "undefined";
-    exports2.isNodeLike = typeof globalThis.process !== "undefined" && Boolean(globalThis.process.version) && Boolean((_d = globalThis.process.versions) === null || _d === void 0 ? void 0 : _d.node);
+    exports2.isNodeLike = typeof globalThis.process !== "undefined" && Boolean(globalThis.process.version) && Boolean(globalThis.process.versions?.node);
     exports2.isNodeRuntime = exports2.isNodeLike && !exports2.isBun && !exports2.isDeno;
-    exports2.isReactNative = typeof navigator !== "undefined" && (navigator === null || navigator === void 0 ? void 0 : navigator.product) === "ReactNative";
+    exports2.isReactNative = typeof navigator !== "undefined" && navigator?.product === "ReactNative";
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/formDataPolicy.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/formDataPolicy.js
 var require_formDataPolicy = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/formDataPolicy.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/formDataPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.formDataPolicyName = void 0;
@@ -32084,10 +32214,9 @@ var require_formDataPolicy = __commonJS({
     var httpHeaders_js_1 = require_httpHeaders();
     exports2.formDataPolicyName = "formDataPolicy";
     function formDataToFormDataMap(formData) {
-      var _a;
       const formDataMap = {};
       for (const [key, value] of formData.entries()) {
-        (_a = formDataMap[key]) !== null && _a !== void 0 ? _a : formDataMap[key] = [];
+        formDataMap[key] ?? (formDataMap[key] = []);
         formDataMap[key].push(value);
       }
       return formDataMap;
@@ -32131,7 +32260,7 @@ var require_formDataPolicy = __commonJS({
       if (contentType && !contentType.startsWith("multipart/form-data")) {
         return;
       }
-      request.headers.set("Content-Type", contentType !== null && contentType !== void 0 ? contentType : "multipart/form-data");
+      request.headers.set("Content-Type", contentType ?? "multipart/form-data");
       const parts = [];
       for (const [fieldName, values] of Object.entries(formData)) {
         for (const value of Array.isArray(values) ? values : [values]) {
@@ -32278,9 +32407,9 @@ var require_ms = __commonJS({
   }
 });
 
-// node_modules/.pnpm/debug@4.4.1/node_modules/debug/src/common.js
+// node_modules/.pnpm/debug@4.4.3/node_modules/debug/src/common.js
 var require_common = __commonJS({
-  "node_modules/.pnpm/debug@4.4.1/node_modules/debug/src/common.js"(exports2, module2) {
+  "node_modules/.pnpm/debug@4.4.3/node_modules/debug/src/common.js"(exports2, module2) {
     "use strict";
     function setup(env) {
       createDebug.debug = createDebug;
@@ -32456,9 +32585,9 @@ var require_common = __commonJS({
   }
 });
 
-// node_modules/.pnpm/debug@4.4.1/node_modules/debug/src/browser.js
+// node_modules/.pnpm/debug@4.4.3/node_modules/debug/src/browser.js
 var require_browser = __commonJS({
-  "node_modules/.pnpm/debug@4.4.1/node_modules/debug/src/browser.js"(exports2, module2) {
+  "node_modules/.pnpm/debug@4.4.3/node_modules/debug/src/browser.js"(exports2, module2) {
     "use strict";
     exports2.formatArgs = formatArgs;
     exports2.save = save;
@@ -32742,9 +32871,9 @@ var require_supports_color = __commonJS({
   }
 });
 
-// node_modules/.pnpm/debug@4.4.1/node_modules/debug/src/node.js
+// node_modules/.pnpm/debug@4.4.3/node_modules/debug/src/node.js
 var require_node = __commonJS({
-  "node_modules/.pnpm/debug@4.4.1/node_modules/debug/src/node.js"(exports2, module2) {
+  "node_modules/.pnpm/debug@4.4.3/node_modules/debug/src/node.js"(exports2, module2) {
     "use strict";
     var tty = require("tty");
     var util = require("util");
@@ -32917,9 +33046,9 @@ var require_node = __commonJS({
   }
 });
 
-// node_modules/.pnpm/debug@4.4.1/node_modules/debug/src/index.js
+// node_modules/.pnpm/debug@4.4.3/node_modules/debug/src/index.js
 var require_src = __commonJS({
-  "node_modules/.pnpm/debug@4.4.1/node_modules/debug/src/index.js"(exports2, module2) {
+  "node_modules/.pnpm/debug@4.4.3/node_modules/debug/src/index.js"(exports2, module2) {
     "use strict";
     if (typeof process === "undefined" || process.type === "renderer" || process.browser === true || process.__nwjs) {
       module2.exports = require_browser();
@@ -33531,9 +33660,9 @@ var require_dist3 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/proxyPolicy.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/proxyPolicy.js
 var require_proxyPolicy = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/proxyPolicy.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/proxyPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.globalNoProxyList = exports2.proxyPolicyName = void 0;
@@ -33573,7 +33702,7 @@ var require_proxyPolicy = __commonJS({
         return false;
       }
       const host = new URL(uri).hostname;
-      if (bypassedMap === null || bypassedMap === void 0 ? void 0 : bypassedMap.has(host)) {
+      if (bypassedMap?.has(host)) {
         return bypassedMap.get(host);
       }
       let isBypassedFlag = false;
@@ -33592,7 +33721,7 @@ var require_proxyPolicy = __commonJS({
           }
         }
       }
-      bypassedMap === null || bypassedMap === void 0 ? void 0 : bypassedMap.set(host, isBypassedFlag);
+      bypassedMap?.set(host, isBypassedFlag);
       return isBypassedFlag;
     }
     function loadNoProxy() {
@@ -33627,7 +33756,7 @@ var require_proxyPolicy = __commonJS({
       let parsedProxyUrl;
       try {
         parsedProxyUrl = new URL(settings.host);
-      } catch (_a) {
+      } catch {
         throw new Error(`Expecting a valid host string in proxy settings, but found "${settings.host}".`);
       }
       parsedProxyUrl.port = String(settings.port);
@@ -33670,8 +33799,7 @@ var require_proxyPolicy = __commonJS({
       return {
         name: exports2.proxyPolicyName,
         async sendRequest(request, next) {
-          var _a;
-          if (!request.proxySettings && defaultProxy && !isBypassed(request.url, (_a = options2 === null || options2 === void 0 ? void 0 : options2.customNoProxyList) !== null && _a !== void 0 ? _a : exports2.globalNoProxyList, (options2 === null || options2 === void 0 ? void 0 : options2.customNoProxyList) ? void 0 : globalBypassedMap)) {
+          if (!request.proxySettings && defaultProxy && !isBypassed(request.url, options2?.customNoProxyList ?? exports2.globalNoProxyList, options2?.customNoProxyList ? void 0 : globalBypassedMap)) {
             setProxyAgentOnRequest(request, cachedAgents, defaultProxy);
           } else if (request.proxySettings) {
             setProxyAgentOnRequest(request, cachedAgents, getUrlFromProxySettings(request.proxySettings));
@@ -33683,9 +33811,9 @@ var require_proxyPolicy = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/agentPolicy.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/agentPolicy.js
 var require_agentPolicy = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/agentPolicy.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/agentPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.agentPolicyName = void 0;
@@ -33705,9 +33833,9 @@ var require_agentPolicy = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/tlsPolicy.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/tlsPolicy.js
 var require_tlsPolicy = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/tlsPolicy.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/tlsPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.tlsPolicyName = void 0;
@@ -33727,9 +33855,9 @@ var require_tlsPolicy = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/typeGuards.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/typeGuards.js
 var require_typeGuards = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/typeGuards.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/typeGuards.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.isNodeReadableStream = isNodeReadableStream;
@@ -33755,30 +33883,27 @@ var require_typeGuards = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/concat.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/concat.js
 var require_concat = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/concat.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/concat.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.concat = concat;
-    var tslib_1 = (init_tslib_es6(), __toCommonJS(tslib_es6_exports));
     var stream_1 = require("stream");
     var typeGuards_js_1 = require_typeGuards();
-    function streamAsyncIterator() {
-      return tslib_1.__asyncGenerator(this, arguments, function* streamAsyncIterator_1() {
-        const reader = this.getReader();
-        try {
-          while (true) {
-            const { done, value } = yield tslib_1.__await(reader.read());
-            if (done) {
-              return yield tslib_1.__await(void 0);
-            }
-            yield yield tslib_1.__await(value);
+    async function* streamAsyncIterator() {
+      const reader = this.getReader();
+      try {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) {
+            return;
           }
-        } finally {
-          reader.releaseLock();
+          yield value;
         }
-      });
+      } finally {
+        reader.releaseLock();
+      }
     }
     function makeAsyncIterable(webStream) {
       if (!webStream[Symbol.asyncIterator]) {
@@ -33808,37 +33933,21 @@ var require_concat = __commonJS({
     async function concat(sources) {
       return function() {
         const streams = sources.map((x) => typeof x === "function" ? x() : x).map(toStream);
-        return stream_1.Readable.from(function() {
-          return tslib_1.__asyncGenerator(this, arguments, function* () {
-            var _a, e_1, _b, _c;
-            for (const stream of streams) {
-              try {
-                for (var _d = true, stream_2 = (e_1 = void 0, tslib_1.__asyncValues(stream)), stream_2_1; stream_2_1 = yield tslib_1.__await(stream_2.next()), _a = stream_2_1.done, !_a; _d = true) {
-                  _c = stream_2_1.value;
-                  _d = false;
-                  const chunk = _c;
-                  yield yield tslib_1.__await(chunk);
-                }
-              } catch (e_1_1) {
-                e_1 = { error: e_1_1 };
-              } finally {
-                try {
-                  if (!_d && !_a && (_b = stream_2.return)) yield tslib_1.__await(_b.call(stream_2));
-                } finally {
-                  if (e_1) throw e_1.error;
-                }
-              }
+        return stream_1.Readable.from(async function* () {
+          for (const stream of streams) {
+            for await (const chunk of stream) {
+              yield chunk;
             }
-          });
+          }
         }());
       };
     }
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/multipartPolicy.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/multipartPolicy.js
 var require_multipartPolicy = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/multipartPolicy.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/multipartPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.multipartPolicyName = void 0;
@@ -33913,7 +34022,6 @@ var require_multipartPolicy = __commonJS({
       return {
         name: exports2.multipartPolicyName,
         async sendRequest(request, next) {
-          var _a;
           if (!request.multipartBody) {
             return next(request);
           }
@@ -33921,7 +34029,7 @@ var require_multipartPolicy = __commonJS({
             throw new Error("multipartBody and regular body cannot be set at the same time");
           }
           let boundary = request.multipartBody.boundary;
-          const contentTypeHeader = (_a = request.headers.get("Content-Type")) !== null && _a !== void 0 ? _a : "multipart/mixed";
+          const contentTypeHeader = request.headers.get("Content-Type") ?? "multipart/mixed";
           const parsedHeader = contentTypeHeader.match(/^(multipart\/[^ ;]+)(?:; *boundary=(.+))?$/);
           if (!parsedHeader) {
             throw new Error(`Got multipart request body, but content-type header was not multipart: ${contentTypeHeader}`);
@@ -33930,7 +34038,7 @@ var require_multipartPolicy = __commonJS({
           if (parsedBoundary && boundary && parsedBoundary !== boundary) {
             throw new Error(`Multipart boundary was specified as ${parsedBoundary} in the header, but got ${boundary} in the request body`);
           }
-          boundary !== null && boundary !== void 0 ? boundary : boundary = parsedBoundary;
+          boundary ?? (boundary = parsedBoundary);
           if (boundary) {
             assertValidBoundary(boundary);
           } else {
@@ -33946,9 +34054,9 @@ var require_multipartPolicy = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/createPipelineFromOptions.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/createPipelineFromOptions.js
 var require_createPipelineFromOptions = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/createPipelineFromOptions.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/createPipelineFromOptions.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createPipelineFromOptions = createPipelineFromOptions;
@@ -33989,9 +34097,9 @@ var require_createPipelineFromOptions = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/client/apiVersionPolicy.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/client/apiVersionPolicy.js
 var require_apiVersionPolicy = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/client/apiVersionPolicy.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/client/apiVersionPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.apiVersionPolicyName = void 0;
@@ -34012,9 +34120,9 @@ var require_apiVersionPolicy = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/auth/credentials.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/auth/credentials.js
 var require_credentials = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/auth/credentials.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/auth/credentials.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.isOAuth2TokenCredential = isOAuth2TokenCredential;
@@ -34036,9 +34144,9 @@ var require_credentials = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/auth/checkInsecureConnection.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/auth/checkInsecureConnection.js
 var require_checkInsecureConnection = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/auth/checkInsecureConnection.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/auth/checkInsecureConnection.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.ensureSecureConnection = ensureSecureConnection;
@@ -34056,7 +34164,7 @@ var require_checkInsecureConnection = __commonJS({
     function emitInsecureConnectionWarning() {
       const warning3 = "Sending token over insecure transport. Assume any token issued is compromised.";
       log_js_1.logger.warning(warning3);
-      if (typeof (process === null || process === void 0 ? void 0 : process.emitWarning) === "function" && !insecureConnectionWarningEmmitted) {
+      if (typeof process?.emitWarning === "function" && !insecureConnectionWarningEmmitted) {
         insecureConnectionWarningEmmitted = true;
         process.emitWarning(warning3);
       }
@@ -34073,9 +34181,9 @@ var require_checkInsecureConnection = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/auth/apiKeyAuthenticationPolicy.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/auth/apiKeyAuthenticationPolicy.js
 var require_apiKeyAuthenticationPolicy = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/auth/apiKeyAuthenticationPolicy.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/auth/apiKeyAuthenticationPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.apiKeyAuthenticationPolicyName = void 0;
@@ -34086,9 +34194,8 @@ var require_apiKeyAuthenticationPolicy = __commonJS({
       return {
         name: exports2.apiKeyAuthenticationPolicyName,
         async sendRequest(request, next) {
-          var _a, _b;
           (0, checkInsecureConnection_js_1.ensureSecureConnection)(request, options2);
-          const scheme = (_b = (_a = request.authSchemes) !== null && _a !== void 0 ? _a : options2.authSchemes) === null || _b === void 0 ? void 0 : _b.find((x) => x.kind === "apiKey");
+          const scheme = (request.authSchemes ?? options2.authSchemes)?.find((x) => x.kind === "apiKey");
           if (!scheme) {
             return next(request);
           }
@@ -34103,9 +34210,9 @@ var require_apiKeyAuthenticationPolicy = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/auth/basicAuthenticationPolicy.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/auth/basicAuthenticationPolicy.js
 var require_basicAuthenticationPolicy = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/auth/basicAuthenticationPolicy.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/auth/basicAuthenticationPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.basicAuthenticationPolicyName = void 0;
@@ -34117,9 +34224,8 @@ var require_basicAuthenticationPolicy = __commonJS({
       return {
         name: exports2.basicAuthenticationPolicyName,
         async sendRequest(request, next) {
-          var _a, _b;
           (0, checkInsecureConnection_js_1.ensureSecureConnection)(request, options2);
-          const scheme = (_b = (_a = request.authSchemes) !== null && _a !== void 0 ? _a : options2.authSchemes) === null || _b === void 0 ? void 0 : _b.find((x) => x.kind === "http" && x.scheme === "basic");
+          const scheme = (request.authSchemes ?? options2.authSchemes)?.find((x) => x.kind === "http" && x.scheme === "basic");
           if (!scheme) {
             return next(request);
           }
@@ -34133,9 +34239,9 @@ var require_basicAuthenticationPolicy = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/auth/bearerAuthenticationPolicy.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/auth/bearerAuthenticationPolicy.js
 var require_bearerAuthenticationPolicy = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/auth/bearerAuthenticationPolicy.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/auth/bearerAuthenticationPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.bearerAuthenticationPolicyName = void 0;
@@ -34146,9 +34252,8 @@ var require_bearerAuthenticationPolicy = __commonJS({
       return {
         name: exports2.bearerAuthenticationPolicyName,
         async sendRequest(request, next) {
-          var _a, _b;
           (0, checkInsecureConnection_js_1.ensureSecureConnection)(request, options2);
-          const scheme = (_b = (_a = request.authSchemes) !== null && _a !== void 0 ? _a : options2.authSchemes) === null || _b === void 0 ? void 0 : _b.find((x) => x.kind === "http" && x.scheme === "bearer");
+          const scheme = (request.authSchemes ?? options2.authSchemes)?.find((x) => x.kind === "http" && x.scheme === "bearer");
           if (!scheme) {
             return next(request);
           }
@@ -34163,9 +34268,9 @@ var require_bearerAuthenticationPolicy = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/auth/oauth2AuthenticationPolicy.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/auth/oauth2AuthenticationPolicy.js
 var require_oauth2AuthenticationPolicy = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/auth/oauth2AuthenticationPolicy.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/auth/oauth2AuthenticationPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.oauth2AuthenticationPolicyName = void 0;
@@ -34176,9 +34281,8 @@ var require_oauth2AuthenticationPolicy = __commonJS({
       return {
         name: exports2.oauth2AuthenticationPolicyName,
         async sendRequest(request, next) {
-          var _a, _b;
           (0, checkInsecureConnection_js_1.ensureSecureConnection)(request, options2);
-          const scheme = (_b = (_a = request.authSchemes) !== null && _a !== void 0 ? _a : options2.authSchemes) === null || _b === void 0 ? void 0 : _b.find((x) => x.kind === "oauth2");
+          const scheme = (request.authSchemes ?? options2.authSchemes)?.find((x) => x.kind === "oauth2");
           if (!scheme) {
             return next(request);
           }
@@ -34193,9 +34297,9 @@ var require_oauth2AuthenticationPolicy = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/client/clientHelpers.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/client/clientHelpers.js
 var require_clientHelpers = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/client/clientHelpers.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/client/clientHelpers.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createDefaultPipeline = createDefaultPipeline;
@@ -34235,9 +34339,9 @@ var require_clientHelpers = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/client/multipart.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/client/multipart.js
 var require_multipart2 = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/client/multipart.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/client/multipart.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.buildBodyPart = buildBodyPart;
@@ -34285,7 +34389,6 @@ var require_multipart2 = __commonJS({
       return JSON.stringify(value);
     }
     function getContentDisposition(descriptor) {
-      var _a;
       const contentDispositionHeader = getHeaderValue(descriptor, "content-disposition");
       if (contentDispositionHeader) {
         return contentDispositionHeader;
@@ -34293,7 +34396,7 @@ var require_multipart2 = __commonJS({
       if (descriptor.dispositionType === void 0 && descriptor.name === void 0 && descriptor.filename === void 0) {
         return void 0;
       }
-      const dispositionType = (_a = descriptor.dispositionType) !== null && _a !== void 0 ? _a : "form-data";
+      const dispositionType = descriptor.dispositionType ?? "form-data";
       let disposition = dispositionType;
       if (descriptor.name) {
         disposition += `; name=${escapeDispositionField(descriptor.name)}`;
@@ -34328,10 +34431,9 @@ var require_multipart2 = __commonJS({
       throw new restError_js_1.RestError(`Unsupported body/content-type combination: ${body}, ${contentType}`);
     }
     function buildBodyPart(descriptor) {
-      var _a;
       const contentType = getPartContentType(descriptor);
       const contentDisposition = getContentDisposition(descriptor);
-      const headers = (0, httpHeaders_js_1.createHttpHeaders)((_a = descriptor.headers) !== null && _a !== void 0 ? _a : {});
+      const headers = (0, httpHeaders_js_1.createHttpHeaders)(descriptor.headers ?? {});
       if (contentType) {
         headers.set("content-type", contentType);
       }
@@ -34350,9 +34452,9 @@ var require_multipart2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/client/sendRequest.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/client/sendRequest.js
 var require_sendRequest = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/client/sendRequest.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/client/sendRequest.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.sendRequest = sendRequest;
@@ -34363,17 +34465,16 @@ var require_sendRequest = __commonJS({
     var typeGuards_js_1 = require_typeGuards();
     var multipart_js_1 = require_multipart2();
     async function sendRequest(method, url, pipeline, options2 = {}, customHttpClient) {
-      var _a;
-      const httpClient = customHttpClient !== null && customHttpClient !== void 0 ? customHttpClient : (0, clientHelpers_js_1.getCachedDefaultHttpsClient)();
+      const httpClient = customHttpClient ?? (0, clientHelpers_js_1.getCachedDefaultHttpsClient)();
       const request = buildPipelineRequest(method, url, options2);
       try {
         const response = await pipeline.sendRequest(httpClient, request);
         const headers = response.headers.toJSON();
-        const stream = (_a = response.readableStreamBody) !== null && _a !== void 0 ? _a : response.browserStreamBody;
+        const stream = response.readableStreamBody ?? response.browserStreamBody;
         const parsedBody = options2.responseAsStream || stream !== void 0 ? void 0 : getResponseBody(response);
-        const body = stream !== null && stream !== void 0 ? stream : parsedBody;
-        if (options2 === null || options2 === void 0 ? void 0 : options2.onResponse) {
-          options2.onResponse(Object.assign(Object.assign({}, response), { request, rawHeaders: headers, parsedBody }));
+        const body = stream ?? parsedBody;
+        if (options2?.onResponse) {
+          options2.onResponse({ ...response, request, rawHeaders: headers, parsedBody });
         }
         return {
           request,
@@ -34385,14 +34486,13 @@ var require_sendRequest = __commonJS({
         if ((0, restError_js_1.isRestError)(e) && e.response && options2.onResponse) {
           const { response } = e;
           const rawHeaders = response.headers.toJSON();
-          options2 === null || options2 === void 0 ? void 0 : options2.onResponse(Object.assign(Object.assign({}, response), { request, rawHeaders }), e);
+          options2?.onResponse({ ...response, request, rawHeaders }, e);
         }
         throw e;
       }
     }
     function getRequestContentType(options2 = {}) {
-      var _a, _b, _c;
-      return (_c = (_a = options2.contentType) !== null && _a !== void 0 ? _a : (_b = options2.headers) === null || _b === void 0 ? void 0 : _b["content-type"]) !== null && _c !== void 0 ? _c : getContentType(options2.body);
+      return options2.contentType ?? options2.headers?.["content-type"] ?? getContentType(options2.body);
     }
     function getContentType(body) {
       if (ArrayBuffer.isView(body)) {
@@ -34409,13 +34509,16 @@ var require_sendRequest = __commonJS({
       return "application/json";
     }
     function buildPipelineRequest(method, url, options2 = {}) {
-      var _a, _b, _c;
       const requestContentType = getRequestContentType(options2);
       const { body, multipartBody } = getRequestBody(options2.body, requestContentType);
       const hasContent = body !== void 0 || multipartBody !== void 0;
-      const headers = (0, httpHeaders_js_1.createHttpHeaders)(Object.assign(Object.assign(Object.assign({}, options2.headers ? options2.headers : {}), { accept: (_c = (_a = options2.accept) !== null && _a !== void 0 ? _a : (_b = options2.headers) === null || _b === void 0 ? void 0 : _b.accept) !== null && _c !== void 0 ? _c : "application/json" }), hasContent && requestContentType && {
-        "content-type": requestContentType
-      }));
+      const headers = (0, httpHeaders_js_1.createHttpHeaders)({
+        ...options2.headers ? options2.headers : {},
+        accept: options2.accept ?? options2.headers?.accept ?? "application/json",
+        ...hasContent && requestContentType && {
+          "content-type": requestContentType
+        }
+      });
       return (0, pipelineRequest_js_1.createPipelineRequest)({
         url,
         method,
@@ -34463,10 +34566,9 @@ var require_sendRequest = __commonJS({
       }
     }
     function getResponseBody(response) {
-      var _a, _b;
-      const contentType = (_a = response.headers.get("content-type")) !== null && _a !== void 0 ? _a : "";
+      const contentType = response.headers.get("content-type") ?? "";
       const firstType = contentType.split(";")[0];
-      const bodyToParse = (_b = response.bodyAsText) !== null && _b !== void 0 ? _b : "";
+      const bodyToParse = response.bodyAsText ?? "";
       if (firstType === "text/plain") {
         return String(bodyToParse);
       }
@@ -34480,9 +34582,8 @@ var require_sendRequest = __commonJS({
       }
     }
     function createParseError(response, err) {
-      var _a;
       const msg = `Error "${err}" occurred while parsing the response body - ${response.bodyAsText}.`;
-      const errCode = (_a = err.code) !== null && _a !== void 0 ? _a : restError_js_1.RestError.PARSE_ERROR;
+      const errCode = err.code ?? restError_js_1.RestError.PARSE_ERROR;
       return new restError_js_1.RestError(msg, {
         code: errCode,
         statusCode: response.status,
@@ -34493,9 +34594,9 @@ var require_sendRequest = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/client/urlHelpers.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/client/urlHelpers.js
 var require_urlHelpers = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/client/urlHelpers.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/client/urlHelpers.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.buildRequestUrl = buildRequestUrl;
@@ -34545,7 +34646,6 @@ var require_urlHelpers = __commonJS({
       return `${allowReserved ? key : encodeURIComponent(key)}=${value}`;
     }
     function appendQueryParams(url, options2 = {}) {
-      var _a, _b, _c, _d;
       if (!options2.queryParameters) {
         return url;
       }
@@ -34559,22 +34659,22 @@ var require_urlHelpers = __commonJS({
         }
         const hasMetadata = isQueryParameterWithOptions(param);
         const rawValue = hasMetadata ? param.value : param;
-        const explode = hasMetadata ? (_a = param.explode) !== null && _a !== void 0 ? _a : false : false;
+        const explode = hasMetadata ? param.explode ?? false : false;
         const style = hasMetadata && param.style ? param.style : "form";
         if (explode) {
           if (Array.isArray(rawValue)) {
             for (const item of rawValue) {
-              paramStrings.push(getQueryParamValue(key, (_b = options2.skipUrlEncoding) !== null && _b !== void 0 ? _b : false, style, item));
+              paramStrings.push(getQueryParamValue(key, options2.skipUrlEncoding ?? false, style, item));
             }
           } else if (typeof rawValue === "object") {
             for (const [actualKey, value] of Object.entries(rawValue)) {
-              paramStrings.push(getQueryParamValue(actualKey, (_c = options2.skipUrlEncoding) !== null && _c !== void 0 ? _c : false, style, value));
+              paramStrings.push(getQueryParamValue(actualKey, options2.skipUrlEncoding ?? false, style, value));
             }
           } else {
             throw new Error("explode can only be set to true for objects and arrays");
           }
         } else {
-          paramStrings.push(getQueryParamValue(key, (_d = options2.skipUrlEncoding) !== null && _d !== void 0 ? _d : false, style, rawValue));
+          paramStrings.push(getQueryParamValue(key, options2.skipUrlEncoding ?? false, style, rawValue));
         }
       }
       if (parsedUrl.search !== "") {
@@ -34584,7 +34684,6 @@ var require_urlHelpers = __commonJS({
       return parsedUrl.toString();
     }
     function buildBaseUrl(endpoint, options2) {
-      var _a;
       if (!options2.pathParameters) {
         return endpoint;
       }
@@ -34600,14 +34699,13 @@ var require_urlHelpers = __commonJS({
         if (!options2.skipUrlEncoding) {
           value = encodeURIComponent(param);
         }
-        endpoint = (_a = replaceAll(endpoint, `{${key}}`, value)) !== null && _a !== void 0 ? _a : "";
+        endpoint = replaceAll(endpoint, `{${key}}`, value) ?? "";
       }
       return endpoint;
     }
     function buildRoutePath(routePath, pathParameters, options2 = {}) {
-      var _a;
       for (const pathParam of pathParameters) {
-        const allowReserved = typeof pathParam === "object" && ((_a = pathParam.allowReserved) !== null && _a !== void 0 ? _a : false);
+        const allowReserved = typeof pathParam === "object" && (pathParam.allowReserved ?? false);
         let value = typeof pathParam === "object" ? pathParam.value : pathParam;
         if (!options2.skipUrlEncoding && !allowReserved) {
           value = encodeURIComponent(value);
@@ -34622,9 +34720,9 @@ var require_urlHelpers = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/client/getClient.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/client/getClient.js
 var require_getClient = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/client/getClient.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/client/getClient.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getClient = getClient;
@@ -34633,9 +34731,8 @@ var require_getClient = __commonJS({
     var urlHelpers_js_1 = require_urlHelpers();
     var checkEnvironment_js_1 = require_checkEnvironment();
     function getClient(endpoint, clientOptions = {}) {
-      var _a, _b, _c;
-      const pipeline = (_a = clientOptions.pipeline) !== null && _a !== void 0 ? _a : (0, clientHelpers_js_1.createDefaultPipeline)(clientOptions);
-      if ((_b = clientOptions.additionalPolicies) === null || _b === void 0 ? void 0 : _b.length) {
+      const pipeline = clientOptions.pipeline ?? (0, clientHelpers_js_1.createDefaultPipeline)(clientOptions);
+      if (clientOptions.additionalPolicies?.length) {
         for (const { policy, position } of clientOptions.additionalPolicies) {
           const afterPhase = position === "perRetry" ? "Sign" : void 0;
           pipeline.addPolicy(policy, {
@@ -34644,9 +34741,9 @@ var require_getClient = __commonJS({
         }
       }
       const { allowInsecureConnection, httpClient } = clientOptions;
-      const endpointUrl = (_c = clientOptions.endpoint) !== null && _c !== void 0 ? _c : endpoint;
+      const endpointUrl = clientOptions.endpoint ?? endpoint;
       const client = (path4, ...args) => {
-        const getUrl = (requestOptions) => (0, urlHelpers_js_1.buildRequestUrl)(endpointUrl, path4, args, Object.assign({ allowInsecureConnection }, requestOptions));
+        const getUrl = (requestOptions) => (0, urlHelpers_js_1.buildRequestUrl)(endpointUrl, path4, args, { allowInsecureConnection, ...requestOptions });
         return {
           get: (requestOptions = {}) => {
             return buildOperation("GET", getUrl(requestOptions), pipeline, requestOptions, allowInsecureConnection, httpClient);
@@ -34681,22 +34778,21 @@ var require_getClient = __commonJS({
       };
     }
     function buildOperation(method, url, pipeline, options2, allowInsecureConnection, httpClient) {
-      var _a;
-      allowInsecureConnection = (_a = options2.allowInsecureConnection) !== null && _a !== void 0 ? _a : allowInsecureConnection;
+      allowInsecureConnection = options2.allowInsecureConnection ?? allowInsecureConnection;
       return {
         then: function(onFulfilled, onrejected) {
-          return (0, sendRequest_js_1.sendRequest)(method, url, pipeline, Object.assign(Object.assign({}, options2), { allowInsecureConnection }), httpClient).then(onFulfilled, onrejected);
+          return (0, sendRequest_js_1.sendRequest)(method, url, pipeline, { ...options2, allowInsecureConnection }, httpClient).then(onFulfilled, onrejected);
         },
         async asBrowserStream() {
           if (checkEnvironment_js_1.isNodeLike) {
             throw new Error("`asBrowserStream` is supported only in the browser environment. Use `asNodeStream` instead to obtain the response body stream. If you require a Web stream of the response in Node, consider using `Readable.toWeb` on the result of `asNodeStream`.");
           } else {
-            return (0, sendRequest_js_1.sendRequest)(method, url, pipeline, Object.assign(Object.assign({}, options2), { allowInsecureConnection, responseAsStream: true }), httpClient);
+            return (0, sendRequest_js_1.sendRequest)(method, url, pipeline, { ...options2, allowInsecureConnection, responseAsStream: true }, httpClient);
           }
         },
         async asNodeStream() {
           if (checkEnvironment_js_1.isNodeLike) {
-            return (0, sendRequest_js_1.sendRequest)(method, url, pipeline, Object.assign(Object.assign({}, options2), { allowInsecureConnection, responseAsStream: true }), httpClient);
+            return (0, sendRequest_js_1.sendRequest)(method, url, pipeline, { ...options2, allowInsecureConnection, responseAsStream: true }, httpClient);
           } else {
             throw new Error("`isNodeStream` is not supported in the browser environment. Use `asBrowserStream` to obtain the response body stream.");
           }
@@ -34706,54 +34802,51 @@ var require_getClient = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/client/operationOptionHelpers.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/client/operationOptionHelpers.js
 var require_operationOptionHelpers = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/client/operationOptionHelpers.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/client/operationOptionHelpers.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.operationOptionsToRequestParameters = operationOptionsToRequestParameters;
     function operationOptionsToRequestParameters(options2) {
-      var _a, _b, _c, _d, _e, _f;
       return {
-        allowInsecureConnection: (_a = options2.requestOptions) === null || _a === void 0 ? void 0 : _a.allowInsecureConnection,
-        timeout: (_b = options2.requestOptions) === null || _b === void 0 ? void 0 : _b.timeout,
-        skipUrlEncoding: (_c = options2.requestOptions) === null || _c === void 0 ? void 0 : _c.skipUrlEncoding,
+        allowInsecureConnection: options2.requestOptions?.allowInsecureConnection,
+        timeout: options2.requestOptions?.timeout,
+        skipUrlEncoding: options2.requestOptions?.skipUrlEncoding,
         abortSignal: options2.abortSignal,
-        onUploadProgress: (_d = options2.requestOptions) === null || _d === void 0 ? void 0 : _d.onUploadProgress,
-        onDownloadProgress: (_e = options2.requestOptions) === null || _e === void 0 ? void 0 : _e.onDownloadProgress,
-        headers: Object.assign({}, (_f = options2.requestOptions) === null || _f === void 0 ? void 0 : _f.headers),
+        onUploadProgress: options2.requestOptions?.onUploadProgress,
+        onDownloadProgress: options2.requestOptions?.onDownloadProgress,
+        headers: { ...options2.requestOptions?.headers },
         onResponse: options2.onResponse
       };
     }
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/client/restError.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/client/restError.js
 var require_restError2 = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/client/restError.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/client/restError.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createRestError = createRestError;
     var restError_js_1 = require_restError();
     var httpHeaders_js_1 = require_httpHeaders();
     function createRestError(messageOrResponse, response) {
-      var _a, _b, _c;
       const resp = typeof messageOrResponse === "string" ? response : messageOrResponse;
-      const internalError = (_b = (_a = resp.body) === null || _a === void 0 ? void 0 : _a.error) !== null && _b !== void 0 ? _b : resp.body;
-      const message = typeof messageOrResponse === "string" ? messageOrResponse : (_c = internalError === null || internalError === void 0 ? void 0 : internalError.message) !== null && _c !== void 0 ? _c : `Unexpected status code: ${resp.status}`;
+      const internalError = resp.body?.error ?? resp.body;
+      const message = typeof messageOrResponse === "string" ? messageOrResponse : internalError?.message ?? `Unexpected status code: ${resp.status}`;
       return new restError_js_1.RestError(message, {
         statusCode: statusCodeToNumber(resp.status),
-        code: internalError === null || internalError === void 0 ? void 0 : internalError.code,
+        code: internalError?.code,
         request: resp.request,
         response: toPipelineResponse(resp)
       });
     }
     function toPipelineResponse(response) {
-      var _a;
       return {
         headers: (0, httpHeaders_js_1.createHttpHeaders)(response.headers),
         request: response.request,
-        status: (_a = statusCodeToNumber(response.status)) !== null && _a !== void 0 ? _a : -1
+        status: statusCodeToNumber(response.status) ?? -1
       };
     }
     function statusCodeToNumber(statusCode) {
@@ -34763,9 +34856,9 @@ var require_restError2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/index.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/index.js
 var require_commonjs = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/index.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createRestError = exports2.operationOptionsToRequestParameters = exports2.getClient = exports2.createDefaultHttpClient = exports2.uint8ArrayToString = exports2.stringToUint8Array = exports2.isRestError = exports2.RestError = exports2.createEmptyPipeline = exports2.createPipelineRequest = exports2.createHttpHeaders = exports2.TypeSpecRuntimeLogger = exports2.setLogLevel = exports2.getLogLevel = exports2.createClientLogger = exports2.AbortError = void 0;
@@ -34834,9 +34927,9 @@ var require_commonjs = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/pipeline.js
+// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/pipeline.js
 var require_pipeline2 = __commonJS({
-  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/pipeline.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/pipeline.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createEmptyPipeline = createEmptyPipeline;
@@ -34847,9 +34940,9 @@ var require_pipeline2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/logger/internal.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/logger/internal.js
 var require_internal = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/logger/internal.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/logger/internal.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createLoggerContext = void 0;
@@ -34887,9 +34980,9 @@ var require_commonjs2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/log.js
+// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/log.js
 var require_log4 = __commonJS({
-  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/log.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/log.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.logger = void 0;
@@ -34898,9 +34991,9 @@ var require_log4 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/exponentialRetryPolicy.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/exponentialRetryPolicy.js
 var require_exponentialRetryPolicy = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/exponentialRetryPolicy.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/exponentialRetryPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.exponentialRetryPolicyName = void 0;
@@ -34910,19 +35003,21 @@ var require_exponentialRetryPolicy = __commonJS({
     var constants_js_1 = require_constants7();
     exports2.exponentialRetryPolicyName = "exponentialRetryPolicy";
     function exponentialRetryPolicy(options2 = {}) {
-      var _a;
       return (0, retryPolicy_js_1.retryPolicy)([
-        (0, exponentialRetryStrategy_js_1.exponentialRetryStrategy)(Object.assign(Object.assign({}, options2), { ignoreSystemErrors: true }))
+        (0, exponentialRetryStrategy_js_1.exponentialRetryStrategy)({
+          ...options2,
+          ignoreSystemErrors: true
+        })
       ], {
-        maxRetries: (_a = options2.maxRetries) !== null && _a !== void 0 ? _a : constants_js_1.DEFAULT_RETRY_POLICY_COUNT
+        maxRetries: options2.maxRetries ?? constants_js_1.DEFAULT_RETRY_POLICY_COUNT
       });
     }
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/systemErrorRetryPolicy.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/systemErrorRetryPolicy.js
 var require_systemErrorRetryPolicy = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/systemErrorRetryPolicy.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/systemErrorRetryPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.systemErrorRetryPolicyName = void 0;
@@ -34932,22 +35027,24 @@ var require_systemErrorRetryPolicy = __commonJS({
     var constants_js_1 = require_constants7();
     exports2.systemErrorRetryPolicyName = "systemErrorRetryPolicy";
     function systemErrorRetryPolicy(options2 = {}) {
-      var _a;
       return {
         name: exports2.systemErrorRetryPolicyName,
         sendRequest: (0, retryPolicy_js_1.retryPolicy)([
-          (0, exponentialRetryStrategy_js_1.exponentialRetryStrategy)(Object.assign(Object.assign({}, options2), { ignoreHttpStatusCodes: true }))
+          (0, exponentialRetryStrategy_js_1.exponentialRetryStrategy)({
+            ...options2,
+            ignoreHttpStatusCodes: true
+          })
         ], {
-          maxRetries: (_a = options2.maxRetries) !== null && _a !== void 0 ? _a : constants_js_1.DEFAULT_RETRY_POLICY_COUNT
+          maxRetries: options2.maxRetries ?? constants_js_1.DEFAULT_RETRY_POLICY_COUNT
         }).sendRequest
       };
     }
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/throttlingRetryPolicy.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/throttlingRetryPolicy.js
 var require_throttlingRetryPolicy = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/throttlingRetryPolicy.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/throttlingRetryPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.throttlingRetryPolicyName = void 0;
@@ -34957,20 +35054,19 @@ var require_throttlingRetryPolicy = __commonJS({
     var constants_js_1 = require_constants7();
     exports2.throttlingRetryPolicyName = "throttlingRetryPolicy";
     function throttlingRetryPolicy(options2 = {}) {
-      var _a;
       return {
         name: exports2.throttlingRetryPolicyName,
         sendRequest: (0, retryPolicy_js_1.retryPolicy)([(0, throttlingRetryStrategy_js_1.throttlingRetryStrategy)()], {
-          maxRetries: (_a = options2.maxRetries) !== null && _a !== void 0 ? _a : constants_js_1.DEFAULT_RETRY_POLICY_COUNT
+          maxRetries: options2.maxRetries ?? constants_js_1.DEFAULT_RETRY_POLICY_COUNT
         }).sendRequest
       };
     }
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/internal.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/internal.js
 var require_internal2 = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/internal.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/policies/internal.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.userAgentPolicyName = exports2.userAgentPolicy = exports2.tlsPolicyName = exports2.tlsPolicy = exports2.redirectPolicyName = exports2.redirectPolicy = exports2.getDefaultProxySettings = exports2.proxyPolicyName = exports2.proxyPolicy = exports2.multipartPolicyName = exports2.multipartPolicy = exports2.logPolicyName = exports2.logPolicy = exports2.formDataPolicyName = exports2.formDataPolicy = exports2.throttlingRetryPolicyName = exports2.throttlingRetryPolicy = exports2.systemErrorRetryPolicyName = exports2.systemErrorRetryPolicy = exports2.retryPolicy = exports2.exponentialRetryPolicyName = exports2.exponentialRetryPolicy = exports2.defaultRetryPolicyName = exports2.defaultRetryPolicy = exports2.decompressResponsePolicyName = exports2.decompressResponsePolicy = exports2.agentPolicyName = exports2.agentPolicy = void 0;
@@ -35075,9 +35171,9 @@ var require_internal2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/logPolicy.js
+// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/logPolicy.js
 var require_logPolicy2 = __commonJS({
-  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/logPolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/logPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.logPolicyName = void 0;
@@ -35086,14 +35182,17 @@ var require_logPolicy2 = __commonJS({
     var policies_1 = require_internal2();
     exports2.logPolicyName = policies_1.logPolicyName;
     function logPolicy(options2 = {}) {
-      return (0, policies_1.logPolicy)(Object.assign({ logger: log_js_1.logger.info }, options2));
+      return (0, policies_1.logPolicy)({
+        logger: log_js_1.logger.info,
+        ...options2
+      });
     }
   }
 });
 
-// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/redirectPolicy.js
+// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/redirectPolicy.js
 var require_redirectPolicy2 = __commonJS({
-  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/redirectPolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/redirectPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.redirectPolicyName = void 0;
@@ -35106,22 +35205,22 @@ var require_redirectPolicy2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/util/userAgentPlatform.js
+// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/util/userAgentPlatform.js
 var require_userAgentPlatform2 = __commonJS({
-  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/util/userAgentPlatform.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/util/userAgentPlatform.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getHeaderName = getHeaderName;
     exports2.setPlatformSpecificData = setPlatformSpecificData;
     var tslib_1 = (init_tslib_es6(), __toCommonJS(tslib_es6_exports));
-    var os6 = tslib_1.__importStar(require("os"));
-    var process2 = tslib_1.__importStar(require("process"));
+    var node_os_1 = tslib_1.__importDefault(require("os"));
+    var node_process_1 = tslib_1.__importDefault(require("process"));
     function getHeaderName() {
       return "User-Agent";
     }
     async function setPlatformSpecificData(map) {
-      if (process2 && process2.versions) {
-        const versions = process2.versions;
+      if (node_process_1.default && node_process_1.default.versions) {
+        const versions = node_process_1.default.versions;
         if (versions.bun) {
           map.set("Bun", versions.bun);
         } else if (versions.deno) {
@@ -35130,25 +35229,25 @@ var require_userAgentPlatform2 = __commonJS({
           map.set("Node", versions.node);
         }
       }
-      map.set("OS", `(${os6.arch()}-${os6.type()}-${os6.release()})`);
+      map.set("OS", `(${node_os_1.default.arch()}-${node_os_1.default.type()}-${node_os_1.default.release()})`);
     }
   }
 });
 
-// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/constants.js
+// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/constants.js
 var require_constants8 = __commonJS({
-  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/constants.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/constants.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.DEFAULT_RETRY_POLICY_COUNT = exports2.SDK_VERSION = void 0;
-    exports2.SDK_VERSION = "1.22.0";
+    exports2.SDK_VERSION = "1.22.1";
     exports2.DEFAULT_RETRY_POLICY_COUNT = 3;
   }
 });
 
-// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/util/userAgent.js
+// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/util/userAgent.js
 var require_userAgent2 = __commonJS({
-  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/util/userAgent.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/util/userAgent.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getUserAgentHeaderName = getUserAgentHeaderName;
@@ -35177,9 +35276,9 @@ var require_userAgent2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/userAgentPolicy.js
+// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/userAgentPolicy.js
 var require_userAgentPolicy2 = __commonJS({
-  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/userAgentPolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/userAgentPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.userAgentPolicyName = void 0;
@@ -35202,9 +35301,9 @@ var require_userAgentPolicy2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/sha256.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/sha256.js
 var require_sha256 = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/sha256.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/sha256.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.computeSha256Hmac = computeSha256Hmac;
@@ -35220,9 +35319,9 @@ var require_sha256 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/internal.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/internal.js
 var require_internal3 = __commonJS({
-  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.0/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/internal.js"(exports2) {
+  "node_modules/.pnpm/@typespec+ts-http-runtime@0.3.1/node_modules/@typespec/ts-http-runtime/dist/commonjs/util/internal.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.Sanitizer = exports2.uint8ArrayToString = exports2.stringToUint8Array = exports2.isWebWorker = exports2.isReactNative = exports2.isDeno = exports2.isNodeRuntime = exports2.isNodeLike = exports2.isBun = exports2.isBrowser = exports2.randomUUID = exports2.computeSha256Hmac = exports2.computeSha256Hash = exports2.isError = exports2.isObject = exports2.getRandomIntegerInclusive = exports2.calculateRetryDelay = void 0;
@@ -35289,24 +35388,23 @@ var require_internal3 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-util@1.13.0/node_modules/@azure/core-util/dist/commonjs/aborterUtils.js
+// node_modules/.pnpm/@azure+core-util@1.13.1/node_modules/@azure/core-util/dist/commonjs/aborterUtils.js
 var require_aborterUtils = __commonJS({
-  "node_modules/.pnpm/@azure+core-util@1.13.0/node_modules/@azure/core-util/dist/commonjs/aborterUtils.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-util@1.13.1/node_modules/@azure/core-util/dist/commonjs/aborterUtils.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.cancelablePromiseRace = cancelablePromiseRace;
     async function cancelablePromiseRace(abortablePromiseBuilders, options2) {
-      var _a, _b;
       const aborter = new AbortController();
       function abortHandler() {
         aborter.abort();
       }
-      (_a = options2 === null || options2 === void 0 ? void 0 : options2.abortSignal) === null || _a === void 0 ? void 0 : _a.addEventListener("abort", abortHandler);
+      options2?.abortSignal?.addEventListener("abort", abortHandler);
       try {
         return await Promise.race(abortablePromiseBuilders.map((p) => p({ abortSignal: aborter.signal })));
       } finally {
         aborter.abort();
-        (_b = options2 === null || options2 === void 0 ? void 0 : options2.abortSignal) === null || _b === void 0 ? void 0 : _b.removeEventListener("abort", abortHandler);
+        options2?.abortSignal?.removeEventListener("abort", abortHandler);
       }
     }
   }
@@ -35341,28 +35439,28 @@ var require_commonjs3 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-util@1.13.0/node_modules/@azure/core-util/dist/commonjs/createAbortablePromise.js
+// node_modules/.pnpm/@azure+core-util@1.13.1/node_modules/@azure/core-util/dist/commonjs/createAbortablePromise.js
 var require_createAbortablePromise = __commonJS({
-  "node_modules/.pnpm/@azure+core-util@1.13.0/node_modules/@azure/core-util/dist/commonjs/createAbortablePromise.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-util@1.13.1/node_modules/@azure/core-util/dist/commonjs/createAbortablePromise.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createAbortablePromise = createAbortablePromise;
     var abort_controller_1 = require_commonjs3();
     function createAbortablePromise(buildPromise, options2) {
-      const { cleanupBeforeAbort, abortSignal: abortSignal2, abortErrorMsg } = options2 !== null && options2 !== void 0 ? options2 : {};
+      const { cleanupBeforeAbort, abortSignal: abortSignal2, abortErrorMsg } = options2 ?? {};
       return new Promise((resolve, reject) => {
         function rejectOnAbort() {
-          reject(new abort_controller_1.AbortError(abortErrorMsg !== null && abortErrorMsg !== void 0 ? abortErrorMsg : "The operation was aborted."));
+          reject(new abort_controller_1.AbortError(abortErrorMsg ?? "The operation was aborted."));
         }
         function removeListeners() {
-          abortSignal2 === null || abortSignal2 === void 0 ? void 0 : abortSignal2.removeEventListener("abort", onAbort);
+          abortSignal2?.removeEventListener("abort", onAbort);
         }
         function onAbort() {
-          cleanupBeforeAbort === null || cleanupBeforeAbort === void 0 ? void 0 : cleanupBeforeAbort();
+          cleanupBeforeAbort?.();
           removeListeners();
           rejectOnAbort();
         }
-        if (abortSignal2 === null || abortSignal2 === void 0 ? void 0 : abortSignal2.aborted) {
+        if (abortSignal2?.aborted) {
           return rejectOnAbort();
         }
         try {
@@ -35376,15 +35474,15 @@ var require_createAbortablePromise = __commonJS({
         } catch (err) {
           reject(err);
         }
-        abortSignal2 === null || abortSignal2 === void 0 ? void 0 : abortSignal2.addEventListener("abort", onAbort);
+        abortSignal2?.addEventListener("abort", onAbort);
       });
     }
   }
 });
 
-// node_modules/.pnpm/@azure+core-util@1.13.0/node_modules/@azure/core-util/dist/commonjs/delay.js
+// node_modules/.pnpm/@azure+core-util@1.13.1/node_modules/@azure/core-util/dist/commonjs/delay.js
 var require_delay2 = __commonJS({
-  "node_modules/.pnpm/@azure+core-util@1.13.0/node_modules/@azure/core-util/dist/commonjs/delay.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-util@1.13.1/node_modules/@azure/core-util/dist/commonjs/delay.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.delay = delay2;
@@ -35394,13 +35492,13 @@ var require_delay2 = __commonJS({
     var StandardAbortMessage = "The delay was aborted.";
     function delay2(timeInMs, options2) {
       let token;
-      const { abortSignal: abortSignal2, abortErrorMsg } = options2 !== null && options2 !== void 0 ? options2 : {};
+      const { abortSignal: abortSignal2, abortErrorMsg } = options2 ?? {};
       return (0, createAbortablePromise_js_1.createAbortablePromise)((resolve) => {
         token = setTimeout(resolve, timeInMs);
       }, {
         cleanupBeforeAbort: () => clearTimeout(token),
         abortSignal: abortSignal2,
-        abortErrorMsg: abortErrorMsg !== null && abortErrorMsg !== void 0 ? abortErrorMsg : StandardAbortMessage
+        abortErrorMsg: abortErrorMsg ?? StandardAbortMessage
       });
     }
     function calculateRetryDelay(retryAttempt, config2) {
@@ -35412,9 +35510,9 @@ var require_delay2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-util@1.13.0/node_modules/@azure/core-util/dist/commonjs/error.js
+// node_modules/.pnpm/@azure+core-util@1.13.1/node_modules/@azure/core-util/dist/commonjs/error.js
 var require_error2 = __commonJS({
-  "node_modules/.pnpm/@azure+core-util@1.13.0/node_modules/@azure/core-util/dist/commonjs/error.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-util@1.13.1/node_modules/@azure/core-util/dist/commonjs/error.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getErrorMessage = getErrorMessage;
@@ -35439,9 +35537,9 @@ var require_error2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-util@1.13.0/node_modules/@azure/core-util/dist/commonjs/typeGuards.js
+// node_modules/.pnpm/@azure+core-util@1.13.1/node_modules/@azure/core-util/dist/commonjs/typeGuards.js
 var require_typeGuards2 = __commonJS({
-  "node_modules/.pnpm/@azure+core-util@1.13.0/node_modules/@azure/core-util/dist/commonjs/typeGuards.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-util@1.13.1/node_modules/@azure/core-util/dist/commonjs/typeGuards.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.isDefined = isDefined;
@@ -35467,9 +35565,9 @@ var require_typeGuards2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-util@1.13.0/node_modules/@azure/core-util/dist/commonjs/index.js
+// node_modules/.pnpm/@azure+core-util@1.13.1/node_modules/@azure/core-util/dist/commonjs/index.js
 var require_commonjs4 = __commonJS({
-  "node_modules/.pnpm/@azure+core-util@1.13.0/node_modules/@azure/core-util/dist/commonjs/index.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-util@1.13.1/node_modules/@azure/core-util/dist/commonjs/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.isWebWorker = exports2.isReactNative = exports2.isNodeRuntime = exports2.isNodeLike = exports2.isNode = exports2.isDeno = exports2.isBun = exports2.isBrowser = exports2.objectHasProperty = exports2.isObjectWithProperties = exports2.isDefined = exports2.getErrorMessage = exports2.delay = exports2.createAbortablePromise = exports2.cancelablePromiseRace = void 0;
@@ -35548,9 +35646,9 @@ var require_commonjs4 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/util/file.js
+// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/util/file.js
 var require_file2 = __commonJS({
-  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/util/file.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/util/file.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.hasRawContent = hasRawContent;
@@ -35587,19 +35685,36 @@ var require_file2 = __commonJS({
       }
     }
     function createFileFromStream(stream, name, options2 = {}) {
-      var _a, _b, _c, _d;
-      return Object.assign(Object.assign({}, unimplementedMethods), { type: (_a = options2.type) !== null && _a !== void 0 ? _a : "", lastModified: (_b = options2.lastModified) !== null && _b !== void 0 ? _b : (/* @__PURE__ */ new Date()).getTime(), webkitRelativePath: (_c = options2.webkitRelativePath) !== null && _c !== void 0 ? _c : "", size: (_d = options2.size) !== null && _d !== void 0 ? _d : -1, name, stream: () => {
-        const s = stream();
-        if (isNodeReadableStream(s)) {
-          throw new Error("Not supported: a Node stream was provided as input to createFileFromStream.");
-        }
-        return s;
-      }, [rawContent]: stream });
+      return {
+        ...unimplementedMethods,
+        type: options2.type ?? "",
+        lastModified: options2.lastModified ?? (/* @__PURE__ */ new Date()).getTime(),
+        webkitRelativePath: options2.webkitRelativePath ?? "",
+        size: options2.size ?? -1,
+        name,
+        stream: () => {
+          const s = stream();
+          if (isNodeReadableStream(s)) {
+            throw new Error("Not supported: a Node stream was provided as input to createFileFromStream.");
+          }
+          return s;
+        },
+        [rawContent]: stream
+      };
     }
     function createFile(content, name, options2 = {}) {
-      var _a, _b, _c;
       if (core_util_1.isNodeLike) {
-        return Object.assign(Object.assign({}, unimplementedMethods), { type: (_a = options2.type) !== null && _a !== void 0 ? _a : "", lastModified: (_b = options2.lastModified) !== null && _b !== void 0 ? _b : (/* @__PURE__ */ new Date()).getTime(), webkitRelativePath: (_c = options2.webkitRelativePath) !== null && _c !== void 0 ? _c : "", size: content.byteLength, name, arrayBuffer: async () => content.buffer, stream: () => new Blob([content]).stream(), [rawContent]: () => content });
+        return {
+          ...unimplementedMethods,
+          type: options2.type ?? "",
+          lastModified: options2.lastModified ?? (/* @__PURE__ */ new Date()).getTime(),
+          webkitRelativePath: options2.webkitRelativePath ?? "",
+          size: content.byteLength,
+          name,
+          arrayBuffer: async () => content.buffer,
+          stream: () => new Blob([content]).stream(),
+          [rawContent]: () => content
+        };
       } else {
         return new File([content], name, options2);
       }
@@ -35607,9 +35722,9 @@ var require_file2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/multipartPolicy.js
+// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/multipartPolicy.js
 var require_multipartPolicy2 = __commonJS({
-  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/multipartPolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/multipartPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.multipartPolicyName = void 0;
@@ -35636,9 +35751,9 @@ var require_multipartPolicy2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/decompressResponsePolicy.js
+// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/decompressResponsePolicy.js
 var require_decompressResponsePolicy2 = __commonJS({
-  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/decompressResponsePolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/decompressResponsePolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.decompressResponsePolicyName = void 0;
@@ -35651,9 +35766,9 @@ var require_decompressResponsePolicy2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/defaultRetryPolicy.js
+// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/defaultRetryPolicy.js
 var require_defaultRetryPolicy2 = __commonJS({
-  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/defaultRetryPolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/defaultRetryPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.defaultRetryPolicyName = void 0;
@@ -35666,9 +35781,9 @@ var require_defaultRetryPolicy2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/formDataPolicy.js
+// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/formDataPolicy.js
 var require_formDataPolicy2 = __commonJS({
-  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/formDataPolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/formDataPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.formDataPolicyName = void 0;
@@ -35681,9 +35796,9 @@ var require_formDataPolicy2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/proxyPolicy.js
+// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/proxyPolicy.js
 var require_proxyPolicy2 = __commonJS({
-  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/proxyPolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/proxyPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.proxyPolicyName = void 0;
@@ -35700,9 +35815,9 @@ var require_proxyPolicy2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/setClientRequestIdPolicy.js
+// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/setClientRequestIdPolicy.js
 var require_setClientRequestIdPolicy = __commonJS({
-  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/setClientRequestIdPolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/setClientRequestIdPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.setClientRequestIdPolicyName = void 0;
@@ -35722,9 +35837,9 @@ var require_setClientRequestIdPolicy = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/agentPolicy.js
+// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/agentPolicy.js
 var require_agentPolicy2 = __commonJS({
-  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/agentPolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/agentPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.agentPolicyName = void 0;
@@ -35737,9 +35852,9 @@ var require_agentPolicy2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/tlsPolicy.js
+// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/tlsPolicy.js
 var require_tlsPolicy2 = __commonJS({
-  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/tlsPolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/tlsPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.tlsPolicyName = void 0;
@@ -35752,9 +35867,9 @@ var require_tlsPolicy2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-tracing@1.3.0/node_modules/@azure/core-tracing/dist/commonjs/tracingContext.js
+// node_modules/.pnpm/@azure+core-tracing@1.3.1/node_modules/@azure/core-tracing/dist/commonjs/tracingContext.js
 var require_tracingContext = __commonJS({
-  "node_modules/.pnpm/@azure+core-tracing@1.3.0/node_modules/@azure/core-tracing/dist/commonjs/tracingContext.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-tracing@1.3.1/node_modules/@azure/core-tracing/dist/commonjs/tracingContext.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.TracingContextImpl = exports2.knownContextKeys = void 0;
@@ -35775,6 +35890,7 @@ var require_tracingContext = __commonJS({
     }
     var TracingContextImpl = class _TracingContextImpl {
       constructor(initialContext) {
+        __publicField(this, "_contextMap");
         this._contextMap = initialContext instanceof _TracingContextImpl ? new Map(initialContext._contextMap) : /* @__PURE__ */ new Map();
       }
       setValue(key, value) {
@@ -35795,9 +35911,9 @@ var require_tracingContext = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-tracing@1.3.0/node_modules/@azure/core-tracing/dist/commonjs/state.js
+// node_modules/.pnpm/@azure+core-tracing@1.3.1/node_modules/@azure/core-tracing/dist/commonjs/state.js
 var require_state = __commonJS({
-  "node_modules/.pnpm/@azure+core-tracing@1.3.0/node_modules/@azure/core-tracing/dist/commonjs/state.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-tracing@1.3.1/node_modules/@azure/core-tracing/dist/commonjs/state.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.state = void 0;
@@ -35807,9 +35923,9 @@ var require_state = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-tracing@1.3.0/node_modules/@azure/core-tracing/dist/commonjs/instrumenter.js
+// node_modules/.pnpm/@azure+core-tracing@1.3.1/node_modules/@azure/core-tracing/dist/commonjs/instrumenter.js
 var require_instrumenter = __commonJS({
-  "node_modules/.pnpm/@azure+core-tracing@1.3.0/node_modules/@azure/core-tracing/dist/commonjs/instrumenter.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-tracing@1.3.1/node_modules/@azure/core-tracing/dist/commonjs/instrumenter.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createDefaultTracingSpan = createDefaultTracingSpan;
@@ -35864,9 +35980,9 @@ var require_instrumenter = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-tracing@1.3.0/node_modules/@azure/core-tracing/dist/commonjs/tracingClient.js
+// node_modules/.pnpm/@azure+core-tracing@1.3.1/node_modules/@azure/core-tracing/dist/commonjs/tracingClient.js
 var require_tracingClient = __commonJS({
-  "node_modules/.pnpm/@azure+core-tracing@1.3.0/node_modules/@azure/core-tracing/dist/commonjs/tracingClient.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-tracing@1.3.1/node_modules/@azure/core-tracing/dist/commonjs/tracingClient.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createTracingClient = createTracingClient;
@@ -35875,8 +35991,12 @@ var require_tracingClient = __commonJS({
     function createTracingClient(options2) {
       const { namespace, packageName, packageVersion } = options2;
       function startSpan(name, operationOptions, spanOptions) {
-        var _a;
-        const startSpanResult = (0, instrumenter_js_1.getInstrumenter)().startSpan(name, Object.assign(Object.assign({}, spanOptions), { packageName, packageVersion, tracingContext: (_a = operationOptions === null || operationOptions === void 0 ? void 0 : operationOptions.tracingOptions) === null || _a === void 0 ? void 0 : _a.tracingContext }));
+        const startSpanResult = (0, instrumenter_js_1.getInstrumenter)().startSpan(name, {
+          ...spanOptions,
+          packageName,
+          packageVersion,
+          tracingContext: operationOptions?.tracingOptions?.tracingContext
+        });
         let tracingContext = startSpanResult.tracingContext;
         const span = startSpanResult.span;
         if (!tracingContext.getValue(tracingContext_js_1.knownContextKeys.namespace)) {
@@ -35884,7 +36004,7 @@ var require_tracingClient = __commonJS({
         }
         span.setAttribute("az.namespace", tracingContext.getValue(tracingContext_js_1.knownContextKeys.namespace));
         const updatedOptions = Object.assign({}, operationOptions, {
-          tracingOptions: Object.assign(Object.assign({}, operationOptions === null || operationOptions === void 0 ? void 0 : operationOptions.tracingOptions), { tracingContext })
+          tracingOptions: { ...operationOptions?.tracingOptions, tracingContext }
         });
         return {
           span,
@@ -35924,9 +36044,9 @@ var require_tracingClient = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-tracing@1.3.0/node_modules/@azure/core-tracing/dist/commonjs/index.js
+// node_modules/.pnpm/@azure+core-tracing@1.3.1/node_modules/@azure/core-tracing/dist/commonjs/index.js
 var require_commonjs5 = __commonJS({
-  "node_modules/.pnpm/@azure+core-tracing@1.3.0/node_modules/@azure/core-tracing/dist/commonjs/index.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-tracing@1.3.1/node_modules/@azure/core-tracing/dist/commonjs/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createTracingClient = exports2.useInstrumenter = void 0;
@@ -35941,9 +36061,9 @@ var require_commonjs5 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/restError.js
+// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/restError.js
 var require_restError3 = __commonJS({
-  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/restError.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/restError.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.RestError = void 0;
@@ -35956,9 +36076,9 @@ var require_restError3 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/tracingPolicy.js
+// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/tracingPolicy.js
 var require_tracingPolicy = __commonJS({
-  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/tracingPolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/tracingPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.tracingPolicyName = void 0;
@@ -35980,7 +36100,6 @@ var require_tracingPolicy = __commonJS({
       return {
         name: exports2.tracingPolicyName,
         async sendRequest(request, next) {
-          var _a;
           if (!tracingClient) {
             return next(request);
           }
@@ -35994,7 +36113,7 @@ var require_tracingPolicy = __commonJS({
           if (userAgent) {
             spanAttributes["http.user_agent"] = userAgent;
           }
-          const { span, tracingContext } = (_a = tryCreateSpan(tracingClient, request, spanAttributes)) !== null && _a !== void 0 ? _a : {};
+          const { span, tracingContext } = tryCreateSpan(tracingClient, request, spanAttributes) ?? {};
           if (!span || !tracingContext) {
             return next(request);
           }
@@ -36075,9 +36194,9 @@ var require_tracingPolicy = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/util/wrapAbortSignal.js
+// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/util/wrapAbortSignal.js
 var require_wrapAbortSignal = __commonJS({
-  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/util/wrapAbortSignal.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/util/wrapAbortSignal.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.wrapAbortSignalLike = wrapAbortSignalLike;
@@ -36106,9 +36225,9 @@ var require_wrapAbortSignal = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/wrapAbortSignalLikePolicy.js
+// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/wrapAbortSignalLikePolicy.js
 var require_wrapAbortSignalLikePolicy = __commonJS({
-  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/wrapAbortSignalLikePolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/wrapAbortSignalLikePolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.wrapAbortSignalLikePolicyName = void 0;
@@ -36127,7 +36246,7 @@ var require_wrapAbortSignalLikePolicy = __commonJS({
           try {
             return await next(request);
           } finally {
-            cleanup === null || cleanup === void 0 ? void 0 : cleanup();
+            cleanup?.();
           }
         }
       };
@@ -36135,9 +36254,9 @@ var require_wrapAbortSignalLikePolicy = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/createPipelineFromOptions.js
+// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/createPipelineFromOptions.js
 var require_createPipelineFromOptions2 = __commonJS({
-  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/createPipelineFromOptions.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/createPipelineFromOptions.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createPipelineFromOptions = createPipelineFromOptions;
@@ -36157,7 +36276,6 @@ var require_createPipelineFromOptions2 = __commonJS({
     var tracingPolicy_js_1 = require_tracingPolicy();
     var wrapAbortSignalLikePolicy_js_1 = require_wrapAbortSignalLikePolicy();
     function createPipelineFromOptions(options2) {
-      var _a;
       const pipeline = (0, pipeline_js_1.createEmptyPipeline)();
       if (core_util_1.isNodeLike) {
         if (options2.agent) {
@@ -36172,10 +36290,10 @@ var require_createPipelineFromOptions2 = __commonJS({
       pipeline.addPolicy((0, wrapAbortSignalLikePolicy_js_1.wrapAbortSignalLikePolicy)());
       pipeline.addPolicy((0, formDataPolicy_js_1.formDataPolicy)(), { beforePolicies: [multipartPolicy_js_1.multipartPolicyName] });
       pipeline.addPolicy((0, userAgentPolicy_js_1.userAgentPolicy)(options2.userAgentOptions));
-      pipeline.addPolicy((0, setClientRequestIdPolicy_js_1.setClientRequestIdPolicy)((_a = options2.telemetryOptions) === null || _a === void 0 ? void 0 : _a.clientRequestIdHeaderName));
+      pipeline.addPolicy((0, setClientRequestIdPolicy_js_1.setClientRequestIdPolicy)(options2.telemetryOptions?.clientRequestIdHeaderName));
       pipeline.addPolicy((0, multipartPolicy_js_1.multipartPolicy)(), { afterPhase: "Deserialize" });
       pipeline.addPolicy((0, defaultRetryPolicy_js_1.defaultRetryPolicy)(options2.retryOptions), { phase: "Retry" });
-      pipeline.addPolicy((0, tracingPolicy_js_1.tracingPolicy)(Object.assign(Object.assign({}, options2.userAgentOptions), options2.loggingOptions)), {
+      pipeline.addPolicy((0, tracingPolicy_js_1.tracingPolicy)({ ...options2.userAgentOptions, ...options2.loggingOptions }), {
         afterPhase: "Retry"
       });
       if (core_util_1.isNodeLike) {
@@ -36187,9 +36305,9 @@ var require_createPipelineFromOptions2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/defaultHttpClient.js
+// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/defaultHttpClient.js
 var require_defaultHttpClient2 = __commonJS({
-  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/defaultHttpClient.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/defaultHttpClient.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createDefaultHttpClient = createDefaultHttpClient;
@@ -36204,7 +36322,7 @@ var require_defaultHttpClient2 = __commonJS({
             request.abortSignal = abortSignal2;
             return await client.sendRequest(request);
           } finally {
-            cleanup === null || cleanup === void 0 ? void 0 : cleanup();
+            cleanup?.();
           }
         }
       };
@@ -36212,9 +36330,9 @@ var require_defaultHttpClient2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/httpHeaders.js
+// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/httpHeaders.js
 var require_httpHeaders2 = __commonJS({
-  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/httpHeaders.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/httpHeaders.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createHttpHeaders = createHttpHeaders;
@@ -36225,9 +36343,9 @@ var require_httpHeaders2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/pipelineRequest.js
+// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/pipelineRequest.js
 var require_pipelineRequest2 = __commonJS({
-  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/pipelineRequest.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/pipelineRequest.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createPipelineRequest = createPipelineRequest;
@@ -36238,9 +36356,9 @@ var require_pipelineRequest2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/exponentialRetryPolicy.js
+// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/exponentialRetryPolicy.js
 var require_exponentialRetryPolicy2 = __commonJS({
-  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/exponentialRetryPolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/exponentialRetryPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.exponentialRetryPolicyName = void 0;
@@ -36253,9 +36371,9 @@ var require_exponentialRetryPolicy2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/systemErrorRetryPolicy.js
+// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/systemErrorRetryPolicy.js
 var require_systemErrorRetryPolicy2 = __commonJS({
-  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/systemErrorRetryPolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/systemErrorRetryPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.systemErrorRetryPolicyName = void 0;
@@ -36268,9 +36386,9 @@ var require_systemErrorRetryPolicy2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/throttlingRetryPolicy.js
+// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/throttlingRetryPolicy.js
 var require_throttlingRetryPolicy2 = __commonJS({
-  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/throttlingRetryPolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/throttlingRetryPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.throttlingRetryPolicyName = void 0;
@@ -36283,9 +36401,9 @@ var require_throttlingRetryPolicy2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/retryPolicy.js
+// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/retryPolicy.js
 var require_retryPolicy2 = __commonJS({
-  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/retryPolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/retryPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.retryPolicy = retryPolicy;
@@ -36294,14 +36412,17 @@ var require_retryPolicy2 = __commonJS({
     var policies_1 = require_internal2();
     var retryPolicyLogger = (0, logger_1.createClientLogger)("core-rest-pipeline retryPolicy");
     function retryPolicy(strategies, options2 = { maxRetries: constants_js_1.DEFAULT_RETRY_POLICY_COUNT }) {
-      return (0, policies_1.retryPolicy)(strategies, Object.assign({ logger: retryPolicyLogger }, options2));
+      return (0, policies_1.retryPolicy)(strategies, {
+        logger: retryPolicyLogger,
+        ...options2
+      });
     }
   }
 });
 
-// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/util/tokenCycler.js
+// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/util/tokenCycler.js
 var require_tokenCycler = __commonJS({
-  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/util/tokenCycler.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/util/tokenCycler.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.DEFAULT_CYCLER_OPTIONS = void 0;
@@ -36320,7 +36441,7 @@ var require_tokenCycler = __commonJS({
         if (Date.now() < refreshTimeout) {
           try {
             return await getAccessToken();
-          } catch (_a) {
+          } catch {
             return null;
           }
         } else {
@@ -36342,7 +36463,10 @@ var require_tokenCycler = __commonJS({
       let refreshWorker = null;
       let token = null;
       let tenantId;
-      const options2 = Object.assign(Object.assign({}, exports2.DEFAULT_CYCLER_OPTIONS), tokenCyclerOptions);
+      const options2 = {
+        ...exports2.DEFAULT_CYCLER_OPTIONS,
+        ...tokenCyclerOptions
+      };
       const cycler = {
         /**
          * Produces true if a refresh job is currently in progress.
@@ -36355,14 +36479,13 @@ var require_tokenCycler = __commonJS({
          * window and not already refreshing)
          */
         get shouldRefresh() {
-          var _a;
           if (cycler.isRefreshing) {
             return false;
           }
-          if ((token === null || token === void 0 ? void 0 : token.refreshAfterTimestamp) && token.refreshAfterTimestamp < Date.now()) {
+          if (token?.refreshAfterTimestamp && token.refreshAfterTimestamp < Date.now()) {
             return true;
           }
-          return ((_a = token === null || token === void 0 ? void 0 : token.expiresOnTimestamp) !== null && _a !== void 0 ? _a : 0) - options2.refreshWindowInMs < Date.now();
+          return (token?.expiresOnTimestamp ?? 0) - options2.refreshWindowInMs < Date.now();
         },
         /**
          * Produces true if the cycler MUST refresh (null or nearly-expired
@@ -36373,14 +36496,13 @@ var require_tokenCycler = __commonJS({
         }
       };
       function refresh(scopes, getTokenOptions) {
-        var _a;
         if (!cycler.isRefreshing) {
           const tryGetAccessToken = () => credential.getToken(scopes, getTokenOptions);
           refreshWorker = beginRefresh(
             tryGetAccessToken,
             options2.retryIntervalInMs,
             // If we don't have a token, then we should timeout immediately
-            (_a = token === null || token === void 0 ? void 0 : token.expiresOnTimestamp) !== null && _a !== void 0 ? _a : Date.now()
+            token?.expiresOnTimestamp ?? Date.now()
           ).then((_token) => {
             refreshWorker = null;
             token = _token;
@@ -36414,9 +36536,9 @@ var require_tokenCycler = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/bearerTokenAuthenticationPolicy.js
+// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/bearerTokenAuthenticationPolicy.js
 var require_bearerTokenAuthenticationPolicy = __commonJS({
-  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/bearerTokenAuthenticationPolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/bearerTokenAuthenticationPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.bearerTokenAuthenticationPolicyName = void 0;
@@ -36453,7 +36575,6 @@ var require_bearerTokenAuthenticationPolicy = __commonJS({
       return response.status === 401 && response.headers.has("WWW-Authenticate");
     }
     async function authorizeRequestOnCaeChallenge(onChallengeOptions, caeClaims) {
-      var _a;
       const { scopes } = onChallengeOptions;
       const accessToken = await onChallengeOptions.getAccessToken(scopes, {
         enableCae: true,
@@ -36462,16 +36583,15 @@ var require_bearerTokenAuthenticationPolicy = __commonJS({
       if (!accessToken) {
         return false;
       }
-      onChallengeOptions.request.headers.set("Authorization", `${(_a = accessToken.tokenType) !== null && _a !== void 0 ? _a : "Bearer"} ${accessToken.token}`);
+      onChallengeOptions.request.headers.set("Authorization", `${accessToken.tokenType ?? "Bearer"} ${accessToken.token}`);
       return true;
     }
     function bearerTokenAuthenticationPolicy(options2) {
-      var _a, _b, _c;
       const { credential, scopes, challengeCallbacks } = options2;
       const logger = options2.logger || log_js_1.logger;
       const callbacks = {
-        authorizeRequest: (_b = (_a = challengeCallbacks === null || challengeCallbacks === void 0 ? void 0 : challengeCallbacks.authorizeRequest) === null || _a === void 0 ? void 0 : _a.bind(challengeCallbacks)) !== null && _b !== void 0 ? _b : defaultAuthorizeRequest,
-        authorizeRequestOnChallenge: (_c = challengeCallbacks === null || challengeCallbacks === void 0 ? void 0 : challengeCallbacks.authorizeRequestOnChallenge) === null || _c === void 0 ? void 0 : _c.bind(challengeCallbacks)
+        authorizeRequest: challengeCallbacks?.authorizeRequest?.bind(challengeCallbacks) ?? defaultAuthorizeRequest,
+        authorizeRequestOnChallenge: challengeCallbacks?.authorizeRequestOnChallenge?.bind(challengeCallbacks)
       };
       const getAccessToken = credential ? (0, tokenCycler_js_1.createTokenCycler)(
         credential
@@ -36587,19 +36707,18 @@ var require_bearerTokenAuthenticationPolicy = __commonJS({
       return parsedChallenges;
     }
     function getCaeChallengeClaims(challenges) {
-      var _a;
       if (!challenges) {
         return;
       }
       const parsedChallenges = parseChallenges(challenges);
-      return (_a = parsedChallenges.find((x) => x.scheme === "Bearer" && x.params.claims && x.params.error === "insufficient_claims")) === null || _a === void 0 ? void 0 : _a.params.claims;
+      return parsedChallenges.find((x) => x.scheme === "Bearer" && x.params.claims && x.params.error === "insufficient_claims")?.params.claims;
     }
   }
 });
 
-// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/ndJsonPolicy.js
+// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/ndJsonPolicy.js
 var require_ndJsonPolicy = __commonJS({
-  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/ndJsonPolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/ndJsonPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.ndJsonPolicyName = void 0;
@@ -36622,9 +36741,9 @@ var require_ndJsonPolicy = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/auxiliaryAuthenticationHeaderPolicy.js
+// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/auxiliaryAuthenticationHeaderPolicy.js
 var require_auxiliaryAuthenticationHeaderPolicy = __commonJS({
-  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/auxiliaryAuthenticationHeaderPolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/policies/auxiliaryAuthenticationHeaderPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.auxiliaryAuthenticationHeaderPolicyName = void 0;
@@ -36634,13 +36753,12 @@ var require_auxiliaryAuthenticationHeaderPolicy = __commonJS({
     exports2.auxiliaryAuthenticationHeaderPolicyName = "auxiliaryAuthenticationHeaderPolicy";
     var AUTHORIZATION_AUXILIARY_HEADER = "x-ms-authorization-auxiliary";
     async function sendAuthorizeRequest(options2) {
-      var _a, _b;
       const { scopes, getAccessToken, request } = options2;
       const getTokenOptions = {
         abortSignal: request.abortSignal,
         tracingOptions: request.tracingOptions
       };
-      return (_b = (_a = await getAccessToken(scopes, getTokenOptions)) === null || _a === void 0 ? void 0 : _a.token) !== null && _b !== void 0 ? _b : "";
+      return (await getAccessToken(scopes, getTokenOptions))?.token ?? "";
     }
     function auxiliaryAuthenticationHeaderPolicy(options2) {
       const { credentials, scopes } = options2;
@@ -36683,9 +36801,9 @@ var require_auxiliaryAuthenticationHeaderPolicy = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/index.js
+// node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/index.js
 var require_commonjs6 = __commonJS({
-  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.0/node_modules/@azure/core-rest-pipeline/dist/commonjs/index.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-rest-pipeline@1.22.1/node_modules/@azure/core-rest-pipeline/dist/commonjs/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createFileFromStream = exports2.createFile = exports2.agentPolicyName = exports2.agentPolicy = exports2.auxiliaryAuthenticationHeaderPolicyName = exports2.auxiliaryAuthenticationHeaderPolicy = exports2.ndJsonPolicyName = exports2.ndJsonPolicy = exports2.bearerTokenAuthenticationPolicyName = exports2.bearerTokenAuthenticationPolicy = exports2.formDataPolicyName = exports2.formDataPolicy = exports2.tlsPolicyName = exports2.tlsPolicy = exports2.userAgentPolicyName = exports2.userAgentPolicy = exports2.defaultRetryPolicy = exports2.tracingPolicyName = exports2.tracingPolicy = exports2.retryPolicy = exports2.throttlingRetryPolicyName = exports2.throttlingRetryPolicy = exports2.systemErrorRetryPolicyName = exports2.systemErrorRetryPolicy = exports2.redirectPolicyName = exports2.redirectPolicy = exports2.getDefaultProxySettings = exports2.proxyPolicyName = exports2.proxyPolicy = exports2.multipartPolicyName = exports2.multipartPolicy = exports2.logPolicyName = exports2.logPolicy = exports2.setClientRequestIdPolicyName = exports2.setClientRequestIdPolicy = exports2.exponentialRetryPolicyName = exports2.exponentialRetryPolicy = exports2.decompressResponsePolicyName = exports2.decompressResponsePolicy = exports2.isRestError = exports2.RestError = exports2.createPipelineRequest = exports2.createHttpHeaders = exports2.createDefaultHttpClient = exports2.createPipelineFromOptions = exports2.createEmptyPipeline = void 0;
@@ -36856,19 +36974,13 @@ var require_commonjs6 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-auth@1.10.0/node_modules/@azure/core-auth/dist/commonjs/azureKeyCredential.js
+// node_modules/.pnpm/@azure+core-auth@1.10.1/node_modules/@azure/core-auth/dist/commonjs/azureKeyCredential.js
 var require_azureKeyCredential = __commonJS({
-  "node_modules/.pnpm/@azure+core-auth@1.10.0/node_modules/@azure/core-auth/dist/commonjs/azureKeyCredential.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-auth@1.10.1/node_modules/@azure/core-auth/dist/commonjs/azureKeyCredential.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.AzureKeyCredential = void 0;
     var AzureKeyCredential = class {
-      /**
-       * The value of the key to be used in authentication
-       */
-      get key() {
-        return this._key;
-      }
       /**
        * Create an instance of an AzureKeyCredential for use
        * with a service client.
@@ -36876,10 +36988,17 @@ var require_azureKeyCredential = __commonJS({
        * @param key - The initial value of the key to use in authentication
        */
       constructor(key) {
+        __publicField(this, "_key");
         if (!key) {
           throw new Error("key must be a non-empty string");
         }
         this._key = key;
+      }
+      /**
+       * The value of the key to be used in authentication
+       */
+      get key() {
+        return this._key;
       }
       /**
        * Change the value of the key.
@@ -36897,9 +37016,9 @@ var require_azureKeyCredential = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-auth@1.10.0/node_modules/@azure/core-auth/dist/commonjs/keyCredential.js
+// node_modules/.pnpm/@azure+core-auth@1.10.1/node_modules/@azure/core-auth/dist/commonjs/keyCredential.js
 var require_keyCredential = __commonJS({
-  "node_modules/.pnpm/@azure+core-auth@1.10.0/node_modules/@azure/core-auth/dist/commonjs/keyCredential.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-auth@1.10.1/node_modules/@azure/core-auth/dist/commonjs/keyCredential.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.isKeyCredential = isKeyCredential;
@@ -36910,15 +37029,31 @@ var require_keyCredential = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-auth@1.10.0/node_modules/@azure/core-auth/dist/commonjs/azureNamedKeyCredential.js
+// node_modules/.pnpm/@azure+core-auth@1.10.1/node_modules/@azure/core-auth/dist/commonjs/azureNamedKeyCredential.js
 var require_azureNamedKeyCredential = __commonJS({
-  "node_modules/.pnpm/@azure+core-auth@1.10.0/node_modules/@azure/core-auth/dist/commonjs/azureNamedKeyCredential.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-auth@1.10.1/node_modules/@azure/core-auth/dist/commonjs/azureNamedKeyCredential.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.AzureNamedKeyCredential = void 0;
     exports2.isNamedKeyCredential = isNamedKeyCredential;
     var core_util_1 = require_commonjs4();
     var AzureNamedKeyCredential = class {
+      /**
+       * Create an instance of an AzureNamedKeyCredential for use
+       * with a service client.
+       *
+       * @param name - The initial value of the name to use in authentication.
+       * @param key - The initial value of the key to use in authentication.
+       */
+      constructor(name, key) {
+        __publicField(this, "_key");
+        __publicField(this, "_name");
+        if (!name || !key) {
+          throw new TypeError("name and key must be non-empty strings");
+        }
+        this._name = name;
+        this._key = key;
+      }
       /**
        * The value of the key to be used in authentication.
        */
@@ -36930,20 +37065,6 @@ var require_azureNamedKeyCredential = __commonJS({
        */
       get name() {
         return this._name;
-      }
-      /**
-       * Create an instance of an AzureNamedKeyCredential for use
-       * with a service client.
-       *
-       * @param name - The initial value of the name to use in authentication.
-       * @param key - The initial value of the key to use in authentication.
-       */
-      constructor(name, key) {
-        if (!name || !key) {
-          throw new TypeError("name and key must be non-empty strings");
-        }
-        this._name = name;
-        this._key = key;
       }
       /**
        * Change the value of the key.
@@ -36969,9 +37090,9 @@ var require_azureNamedKeyCredential = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-auth@1.10.0/node_modules/@azure/core-auth/dist/commonjs/azureSASCredential.js
+// node_modules/.pnpm/@azure+core-auth@1.10.1/node_modules/@azure/core-auth/dist/commonjs/azureSASCredential.js
 var require_azureSASCredential = __commonJS({
-  "node_modules/.pnpm/@azure+core-auth@1.10.0/node_modules/@azure/core-auth/dist/commonjs/azureSASCredential.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-auth@1.10.1/node_modules/@azure/core-auth/dist/commonjs/azureSASCredential.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.AzureSASCredential = void 0;
@@ -36979,22 +37100,23 @@ var require_azureSASCredential = __commonJS({
     var core_util_1 = require_commonjs4();
     var AzureSASCredential = class {
       /**
-       * The value of the shared access signature to be used in authentication
-       */
-      get signature() {
-        return this._signature;
-      }
-      /**
        * Create an instance of an AzureSASCredential for use
        * with a service client.
        *
        * @param signature - The initial value of the shared access signature to use in authentication
        */
       constructor(signature) {
+        __publicField(this, "_signature");
         if (!signature) {
           throw new Error("shared access signature must be a non-empty string");
         }
         this._signature = signature;
+      }
+      /**
+       * The value of the shared access signature to be used in authentication
+       */
+      get signature() {
+        return this._signature;
       }
       /**
        * Change the value of the signature.
@@ -37018,9 +37140,9 @@ var require_azureSASCredential = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-auth@1.10.0/node_modules/@azure/core-auth/dist/commonjs/tokenCredential.js
+// node_modules/.pnpm/@azure+core-auth@1.10.1/node_modules/@azure/core-auth/dist/commonjs/tokenCredential.js
 var require_tokenCredential = __commonJS({
-  "node_modules/.pnpm/@azure+core-auth@1.10.0/node_modules/@azure/core-auth/dist/commonjs/tokenCredential.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-auth@1.10.1/node_modules/@azure/core-auth/dist/commonjs/tokenCredential.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.isBearerToken = isBearerToken;
@@ -37039,9 +37161,9 @@ var require_tokenCredential = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-auth@1.10.0/node_modules/@azure/core-auth/dist/commonjs/index.js
+// node_modules/.pnpm/@azure+core-auth@1.10.1/node_modules/@azure/core-auth/dist/commonjs/index.js
 var require_commonjs7 = __commonJS({
-  "node_modules/.pnpm/@azure+core-auth@1.10.0/node_modules/@azure/core-auth/dist/commonjs/index.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-auth@1.10.1/node_modules/@azure/core-auth/dist/commonjs/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.isTokenCredential = exports2.isSASCredential = exports2.AzureSASCredential = exports2.isNamedKeyCredential = exports2.AzureNamedKeyCredential = exports2.isKeyCredential = exports2.AzureKeyCredential = void 0;
@@ -37074,9 +37196,9 @@ var require_commonjs7 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-http-compat@2.3.0/node_modules/@azure/core-http-compat/dist/commonjs/policies/disableKeepAlivePolicy.js
+// node_modules/.pnpm/@azure+core-http-compat@2.3.1/node_modules/@azure/core-http-compat/dist/commonjs/policies/disableKeepAlivePolicy.js
 var require_disableKeepAlivePolicy = __commonJS({
-  "node_modules/.pnpm/@azure+core-http-compat@2.3.0/node_modules/@azure/core-http-compat/dist/commonjs/policies/disableKeepAlivePolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-http-compat@2.3.1/node_modules/@azure/core-http-compat/dist/commonjs/policies/disableKeepAlivePolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.disableKeepAlivePolicyName = void 0;
@@ -37098,9 +37220,9 @@ var require_disableKeepAlivePolicy = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-client@1.10.0/node_modules/@azure/core-client/dist/commonjs/base64.js
+// node_modules/.pnpm/@azure+core-client@1.10.1/node_modules/@azure/core-client/dist/commonjs/base64.js
 var require_base642 = __commonJS({
-  "node_modules/.pnpm/@azure+core-client@1.10.0/node_modules/@azure/core-client/dist/commonjs/base64.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-client@1.10.1/node_modules/@azure/core-client/dist/commonjs/base64.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.encodeString = encodeString;
@@ -37123,9 +37245,9 @@ var require_base642 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-client@1.10.0/node_modules/@azure/core-client/dist/commonjs/interfaces.js
+// node_modules/.pnpm/@azure+core-client@1.10.1/node_modules/@azure/core-client/dist/commonjs/interfaces.js
 var require_interfaces = __commonJS({
-  "node_modules/.pnpm/@azure+core-client@1.10.0/node_modules/@azure/core-client/dist/commonjs/interfaces.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-client@1.10.1/node_modules/@azure/core-client/dist/commonjs/interfaces.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.XML_CHARKEY = exports2.XML_ATTRKEY = void 0;
@@ -37134,9 +37256,9 @@ var require_interfaces = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-client@1.10.0/node_modules/@azure/core-client/dist/commonjs/utils.js
+// node_modules/.pnpm/@azure+core-client@1.10.1/node_modules/@azure/core-client/dist/commonjs/utils.js
 var require_utils4 = __commonJS({
-  "node_modules/.pnpm/@azure+core-client@1.10.0/node_modules/@azure/core-client/dist/commonjs/utils.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-client@1.10.1/node_modules/@azure/core-client/dist/commonjs/utils.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.isPrimitiveBody = isPrimitiveBody;
@@ -37144,7 +37266,7 @@ var require_utils4 = __commonJS({
     exports2.isValidUuid = isValidUuid;
     exports2.flattenResponse = flattenResponse;
     function isPrimitiveBody(value, mapperTypeName) {
-      return mapperTypeName !== "Composite" && mapperTypeName !== "Dictionary" && (typeof value === "string" || typeof value === "number" || typeof value === "boolean" || (mapperTypeName === null || mapperTypeName === void 0 ? void 0 : mapperTypeName.match(/^(Date|DateTime|DateTimeRfc1123|UnixTime|ByteArray|Base64Url)$/i)) !== null || value === void 0 || value === null);
+      return mapperTypeName !== "Composite" && mapperTypeName !== "Dictionary" && (typeof value === "string" || typeof value === "number" || typeof value === "boolean" || mapperTypeName?.match(/^(Date|DateTime|DateTimeRfc1123|UnixTime|ByteArray|Base64Url)$/i) !== null || value === void 0 || value === null);
     }
     var validateISODuration = /^(-|\+)?P(?:([-+]?[0-9,.]*)Y)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)W)?(?:([-+]?[0-9,.]*)D)?(?:T(?:([-+]?[0-9,.]*)H)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)S)?)?$/;
     function isDuration(value) {
@@ -37155,32 +37277,44 @@ var require_utils4 = __commonJS({
       return validUuidRegex.test(uuid2);
     }
     function handleNullableResponseAndWrappableBody(responseObject) {
-      const combinedHeadersAndBody = Object.assign(Object.assign({}, responseObject.headers), responseObject.body);
+      const combinedHeadersAndBody = {
+        ...responseObject.headers,
+        ...responseObject.body
+      };
       if (responseObject.hasNullableType && Object.getOwnPropertyNames(combinedHeadersAndBody).length === 0) {
         return responseObject.shouldWrapBody ? { body: null } : null;
       } else {
-        return responseObject.shouldWrapBody ? Object.assign(Object.assign({}, responseObject.headers), { body: responseObject.body }) : combinedHeadersAndBody;
+        return responseObject.shouldWrapBody ? {
+          ...responseObject.headers,
+          body: responseObject.body
+        } : combinedHeadersAndBody;
       }
     }
     function flattenResponse(fullResponse, responseSpec) {
-      var _a, _b;
       const parsedHeaders = fullResponse.parsedHeaders;
       if (fullResponse.request.method === "HEAD") {
-        return Object.assign(Object.assign({}, parsedHeaders), { body: fullResponse.parsedBody });
+        return {
+          ...parsedHeaders,
+          body: fullResponse.parsedBody
+        };
       }
       const bodyMapper = responseSpec && responseSpec.bodyMapper;
-      const isNullable = Boolean(bodyMapper === null || bodyMapper === void 0 ? void 0 : bodyMapper.nullable);
-      const expectedBodyTypeName = bodyMapper === null || bodyMapper === void 0 ? void 0 : bodyMapper.type.name;
+      const isNullable = Boolean(bodyMapper?.nullable);
+      const expectedBodyTypeName = bodyMapper?.type.name;
       if (expectedBodyTypeName === "Stream") {
-        return Object.assign(Object.assign({}, parsedHeaders), { blobBody: fullResponse.blobBody, readableStreamBody: fullResponse.readableStreamBody });
+        return {
+          ...parsedHeaders,
+          blobBody: fullResponse.blobBody,
+          readableStreamBody: fullResponse.readableStreamBody
+        };
       }
       const modelProperties = expectedBodyTypeName === "Composite" && bodyMapper.type.modelProperties || {};
       const isPageableResponse = Object.keys(modelProperties).some((k) => modelProperties[k].serializedName === "");
       if (expectedBodyTypeName === "Sequence" || isPageableResponse) {
-        const arrayResponse = (_a = fullResponse.parsedBody) !== null && _a !== void 0 ? _a : [];
+        const arrayResponse = fullResponse.parsedBody ?? [];
         for (const key of Object.keys(modelProperties)) {
           if (modelProperties[key].serializedName) {
-            arrayResponse[key] = (_b = fullResponse.parsedBody) === null || _b === void 0 ? void 0 : _b[key];
+            arrayResponse[key] = fullResponse.parsedBody?.[key];
           }
         }
         if (parsedHeaders) {
@@ -37200,9 +37334,9 @@ var require_utils4 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-client@1.10.0/node_modules/@azure/core-client/dist/commonjs/serializer.js
+// node_modules/.pnpm/@azure+core-client@1.10.1/node_modules/@azure/core-client/dist/commonjs/serializer.js
 var require_serializer = __commonJS({
-  "node_modules/.pnpm/@azure+core-client@1.10.0/node_modules/@azure/core-client/dist/commonjs/serializer.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-client@1.10.1/node_modules/@azure/core-client/dist/commonjs/serializer.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.MapperTypeNames = void 0;
@@ -37213,6 +37347,8 @@ var require_serializer = __commonJS({
     var utils_js_1 = require_utils4();
     var SerializerImpl = class {
       constructor(modelMappers = {}, isXML = false) {
+        __publicField(this, "modelMappers");
+        __publicField(this, "isXML");
         this.modelMappers = modelMappers;
         this.isXML = isXML;
       }
@@ -37277,12 +37413,11 @@ var require_serializer = __commonJS({
        * @returns A valid serialized Javascript object
        */
       serialize(mapper, object, objectName, options2 = { xml: {} }) {
-        var _a, _b, _c;
         const updatedOptions = {
           xml: {
-            rootName: (_a = options2.xml.rootName) !== null && _a !== void 0 ? _a : "",
-            includeRoot: (_b = options2.xml.includeRoot) !== null && _b !== void 0 ? _b : false,
-            xmlCharKey: (_c = options2.xml.xmlCharKey) !== null && _c !== void 0 ? _c : interfaces_js_1.XML_CHARKEY
+            rootName: options2.xml.rootName ?? "",
+            includeRoot: options2.xml.includeRoot ?? false,
+            xmlCharKey: options2.xml.xmlCharKey ?? interfaces_js_1.XML_CHARKEY
           }
         };
         let payload = {};
@@ -37346,14 +37481,13 @@ var require_serializer = __commonJS({
        * @returns A valid deserialized Javascript object
        */
       deserialize(mapper, responseBody, objectName, options2 = { xml: {} }) {
-        var _a, _b, _c, _d;
         const updatedOptions = {
           xml: {
-            rootName: (_a = options2.xml.rootName) !== null && _a !== void 0 ? _a : "",
-            includeRoot: (_b = options2.xml.includeRoot) !== null && _b !== void 0 ? _b : false,
-            xmlCharKey: (_c = options2.xml.xmlCharKey) !== null && _c !== void 0 ? _c : interfaces_js_1.XML_CHARKEY
+            rootName: options2.xml.rootName ?? "",
+            includeRoot: options2.xml.includeRoot ?? false,
+            xmlCharKey: options2.xml.xmlCharKey ?? interfaces_js_1.XML_CHARKEY
           },
-          ignoreUnknownProperties: (_d = options2.ignoreUnknownProperties) !== null && _d !== void 0 ? _d : false
+          ignoreUnknownProperties: options2.ignoreUnknownProperties ?? false
         };
         if (responseBody === void 0 || responseBody === null) {
           if (this.isXML && mapper.type.name === "Sequence" && !mapper.xmlIsWrapped) {
@@ -37569,7 +37703,6 @@ var require_serializer = __commonJS({
       return value;
     }
     function serializeSequenceType(serializer, mapper, object, objectName, isXml, options2) {
-      var _a;
       if (!Array.isArray(object)) {
         throw new Error(`${objectName} must be of type Array.`);
       }
@@ -37578,7 +37711,7 @@ var require_serializer = __commonJS({
         throw new Error(`element" metadata for an Array must be defined in the mapper and it must of type "object" in ${objectName}.`);
       }
       if (elementType.type.name === "Composite" && elementType.type.className) {
-        elementType = (_a = serializer.modelMappers[elementType.type.className]) !== null && _a !== void 0 ? _a : elementType;
+        elementType = serializer.modelMappers[elementType.type.className] ?? elementType;
       }
       const tempArray = [];
       for (let i = 0; i < object.length; i++) {
@@ -37586,7 +37719,7 @@ var require_serializer = __commonJS({
         if (isXml && elementType.xmlNamespace) {
           const xmlnsKey = elementType.xmlNamespacePrefix ? `xmlns:${elementType.xmlNamespacePrefix}` : "xmlns";
           if (elementType.type.name === "Composite") {
-            tempArray[i] = Object.assign({}, serializedValue);
+            tempArray[i] = { ...serializedValue };
             tempArray[i][interfaces_js_1.XML_ATTRKEY] = { [xmlnsKey]: elementType.xmlNamespace };
           } else {
             tempArray[i] = {};
@@ -37624,7 +37757,7 @@ var require_serializer = __commonJS({
       const additionalProperties = mapper.type.additionalProperties;
       if (!additionalProperties && mapper.type.className) {
         const modelMapper = resolveReferencedMapper(serializer, mapper, objectName);
-        return modelMapper === null || modelMapper === void 0 ? void 0 : modelMapper.type.additionalProperties;
+        return modelMapper?.type.additionalProperties;
       }
       return additionalProperties;
     }
@@ -37642,7 +37775,7 @@ var require_serializer = __commonJS({
         if (!modelMapper) {
           throw new Error(`mapper() cannot be null or undefined for model "${mapper.type.className}".`);
         }
-        modelProps = modelMapper === null || modelMapper === void 0 ? void 0 : modelMapper.type.modelProperties;
+        modelProps = modelMapper?.type.modelProperties;
         if (!modelProps) {
           throw new Error(`modelProperties cannot be null or undefined in the mapper "${JSON.stringify(modelMapper)}" of type "${mapper.type.className}" for object "${objectName}".`);
         }
@@ -37683,7 +37816,10 @@ var require_serializer = __commonJS({
           if (parentObject !== void 0 && parentObject !== null) {
             if (isXml && mapper.xmlNamespace) {
               const xmlnsKey = mapper.xmlNamespacePrefix ? `xmlns:${mapper.xmlNamespacePrefix}` : "xmlns";
-              parentObject[interfaces_js_1.XML_ATTRKEY] = Object.assign(Object.assign({}, parentObject[interfaces_js_1.XML_ATTRKEY]), { [xmlnsKey]: mapper.xmlNamespace });
+              parentObject[interfaces_js_1.XML_ATTRKEY] = {
+                ...parentObject[interfaces_js_1.XML_ATTRKEY],
+                [xmlnsKey]: mapper.xmlNamespace
+              };
             }
             const propertyObjectName = propertyMapper.serializedName !== "" ? objectName + "." + propertyMapper.serializedName : objectName;
             let toSerialize = object[key];
@@ -37729,7 +37865,7 @@ var require_serializer = __commonJS({
         if (serializedValue[interfaces_js_1.XML_ATTRKEY]) {
           return serializedValue;
         } else {
-          const result2 = Object.assign({}, serializedValue);
+          const result2 = { ...serializedValue };
           result2[interfaces_js_1.XML_ATTRKEY] = xmlNamespace;
           return result2;
         }
@@ -37743,8 +37879,7 @@ var require_serializer = __commonJS({
       return [interfaces_js_1.XML_ATTRKEY, options2.xml.xmlCharKey].includes(propertyName);
     }
     function deserializeCompositeType(serializer, mapper, responseBody, objectName, options2) {
-      var _a, _b;
-      const xmlCharKey = (_a = options2.xml.xmlCharKey) !== null && _a !== void 0 ? _a : interfaces_js_1.XML_CHARKEY;
+      const xmlCharKey = options2.xml.xmlCharKey ?? interfaces_js_1.XML_CHARKEY;
       if (getPolymorphicDiscriminatorRecursively(serializer, mapper)) {
         mapper = getPolymorphicMapper(serializer, mapper, responseBody, "serializedName");
       }
@@ -37783,7 +37918,7 @@ var require_serializer = __commonJS({
             const propertyName = xmlElementName || xmlName || serializedName;
             if (propertyMapper.xmlIsWrapped) {
               const wrapped = responseBody[xmlName];
-              const elementList = (_b = wrapped === null || wrapped === void 0 ? void 0 : wrapped[xmlElementName]) !== null && _b !== void 0 ? _b : [];
+              const elementList = wrapped?.[xmlElementName] ?? [];
               instance[key] = serializer.deserialize(propertyMapper, elementList, propertyObjectName, options2);
               handledPropertyNames.push(xmlName);
             } else {
@@ -37866,7 +38001,6 @@ var require_serializer = __commonJS({
       return responseBody;
     }
     function deserializeSequenceType(serializer, mapper, responseBody, objectName, options2) {
-      var _a;
       let element = mapper.type.element;
       if (!element || typeof element !== "object") {
         throw new Error(`element" metadata for an Array must be defined in the mapper and it must of type "object" in ${objectName}`);
@@ -37876,7 +38010,7 @@ var require_serializer = __commonJS({
           responseBody = [responseBody];
         }
         if (element.type.name === "Composite" && element.type.className) {
-          element = (_a = serializer.modelMappers[element.type.className]) !== null && _a !== void 0 ? _a : element;
+          element = serializer.modelMappers[element.type.className] ?? element;
         }
         const tempArray = [];
         for (let i = 0; i < responseBody.length; i++) {
@@ -37904,7 +38038,6 @@ var require_serializer = __commonJS({
       return void 0;
     }
     function getPolymorphicMapper(serializer, mapper, object, polymorphicPropertyName) {
-      var _a;
       const polymorphicDiscriminator = getPolymorphicDiscriminatorRecursively(serializer, mapper);
       if (polymorphicDiscriminator) {
         let discriminatorName = polymorphicDiscriminator[polymorphicPropertyName];
@@ -37913,7 +38046,7 @@ var require_serializer = __commonJS({
             discriminatorName = discriminatorName.replace(/\\/gi, "");
           }
           const discriminatorValue = object[discriminatorName];
-          const typeName = (_a = mapper.type.uberParent) !== null && _a !== void 0 ? _a : mapper.type.className;
+          const typeName = mapper.type.uberParent ?? mapper.type.className;
           if (typeof discriminatorValue === "string" && typeName) {
             const polymorphicMapper = getIndexDiscriminator(serializer.modelMappers.discriminators, discriminatorValue, typeName);
             if (polymorphicMapper) {
@@ -37951,9 +38084,9 @@ var require_serializer = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-client@1.10.0/node_modules/@azure/core-client/dist/commonjs/state.js
+// node_modules/.pnpm/@azure+core-client@1.10.1/node_modules/@azure/core-client/dist/commonjs/state.js
 var require_state2 = __commonJS({
-  "node_modules/.pnpm/@azure+core-client@1.10.0/node_modules/@azure/core-client/dist/commonjs/state.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-client@1.10.1/node_modules/@azure/core-client/dist/commonjs/state.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.state = void 0;
@@ -37963,9 +38096,9 @@ var require_state2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-client@1.10.0/node_modules/@azure/core-client/dist/commonjs/operationHelpers.js
+// node_modules/.pnpm/@azure+core-client@1.10.1/node_modules/@azure/core-client/dist/commonjs/operationHelpers.js
 var require_operationHelpers = __commonJS({
-  "node_modules/.pnpm/@azure+core-client@1.10.0/node_modules/@azure/core-client/dist/commonjs/operationHelpers.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-client@1.10.1/node_modules/@azure/core-client/dist/commonjs/operationHelpers.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getOperationArgumentValueFromParameter = getOperationArgumentValueFromParameter;
@@ -38050,9 +38183,9 @@ var require_operationHelpers = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-client@1.10.0/node_modules/@azure/core-client/dist/commonjs/deserializationPolicy.js
+// node_modules/.pnpm/@azure+core-client@1.10.1/node_modules/@azure/core-client/dist/commonjs/deserializationPolicy.js
 var require_deserializationPolicy = __commonJS({
-  "node_modules/.pnpm/@azure+core-client@1.10.0/node_modules/@azure/core-client/dist/commonjs/deserializationPolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-client@1.10.1/node_modules/@azure/core-client/dist/commonjs/deserializationPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.deserializationPolicyName = void 0;
@@ -38065,16 +38198,15 @@ var require_deserializationPolicy = __commonJS({
     var defaultXmlContentTypes = ["application/xml", "application/atom+xml"];
     exports2.deserializationPolicyName = "deserializationPolicy";
     function deserializationPolicy(options2 = {}) {
-      var _a, _b, _c, _d, _e, _f, _g;
-      const jsonContentTypes = (_b = (_a = options2.expectedContentTypes) === null || _a === void 0 ? void 0 : _a.json) !== null && _b !== void 0 ? _b : defaultJsonContentTypes;
-      const xmlContentTypes = (_d = (_c = options2.expectedContentTypes) === null || _c === void 0 ? void 0 : _c.xml) !== null && _d !== void 0 ? _d : defaultXmlContentTypes;
+      const jsonContentTypes = options2.expectedContentTypes?.json ?? defaultJsonContentTypes;
+      const xmlContentTypes = options2.expectedContentTypes?.xml ?? defaultXmlContentTypes;
       const parseXML = options2.parseXML;
       const serializerOptions = options2.serializerOptions;
       const updatedOptions = {
         xml: {
-          rootName: (_e = serializerOptions === null || serializerOptions === void 0 ? void 0 : serializerOptions.xml.rootName) !== null && _e !== void 0 ? _e : "",
-          includeRoot: (_f = serializerOptions === null || serializerOptions === void 0 ? void 0 : serializerOptions.xml.includeRoot) !== null && _f !== void 0 ? _f : false,
-          xmlCharKey: (_g = serializerOptions === null || serializerOptions === void 0 ? void 0 : serializerOptions.xml.xmlCharKey) !== null && _g !== void 0 ? _g : interfaces_js_1.XML_CHARKEY
+          rootName: serializerOptions?.xml.rootName ?? "",
+          includeRoot: serializerOptions?.xml.includeRoot ?? false,
+          xmlCharKey: serializerOptions?.xml.xmlCharKey ?? interfaces_js_1.XML_CHARKEY
         }
       };
       return {
@@ -38089,12 +38221,12 @@ var require_deserializationPolicy = __commonJS({
       let result;
       const request = parsedResponse.request;
       const operationInfo = (0, operationHelpers_js_1.getOperationRequestInfo)(request);
-      const operationSpec = operationInfo === null || operationInfo === void 0 ? void 0 : operationInfo.operationSpec;
+      const operationSpec = operationInfo?.operationSpec;
       if (operationSpec) {
-        if (!(operationInfo === null || operationInfo === void 0 ? void 0 : operationInfo.operationResponseGetter)) {
+        if (!operationInfo?.operationResponseGetter) {
           result = operationSpec.responses[parsedResponse.status];
         } else {
-          result = operationInfo === null || operationInfo === void 0 ? void 0 : operationInfo.operationResponseGetter(operationSpec, parsedResponse);
+          result = operationInfo?.operationResponseGetter(operationSpec, parsedResponse);
         }
       }
       return result;
@@ -38102,7 +38234,7 @@ var require_deserializationPolicy = __commonJS({
     function shouldDeserializeResponse(parsedResponse) {
       const request = parsedResponse.request;
       const operationInfo = (0, operationHelpers_js_1.getOperationRequestInfo)(request);
-      const shouldDeserialize = operationInfo === null || operationInfo === void 0 ? void 0 : operationInfo.shouldDeserialize;
+      const shouldDeserialize = operationInfo?.shouldDeserialize;
       let result;
       if (shouldDeserialize === void 0) {
         result = true;
@@ -38119,7 +38251,7 @@ var require_deserializationPolicy = __commonJS({
         return parsedResponse;
       }
       const operationInfo = (0, operationHelpers_js_1.getOperationRequestInfo)(parsedResponse.request);
-      const operationSpec = operationInfo === null || operationInfo === void 0 ? void 0 : operationInfo.operationSpec;
+      const operationSpec = operationInfo?.operationSpec;
       if (!operationSpec || !operationSpec.responses) {
         return parsedResponse;
       }
@@ -38160,7 +38292,6 @@ var require_deserializationPolicy = __commonJS({
       return expectedStatusCodes.length === 0 || expectedStatusCodes.length === 1 && expectedStatusCodes[0] === "default";
     }
     function handleErrorResponse(parsedResponse, operationSpec, responseSpec, options2) {
-      var _a, _b, _c, _d, _e;
       const isSuccessByStatus = 200 <= parsedResponse.status && parsedResponse.status < 300;
       const isExpectedStatusCode = isOperationSpecEmpty(operationSpec) ? isSuccessByStatus : !!responseSpec;
       if (isExpectedStatusCode) {
@@ -38172,18 +38303,18 @@ var require_deserializationPolicy = __commonJS({
           return { error: null, shouldReturnResponse: false };
         }
       }
-      const errorResponseSpec = responseSpec !== null && responseSpec !== void 0 ? responseSpec : operationSpec.responses.default;
-      const initialErrorMessage = ((_a = parsedResponse.request.streamResponseStatusCodes) === null || _a === void 0 ? void 0 : _a.has(parsedResponse.status)) ? `Unexpected status code: ${parsedResponse.status}` : parsedResponse.bodyAsText;
+      const errorResponseSpec = responseSpec ?? operationSpec.responses.default;
+      const initialErrorMessage = parsedResponse.request.streamResponseStatusCodes?.has(parsedResponse.status) ? `Unexpected status code: ${parsedResponse.status}` : parsedResponse.bodyAsText;
       const error3 = new core_rest_pipeline_1.RestError(initialErrorMessage, {
         statusCode: parsedResponse.status,
         request: parsedResponse.request,
         response: parsedResponse
       });
-      if (!errorResponseSpec && !(((_c = (_b = parsedResponse.parsedBody) === null || _b === void 0 ? void 0 : _b.error) === null || _c === void 0 ? void 0 : _c.code) && ((_e = (_d = parsedResponse.parsedBody) === null || _d === void 0 ? void 0 : _d.error) === null || _e === void 0 ? void 0 : _e.message))) {
+      if (!errorResponseSpec && !(parsedResponse.parsedBody?.error?.code && parsedResponse.parsedBody?.error?.message)) {
         throw error3;
       }
-      const defaultBodyMapper = errorResponseSpec === null || errorResponseSpec === void 0 ? void 0 : errorResponseSpec.bodyMapper;
-      const defaultHeadersMapper = errorResponseSpec === null || errorResponseSpec === void 0 ? void 0 : errorResponseSpec.headersMapper;
+      const defaultBodyMapper = errorResponseSpec?.bodyMapper;
+      const defaultHeadersMapper = errorResponseSpec?.headersMapper;
       try {
         if (parsedResponse.parsedBody) {
           const parsedBody = parsedResponse.parsedBody;
@@ -38217,8 +38348,7 @@ var require_deserializationPolicy = __commonJS({
       return { error: error3, shouldReturnResponse: false };
     }
     async function parse4(jsonContentTypes, xmlContentTypes, operationResponse, opts, parseXML) {
-      var _a;
-      if (!((_a = operationResponse.request.streamResponseStatusCodes) === null || _a === void 0 ? void 0 : _a.has(operationResponse.status)) && operationResponse.bodyAsText) {
+      if (!operationResponse.request.streamResponseStatusCodes?.has(operationResponse.status) && operationResponse.bodyAsText) {
         const text = operationResponse.bodyAsText;
         const contentType = operationResponse.headers.get("Content-Type") || "";
         const contentComponents = !contentType ? [] : contentType.split(";").map((component) => component.toLowerCase());
@@ -38251,9 +38381,9 @@ var require_deserializationPolicy = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-client@1.10.0/node_modules/@azure/core-client/dist/commonjs/interfaceHelpers.js
+// node_modules/.pnpm/@azure+core-client@1.10.1/node_modules/@azure/core-client/dist/commonjs/interfaceHelpers.js
 var require_interfaceHelpers = __commonJS({
-  "node_modules/.pnpm/@azure+core-client@1.10.0/node_modules/@azure/core-client/dist/commonjs/interfaceHelpers.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-client@1.10.1/node_modules/@azure/core-client/dist/commonjs/interfaceHelpers.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getStreamingResponseStatusCodes = getStreamingResponseStatusCodes;
@@ -38284,9 +38414,9 @@ var require_interfaceHelpers = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-client@1.10.0/node_modules/@azure/core-client/dist/commonjs/serializationPolicy.js
+// node_modules/.pnpm/@azure+core-client@1.10.1/node_modules/@azure/core-client/dist/commonjs/serializationPolicy.js
 var require_serializationPolicy = __commonJS({
-  "node_modules/.pnpm/@azure+core-client@1.10.0/node_modules/@azure/core-client/dist/commonjs/serializationPolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-client@1.10.1/node_modules/@azure/core-client/dist/commonjs/serializationPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.serializationPolicyName = void 0;
@@ -38304,8 +38434,8 @@ var require_serializationPolicy = __commonJS({
         name: exports2.serializationPolicyName,
         async sendRequest(request, next) {
           const operationInfo = (0, operationHelpers_js_1.getOperationRequestInfo)(request);
-          const operationSpec = operationInfo === null || operationInfo === void 0 ? void 0 : operationInfo.operationSpec;
-          const operationArguments = operationInfo === null || operationInfo === void 0 ? void 0 : operationInfo.operationArguments;
+          const operationSpec = operationInfo?.operationSpec;
+          const operationArguments = operationInfo?.operationArguments;
           if (operationSpec && operationArguments) {
             serializeHeaders(request, operationArguments, operationSpec);
             serializeRequestBody(request, operationArguments, operationSpec, stringifyXML);
@@ -38315,7 +38445,6 @@ var require_serializationPolicy = __commonJS({
       };
     }
     function serializeHeaders(request, operationArguments, operationSpec) {
-      var _a, _b;
       if (operationSpec.headerParameters) {
         for (const headerParameter of operationSpec.headerParameters) {
           let headerValue = (0, operationHelpers_js_1.getOperationArgumentValueFromParameter)(operationArguments, headerParameter);
@@ -38332,7 +38461,7 @@ var require_serializationPolicy = __commonJS({
           }
         }
       }
-      const customHeaders = (_b = (_a = operationArguments.options) === null || _a === void 0 ? void 0 : _a.requestOptions) === null || _b === void 0 ? void 0 : _b.customHeaders;
+      const customHeaders = operationArguments.options?.requestOptions?.customHeaders;
       if (customHeaders) {
         for (const customHeaderName of Object.keys(customHeaders)) {
           request.headers.set(customHeaderName, customHeaders[customHeaderName]);
@@ -38342,13 +38471,12 @@ var require_serializationPolicy = __commonJS({
     function serializeRequestBody(request, operationArguments, operationSpec, stringifyXML = function() {
       throw new Error("XML serialization unsupported!");
     }) {
-      var _a, _b, _c, _d, _e;
-      const serializerOptions = (_a = operationArguments.options) === null || _a === void 0 ? void 0 : _a.serializerOptions;
+      const serializerOptions = operationArguments.options?.serializerOptions;
       const updatedOptions = {
         xml: {
-          rootName: (_b = serializerOptions === null || serializerOptions === void 0 ? void 0 : serializerOptions.xml.rootName) !== null && _b !== void 0 ? _b : "",
-          includeRoot: (_c = serializerOptions === null || serializerOptions === void 0 ? void 0 : serializerOptions.xml.includeRoot) !== null && _c !== void 0 ? _c : false,
-          xmlCharKey: (_d = serializerOptions === null || serializerOptions === void 0 ? void 0 : serializerOptions.xml.xmlCharKey) !== null && _d !== void 0 ? _d : interfaces_js_1.XML_CHARKEY
+          rootName: serializerOptions?.xml.rootName ?? "",
+          includeRoot: serializerOptions?.xml.includeRoot ?? false,
+          xmlCharKey: serializerOptions?.xml.xmlCharKey ?? interfaces_js_1.XML_CHARKEY
         }
       };
       const xmlCharKey = updatedOptions.xml.xmlCharKey;
@@ -38373,7 +38501,7 @@ var require_serializationPolicy = __commonJS({
                   xmlCharKey
                 });
               }
-            } else if (typeName === serializer_js_1.MapperTypeNames.String && (((_e = operationSpec.contentType) === null || _e === void 0 ? void 0 : _e.match("text/plain")) || operationSpec.mediaType === "text")) {
+            } else if (typeName === serializer_js_1.MapperTypeNames.String && (operationSpec.contentType?.match("text/plain") || operationSpec.mediaType === "text")) {
               return;
             } else if (!isStream) {
               request.body = JSON.stringify(request.body);
@@ -38416,9 +38544,9 @@ var require_serializationPolicy = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-client@1.10.0/node_modules/@azure/core-client/dist/commonjs/pipeline.js
+// node_modules/.pnpm/@azure+core-client@1.10.1/node_modules/@azure/core-client/dist/commonjs/pipeline.js
 var require_pipeline3 = __commonJS({
-  "node_modules/.pnpm/@azure+core-client@1.10.0/node_modules/@azure/core-client/dist/commonjs/pipeline.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-client@1.10.1/node_modules/@azure/core-client/dist/commonjs/pipeline.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createClientPipeline = createClientPipeline;
@@ -38426,7 +38554,7 @@ var require_pipeline3 = __commonJS({
     var core_rest_pipeline_1 = require_commonjs6();
     var serializationPolicy_js_1 = require_serializationPolicy();
     function createClientPipeline(options2 = {}) {
-      const pipeline = (0, core_rest_pipeline_1.createPipelineFromOptions)(options2 !== null && options2 !== void 0 ? options2 : {});
+      const pipeline = (0, core_rest_pipeline_1.createPipelineFromOptions)(options2 ?? {});
       if (options2.credentialOptions) {
         pipeline.addPolicy((0, core_rest_pipeline_1.bearerTokenAuthenticationPolicy)({
           credential: options2.credentialOptions.credential,
@@ -38442,9 +38570,9 @@ var require_pipeline3 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-client@1.10.0/node_modules/@azure/core-client/dist/commonjs/httpClientCache.js
+// node_modules/.pnpm/@azure+core-client@1.10.1/node_modules/@azure/core-client/dist/commonjs/httpClientCache.js
 var require_httpClientCache = __commonJS({
-  "node_modules/.pnpm/@azure+core-client@1.10.0/node_modules/@azure/core-client/dist/commonjs/httpClientCache.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-client@1.10.1/node_modules/@azure/core-client/dist/commonjs/httpClientCache.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getCachedDefaultHttpClient = getCachedDefaultHttpClient;
@@ -38459,9 +38587,9 @@ var require_httpClientCache = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-client@1.10.0/node_modules/@azure/core-client/dist/commonjs/urlHelpers.js
+// node_modules/.pnpm/@azure+core-client@1.10.1/node_modules/@azure/core-client/dist/commonjs/urlHelpers.js
 var require_urlHelpers2 = __commonJS({
-  "node_modules/.pnpm/@azure+core-client@1.10.0/node_modules/@azure/core-client/dist/commonjs/urlHelpers.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-client@1.10.1/node_modules/@azure/core-client/dist/commonjs/urlHelpers.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getRequestUrl = getRequestUrl;
@@ -38503,9 +38631,8 @@ var require_urlHelpers2 = __commonJS({
       return result;
     }
     function calculateUrlReplacements(operationSpec, operationArguments, fallbackObject) {
-      var _a;
       const result = /* @__PURE__ */ new Map();
-      if ((_a = operationSpec.urlParameters) === null || _a === void 0 ? void 0 : _a.length) {
+      if (operationSpec.urlParameters?.length) {
         for (const urlParameter of operationSpec.urlParameters) {
           let urlParameterValue = (0, operationHelpers_js_1.getOperationArgumentValueFromParameter)(operationArguments, urlParameter, fallbackObject);
           const parameterPathString = (0, interfaceHelpers_js_1.getPathStringFromParameter)(urlParameter);
@@ -38548,10 +38675,9 @@ var require_urlHelpers2 = __commonJS({
       return parsedUrl.toString();
     }
     function calculateQueryParameters(operationSpec, operationArguments, fallbackObject) {
-      var _a;
       const result = /* @__PURE__ */ new Map();
       const sequenceParams = /* @__PURE__ */ new Set();
-      if ((_a = operationSpec.queryParameters) === null || _a === void 0 ? void 0 : _a.length) {
+      if (operationSpec.queryParameters?.length) {
         for (const queryParameter of operationSpec.queryParameters) {
           if (queryParameter.mapper.type.name === "Sequence" && queryParameter.mapper.serializedName) {
             sequenceParams.add(queryParameter.mapper.serializedName);
@@ -38663,9 +38789,9 @@ var require_urlHelpers2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-client@1.10.0/node_modules/@azure/core-client/dist/commonjs/log.js
+// node_modules/.pnpm/@azure+core-client@1.10.1/node_modules/@azure/core-client/dist/commonjs/log.js
 var require_log5 = __commonJS({
-  "node_modules/.pnpm/@azure+core-client@1.10.0/node_modules/@azure/core-client/dist/commonjs/log.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-client@1.10.1/node_modules/@azure/core-client/dist/commonjs/log.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.logger = void 0;
@@ -38674,9 +38800,9 @@ var require_log5 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-client@1.10.0/node_modules/@azure/core-client/dist/commonjs/serviceClient.js
+// node_modules/.pnpm/@azure+core-client@1.10.1/node_modules/@azure/core-client/dist/commonjs/serviceClient.js
 var require_serviceClient = __commonJS({
-  "node_modules/.pnpm/@azure+core-client@1.10.0/node_modules/@azure/core-client/dist/commonjs/serviceClient.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-client@1.10.1/node_modules/@azure/core-client/dist/commonjs/serviceClient.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.ServiceClient = void 0;
@@ -38694,16 +38820,37 @@ var require_serviceClient = __commonJS({
        * @param options - The service client options that govern the behavior of the client.
        */
       constructor(options2 = {}) {
-        var _a, _b;
+        /**
+         * If specified, this is the base URI that requests will be made against for this ServiceClient.
+         * If it is not specified, then all OperationSpecs must contain a baseUrl property.
+         */
+        __publicField(this, "_endpoint");
+        /**
+         * The default request content type for the service.
+         * Used if no requestContentType is present on an OperationSpec.
+         */
+        __publicField(this, "_requestContentType");
+        /**
+         * Set to true if the request is sent over HTTP instead of HTTPS
+         */
+        __publicField(this, "_allowInsecureConnection");
+        /**
+         * The HTTP client that will be used to send requests.
+         */
+        __publicField(this, "_httpClient");
+        /**
+         * The pipeline used by this client to make requests
+         */
+        __publicField(this, "pipeline");
         this._requestContentType = options2.requestContentType;
-        this._endpoint = (_a = options2.endpoint) !== null && _a !== void 0 ? _a : options2.baseUri;
+        this._endpoint = options2.endpoint ?? options2.baseUri;
         if (options2.baseUri) {
           log_js_1.logger.warning("The baseUri option for SDK Clients has been deprecated, please use endpoint instead.");
         }
         this._allowInsecureConnection = options2.allowInsecureConnection;
         this._httpClient = options2.httpClient || (0, httpClientCache_js_1.getCachedDefaultHttpClient)();
         this.pipeline = options2.pipeline || createDefaultPipeline(options2);
-        if ((_b = options2.additionalPolicies) === null || _b === void 0 ? void 0 : _b.length) {
+        if (options2.additionalPolicies?.length) {
           for (const { policy, position } of options2.additionalPolicies) {
             const afterPhase = position === "perRetry" ? "Sign" : void 0;
             this.pipeline.addPolicy(policy, {
@@ -38777,16 +38924,16 @@ var require_serviceClient = __commonJS({
         try {
           const rawResponse = await this.sendRequest(request);
           const flatResponse = (0, utils_js_1.flattenResponse)(rawResponse, operationSpec.responses[rawResponse.status]);
-          if (options2 === null || options2 === void 0 ? void 0 : options2.onResponse) {
+          if (options2?.onResponse) {
             options2.onResponse(rawResponse, flatResponse);
           }
           return flatResponse;
         } catch (error3) {
-          if (typeof error3 === "object" && (error3 === null || error3 === void 0 ? void 0 : error3.response)) {
+          if (typeof error3 === "object" && error3?.response) {
             const rawResponse = error3.response;
             const flatResponse = (0, utils_js_1.flattenResponse)(rawResponse, operationSpec.responses[error3.statusCode] || operationSpec.responses["default"]);
             error3.details = flatResponse;
-            if (options2 === null || options2 === void 0 ? void 0 : options2.onResponse) {
+            if (options2?.onResponse) {
               options2.onResponse(rawResponse, flatResponse, error3);
             }
           }
@@ -38798,7 +38945,10 @@ var require_serviceClient = __commonJS({
     function createDefaultPipeline(options2) {
       const credentialScopes = getCredentialScopes(options2);
       const credentialOptions = options2.credential && credentialScopes ? { credentialScopes, credential: options2.credential } : void 0;
-      return (0, pipeline_js_1.createClientPipeline)(Object.assign(Object.assign({}, options2), { credentialOptions }));
+      return (0, pipeline_js_1.createClientPipeline)({
+        ...options2,
+        credentialOptions
+      });
     }
     function getCredentialScopes(options2) {
       if (options2.credentialScopes) {
@@ -38818,9 +38968,9 @@ var require_serviceClient = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-client@1.10.0/node_modules/@azure/core-client/dist/commonjs/authorizeRequestOnClaimChallenge.js
+// node_modules/.pnpm/@azure+core-client@1.10.1/node_modules/@azure/core-client/dist/commonjs/authorizeRequestOnClaimChallenge.js
 var require_authorizeRequestOnClaimChallenge = __commonJS({
-  "node_modules/.pnpm/@azure+core-client@1.10.0/node_modules/@azure/core-client/dist/commonjs/authorizeRequestOnClaimChallenge.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-client@1.10.1/node_modules/@azure/core-client/dist/commonjs/authorizeRequestOnClaimChallenge.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.parseCAEChallenge = parseCAEChallenge;
@@ -38832,11 +38982,10 @@ var require_authorizeRequestOnClaimChallenge = __commonJS({
       return bearerChallenges.map((challenge) => {
         const challengeParts = `${challenge.trim()}, `.split('", ').filter((x) => x);
         const keyValuePairs = challengeParts.map((keyValue) => (([key, value]) => ({ [key]: value }))(keyValue.trim().split('="')));
-        return keyValuePairs.reduce((a, b) => Object.assign(Object.assign({}, a), b), {});
+        return keyValuePairs.reduce((a, b) => ({ ...a, ...b }), {});
       });
     }
     async function authorizeRequestOnClaimChallenge(onChallengeOptions) {
-      var _a;
       const { scopes, response } = onChallengeOptions;
       const logger = onChallengeOptions.logger || log_js_1.logger;
       const challenge = response.headers.get("WWW-Authenticate");
@@ -38856,15 +39005,15 @@ var require_authorizeRequestOnClaimChallenge = __commonJS({
       if (!accessToken) {
         return false;
       }
-      onChallengeOptions.request.headers.set("Authorization", `${(_a = accessToken.tokenType) !== null && _a !== void 0 ? _a : "Bearer"} ${accessToken.token}`);
+      onChallengeOptions.request.headers.set("Authorization", `${accessToken.tokenType ?? "Bearer"} ${accessToken.token}`);
       return true;
     }
   }
 });
 
-// node_modules/.pnpm/@azure+core-client@1.10.0/node_modules/@azure/core-client/dist/commonjs/authorizeRequestOnTenantChallenge.js
+// node_modules/.pnpm/@azure+core-client@1.10.1/node_modules/@azure/core-client/dist/commonjs/authorizeRequestOnTenantChallenge.js
 var require_authorizeRequestOnTenantChallenge = __commonJS({
-  "node_modules/.pnpm/@azure+core-client@1.10.0/node_modules/@azure/core-client/dist/commonjs/authorizeRequestOnTenantChallenge.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-client@1.10.1/node_modules/@azure/core-client/dist/commonjs/authorizeRequestOnTenantChallenge.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.authorizeRequestOnTenantChallenge = void 0;
@@ -38884,7 +39033,6 @@ var require_authorizeRequestOnTenantChallenge = __commonJS({
       return /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/.test(text);
     }
     var authorizeRequestOnTenantChallenge = async (challengeOptions) => {
-      var _a;
       const requestOptions = requestToOptions(challengeOptions.request);
       const challenge = getChallenge(challengeOptions.response);
       if (challenge) {
@@ -38894,11 +39042,14 @@ var require_authorizeRequestOnTenantChallenge = __commonJS({
         if (!tenantId) {
           return false;
         }
-        const accessToken = await challengeOptions.getAccessToken(challengeScopes, Object.assign(Object.assign({}, requestOptions), { tenantId }));
+        const accessToken = await challengeOptions.getAccessToken(challengeScopes, {
+          ...requestOptions,
+          tenantId
+        });
         if (!accessToken) {
           return false;
         }
-        challengeOptions.request.headers.set(Constants.HeaderConstants.AUTHORIZATION, `${(_a = accessToken.tokenType) !== null && _a !== void 0 ? _a : "Bearer"} ${accessToken.token}`);
+        challengeOptions.request.headers.set(Constants.HeaderConstants.AUTHORIZATION, `${accessToken.tokenType ?? "Bearer"} ${accessToken.token}`);
         return true;
       }
       return false;
@@ -38936,7 +39087,7 @@ var require_authorizeRequestOnTenantChallenge = __commonJS({
       const bearerChallenge = challenge.slice("Bearer ".length);
       const challengeParts = `${bearerChallenge.trim()} `.split(" ").filter((x) => x);
       const keyValuePairs = challengeParts.map((keyValue) => (([key, value]) => ({ [key]: value }))(keyValue.trim().split("=")));
-      return keyValuePairs.reduce((a, b) => Object.assign(Object.assign({}, a), b), {});
+      return keyValuePairs.reduce((a, b) => ({ ...a, ...b }), {});
     }
     function requestToOptions(request) {
       return {
@@ -38950,9 +39101,9 @@ var require_authorizeRequestOnTenantChallenge = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-client@1.10.0/node_modules/@azure/core-client/dist/commonjs/index.js
+// node_modules/.pnpm/@azure+core-client@1.10.1/node_modules/@azure/core-client/dist/commonjs/index.js
 var require_commonjs8 = __commonJS({
-  "node_modules/.pnpm/@azure+core-client@1.10.0/node_modules/@azure/core-client/dist/commonjs/index.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-client@1.10.1/node_modules/@azure/core-client/dist/commonjs/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.authorizeRequestOnTenantChallenge = exports2.authorizeRequestOnClaimChallenge = exports2.serializationPolicyName = exports2.serializationPolicy = exports2.deserializationPolicyName = exports2.deserializationPolicy = exports2.XML_CHARKEY = exports2.XML_ATTRKEY = exports2.createClientPipeline = exports2.ServiceClient = exports2.MapperTypeNames = exports2.createSerializer = void 0;
@@ -39003,9 +39154,9 @@ var require_commonjs8 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-http-compat@2.3.0/node_modules/@azure/core-http-compat/dist/commonjs/util.js
+// node_modules/.pnpm/@azure+core-http-compat@2.3.1/node_modules/@azure/core-http-compat/dist/commonjs/util.js
 var require_util9 = __commonJS({
-  "node_modules/.pnpm/@azure+core-http-compat@2.3.0/node_modules/@azure/core-http-compat/dist/commonjs/util.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-http-compat@2.3.1/node_modules/@azure/core-http-compat/dist/commonjs/util.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.HttpHeaders = void 0;
@@ -39048,8 +39199,7 @@ var require_util9 = __commonJS({
       }
     }
     function toWebResourceLike(request, options2) {
-      var _a;
-      const originalRequest = (_a = options2 === null || options2 === void 0 ? void 0 : options2.originalRequest) !== null && _a !== void 0 ? _a : request;
+      const originalRequest = options2?.originalRequest ?? request;
       const webResource = {
         url: request.url,
         method: request.method,
@@ -39076,7 +39226,7 @@ var require_util9 = __commonJS({
         validateRequestProperties() {
         }
       };
-      if (options2 === null || options2 === void 0 ? void 0 : options2.createProxy) {
+      if (options2?.createProxy) {
         return new Proxy(webResource, {
           get(target, prop, receiver) {
             if (prop === originalRequestSymbol) {
@@ -39129,6 +39279,7 @@ var require_util9 = __commonJS({
     }
     var HttpHeaders = class _HttpHeaders {
       constructor(rawHeaders) {
+        __publicField(this, "_headersMap");
         this._headersMap = {};
         if (rawHeaders) {
           for (const headerName in rawHeaders) {
@@ -39251,9 +39402,9 @@ var require_util9 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-http-compat@2.3.0/node_modules/@azure/core-http-compat/dist/commonjs/response.js
+// node_modules/.pnpm/@azure+core-http-compat@2.3.1/node_modules/@azure/core-http-compat/dist/commonjs/response.js
 var require_response2 = __commonJS({
-  "node_modules/.pnpm/@azure+core-http-compat@2.3.0/node_modules/@azure/core-http-compat/dist/commonjs/response.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-http-compat@2.3.1/node_modules/@azure/core-http-compat/dist/commonjs/response.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.toCompatResponse = toCompatResponse;
@@ -39264,7 +39415,7 @@ var require_response2 = __commonJS({
     function toCompatResponse(response, options2) {
       let request = (0, util_js_1.toWebResourceLike)(response.request);
       let headers = (0, util_js_1.toHttpHeadersLike)(response.headers);
-      if (options2 === null || options2 === void 0 ? void 0 : options2.createProxy) {
+      if (options2?.createProxy) {
         return new Proxy(response, {
           get(target, prop, receiver) {
             if (prop === "headers") {
@@ -39286,10 +39437,11 @@ var require_response2 = __commonJS({
           }
         });
       } else {
-        return Object.assign(Object.assign({}, response), {
+        return {
+          ...response,
           request,
           headers
-        });
+        };
       }
     }
     function toPipelineResponse(compatResponse) {
@@ -39300,15 +39452,19 @@ var require_response2 = __commonJS({
         response.headers = headers;
         return response;
       } else {
-        return Object.assign(Object.assign({}, compatResponse), { headers, request: (0, util_js_1.toPipelineRequest)(compatResponse.request) });
+        return {
+          ...compatResponse,
+          headers,
+          request: (0, util_js_1.toPipelineRequest)(compatResponse.request)
+        };
       }
     }
   }
 });
 
-// node_modules/.pnpm/@azure+core-http-compat@2.3.0/node_modules/@azure/core-http-compat/dist/commonjs/extendedClient.js
+// node_modules/.pnpm/@azure+core-http-compat@2.3.1/node_modules/@azure/core-http-compat/dist/commonjs/extendedClient.js
 var require_extendedClient = __commonJS({
-  "node_modules/.pnpm/@azure+core-http-compat@2.3.0/node_modules/@azure/core-http-compat/dist/commonjs/extendedClient.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-http-compat@2.3.1/node_modules/@azure/core-http-compat/dist/commonjs/extendedClient.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.ExtendedServiceClient = void 0;
@@ -39318,12 +39474,11 @@ var require_extendedClient = __commonJS({
     var response_js_1 = require_response2();
     var ExtendedServiceClient = class extends core_client_1.ServiceClient {
       constructor(options2) {
-        var _a, _b;
         super(options2);
-        if (((_a = options2.keepAliveOptions) === null || _a === void 0 ? void 0 : _a.enable) === false && !(0, disableKeepAlivePolicy_js_1.pipelineContainsDisableKeepAlivePolicy)(this.pipeline)) {
+        if (options2.keepAliveOptions?.enable === false && !(0, disableKeepAlivePolicy_js_1.pipelineContainsDisableKeepAlivePolicy)(this.pipeline)) {
           this.pipeline.addPolicy((0, disableKeepAlivePolicy_js_1.createDisableKeepAlivePolicy)());
         }
-        if (((_b = options2.redirectOptions) === null || _b === void 0 ? void 0 : _b.handleRedirects) === false) {
+        if (options2.redirectOptions?.handleRedirects === false) {
           this.pipeline.removePolicy({
             name: core_rest_pipeline_1.redirectPolicyName
           });
@@ -39337,8 +39492,7 @@ var require_extendedClient = __commonJS({
        * @returns
        */
       async sendOperationRequest(operationArguments, operationSpec) {
-        var _a;
-        const userProvidedCallBack = (_a = operationArguments === null || operationArguments === void 0 ? void 0 : operationArguments.options) === null || _a === void 0 ? void 0 : _a.onResponse;
+        const userProvidedCallBack = operationArguments?.options?.onResponse;
         let lastResponse;
         function onResponse(rawResponse, flatResponse, error3) {
           lastResponse = rawResponse;
@@ -39346,7 +39500,10 @@ var require_extendedClient = __commonJS({
             userProvidedCallBack(rawResponse, flatResponse, error3);
           }
         }
-        operationArguments.options = Object.assign(Object.assign({}, operationArguments.options), { onResponse });
+        operationArguments.options = {
+          ...operationArguments.options,
+          onResponse
+        };
         const result = await super.sendOperationRequest(operationArguments, operationSpec);
         if (lastResponse) {
           Object.defineProperty(result, "_response", {
@@ -39360,9 +39517,9 @@ var require_extendedClient = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-http-compat@2.3.0/node_modules/@azure/core-http-compat/dist/commonjs/policies/requestPolicyFactoryPolicy.js
+// node_modules/.pnpm/@azure+core-http-compat@2.3.1/node_modules/@azure/core-http-compat/dist/commonjs/policies/requestPolicyFactoryPolicy.js
 var require_requestPolicyFactoryPolicy = __commonJS({
-  "node_modules/.pnpm/@azure+core-http-compat@2.3.0/node_modules/@azure/core-http-compat/dist/commonjs/policies/requestPolicyFactoryPolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-http-compat@2.3.1/node_modules/@azure/core-http-compat/dist/commonjs/policies/requestPolicyFactoryPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.requestPolicyFactoryPolicyName = exports2.HttpPipelineLogLevel = void 0;
@@ -39407,9 +39564,9 @@ var require_requestPolicyFactoryPolicy = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-http-compat@2.3.0/node_modules/@azure/core-http-compat/dist/commonjs/httpClientAdapter.js
+// node_modules/.pnpm/@azure+core-http-compat@2.3.1/node_modules/@azure/core-http-compat/dist/commonjs/httpClientAdapter.js
 var require_httpClientAdapter = __commonJS({
-  "node_modules/.pnpm/@azure+core-http-compat@2.3.0/node_modules/@azure/core-http-compat/dist/commonjs/httpClientAdapter.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-http-compat@2.3.1/node_modules/@azure/core-http-compat/dist/commonjs/httpClientAdapter.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.convertHttpClient = convertHttpClient;
@@ -39426,9 +39583,9 @@ var require_httpClientAdapter = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+core-http-compat@2.3.0/node_modules/@azure/core-http-compat/dist/commonjs/index.js
+// node_modules/.pnpm/@azure+core-http-compat@2.3.1/node_modules/@azure/core-http-compat/dist/commonjs/index.js
 var require_commonjs9 = __commonJS({
-  "node_modules/.pnpm/@azure+core-http-compat@2.3.0/node_modules/@azure/core-http-compat/dist/commonjs/index.js"(exports2) {
+  "node_modules/.pnpm/@azure+core-http-compat@2.3.1/node_modules/@azure/core-http-compat/dist/commonjs/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.toHttpHeadersLike = exports2.convertHttpClient = exports2.disableKeepAlivePolicyName = exports2.HttpPipelineLogLevel = exports2.createRequestPolicyFactoryPolicy = exports2.requestPolicyFactoryPolicyName = exports2.ExtendedServiceClient = void 0;
@@ -39461,9 +39618,9 @@ var require_commonjs9 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@5.2.5/node_modules/fast-xml-parser/lib/fxp.cjs
+// node_modules/.pnpm/fast-xml-parser@5.3.0/node_modules/fast-xml-parser/lib/fxp.cjs
 var require_fxp = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@5.2.5/node_modules/fast-xml-parser/lib/fxp.cjs"(exports2, module2) {
+  "node_modules/.pnpm/fast-xml-parser@5.3.0/node_modules/fast-xml-parser/lib/fxp.cjs"(exports2, module2) {
     "use strict";
     (() => {
       "use strict";
@@ -39472,27 +39629,27 @@ var require_fxp = __commonJS({
       }, o: (t2, e2) => Object.prototype.hasOwnProperty.call(t2, e2), r: (t2) => {
         "undefined" != typeof Symbol && Symbol.toStringTag && Object.defineProperty(t2, Symbol.toStringTag, { value: "Module" }), Object.defineProperty(t2, "__esModule", { value: true });
       } }, e = {};
-      t.r(e), t.d(e, { XMLBuilder: () => ft, XMLParser: () => st, XMLValidator: () => mt });
+      t.r(e), t.d(e, { XMLBuilder: () => lt, XMLParser: () => tt, XMLValidator: () => pt });
       const n = ":A-Za-z_\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD", i = new RegExp("^[" + n + "][" + n + "\\-.\\d\\u00B7\\u0300-\\u036F\\u203F-\\u2040]*$");
-      function s(t2, e2) {
+      function r(t2, e2) {
         const n2 = [];
         let i2 = e2.exec(t2);
         for (; i2; ) {
-          const s2 = [];
-          s2.startIndex = e2.lastIndex - i2[0].length;
-          const r2 = i2.length;
-          for (let t3 = 0; t3 < r2; t3++) s2.push(i2[t3]);
-          n2.push(s2), i2 = e2.exec(t2);
+          const r2 = [];
+          r2.startIndex = e2.lastIndex - i2[0].length;
+          const s2 = i2.length;
+          for (let t3 = 0; t3 < s2; t3++) r2.push(i2[t3]);
+          n2.push(r2), i2 = e2.exec(t2);
         }
         return n2;
       }
-      const r = function(t2) {
+      const s = function(t2) {
         return !(null == i.exec(t2));
       }, o = { allowBooleanAttributes: false, unpairedTags: [] };
       function a(t2, e2) {
         e2 = Object.assign({}, o, e2);
         const n2 = [];
-        let i2 = false, s2 = false;
+        let i2 = false, r2 = false;
         "\uFEFF" === t2[0] && (t2 = t2.substr(1));
         for (let o2 = 0; o2 < t2.length; o2++) if ("<" === t2[o2] && "?" === t2[o2 + 1]) {
           if (o2 += 2, o2 = u(t2, o2), o2.err) return o2;
@@ -39510,38 +39667,38 @@ var require_fxp = __commonJS({
             {
               let d2 = false;
               "/" === t2[o2] && (d2 = true, o2++);
-              let f2 = "";
-              for (; o2 < t2.length && ">" !== t2[o2] && " " !== t2[o2] && "	" !== t2[o2] && "\n" !== t2[o2] && "\r" !== t2[o2]; o2++) f2 += t2[o2];
-              if (f2 = f2.trim(), "/" === f2[f2.length - 1] && (f2 = f2.substring(0, f2.length - 1), o2--), !r(f2)) {
+              let p2 = "";
+              for (; o2 < t2.length && ">" !== t2[o2] && " " !== t2[o2] && "	" !== t2[o2] && "\n" !== t2[o2] && "\r" !== t2[o2]; o2++) p2 += t2[o2];
+              if (p2 = p2.trim(), "/" === p2[p2.length - 1] && (p2 = p2.substring(0, p2.length - 1), o2--), !s(p2)) {
                 let e3;
-                return e3 = 0 === f2.trim().length ? "Invalid space after '<'." : "Tag '" + f2 + "' is an invalid name.", x("InvalidTag", e3, N(t2, o2));
+                return e3 = 0 === p2.trim().length ? "Invalid space after '<'." : "Tag '" + p2 + "' is an invalid name.", x("InvalidTag", e3, N(t2, o2));
               }
-              const p2 = c(t2, o2);
-              if (false === p2) return x("InvalidAttr", "Attributes for '" + f2 + "' have open quote.", N(t2, o2));
-              let b2 = p2.value;
-              if (o2 = p2.index, "/" === b2[b2.length - 1]) {
+              const c2 = f(t2, o2);
+              if (false === c2) return x("InvalidAttr", "Attributes for '" + p2 + "' have open quote.", N(t2, o2));
+              let b2 = c2.value;
+              if (o2 = c2.index, "/" === b2[b2.length - 1]) {
                 const n3 = o2 - b2.length;
                 b2 = b2.substring(0, b2.length - 1);
-                const s3 = g(b2, e2);
-                if (true !== s3) return x(s3.err.code, s3.err.msg, N(t2, n3 + s3.err.line));
+                const r3 = g(b2, e2);
+                if (true !== r3) return x(r3.err.code, r3.err.msg, N(t2, n3 + r3.err.line));
                 i2 = true;
               } else if (d2) {
-                if (!p2.tagClosed) return x("InvalidTag", "Closing tag '" + f2 + "' doesn't have proper closing.", N(t2, o2));
-                if (b2.trim().length > 0) return x("InvalidTag", "Closing tag '" + f2 + "' can't have attributes or invalid starting.", N(t2, a2));
-                if (0 === n2.length) return x("InvalidTag", "Closing tag '" + f2 + "' has not been opened.", N(t2, a2));
+                if (!c2.tagClosed) return x("InvalidTag", "Closing tag '" + p2 + "' doesn't have proper closing.", N(t2, o2));
+                if (b2.trim().length > 0) return x("InvalidTag", "Closing tag '" + p2 + "' can't have attributes or invalid starting.", N(t2, a2));
+                if (0 === n2.length) return x("InvalidTag", "Closing tag '" + p2 + "' has not been opened.", N(t2, a2));
                 {
                   const e3 = n2.pop();
-                  if (f2 !== e3.tagName) {
+                  if (p2 !== e3.tagName) {
                     let n3 = N(t2, e3.tagStartPos);
-                    return x("InvalidTag", "Expected closing tag '" + e3.tagName + "' (opened in line " + n3.line + ", col " + n3.col + ") instead of closing tag '" + f2 + "'.", N(t2, a2));
+                    return x("InvalidTag", "Expected closing tag '" + e3.tagName + "' (opened in line " + n3.line + ", col " + n3.col + ") instead of closing tag '" + p2 + "'.", N(t2, a2));
                   }
-                  0 == n2.length && (s2 = true);
+                  0 == n2.length && (r2 = true);
                 }
               } else {
-                const r2 = g(b2, e2);
-                if (true !== r2) return x(r2.err.code, r2.err.msg, N(t2, o2 - b2.length + r2.err.line));
-                if (true === s2) return x("InvalidXml", "Multiple possible root nodes found.", N(t2, o2));
-                -1 !== e2.unpairedTags.indexOf(f2) || n2.push({ tagName: f2, tagStartPos: a2 }), i2 = true;
+                const s2 = g(b2, e2);
+                if (true !== s2) return x(s2.err.code, s2.err.msg, N(t2, o2 - b2.length + s2.err.line));
+                if (true === r2) return x("InvalidXml", "Multiple possible root nodes found.", N(t2, o2));
+                -1 !== e2.unpairedTags.indexOf(p2) || n2.push({ tagName: p2, tagStartPos: a2 }), i2 = true;
               }
               for (o2++; o2 < t2.length; o2++) if ("<" === t2[o2]) {
                 if ("!" === t2[o2 + 1]) {
@@ -39554,7 +39711,7 @@ var require_fxp = __commonJS({
                 const e3 = m(t2, o2);
                 if (-1 == e3) return x("InvalidChar", "char '&' is not expected.", N(t2, o2));
                 o2 = e3;
-              } else if (true === s2 && !l(t2[o2])) return x("InvalidXml", "Extra text at the end", N(t2, o2));
+              } else if (true === r2 && !l(t2[o2])) return x("InvalidXml", "Extra text at the end", N(t2, o2));
               "<" === t2[o2] && o2--;
             }
           }
@@ -39595,30 +39752,30 @@ var require_fxp = __commonJS({
         }
         return e2;
       }
-      const d = '"', f = "'";
-      function c(t2, e2) {
-        let n2 = "", i2 = "", s2 = false;
+      const d = '"', p = "'";
+      function f(t2, e2) {
+        let n2 = "", i2 = "", r2 = false;
         for (; e2 < t2.length; e2++) {
-          if (t2[e2] === d || t2[e2] === f) "" === i2 ? i2 = t2[e2] : i2 !== t2[e2] || (i2 = "");
+          if (t2[e2] === d || t2[e2] === p) "" === i2 ? i2 = t2[e2] : i2 !== t2[e2] || (i2 = "");
           else if (">" === t2[e2] && "" === i2) {
-            s2 = true;
+            r2 = true;
             break;
           }
           n2 += t2[e2];
         }
-        return "" === i2 && { value: n2, index: e2, tagClosed: s2 };
+        return "" === i2 && { value: n2, index: e2, tagClosed: r2 };
       }
-      const p = new RegExp(`(\\s*)([^\\s=]+)(\\s*=)?(\\s*(['"])(([\\s\\S])*?)\\5)?`, "g");
+      const c = new RegExp(`(\\s*)([^\\s=]+)(\\s*=)?(\\s*(['"])(([\\s\\S])*?)\\5)?`, "g");
       function g(t2, e2) {
-        const n2 = s(t2, p), i2 = {};
+        const n2 = r(t2, c), i2 = {};
         for (let t3 = 0; t3 < n2.length; t3++) {
           if (0 === n2[t3][1].length) return x("InvalidAttr", "Attribute '" + n2[t3][2] + "' has no space in starting.", E(n2[t3]));
           if (void 0 !== n2[t3][3] && void 0 === n2[t3][4]) return x("InvalidAttr", "Attribute '" + n2[t3][2] + "' is without value.", E(n2[t3]));
           if (void 0 === n2[t3][3] && !e2.allowBooleanAttributes) return x("InvalidAttr", "boolean attribute '" + n2[t3][2] + "' is not allowed.", E(n2[t3]));
-          const s2 = n2[t3][2];
-          if (!b(s2)) return x("InvalidAttr", "Attribute '" + s2 + "' is an invalid name.", E(n2[t3]));
-          if (i2.hasOwnProperty(s2)) return x("InvalidAttr", "Attribute '" + s2 + "' is repeated.", E(n2[t3]));
-          i2[s2] = 1;
+          const r2 = n2[t3][2];
+          if (!b(r2)) return x("InvalidAttr", "Attribute '" + r2 + "' is an invalid name.", E(n2[t3]));
+          if (i2.hasOwnProperty(r2)) return x("InvalidAttr", "Attribute '" + r2 + "' is repeated.", E(n2[t3]));
+          i2[r2] = 1;
         }
         return true;
       }
@@ -39643,7 +39800,7 @@ var require_fxp = __commonJS({
         return { err: { code: t2, msg: e2, line: n2.line || n2, col: n2.col } };
       }
       function b(t2) {
-        return r(t2);
+        return s(t2);
       }
       function N(t2, e2) {
         const n2 = t2.substring(0, e2).split(/\r?\n/);
@@ -39659,9 +39816,9 @@ var require_fxp = __commonJS({
       }, stopNodes: [], alwaysCreateTextNode: false, isArray: () => false, commentPropName: false, unpairedTags: [], processEntities: true, htmlEntities: false, ignoreDeclaration: false, ignorePiTags: false, transformTagName: false, transformAttributeName: false, updateTag: function(t2, e2, n2) {
         return t2;
       }, captureMetaData: false };
-      let y;
-      y = "function" != typeof Symbol ? "@@xmlMetadata" : Symbol("XML Node Metadata");
-      class T {
+      let T;
+      T = "function" != typeof Symbol ? "@@xmlMetadata" : Symbol("XML Node Metadata");
+      class y {
         constructor(t2) {
           this.tagname = t2, this.child = [], this[":@"] = {};
         }
@@ -39669,104 +39826,141 @@ var require_fxp = __commonJS({
           "__proto__" === t2 && (t2 = "#__proto__"), this.child.push({ [t2]: e2 });
         }
         addChild(t2, e2) {
-          "__proto__" === t2.tagname && (t2.tagname = "#__proto__"), t2[":@"] && Object.keys(t2[":@"]).length > 0 ? this.child.push({ [t2.tagname]: t2.child, ":@": t2[":@"] }) : this.child.push({ [t2.tagname]: t2.child }), void 0 !== e2 && (this.child[this.child.length - 1][y] = { startIndex: e2 });
+          "__proto__" === t2.tagname && (t2.tagname = "#__proto__"), t2[":@"] && Object.keys(t2[":@"]).length > 0 ? this.child.push({ [t2.tagname]: t2.child, ":@": t2[":@"] }) : this.child.push({ [t2.tagname]: t2.child }), void 0 !== e2 && (this.child[this.child.length - 1][T] = { startIndex: e2 });
         }
         static getMetaDataSymbol() {
-          return y;
+          return T;
         }
       }
-      function w(t2, e2) {
-        const n2 = {};
-        if ("O" !== t2[e2 + 3] || "C" !== t2[e2 + 4] || "T" !== t2[e2 + 5] || "Y" !== t2[e2 + 6] || "P" !== t2[e2 + 7] || "E" !== t2[e2 + 8]) throw new Error("Invalid Tag instead of DOCTYPE");
-        {
-          e2 += 9;
-          let i2 = 1, s2 = false, r2 = false, o2 = "";
-          for (; e2 < t2.length; e2++) if ("<" !== t2[e2] || r2) if (">" === t2[e2]) {
-            if (r2 ? "-" === t2[e2 - 1] && "-" === t2[e2 - 2] && (r2 = false, i2--) : i2--, 0 === i2) break;
-          } else "[" === t2[e2] ? s2 = true : o2 += t2[e2];
-          else {
-            if (s2 && C(t2, "!ENTITY", e2)) {
-              let i3, s3;
-              e2 += 7, [i3, s3, e2] = O(t2, e2 + 1), -1 === s3.indexOf("&") && (n2[i3] = { regx: RegExp(`&${i3};`, "g"), val: s3 });
-            } else if (s2 && C(t2, "!ELEMENT", e2)) {
-              e2 += 8;
-              const { index: n3 } = S(t2, e2 + 1);
-              e2 = n3;
-            } else if (s2 && C(t2, "!ATTLIST", e2)) e2 += 8;
-            else if (s2 && C(t2, "!NOTATION", e2)) {
-              e2 += 9;
-              const { index: n3 } = A(t2, e2 + 1);
-              e2 = n3;
-            } else {
-              if (!C(t2, "!--", e2)) throw new Error("Invalid DOCTYPE");
-              r2 = true;
+      class w {
+        constructor(t2) {
+          this.suppressValidationErr = !t2;
+        }
+        readDocType(t2, e2) {
+          const n2 = {};
+          if ("O" !== t2[e2 + 3] || "C" !== t2[e2 + 4] || "T" !== t2[e2 + 5] || "Y" !== t2[e2 + 6] || "P" !== t2[e2 + 7] || "E" !== t2[e2 + 8]) throw new Error("Invalid Tag instead of DOCTYPE");
+          {
+            e2 += 9;
+            let i2 = 1, r2 = false, s2 = false, o2 = "";
+            for (; e2 < t2.length; e2++) if ("<" !== t2[e2] || s2) if (">" === t2[e2]) {
+              if (s2 ? "-" === t2[e2 - 1] && "-" === t2[e2 - 2] && (s2 = false, i2--) : i2--, 0 === i2) break;
+            } else "[" === t2[e2] ? r2 = true : o2 += t2[e2];
+            else {
+              if (r2 && P(t2, "!ENTITY", e2)) {
+                let i3, r3;
+                e2 += 7, [i3, r3, e2] = this.readEntityExp(t2, e2 + 1, this.suppressValidationErr), -1 === r3.indexOf("&") && (n2[i3] = { regx: RegExp(`&${i3};`, "g"), val: r3 });
+              } else if (r2 && P(t2, "!ELEMENT", e2)) {
+                e2 += 8;
+                const { index: n3 } = this.readElementExp(t2, e2 + 1);
+                e2 = n3;
+              } else if (r2 && P(t2, "!ATTLIST", e2)) e2 += 8;
+              else if (r2 && P(t2, "!NOTATION", e2)) {
+                e2 += 9;
+                const { index: n3 } = this.readNotationExp(t2, e2 + 1, this.suppressValidationErr);
+                e2 = n3;
+              } else {
+                if (!P(t2, "!--", e2)) throw new Error("Invalid DOCTYPE");
+                s2 = true;
+              }
+              i2++, o2 = "";
             }
-            i2++, o2 = "";
+            if (0 !== i2) throw new Error("Unclosed DOCTYPE");
           }
-          if (0 !== i2) throw new Error("Unclosed DOCTYPE");
+          return { entities: n2, i: e2 };
         }
-        return { entities: n2, i: e2 };
+        readEntityExp(t2, e2) {
+          e2 = I(t2, e2);
+          let n2 = "";
+          for (; e2 < t2.length && !/\s/.test(t2[e2]) && '"' !== t2[e2] && "'" !== t2[e2]; ) n2 += t2[e2], e2++;
+          if (O(n2), e2 = I(t2, e2), !this.suppressValidationErr) {
+            if ("SYSTEM" === t2.substring(e2, e2 + 6).toUpperCase()) throw new Error("External entities are not supported");
+            if ("%" === t2[e2]) throw new Error("Parameter entities are not supported");
+          }
+          let i2 = "";
+          return [e2, i2] = this.readIdentifierVal(t2, e2, "entity"), [n2, i2, --e2];
+        }
+        readNotationExp(t2, e2) {
+          e2 = I(t2, e2);
+          let n2 = "";
+          for (; e2 < t2.length && !/\s/.test(t2[e2]); ) n2 += t2[e2], e2++;
+          !this.suppressValidationErr && O(n2), e2 = I(t2, e2);
+          const i2 = t2.substring(e2, e2 + 6).toUpperCase();
+          if (!this.suppressValidationErr && "SYSTEM" !== i2 && "PUBLIC" !== i2) throw new Error(`Expected SYSTEM or PUBLIC, found "${i2}"`);
+          e2 += i2.length, e2 = I(t2, e2);
+          let r2 = null, s2 = null;
+          if ("PUBLIC" === i2) [e2, r2] = this.readIdentifierVal(t2, e2, "publicIdentifier"), '"' !== t2[e2 = I(t2, e2)] && "'" !== t2[e2] || ([e2, s2] = this.readIdentifierVal(t2, e2, "systemIdentifier"));
+          else if ("SYSTEM" === i2 && ([e2, s2] = this.readIdentifierVal(t2, e2, "systemIdentifier"), !this.suppressValidationErr && !s2)) throw new Error("Missing mandatory system identifier for SYSTEM notation");
+          return { notationName: n2, publicIdentifier: r2, systemIdentifier: s2, index: --e2 };
+        }
+        readIdentifierVal(t2, e2, n2) {
+          let i2 = "";
+          const r2 = t2[e2];
+          if ('"' !== r2 && "'" !== r2) throw new Error(`Expected quoted string, found "${r2}"`);
+          for (e2++; e2 < t2.length && t2[e2] !== r2; ) i2 += t2[e2], e2++;
+          if (t2[e2] !== r2) throw new Error(`Unterminated ${n2} value`);
+          return [++e2, i2];
+        }
+        readElementExp(t2, e2) {
+          e2 = I(t2, e2);
+          let n2 = "";
+          for (; e2 < t2.length && !/\s/.test(t2[e2]); ) n2 += t2[e2], e2++;
+          if (!this.suppressValidationErr && !s(n2)) throw new Error(`Invalid element name: "${n2}"`);
+          let i2 = "";
+          if ("E" === t2[e2 = I(t2, e2)] && P(t2, "MPTY", e2)) e2 += 4;
+          else if ("A" === t2[e2] && P(t2, "NY", e2)) e2 += 2;
+          else if ("(" === t2[e2]) {
+            for (e2++; e2 < t2.length && ")" !== t2[e2]; ) i2 += t2[e2], e2++;
+            if (")" !== t2[e2]) throw new Error("Unterminated content model");
+          } else if (!this.suppressValidationErr) throw new Error(`Invalid Element Expression, found "${t2[e2]}"`);
+          return { elementName: n2, contentModel: i2.trim(), index: e2 };
+        }
+        readAttlistExp(t2, e2) {
+          e2 = I(t2, e2);
+          let n2 = "";
+          for (; e2 < t2.length && !/\s/.test(t2[e2]); ) n2 += t2[e2], e2++;
+          O(n2), e2 = I(t2, e2);
+          let i2 = "";
+          for (; e2 < t2.length && !/\s/.test(t2[e2]); ) i2 += t2[e2], e2++;
+          if (!O(i2)) throw new Error(`Invalid attribute name: "${i2}"`);
+          e2 = I(t2, e2);
+          let r2 = "";
+          if ("NOTATION" === t2.substring(e2, e2 + 8).toUpperCase()) {
+            if (r2 = "NOTATION", "(" !== t2[e2 = I(t2, e2 += 8)]) throw new Error(`Expected '(', found "${t2[e2]}"`);
+            e2++;
+            let n3 = [];
+            for (; e2 < t2.length && ")" !== t2[e2]; ) {
+              let i3 = "";
+              for (; e2 < t2.length && "|" !== t2[e2] && ")" !== t2[e2]; ) i3 += t2[e2], e2++;
+              if (i3 = i3.trim(), !O(i3)) throw new Error(`Invalid notation name: "${i3}"`);
+              n3.push(i3), "|" === t2[e2] && (e2++, e2 = I(t2, e2));
+            }
+            if (")" !== t2[e2]) throw new Error("Unterminated list of notations");
+            e2++, r2 += " (" + n3.join("|") + ")";
+          } else {
+            for (; e2 < t2.length && !/\s/.test(t2[e2]); ) r2 += t2[e2], e2++;
+            const n3 = ["CDATA", "ID", "IDREF", "IDREFS", "ENTITY", "ENTITIES", "NMTOKEN", "NMTOKENS"];
+            if (!this.suppressValidationErr && !n3.includes(r2.toUpperCase())) throw new Error(`Invalid attribute type: "${r2}"`);
+          }
+          e2 = I(t2, e2);
+          let s2 = "";
+          return "#REQUIRED" === t2.substring(e2, e2 + 8).toUpperCase() ? (s2 = "#REQUIRED", e2 += 8) : "#IMPLIED" === t2.substring(e2, e2 + 7).toUpperCase() ? (s2 = "#IMPLIED", e2 += 7) : [e2, s2] = this.readIdentifierVal(t2, e2, "ATTLIST"), { elementName: n2, attributeName: i2, attributeType: r2, defaultValue: s2, index: e2 };
+        }
       }
-      const P = (t2, e2) => {
+      const I = (t2, e2) => {
         for (; e2 < t2.length && /\s/.test(t2[e2]); ) e2++;
         return e2;
       };
-      function O(t2, e2) {
-        e2 = P(t2, e2);
-        let n2 = "";
-        for (; e2 < t2.length && !/\s/.test(t2[e2]) && '"' !== t2[e2] && "'" !== t2[e2]; ) n2 += t2[e2], e2++;
-        if ($(n2), e2 = P(t2, e2), "SYSTEM" === t2.substring(e2, e2 + 6).toUpperCase()) throw new Error("External entities are not supported");
-        if ("%" === t2[e2]) throw new Error("Parameter entities are not supported");
-        let i2 = "";
-        return [e2, i2] = I(t2, e2, "entity"), [n2, i2, --e2];
-      }
-      function A(t2, e2) {
-        e2 = P(t2, e2);
-        let n2 = "";
-        for (; e2 < t2.length && !/\s/.test(t2[e2]); ) n2 += t2[e2], e2++;
-        $(n2), e2 = P(t2, e2);
-        const i2 = t2.substring(e2, e2 + 6).toUpperCase();
-        if ("SYSTEM" !== i2 && "PUBLIC" !== i2) throw new Error(`Expected SYSTEM or PUBLIC, found "${i2}"`);
-        e2 += i2.length, e2 = P(t2, e2);
-        let s2 = null, r2 = null;
-        if ("PUBLIC" === i2) [e2, s2] = I(t2, e2, "publicIdentifier"), '"' !== t2[e2 = P(t2, e2)] && "'" !== t2[e2] || ([e2, r2] = I(t2, e2, "systemIdentifier"));
-        else if ("SYSTEM" === i2 && ([e2, r2] = I(t2, e2, "systemIdentifier"), !r2)) throw new Error("Missing mandatory system identifier for SYSTEM notation");
-        return { notationName: n2, publicIdentifier: s2, systemIdentifier: r2, index: --e2 };
-      }
-      function I(t2, e2, n2) {
-        let i2 = "";
-        const s2 = t2[e2];
-        if ('"' !== s2 && "'" !== s2) throw new Error(`Expected quoted string, found "${s2}"`);
-        for (e2++; e2 < t2.length && t2[e2] !== s2; ) i2 += t2[e2], e2++;
-        if (t2[e2] !== s2) throw new Error(`Unterminated ${n2} value`);
-        return [++e2, i2];
-      }
-      function S(t2, e2) {
-        e2 = P(t2, e2);
-        let n2 = "";
-        for (; e2 < t2.length && !/\s/.test(t2[e2]); ) n2 += t2[e2], e2++;
-        if (!$(n2)) throw new Error(`Invalid element name: "${n2}"`);
-        let i2 = "";
-        if ("E" === t2[e2 = P(t2, e2)] && C(t2, "MPTY", e2)) e2 += 4;
-        else if ("A" === t2[e2] && C(t2, "NY", e2)) e2 += 2;
-        else {
-          if ("(" !== t2[e2]) throw new Error(`Invalid Element Expression, found "${t2[e2]}"`);
-          for (e2++; e2 < t2.length && ")" !== t2[e2]; ) i2 += t2[e2], e2++;
-          if (")" !== t2[e2]) throw new Error("Unterminated content model");
-        }
-        return { elementName: n2, contentModel: i2.trim(), index: e2 };
-      }
-      function C(t2, e2, n2) {
+      function P(t2, e2, n2) {
         for (let i2 = 0; i2 < e2.length; i2++) if (e2[i2] !== t2[n2 + i2 + 1]) return false;
         return true;
       }
-      function $(t2) {
-        if (r(t2)) return t2;
+      function O(t2) {
+        if (s(t2)) return t2;
         throw new Error(`Invalid entity name ${t2}`);
       }
-      const j = /^[-+]?0x[a-fA-F0-9]+$/, D = /^([\-\+])?(0*)([0-9]*(\.[0-9]*)?)$/, V = { hex: true, leadingZeros: true, decimalPoint: ".", eNotation: true };
-      const M = /^([-+])?(0*)(\d*(\.\d*)?[eE][-\+]?\d+)$/;
-      function _(t2) {
+      const A = /^[-+]?0x[a-fA-F0-9]+$/, S = /^([\-\+])?(0*)([0-9]*(\.[0-9]*)?)$/, C = { hex: true, leadingZeros: true, decimalPoint: ".", eNotation: true };
+      const V = /^([-+])?(0*)(\d*(\.\d*)?[eE][-\+]?\d+)$/;
+      function $(t2) {
         return "function" == typeof t2 ? t2 : Array.isArray(t2) ? (e2) => {
           for (const n2 of t2) {
             if ("string" == typeof n2 && e2 === n2) return true;
@@ -39774,26 +39968,26 @@ var require_fxp = __commonJS({
           }
         } : () => false;
       }
-      class k {
+      class D {
         constructor(t2) {
-          this.options = t2, this.currentNode = null, this.tagsNodeStack = [], this.docTypeEntities = {}, this.lastEntities = { apos: { regex: /&(apos|#39|#x27);/g, val: "'" }, gt: { regex: /&(gt|#62|#x3E);/g, val: ">" }, lt: { regex: /&(lt|#60|#x3C);/g, val: "<" }, quot: { regex: /&(quot|#34|#x22);/g, val: '"' } }, this.ampEntity = { regex: /&(amp|#38|#x26);/g, val: "&" }, this.htmlEntities = { space: { regex: /&(nbsp|#160);/g, val: " " }, cent: { regex: /&(cent|#162);/g, val: "\xA2" }, pound: { regex: /&(pound|#163);/g, val: "\xA3" }, yen: { regex: /&(yen|#165);/g, val: "\xA5" }, euro: { regex: /&(euro|#8364);/g, val: "\u20AC" }, copyright: { regex: /&(copy|#169);/g, val: "\xA9" }, reg: { regex: /&(reg|#174);/g, val: "\xAE" }, inr: { regex: /&(inr|#8377);/g, val: "\u20B9" }, num_dec: { regex: /&#([0-9]{1,7});/g, val: (t3, e2) => String.fromCodePoint(Number.parseInt(e2, 10)) }, num_hex: { regex: /&#x([0-9a-fA-F]{1,6});/g, val: (t3, e2) => String.fromCodePoint(Number.parseInt(e2, 16)) } }, this.addExternalEntities = F, this.parseXml = X, this.parseTextData = L, this.resolveNameSpace = B, this.buildAttributesMap = G, this.isItStopNode = Z, this.replaceEntitiesValue = R, this.readStopNodeData = J, this.saveTextToParentTag = q, this.addChild = Y, this.ignoreAttributesFn = _(this.options.ignoreAttributes);
+          this.options = t2, this.currentNode = null, this.tagsNodeStack = [], this.docTypeEntities = {}, this.lastEntities = { apos: { regex: /&(apos|#39|#x27);/g, val: "'" }, gt: { regex: /&(gt|#62|#x3E);/g, val: ">" }, lt: { regex: /&(lt|#60|#x3C);/g, val: "<" }, quot: { regex: /&(quot|#34|#x22);/g, val: '"' } }, this.ampEntity = { regex: /&(amp|#38|#x26);/g, val: "&" }, this.htmlEntities = { space: { regex: /&(nbsp|#160);/g, val: " " }, cent: { regex: /&(cent|#162);/g, val: "\xA2" }, pound: { regex: /&(pound|#163);/g, val: "\xA3" }, yen: { regex: /&(yen|#165);/g, val: "\xA5" }, euro: { regex: /&(euro|#8364);/g, val: "\u20AC" }, copyright: { regex: /&(copy|#169);/g, val: "\xA9" }, reg: { regex: /&(reg|#174);/g, val: "\xAE" }, inr: { regex: /&(inr|#8377);/g, val: "\u20B9" }, num_dec: { regex: /&#([0-9]{1,7});/g, val: (t3, e2) => String.fromCodePoint(Number.parseInt(e2, 10)) }, num_hex: { regex: /&#x([0-9a-fA-F]{1,6});/g, val: (t3, e2) => String.fromCodePoint(Number.parseInt(e2, 16)) } }, this.addExternalEntities = j, this.parseXml = L, this.parseTextData = M, this.resolveNameSpace = F, this.buildAttributesMap = k, this.isItStopNode = Y, this.replaceEntitiesValue = B, this.readStopNodeData = q, this.saveTextToParentTag = R, this.addChild = U, this.ignoreAttributesFn = $(this.options.ignoreAttributes);
         }
       }
-      function F(t2) {
+      function j(t2) {
         const e2 = Object.keys(t2);
         for (let n2 = 0; n2 < e2.length; n2++) {
           const i2 = e2[n2];
           this.lastEntities[i2] = { regex: new RegExp("&" + i2 + ";", "g"), val: t2[i2] };
         }
       }
-      function L(t2, e2, n2, i2, s2, r2, o2) {
+      function M(t2, e2, n2, i2, r2, s2, o2) {
         if (void 0 !== t2 && (this.options.trimValues && !i2 && (t2 = t2.trim()), t2.length > 0)) {
           o2 || (t2 = this.replaceEntitiesValue(t2));
-          const i3 = this.options.tagValueProcessor(e2, t2, n2, s2, r2);
-          return null == i3 ? t2 : typeof i3 != typeof t2 || i3 !== t2 ? i3 : this.options.trimValues || t2.trim() === t2 ? H(t2, this.options.parseTagValue, this.options.numberParseOptions) : t2;
+          const i3 = this.options.tagValueProcessor(e2, t2, n2, r2, s2);
+          return null == i3 ? t2 : typeof i3 != typeof t2 || i3 !== t2 ? i3 : this.options.trimValues || t2.trim() === t2 ? Z(t2, this.options.parseTagValue, this.options.numberParseOptions) : t2;
         }
       }
-      function B(t2) {
+      function F(t2) {
         if (this.options.removeNSPrefix) {
           const e2 = t2.split(":"), n2 = "/" === t2.charAt(0) ? "/" : "";
           if ("xmlns" === e2[0]) return "";
@@ -39801,108 +39995,109 @@ var require_fxp = __commonJS({
         }
         return t2;
       }
-      const U = new RegExp(`([^\\s=]+)\\s*(=\\s*(['"])([\\s\\S]*?)\\3)?`, "gm");
-      function G(t2, e2, n2) {
+      const _ = new RegExp(`([^\\s=]+)\\s*(=\\s*(['"])([\\s\\S]*?)\\3)?`, "gm");
+      function k(t2, e2, n2) {
         if (true !== this.options.ignoreAttributes && "string" == typeof t2) {
-          const n3 = s(t2, U), i2 = n3.length, r2 = {};
+          const n3 = r(t2, _), i2 = n3.length, s2 = {};
           for (let t3 = 0; t3 < i2; t3++) {
             const i3 = this.resolveNameSpace(n3[t3][1]);
             if (this.ignoreAttributesFn(i3, e2)) continue;
-            let s2 = n3[t3][4], o2 = this.options.attributeNamePrefix + i3;
-            if (i3.length) if (this.options.transformAttributeName && (o2 = this.options.transformAttributeName(o2)), "__proto__" === o2 && (o2 = "#__proto__"), void 0 !== s2) {
-              this.options.trimValues && (s2 = s2.trim()), s2 = this.replaceEntitiesValue(s2);
-              const t4 = this.options.attributeValueProcessor(i3, s2, e2);
-              r2[o2] = null == t4 ? s2 : typeof t4 != typeof s2 || t4 !== s2 ? t4 : H(s2, this.options.parseAttributeValue, this.options.numberParseOptions);
-            } else this.options.allowBooleanAttributes && (r2[o2] = true);
+            let r2 = n3[t3][4], o2 = this.options.attributeNamePrefix + i3;
+            if (i3.length) if (this.options.transformAttributeName && (o2 = this.options.transformAttributeName(o2)), "__proto__" === o2 && (o2 = "#__proto__"), void 0 !== r2) {
+              this.options.trimValues && (r2 = r2.trim()), r2 = this.replaceEntitiesValue(r2);
+              const t4 = this.options.attributeValueProcessor(i3, r2, e2);
+              s2[o2] = null == t4 ? r2 : typeof t4 != typeof r2 || t4 !== r2 ? t4 : Z(r2, this.options.parseAttributeValue, this.options.numberParseOptions);
+            } else this.options.allowBooleanAttributes && (s2[o2] = true);
           }
-          if (!Object.keys(r2).length) return;
+          if (!Object.keys(s2).length) return;
           if (this.options.attributesGroupName) {
             const t3 = {};
-            return t3[this.options.attributesGroupName] = r2, t3;
+            return t3[this.options.attributesGroupName] = s2, t3;
           }
-          return r2;
+          return s2;
         }
       }
-      const X = function(t2) {
+      const L = function(t2) {
         t2 = t2.replace(/\r\n?/g, "\n");
-        const e2 = new T("!xml");
-        let n2 = e2, i2 = "", s2 = "";
-        for (let r2 = 0; r2 < t2.length; r2++) if ("<" === t2[r2]) if ("/" === t2[r2 + 1]) {
-          const e3 = W(t2, ">", r2, "Closing Tag is not closed.");
-          let o2 = t2.substring(r2 + 2, e3).trim();
+        const e2 = new y("!xml");
+        let n2 = e2, i2 = "", r2 = "";
+        const s2 = new w(this.options.processEntities);
+        for (let o2 = 0; o2 < t2.length; o2++) if ("<" === t2[o2]) if ("/" === t2[o2 + 1]) {
+          const e3 = G(t2, ">", o2, "Closing Tag is not closed.");
+          let s3 = t2.substring(o2 + 2, e3).trim();
           if (this.options.removeNSPrefix) {
-            const t3 = o2.indexOf(":");
-            -1 !== t3 && (o2 = o2.substr(t3 + 1));
+            const t3 = s3.indexOf(":");
+            -1 !== t3 && (s3 = s3.substr(t3 + 1));
           }
-          this.options.transformTagName && (o2 = this.options.transformTagName(o2)), n2 && (i2 = this.saveTextToParentTag(i2, n2, s2));
-          const a2 = s2.substring(s2.lastIndexOf(".") + 1);
-          if (o2 && -1 !== this.options.unpairedTags.indexOf(o2)) throw new Error(`Unpaired tag can not be used as closing tag: </${o2}>`);
+          this.options.transformTagName && (s3 = this.options.transformTagName(s3)), n2 && (i2 = this.saveTextToParentTag(i2, n2, r2));
+          const a2 = r2.substring(r2.lastIndexOf(".") + 1);
+          if (s3 && -1 !== this.options.unpairedTags.indexOf(s3)) throw new Error(`Unpaired tag can not be used as closing tag: </${s3}>`);
           let l2 = 0;
-          a2 && -1 !== this.options.unpairedTags.indexOf(a2) ? (l2 = s2.lastIndexOf(".", s2.lastIndexOf(".") - 1), this.tagsNodeStack.pop()) : l2 = s2.lastIndexOf("."), s2 = s2.substring(0, l2), n2 = this.tagsNodeStack.pop(), i2 = "", r2 = e3;
-        } else if ("?" === t2[r2 + 1]) {
-          let e3 = z(t2, r2, false, "?>");
+          a2 && -1 !== this.options.unpairedTags.indexOf(a2) ? (l2 = r2.lastIndexOf(".", r2.lastIndexOf(".") - 1), this.tagsNodeStack.pop()) : l2 = r2.lastIndexOf("."), r2 = r2.substring(0, l2), n2 = this.tagsNodeStack.pop(), i2 = "", o2 = e3;
+        } else if ("?" === t2[o2 + 1]) {
+          let e3 = X(t2, o2, false, "?>");
           if (!e3) throw new Error("Pi Tag is not closed.");
-          if (i2 = this.saveTextToParentTag(i2, n2, s2), this.options.ignoreDeclaration && "?xml" === e3.tagName || this.options.ignorePiTags) ;
+          if (i2 = this.saveTextToParentTag(i2, n2, r2), this.options.ignoreDeclaration && "?xml" === e3.tagName || this.options.ignorePiTags) ;
           else {
-            const t3 = new T(e3.tagName);
-            t3.add(this.options.textNodeName, ""), e3.tagName !== e3.tagExp && e3.attrExpPresent && (t3[":@"] = this.buildAttributesMap(e3.tagExp, s2, e3.tagName)), this.addChild(n2, t3, s2, r2);
+            const t3 = new y(e3.tagName);
+            t3.add(this.options.textNodeName, ""), e3.tagName !== e3.tagExp && e3.attrExpPresent && (t3[":@"] = this.buildAttributesMap(e3.tagExp, r2, e3.tagName)), this.addChild(n2, t3, r2, o2);
           }
-          r2 = e3.closeIndex + 1;
-        } else if ("!--" === t2.substr(r2 + 1, 3)) {
-          const e3 = W(t2, "-->", r2 + 4, "Comment is not closed.");
+          o2 = e3.closeIndex + 1;
+        } else if ("!--" === t2.substr(o2 + 1, 3)) {
+          const e3 = G(t2, "-->", o2 + 4, "Comment is not closed.");
           if (this.options.commentPropName) {
-            const o2 = t2.substring(r2 + 4, e3 - 2);
-            i2 = this.saveTextToParentTag(i2, n2, s2), n2.add(this.options.commentPropName, [{ [this.options.textNodeName]: o2 }]);
+            const s3 = t2.substring(o2 + 4, e3 - 2);
+            i2 = this.saveTextToParentTag(i2, n2, r2), n2.add(this.options.commentPropName, [{ [this.options.textNodeName]: s3 }]);
           }
-          r2 = e3;
-        } else if ("!D" === t2.substr(r2 + 1, 2)) {
-          const e3 = w(t2, r2);
-          this.docTypeEntities = e3.entities, r2 = e3.i;
-        } else if ("![" === t2.substr(r2 + 1, 2)) {
-          const e3 = W(t2, "]]>", r2, "CDATA is not closed.") - 2, o2 = t2.substring(r2 + 9, e3);
-          i2 = this.saveTextToParentTag(i2, n2, s2);
-          let a2 = this.parseTextData(o2, n2.tagname, s2, true, false, true, true);
-          null == a2 && (a2 = ""), this.options.cdataPropName ? n2.add(this.options.cdataPropName, [{ [this.options.textNodeName]: o2 }]) : n2.add(this.options.textNodeName, a2), r2 = e3 + 2;
+          o2 = e3;
+        } else if ("!D" === t2.substr(o2 + 1, 2)) {
+          const e3 = s2.readDocType(t2, o2);
+          this.docTypeEntities = e3.entities, o2 = e3.i;
+        } else if ("![" === t2.substr(o2 + 1, 2)) {
+          const e3 = G(t2, "]]>", o2, "CDATA is not closed.") - 2, s3 = t2.substring(o2 + 9, e3);
+          i2 = this.saveTextToParentTag(i2, n2, r2);
+          let a2 = this.parseTextData(s3, n2.tagname, r2, true, false, true, true);
+          null == a2 && (a2 = ""), this.options.cdataPropName ? n2.add(this.options.cdataPropName, [{ [this.options.textNodeName]: s3 }]) : n2.add(this.options.textNodeName, a2), o2 = e3 + 2;
         } else {
-          let o2 = z(t2, r2, this.options.removeNSPrefix), a2 = o2.tagName;
-          const l2 = o2.rawTagName;
-          let u2 = o2.tagExp, h2 = o2.attrExpPresent, d2 = o2.closeIndex;
-          this.options.transformTagName && (a2 = this.options.transformTagName(a2)), n2 && i2 && "!xml" !== n2.tagname && (i2 = this.saveTextToParentTag(i2, n2, s2, false));
-          const f2 = n2;
-          f2 && -1 !== this.options.unpairedTags.indexOf(f2.tagname) && (n2 = this.tagsNodeStack.pop(), s2 = s2.substring(0, s2.lastIndexOf("."))), a2 !== e2.tagname && (s2 += s2 ? "." + a2 : a2);
-          const c2 = r2;
-          if (this.isItStopNode(this.options.stopNodes, s2, a2)) {
+          let s3 = X(t2, o2, this.options.removeNSPrefix), a2 = s3.tagName;
+          const l2 = s3.rawTagName;
+          let u2 = s3.tagExp, h2 = s3.attrExpPresent, d2 = s3.closeIndex;
+          this.options.transformTagName && (a2 = this.options.transformTagName(a2)), n2 && i2 && "!xml" !== n2.tagname && (i2 = this.saveTextToParentTag(i2, n2, r2, false));
+          const p2 = n2;
+          p2 && -1 !== this.options.unpairedTags.indexOf(p2.tagname) && (n2 = this.tagsNodeStack.pop(), r2 = r2.substring(0, r2.lastIndexOf("."))), a2 !== e2.tagname && (r2 += r2 ? "." + a2 : a2);
+          const f2 = o2;
+          if (this.isItStopNode(this.options.stopNodes, r2, a2)) {
             let e3 = "";
-            if (u2.length > 0 && u2.lastIndexOf("/") === u2.length - 1) "/" === a2[a2.length - 1] ? (a2 = a2.substr(0, a2.length - 1), s2 = s2.substr(0, s2.length - 1), u2 = a2) : u2 = u2.substr(0, u2.length - 1), r2 = o2.closeIndex;
-            else if (-1 !== this.options.unpairedTags.indexOf(a2)) r2 = o2.closeIndex;
+            if (u2.length > 0 && u2.lastIndexOf("/") === u2.length - 1) "/" === a2[a2.length - 1] ? (a2 = a2.substr(0, a2.length - 1), r2 = r2.substr(0, r2.length - 1), u2 = a2) : u2 = u2.substr(0, u2.length - 1), o2 = s3.closeIndex;
+            else if (-1 !== this.options.unpairedTags.indexOf(a2)) o2 = s3.closeIndex;
             else {
               const n3 = this.readStopNodeData(t2, l2, d2 + 1);
               if (!n3) throw new Error(`Unexpected end of ${l2}`);
-              r2 = n3.i, e3 = n3.tagContent;
+              o2 = n3.i, e3 = n3.tagContent;
             }
-            const i3 = new T(a2);
-            a2 !== u2 && h2 && (i3[":@"] = this.buildAttributesMap(u2, s2, a2)), e3 && (e3 = this.parseTextData(e3, a2, s2, true, h2, true, true)), s2 = s2.substr(0, s2.lastIndexOf(".")), i3.add(this.options.textNodeName, e3), this.addChild(n2, i3, s2, c2);
+            const i3 = new y(a2);
+            a2 !== u2 && h2 && (i3[":@"] = this.buildAttributesMap(u2, r2, a2)), e3 && (e3 = this.parseTextData(e3, a2, r2, true, h2, true, true)), r2 = r2.substr(0, r2.lastIndexOf(".")), i3.add(this.options.textNodeName, e3), this.addChild(n2, i3, r2, f2);
           } else {
             if (u2.length > 0 && u2.lastIndexOf("/") === u2.length - 1) {
-              "/" === a2[a2.length - 1] ? (a2 = a2.substr(0, a2.length - 1), s2 = s2.substr(0, s2.length - 1), u2 = a2) : u2 = u2.substr(0, u2.length - 1), this.options.transformTagName && (a2 = this.options.transformTagName(a2));
-              const t3 = new T(a2);
-              a2 !== u2 && h2 && (t3[":@"] = this.buildAttributesMap(u2, s2, a2)), this.addChild(n2, t3, s2, c2), s2 = s2.substr(0, s2.lastIndexOf("."));
+              "/" === a2[a2.length - 1] ? (a2 = a2.substr(0, a2.length - 1), r2 = r2.substr(0, r2.length - 1), u2 = a2) : u2 = u2.substr(0, u2.length - 1), this.options.transformTagName && (a2 = this.options.transformTagName(a2));
+              const t3 = new y(a2);
+              a2 !== u2 && h2 && (t3[":@"] = this.buildAttributesMap(u2, r2, a2)), this.addChild(n2, t3, r2, f2), r2 = r2.substr(0, r2.lastIndexOf("."));
             } else {
-              const t3 = new T(a2);
-              this.tagsNodeStack.push(n2), a2 !== u2 && h2 && (t3[":@"] = this.buildAttributesMap(u2, s2, a2)), this.addChild(n2, t3, s2, c2), n2 = t3;
+              const t3 = new y(a2);
+              this.tagsNodeStack.push(n2), a2 !== u2 && h2 && (t3[":@"] = this.buildAttributesMap(u2, r2, a2)), this.addChild(n2, t3, r2, f2), n2 = t3;
             }
-            i2 = "", r2 = d2;
+            i2 = "", o2 = d2;
           }
         }
-        else i2 += t2[r2];
+        else i2 += t2[o2];
         return e2.child;
       };
-      function Y(t2, e2, n2, i2) {
+      function U(t2, e2, n2, i2) {
         this.options.captureMetaData || (i2 = void 0);
-        const s2 = this.options.updateTag(e2.tagname, n2, e2[":@"]);
-        false === s2 || ("string" == typeof s2 ? (e2.tagname = s2, t2.addChild(e2, i2)) : t2.addChild(e2, i2));
+        const r2 = this.options.updateTag(e2.tagname, n2, e2[":@"]);
+        false === r2 || ("string" == typeof r2 ? (e2.tagname = r2, t2.addChild(e2, i2)) : t2.addChild(e2, i2));
       }
-      const R = function(t2) {
+      const B = function(t2) {
         if (this.options.processEntities) {
           for (let e2 in this.docTypeEntities) {
             const n2 = this.docTypeEntities[e2];
@@ -39920,72 +40115,72 @@ var require_fxp = __commonJS({
         }
         return t2;
       };
-      function q(t2, e2, n2, i2) {
+      function R(t2, e2, n2, i2) {
         return t2 && (void 0 === i2 && (i2 = 0 === e2.child.length), void 0 !== (t2 = this.parseTextData(t2, e2.tagname, n2, false, !!e2[":@"] && 0 !== Object.keys(e2[":@"]).length, i2)) && "" !== t2 && e2.add(this.options.textNodeName, t2), t2 = ""), t2;
       }
-      function Z(t2, e2, n2) {
+      function Y(t2, e2, n2) {
         const i2 = "*." + n2;
         for (const n3 in t2) {
-          const s2 = t2[n3];
-          if (i2 === s2 || e2 === s2) return true;
+          const r2 = t2[n3];
+          if (i2 === r2 || e2 === r2) return true;
         }
         return false;
       }
-      function W(t2, e2, n2, i2) {
-        const s2 = t2.indexOf(e2, n2);
-        if (-1 === s2) throw new Error(i2);
-        return s2 + e2.length - 1;
+      function G(t2, e2, n2, i2) {
+        const r2 = t2.indexOf(e2, n2);
+        if (-1 === r2) throw new Error(i2);
+        return r2 + e2.length - 1;
       }
-      function z(t2, e2, n2, i2 = ">") {
-        const s2 = function(t3, e3, n3 = ">") {
-          let i3, s3 = "";
-          for (let r3 = e3; r3 < t3.length; r3++) {
-            let e4 = t3[r3];
+      function X(t2, e2, n2, i2 = ">") {
+        const r2 = function(t3, e3, n3 = ">") {
+          let i3, r3 = "";
+          for (let s3 = e3; s3 < t3.length; s3++) {
+            let e4 = t3[s3];
             if (i3) e4 === i3 && (i3 = "");
             else if ('"' === e4 || "'" === e4) i3 = e4;
             else if (e4 === n3[0]) {
-              if (!n3[1]) return { data: s3, index: r3 };
-              if (t3[r3 + 1] === n3[1]) return { data: s3, index: r3 };
+              if (!n3[1]) return { data: r3, index: s3 };
+              if (t3[s3 + 1] === n3[1]) return { data: r3, index: s3 };
             } else "	" === e4 && (e4 = " ");
-            s3 += e4;
+            r3 += e4;
           }
         }(t2, e2 + 1, i2);
-        if (!s2) return;
-        let r2 = s2.data;
-        const o2 = s2.index, a2 = r2.search(/\s/);
-        let l2 = r2, u2 = true;
-        -1 !== a2 && (l2 = r2.substring(0, a2), r2 = r2.substring(a2 + 1).trimStart());
+        if (!r2) return;
+        let s2 = r2.data;
+        const o2 = r2.index, a2 = s2.search(/\s/);
+        let l2 = s2, u2 = true;
+        -1 !== a2 && (l2 = s2.substring(0, a2), s2 = s2.substring(a2 + 1).trimStart());
         const h2 = l2;
         if (n2) {
           const t3 = l2.indexOf(":");
-          -1 !== t3 && (l2 = l2.substr(t3 + 1), u2 = l2 !== s2.data.substr(t3 + 1));
+          -1 !== t3 && (l2 = l2.substr(t3 + 1), u2 = l2 !== r2.data.substr(t3 + 1));
         }
-        return { tagName: l2, tagExp: r2, closeIndex: o2, attrExpPresent: u2, rawTagName: h2 };
+        return { tagName: l2, tagExp: s2, closeIndex: o2, attrExpPresent: u2, rawTagName: h2 };
       }
-      function J(t2, e2, n2) {
+      function q(t2, e2, n2) {
         const i2 = n2;
-        let s2 = 1;
+        let r2 = 1;
         for (; n2 < t2.length; n2++) if ("<" === t2[n2]) if ("/" === t2[n2 + 1]) {
-          const r2 = W(t2, ">", n2, `${e2} is not closed`);
-          if (t2.substring(n2 + 2, r2).trim() === e2 && (s2--, 0 === s2)) return { tagContent: t2.substring(i2, n2), i: r2 };
-          n2 = r2;
-        } else if ("?" === t2[n2 + 1]) n2 = W(t2, "?>", n2 + 1, "StopNode is not closed.");
-        else if ("!--" === t2.substr(n2 + 1, 3)) n2 = W(t2, "-->", n2 + 3, "StopNode is not closed.");
-        else if ("![" === t2.substr(n2 + 1, 2)) n2 = W(t2, "]]>", n2, "StopNode is not closed.") - 2;
+          const s2 = G(t2, ">", n2, `${e2} is not closed`);
+          if (t2.substring(n2 + 2, s2).trim() === e2 && (r2--, 0 === r2)) return { tagContent: t2.substring(i2, n2), i: s2 };
+          n2 = s2;
+        } else if ("?" === t2[n2 + 1]) n2 = G(t2, "?>", n2 + 1, "StopNode is not closed.");
+        else if ("!--" === t2.substr(n2 + 1, 3)) n2 = G(t2, "-->", n2 + 3, "StopNode is not closed.");
+        else if ("![" === t2.substr(n2 + 1, 2)) n2 = G(t2, "]]>", n2, "StopNode is not closed.") - 2;
         else {
-          const i3 = z(t2, n2, ">");
-          i3 && ((i3 && i3.tagName) === e2 && "/" !== i3.tagExp[i3.tagExp.length - 1] && s2++, n2 = i3.closeIndex);
+          const i3 = X(t2, n2, ">");
+          i3 && ((i3 && i3.tagName) === e2 && "/" !== i3.tagExp[i3.tagExp.length - 1] && r2++, n2 = i3.closeIndex);
         }
       }
-      function H(t2, e2, n2) {
+      function Z(t2, e2, n2) {
         if (e2 && "string" == typeof t2) {
           const e3 = t2.trim();
           return "true" === e3 || "false" !== e3 && function(t3, e4 = {}) {
-            if (e4 = Object.assign({}, V, e4), !t3 || "string" != typeof t3) return t3;
+            if (e4 = Object.assign({}, C, e4), !t3 || "string" != typeof t3) return t3;
             let n3 = t3.trim();
             if (void 0 !== e4.skipLike && e4.skipLike.test(n3)) return t3;
             if ("0" === t3) return 0;
-            if (e4.hex && j.test(n3)) return function(t4) {
+            if (e4.hex && A.test(n3)) return function(t4) {
               if (parseInt) return parseInt(t4, 16);
               if (Number.parseInt) return Number.parseInt(t4, 16);
               if (window && window.parseInt) return window.parseInt(t4, 16);
@@ -39993,28 +40188,28 @@ var require_fxp = __commonJS({
             }(n3);
             if (-1 !== n3.search(/.+[eE].+/)) return function(t4, e5, n4) {
               if (!n4.eNotation) return t4;
-              const i3 = e5.match(M);
+              const i3 = e5.match(V);
               if (i3) {
-                let s2 = i3[1] || "";
-                const r2 = -1 === i3[3].indexOf("e") ? "E" : "e", o2 = i3[2], a2 = s2 ? t4[o2.length + 1] === r2 : t4[o2.length] === r2;
-                return o2.length > 1 && a2 ? t4 : 1 !== o2.length || !i3[3].startsWith(`.${r2}`) && i3[3][0] !== r2 ? n4.leadingZeros && !a2 ? (e5 = (i3[1] || "") + i3[3], Number(e5)) : t4 : Number(e5);
+                let r2 = i3[1] || "";
+                const s2 = -1 === i3[3].indexOf("e") ? "E" : "e", o2 = i3[2], a2 = r2 ? t4[o2.length + 1] === s2 : t4[o2.length] === s2;
+                return o2.length > 1 && a2 ? t4 : 1 !== o2.length || !i3[3].startsWith(`.${s2}`) && i3[3][0] !== s2 ? n4.leadingZeros && !a2 ? (e5 = (i3[1] || "") + i3[3], Number(e5)) : t4 : Number(e5);
               }
               return t4;
             }(t3, n3, e4);
             {
-              const s2 = D.exec(n3);
-              if (s2) {
-                const r2 = s2[1] || "", o2 = s2[2];
-                let a2 = (i2 = s2[3]) && -1 !== i2.indexOf(".") ? ("." === (i2 = i2.replace(/0+$/, "")) ? i2 = "0" : "." === i2[0] ? i2 = "0" + i2 : "." === i2[i2.length - 1] && (i2 = i2.substring(0, i2.length - 1)), i2) : i2;
-                const l2 = r2 ? "." === t3[o2.length + 1] : "." === t3[o2.length];
+              const r2 = S.exec(n3);
+              if (r2) {
+                const s2 = r2[1] || "", o2 = r2[2];
+                let a2 = (i2 = r2[3]) && -1 !== i2.indexOf(".") ? ("." === (i2 = i2.replace(/0+$/, "")) ? i2 = "0" : "." === i2[0] ? i2 = "0" + i2 : "." === i2[i2.length - 1] && (i2 = i2.substring(0, i2.length - 1)), i2) : i2;
+                const l2 = s2 ? "." === t3[o2.length + 1] : "." === t3[o2.length];
                 if (!e4.leadingZeros && (o2.length > 1 || 1 === o2.length && !l2)) return t3;
                 {
-                  const i3 = Number(n3), s3 = String(i3);
+                  const i3 = Number(n3), r3 = String(i3);
                   if (0 === i3 || -0 === i3) return i3;
-                  if (-1 !== s3.search(/[eE]/)) return e4.eNotation ? i3 : t3;
-                  if (-1 !== n3.indexOf(".")) return "0" === s3 || s3 === a2 || s3 === `${r2}${a2}` ? i3 : t3;
+                  if (-1 !== r3.search(/[eE]/)) return e4.eNotation ? i3 : t3;
+                  if (-1 !== n3.indexOf(".")) return "0" === r3 || r3 === a2 || r3 === `${s2}${a2}` ? i3 : t3;
                   let l3 = o2 ? a2 : n3;
-                  return o2 ? l3 === s3 || r2 + l3 === s3 ? i3 : t3 : l3 === s3 || l3 === r2 + s3 ? i3 : t3;
+                  return o2 ? l3 === r3 || s2 + l3 === r3 ? i3 : t3 : l3 === r3 || l3 === s2 + r3 ? i3 : t3;
                 }
               }
               return t3;
@@ -40024,69 +40219,66 @@ var require_fxp = __commonJS({
         }
         return void 0 !== t2 ? t2 : "";
       }
-      const K = T.getMetaDataSymbol();
-      function Q(t2, e2) {
-        return tt(t2, e2);
+      const W = y.getMetaDataSymbol();
+      function K(t2, e2) {
+        return Q(t2, e2);
       }
-      function tt(t2, e2, n2) {
+      function Q(t2, e2, n2) {
         let i2;
-        const s2 = {};
-        for (let r2 = 0; r2 < t2.length; r2++) {
-          const o2 = t2[r2], a2 = et(o2);
+        const r2 = {};
+        for (let s2 = 0; s2 < t2.length; s2++) {
+          const o2 = t2[s2], a2 = z(o2);
           let l2 = "";
           if (l2 = void 0 === n2 ? a2 : n2 + "." + a2, a2 === e2.textNodeName) void 0 === i2 ? i2 = o2[a2] : i2 += "" + o2[a2];
           else {
             if (void 0 === a2) continue;
             if (o2[a2]) {
-              let t3 = tt(o2[a2], e2, l2);
-              const n3 = it(t3, e2);
-              void 0 !== o2[K] && (t3[K] = o2[K]), o2[":@"] ? nt(t3, o2[":@"], l2, e2) : 1 !== Object.keys(t3).length || void 0 === t3[e2.textNodeName] || e2.alwaysCreateTextNode ? 0 === Object.keys(t3).length && (e2.alwaysCreateTextNode ? t3[e2.textNodeName] = "" : t3 = "") : t3 = t3[e2.textNodeName], void 0 !== s2[a2] && s2.hasOwnProperty(a2) ? (Array.isArray(s2[a2]) || (s2[a2] = [s2[a2]]), s2[a2].push(t3)) : e2.isArray(a2, l2, n3) ? s2[a2] = [t3] : s2[a2] = t3;
+              let t3 = Q(o2[a2], e2, l2);
+              const n3 = H(t3, e2);
+              void 0 !== o2[W] && (t3[W] = o2[W]), o2[":@"] ? J(t3, o2[":@"], l2, e2) : 1 !== Object.keys(t3).length || void 0 === t3[e2.textNodeName] || e2.alwaysCreateTextNode ? 0 === Object.keys(t3).length && (e2.alwaysCreateTextNode ? t3[e2.textNodeName] = "" : t3 = "") : t3 = t3[e2.textNodeName], void 0 !== r2[a2] && r2.hasOwnProperty(a2) ? (Array.isArray(r2[a2]) || (r2[a2] = [r2[a2]]), r2[a2].push(t3)) : e2.isArray(a2, l2, n3) ? r2[a2] = [t3] : r2[a2] = t3;
             }
           }
         }
-        return "string" == typeof i2 ? i2.length > 0 && (s2[e2.textNodeName] = i2) : void 0 !== i2 && (s2[e2.textNodeName] = i2), s2;
+        return "string" == typeof i2 ? i2.length > 0 && (r2[e2.textNodeName] = i2) : void 0 !== i2 && (r2[e2.textNodeName] = i2), r2;
       }
-      function et(t2) {
+      function z(t2) {
         const e2 = Object.keys(t2);
         for (let t3 = 0; t3 < e2.length; t3++) {
           const n2 = e2[t3];
           if (":@" !== n2) return n2;
         }
       }
-      function nt(t2, e2, n2, i2) {
+      function J(t2, e2, n2, i2) {
         if (e2) {
-          const s2 = Object.keys(e2), r2 = s2.length;
-          for (let o2 = 0; o2 < r2; o2++) {
-            const r3 = s2[o2];
-            i2.isArray(r3, n2 + "." + r3, true, true) ? t2[r3] = [e2[r3]] : t2[r3] = e2[r3];
+          const r2 = Object.keys(e2), s2 = r2.length;
+          for (let o2 = 0; o2 < s2; o2++) {
+            const s3 = r2[o2];
+            i2.isArray(s3, n2 + "." + s3, true, true) ? t2[s3] = [e2[s3]] : t2[s3] = e2[s3];
           }
         }
       }
-      function it(t2, e2) {
+      function H(t2, e2) {
         const { textNodeName: n2 } = e2, i2 = Object.keys(t2).length;
         return 0 === i2 || !(1 !== i2 || !t2[n2] && "boolean" != typeof t2[n2] && 0 !== t2[n2]);
       }
-      class st {
+      class tt {
         constructor(t2) {
           this.externalEntities = {}, this.options = function(t3) {
             return Object.assign({}, v, t3);
           }(t2);
         }
         parse(t2, e2) {
-          if ("string" == typeof t2) ;
-          else {
-            if (!t2.toString) throw new Error("XML data is accepted in String or Bytes[] form.");
-            t2 = t2.toString();
-          }
+          if ("string" != typeof t2 && t2.toString) t2 = t2.toString();
+          else if ("string" != typeof t2) throw new Error("XML data is accepted in String or Bytes[] form.");
           if (e2) {
             true === e2 && (e2 = {});
             const n3 = a(t2, e2);
             if (true !== n3) throw Error(`${n3.err.msg}:${n3.err.line}:${n3.err.col}`);
           }
-          const n2 = new k(this.options);
+          const n2 = new D(this.options);
           n2.addExternalEntities(this.externalEntities);
           const i2 = n2.parseXml(t2);
-          return this.options.preserveOrder || void 0 === i2 ? i2 : Q(i2, this.options);
+          return this.options.preserveOrder || void 0 === i2 ? i2 : K(i2, this.options);
         }
         addEntity(t2, e2) {
           if (-1 !== e2.indexOf("&")) throw new Error("Entity value can't have '&'");
@@ -40095,159 +40287,159 @@ var require_fxp = __commonJS({
           this.externalEntities[t2] = e2;
         }
         static getMetaDataSymbol() {
-          return T.getMetaDataSymbol();
+          return y.getMetaDataSymbol();
         }
       }
-      function rt(t2, e2) {
+      function et(t2, e2) {
         let n2 = "";
-        return e2.format && e2.indentBy.length > 0 && (n2 = "\n"), ot(t2, e2, "", n2);
+        return e2.format && e2.indentBy.length > 0 && (n2 = "\n"), nt(t2, e2, "", n2);
       }
-      function ot(t2, e2, n2, i2) {
-        let s2 = "", r2 = false;
+      function nt(t2, e2, n2, i2) {
+        let r2 = "", s2 = false;
         for (let o2 = 0; o2 < t2.length; o2++) {
-          const a2 = t2[o2], l2 = at(a2);
+          const a2 = t2[o2], l2 = it(a2);
           if (void 0 === l2) continue;
           let u2 = "";
           if (u2 = 0 === n2.length ? l2 : `${n2}.${l2}`, l2 === e2.textNodeName) {
             let t3 = a2[l2];
-            ut(u2, e2) || (t3 = e2.tagValueProcessor(l2, t3), t3 = ht(t3, e2)), r2 && (s2 += i2), s2 += t3, r2 = false;
+            st(u2, e2) || (t3 = e2.tagValueProcessor(l2, t3), t3 = ot(t3, e2)), s2 && (r2 += i2), r2 += t3, s2 = false;
             continue;
           }
           if (l2 === e2.cdataPropName) {
-            r2 && (s2 += i2), s2 += `<![CDATA[${a2[l2][0][e2.textNodeName]}]]>`, r2 = false;
+            s2 && (r2 += i2), r2 += `<![CDATA[${a2[l2][0][e2.textNodeName]}]]>`, s2 = false;
             continue;
           }
           if (l2 === e2.commentPropName) {
-            s2 += i2 + `<!--${a2[l2][0][e2.textNodeName]}-->`, r2 = true;
+            r2 += i2 + `<!--${a2[l2][0][e2.textNodeName]}-->`, s2 = true;
             continue;
           }
           if ("?" === l2[0]) {
-            const t3 = lt(a2[":@"], e2), n3 = "?xml" === l2 ? "" : i2;
+            const t3 = rt(a2[":@"], e2), n3 = "?xml" === l2 ? "" : i2;
             let o3 = a2[l2][0][e2.textNodeName];
-            o3 = 0 !== o3.length ? " " + o3 : "", s2 += n3 + `<${l2}${o3}${t3}?>`, r2 = true;
+            o3 = 0 !== o3.length ? " " + o3 : "", r2 += n3 + `<${l2}${o3}${t3}?>`, s2 = true;
             continue;
           }
           let h2 = i2;
           "" !== h2 && (h2 += e2.indentBy);
-          const d2 = i2 + `<${l2}${lt(a2[":@"], e2)}`, f2 = ot(a2[l2], e2, u2, h2);
-          -1 !== e2.unpairedTags.indexOf(l2) ? e2.suppressUnpairedNode ? s2 += d2 + ">" : s2 += d2 + "/>" : f2 && 0 !== f2.length || !e2.suppressEmptyNode ? f2 && f2.endsWith(">") ? s2 += d2 + `>${f2}${i2}</${l2}>` : (s2 += d2 + ">", f2 && "" !== i2 && (f2.includes("/>") || f2.includes("</")) ? s2 += i2 + e2.indentBy + f2 + i2 : s2 += f2, s2 += `</${l2}>`) : s2 += d2 + "/>", r2 = true;
+          const d2 = i2 + `<${l2}${rt(a2[":@"], e2)}`, p2 = nt(a2[l2], e2, u2, h2);
+          -1 !== e2.unpairedTags.indexOf(l2) ? e2.suppressUnpairedNode ? r2 += d2 + ">" : r2 += d2 + "/>" : p2 && 0 !== p2.length || !e2.suppressEmptyNode ? p2 && p2.endsWith(">") ? r2 += d2 + `>${p2}${i2}</${l2}>` : (r2 += d2 + ">", p2 && "" !== i2 && (p2.includes("/>") || p2.includes("</")) ? r2 += i2 + e2.indentBy + p2 + i2 : r2 += p2, r2 += `</${l2}>`) : r2 += d2 + "/>", s2 = true;
         }
-        return s2;
+        return r2;
       }
-      function at(t2) {
+      function it(t2) {
         const e2 = Object.keys(t2);
         for (let n2 = 0; n2 < e2.length; n2++) {
           const i2 = e2[n2];
           if (t2.hasOwnProperty(i2) && ":@" !== i2) return i2;
         }
       }
-      function lt(t2, e2) {
+      function rt(t2, e2) {
         let n2 = "";
         if (t2 && !e2.ignoreAttributes) for (let i2 in t2) {
           if (!t2.hasOwnProperty(i2)) continue;
-          let s2 = e2.attributeValueProcessor(i2, t2[i2]);
-          s2 = ht(s2, e2), true === s2 && e2.suppressBooleanAttributes ? n2 += ` ${i2.substr(e2.attributeNamePrefix.length)}` : n2 += ` ${i2.substr(e2.attributeNamePrefix.length)}="${s2}"`;
+          let r2 = e2.attributeValueProcessor(i2, t2[i2]);
+          r2 = ot(r2, e2), true === r2 && e2.suppressBooleanAttributes ? n2 += ` ${i2.substr(e2.attributeNamePrefix.length)}` : n2 += ` ${i2.substr(e2.attributeNamePrefix.length)}="${r2}"`;
         }
         return n2;
       }
-      function ut(t2, e2) {
+      function st(t2, e2) {
         let n2 = (t2 = t2.substr(0, t2.length - e2.textNodeName.length - 1)).substr(t2.lastIndexOf(".") + 1);
         for (let i2 in e2.stopNodes) if (e2.stopNodes[i2] === t2 || e2.stopNodes[i2] === "*." + n2) return true;
         return false;
       }
-      function ht(t2, e2) {
+      function ot(t2, e2) {
         if (t2 && t2.length > 0 && e2.processEntities) for (let n2 = 0; n2 < e2.entities.length; n2++) {
           const i2 = e2.entities[n2];
           t2 = t2.replace(i2.regex, i2.val);
         }
         return t2;
       }
-      const dt = { attributeNamePrefix: "@_", attributesGroupName: false, textNodeName: "#text", ignoreAttributes: true, cdataPropName: false, format: false, indentBy: "  ", suppressEmptyNode: false, suppressUnpairedNode: true, suppressBooleanAttributes: true, tagValueProcessor: function(t2, e2) {
+      const at = { attributeNamePrefix: "@_", attributesGroupName: false, textNodeName: "#text", ignoreAttributes: true, cdataPropName: false, format: false, indentBy: "  ", suppressEmptyNode: false, suppressUnpairedNode: true, suppressBooleanAttributes: true, tagValueProcessor: function(t2, e2) {
         return e2;
       }, attributeValueProcessor: function(t2, e2) {
         return e2;
       }, preserveOrder: false, commentPropName: false, unpairedTags: [], entities: [{ regex: new RegExp("&", "g"), val: "&amp;" }, { regex: new RegExp(">", "g"), val: "&gt;" }, { regex: new RegExp("<", "g"), val: "&lt;" }, { regex: new RegExp("'", "g"), val: "&apos;" }, { regex: new RegExp('"', "g"), val: "&quot;" }], processEntities: true, stopNodes: [], oneListGroup: false };
-      function ft(t2) {
-        this.options = Object.assign({}, dt, t2), true === this.options.ignoreAttributes || this.options.attributesGroupName ? this.isAttribute = function() {
+      function lt(t2) {
+        this.options = Object.assign({}, at, t2), true === this.options.ignoreAttributes || this.options.attributesGroupName ? this.isAttribute = function() {
           return false;
-        } : (this.ignoreAttributesFn = _(this.options.ignoreAttributes), this.attrPrefixLen = this.options.attributeNamePrefix.length, this.isAttribute = gt), this.processTextOrObjNode = ct, this.options.format ? (this.indentate = pt, this.tagEndChar = ">\n", this.newLine = "\n") : (this.indentate = function() {
+        } : (this.ignoreAttributesFn = $(this.options.ignoreAttributes), this.attrPrefixLen = this.options.attributeNamePrefix.length, this.isAttribute = dt), this.processTextOrObjNode = ut, this.options.format ? (this.indentate = ht, this.tagEndChar = ">\n", this.newLine = "\n") : (this.indentate = function() {
           return "";
         }, this.tagEndChar = ">", this.newLine = "");
       }
-      function ct(t2, e2, n2, i2) {
-        const s2 = this.j2x(t2, n2 + 1, i2.concat(e2));
-        return void 0 !== t2[this.options.textNodeName] && 1 === Object.keys(t2).length ? this.buildTextValNode(t2[this.options.textNodeName], e2, s2.attrStr, n2) : this.buildObjectNode(s2.val, e2, s2.attrStr, n2);
+      function ut(t2, e2, n2, i2) {
+        const r2 = this.j2x(t2, n2 + 1, i2.concat(e2));
+        return void 0 !== t2[this.options.textNodeName] && 1 === Object.keys(t2).length ? this.buildTextValNode(t2[this.options.textNodeName], e2, r2.attrStr, n2) : this.buildObjectNode(r2.val, e2, r2.attrStr, n2);
       }
-      function pt(t2) {
+      function ht(t2) {
         return this.options.indentBy.repeat(t2);
       }
-      function gt(t2) {
+      function dt(t2) {
         return !(!t2.startsWith(this.options.attributeNamePrefix) || t2 === this.options.textNodeName) && t2.substr(this.attrPrefixLen);
       }
-      ft.prototype.build = function(t2) {
-        return this.options.preserveOrder ? rt(t2, this.options) : (Array.isArray(t2) && this.options.arrayNodeName && this.options.arrayNodeName.length > 1 && (t2 = { [this.options.arrayNodeName]: t2 }), this.j2x(t2, 0, []).val);
-      }, ft.prototype.j2x = function(t2, e2, n2) {
-        let i2 = "", s2 = "";
-        const r2 = n2.join(".");
-        for (let o2 in t2) if (Object.prototype.hasOwnProperty.call(t2, o2)) if (void 0 === t2[o2]) this.isAttribute(o2) && (s2 += "");
-        else if (null === t2[o2]) this.isAttribute(o2) || o2 === this.options.cdataPropName ? s2 += "" : "?" === o2[0] ? s2 += this.indentate(e2) + "<" + o2 + "?" + this.tagEndChar : s2 += this.indentate(e2) + "<" + o2 + "/" + this.tagEndChar;
-        else if (t2[o2] instanceof Date) s2 += this.buildTextValNode(t2[o2], o2, "", e2);
+      lt.prototype.build = function(t2) {
+        return this.options.preserveOrder ? et(t2, this.options) : (Array.isArray(t2) && this.options.arrayNodeName && this.options.arrayNodeName.length > 1 && (t2 = { [this.options.arrayNodeName]: t2 }), this.j2x(t2, 0, []).val);
+      }, lt.prototype.j2x = function(t2, e2, n2) {
+        let i2 = "", r2 = "";
+        const s2 = n2.join(".");
+        for (let o2 in t2) if (Object.prototype.hasOwnProperty.call(t2, o2)) if (void 0 === t2[o2]) this.isAttribute(o2) && (r2 += "");
+        else if (null === t2[o2]) this.isAttribute(o2) || o2 === this.options.cdataPropName ? r2 += "" : "?" === o2[0] ? r2 += this.indentate(e2) + "<" + o2 + "?" + this.tagEndChar : r2 += this.indentate(e2) + "<" + o2 + "/" + this.tagEndChar;
+        else if (t2[o2] instanceof Date) r2 += this.buildTextValNode(t2[o2], o2, "", e2);
         else if ("object" != typeof t2[o2]) {
           const n3 = this.isAttribute(o2);
-          if (n3 && !this.ignoreAttributesFn(n3, r2)) i2 += this.buildAttrPairStr(n3, "" + t2[o2]);
+          if (n3 && !this.ignoreAttributesFn(n3, s2)) i2 += this.buildAttrPairStr(n3, "" + t2[o2]);
           else if (!n3) if (o2 === this.options.textNodeName) {
             let e3 = this.options.tagValueProcessor(o2, "" + t2[o2]);
-            s2 += this.replaceEntitiesValue(e3);
-          } else s2 += this.buildTextValNode(t2[o2], o2, "", e2);
+            r2 += this.replaceEntitiesValue(e3);
+          } else r2 += this.buildTextValNode(t2[o2], o2, "", e2);
         } else if (Array.isArray(t2[o2])) {
           const i3 = t2[o2].length;
-          let r3 = "", a2 = "";
+          let s3 = "", a2 = "";
           for (let l2 = 0; l2 < i3; l2++) {
             const i4 = t2[o2][l2];
             if (void 0 === i4) ;
-            else if (null === i4) "?" === o2[0] ? s2 += this.indentate(e2) + "<" + o2 + "?" + this.tagEndChar : s2 += this.indentate(e2) + "<" + o2 + "/" + this.tagEndChar;
+            else if (null === i4) "?" === o2[0] ? r2 += this.indentate(e2) + "<" + o2 + "?" + this.tagEndChar : r2 += this.indentate(e2) + "<" + o2 + "/" + this.tagEndChar;
             else if ("object" == typeof i4) if (this.options.oneListGroup) {
               const t3 = this.j2x(i4, e2 + 1, n2.concat(o2));
-              r3 += t3.val, this.options.attributesGroupName && i4.hasOwnProperty(this.options.attributesGroupName) && (a2 += t3.attrStr);
-            } else r3 += this.processTextOrObjNode(i4, o2, e2, n2);
+              s3 += t3.val, this.options.attributesGroupName && i4.hasOwnProperty(this.options.attributesGroupName) && (a2 += t3.attrStr);
+            } else s3 += this.processTextOrObjNode(i4, o2, e2, n2);
             else if (this.options.oneListGroup) {
               let t3 = this.options.tagValueProcessor(o2, i4);
-              t3 = this.replaceEntitiesValue(t3), r3 += t3;
-            } else r3 += this.buildTextValNode(i4, o2, "", e2);
+              t3 = this.replaceEntitiesValue(t3), s3 += t3;
+            } else s3 += this.buildTextValNode(i4, o2, "", e2);
           }
-          this.options.oneListGroup && (r3 = this.buildObjectNode(r3, o2, a2, e2)), s2 += r3;
+          this.options.oneListGroup && (s3 = this.buildObjectNode(s3, o2, a2, e2)), r2 += s3;
         } else if (this.options.attributesGroupName && o2 === this.options.attributesGroupName) {
           const e3 = Object.keys(t2[o2]), n3 = e3.length;
-          for (let s3 = 0; s3 < n3; s3++) i2 += this.buildAttrPairStr(e3[s3], "" + t2[o2][e3[s3]]);
-        } else s2 += this.processTextOrObjNode(t2[o2], o2, e2, n2);
-        return { attrStr: i2, val: s2 };
-      }, ft.prototype.buildAttrPairStr = function(t2, e2) {
+          for (let r3 = 0; r3 < n3; r3++) i2 += this.buildAttrPairStr(e3[r3], "" + t2[o2][e3[r3]]);
+        } else r2 += this.processTextOrObjNode(t2[o2], o2, e2, n2);
+        return { attrStr: i2, val: r2 };
+      }, lt.prototype.buildAttrPairStr = function(t2, e2) {
         return e2 = this.options.attributeValueProcessor(t2, "" + e2), e2 = this.replaceEntitiesValue(e2), this.options.suppressBooleanAttributes && "true" === e2 ? " " + t2 : " " + t2 + '="' + e2 + '"';
-      }, ft.prototype.buildObjectNode = function(t2, e2, n2, i2) {
+      }, lt.prototype.buildObjectNode = function(t2, e2, n2, i2) {
         if ("" === t2) return "?" === e2[0] ? this.indentate(i2) + "<" + e2 + n2 + "?" + this.tagEndChar : this.indentate(i2) + "<" + e2 + n2 + this.closeTag(e2) + this.tagEndChar;
         {
-          let s2 = "</" + e2 + this.tagEndChar, r2 = "";
-          return "?" === e2[0] && (r2 = "?", s2 = ""), !n2 && "" !== n2 || -1 !== t2.indexOf("<") ? false !== this.options.commentPropName && e2 === this.options.commentPropName && 0 === r2.length ? this.indentate(i2) + `<!--${t2}-->` + this.newLine : this.indentate(i2) + "<" + e2 + n2 + r2 + this.tagEndChar + t2 + this.indentate(i2) + s2 : this.indentate(i2) + "<" + e2 + n2 + r2 + ">" + t2 + s2;
+          let r2 = "</" + e2 + this.tagEndChar, s2 = "";
+          return "?" === e2[0] && (s2 = "?", r2 = ""), !n2 && "" !== n2 || -1 !== t2.indexOf("<") ? false !== this.options.commentPropName && e2 === this.options.commentPropName && 0 === s2.length ? this.indentate(i2) + `<!--${t2}-->` + this.newLine : this.indentate(i2) + "<" + e2 + n2 + s2 + this.tagEndChar + t2 + this.indentate(i2) + r2 : this.indentate(i2) + "<" + e2 + n2 + s2 + ">" + t2 + r2;
         }
-      }, ft.prototype.closeTag = function(t2) {
+      }, lt.prototype.closeTag = function(t2) {
         let e2 = "";
         return -1 !== this.options.unpairedTags.indexOf(t2) ? this.options.suppressUnpairedNode || (e2 = "/") : e2 = this.options.suppressEmptyNode ? "/" : `></${t2}`, e2;
-      }, ft.prototype.buildTextValNode = function(t2, e2, n2, i2) {
+      }, lt.prototype.buildTextValNode = function(t2, e2, n2, i2) {
         if (false !== this.options.cdataPropName && e2 === this.options.cdataPropName) return this.indentate(i2) + `<![CDATA[${t2}]]>` + this.newLine;
         if (false !== this.options.commentPropName && e2 === this.options.commentPropName) return this.indentate(i2) + `<!--${t2}-->` + this.newLine;
         if ("?" === e2[0]) return this.indentate(i2) + "<" + e2 + n2 + "?" + this.tagEndChar;
         {
-          let s2 = this.options.tagValueProcessor(e2, t2);
-          return s2 = this.replaceEntitiesValue(s2), "" === s2 ? this.indentate(i2) + "<" + e2 + n2 + this.closeTag(e2) + this.tagEndChar : this.indentate(i2) + "<" + e2 + n2 + ">" + s2 + "</" + e2 + this.tagEndChar;
+          let r2 = this.options.tagValueProcessor(e2, t2);
+          return r2 = this.replaceEntitiesValue(r2), "" === r2 ? this.indentate(i2) + "<" + e2 + n2 + this.closeTag(e2) + this.tagEndChar : this.indentate(i2) + "<" + e2 + n2 + ">" + r2 + "</" + e2 + this.tagEndChar;
         }
-      }, ft.prototype.replaceEntitiesValue = function(t2) {
+      }, lt.prototype.replaceEntitiesValue = function(t2) {
         if (t2 && t2.length > 0 && this.options.processEntities) for (let e2 = 0; e2 < this.options.entities.length; e2++) {
           const n2 = this.options.entities[e2];
           t2 = t2.replace(n2.regex, n2.val);
         }
         return t2;
       };
-      const mt = { validate: a };
+      const pt = { validate: a };
       module2.exports = e;
     })();
   }
@@ -40343,9 +40535,9 @@ var require_commonjs10 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/log.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/log.js
 var require_log6 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/log.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/log.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.logger = void 0;
@@ -40354,9 +40546,9 @@ var require_log6 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/policies/RequestPolicy.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/policies/RequestPolicy.js
 var require_RequestPolicy = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/policies/RequestPolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/policies/RequestPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.BaseRequestPolicy = void 0;
@@ -40392,14 +40584,14 @@ var require_RequestPolicy = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/utils/constants.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/utils/constants.js
 var require_constants9 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/utils/constants.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/utils/constants.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.PathStylePorts = exports2.BlobDoesNotUseCustomerSpecifiedEncryption = exports2.BlobUsesCustomerSpecifiedEncryptionMsg = exports2.StorageBlobLoggingAllowedQueryParameters = exports2.StorageBlobLoggingAllowedHeaderNames = exports2.DevelopmentConnectionString = exports2.EncryptionAlgorithmAES25 = exports2.HTTP_VERSION_1_1 = exports2.HTTP_LINE_ENDING = exports2.BATCH_MAX_PAYLOAD_IN_BYTES = exports2.BATCH_MAX_REQUEST = exports2.SIZE_1_MB = exports2.ETagAny = exports2.ETagNone = exports2.HeaderConstants = exports2.HTTPURLConnection = exports2.URLConstants = exports2.StorageOAuthScopes = exports2.REQUEST_TIMEOUT = exports2.DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS = exports2.DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES = exports2.DEFAULT_BLOCK_BUFFER_SIZE_BYTES = exports2.BLOCK_BLOB_MAX_BLOCKS = exports2.BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES = exports2.BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES = exports2.SERVICE_VERSION = exports2.SDK_VERSION = void 0;
-    exports2.SDK_VERSION = "12.28.0";
-    exports2.SERVICE_VERSION = "2025-07-05";
+    exports2.SDK_VERSION = "12.29.1";
+    exports2.SERVICE_VERSION = "2025-11-05";
     exports2.BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES = 256 * 1024 * 1024;
     exports2.BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES = 4e3 * 1024 * 1024;
     exports2.BLOCK_BLOB_MAX_BLOCKS = 5e4;
@@ -40619,9 +40811,9 @@ var require_constants9 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/utils/utils.common.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/utils/utils.common.js
 var require_utils_common = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/utils/utils.common.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/utils/utils.common.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.escapeURLPath = escapeURLPath;
@@ -41171,9 +41363,9 @@ var require_utils_common = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/policies/StorageRetryPolicyType.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/policies/StorageRetryPolicyType.js
 var require_StorageRetryPolicyType = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/policies/StorageRetryPolicyType.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/policies/StorageRetryPolicyType.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.StorageRetryPolicyType = void 0;
@@ -41185,9 +41377,9 @@ var require_StorageRetryPolicyType = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/policies/StorageRetryPolicy.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/policies/StorageRetryPolicy.js
 var require_StorageRetryPolicy = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/policies/StorageRetryPolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/policies/StorageRetryPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.StorageRetryPolicy = void 0;
@@ -41326,6 +41518,19 @@ var require_StorageRetryPolicy = __commonJS({
             return true;
           }
         }
+        if (response) {
+          if (response?.status >= 400) {
+            const copySourceError = response.headers.get(constants_js_1.HeaderConstants.X_MS_CopySourceErrorCode);
+            if (copySourceError !== void 0) {
+              switch (copySourceError) {
+                case "InternalError":
+                case "OperationTimedOut":
+                case "ServerBusy":
+                  return true;
+              }
+            }
+          }
+        }
         if (err?.code === "PARSE_ERROR" && err?.message.startsWith(`Error "Error: Unclosed root tag`)) {
           log_js_1.logger.info("RetryPolicy: Incomplete XML response likely due to service timeout, will retry.");
           return true;
@@ -41361,9 +41566,9 @@ var require_StorageRetryPolicy = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/StorageRetryPolicyFactory.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/StorageRetryPolicyFactory.js
 var require_StorageRetryPolicyFactory = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/StorageRetryPolicyFactory.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/StorageRetryPolicyFactory.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.StorageRetryPolicyFactory = exports2.StorageRetryPolicy = exports2.StorageRetryPolicyType = void 0;
@@ -41398,9 +41603,9 @@ var require_StorageRetryPolicyFactory = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/policies/CredentialPolicy.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/policies/CredentialPolicy.js
 var require_CredentialPolicy = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/policies/CredentialPolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/policies/CredentialPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.CredentialPolicy = void 0;
@@ -41428,9 +41633,9 @@ var require_CredentialPolicy = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/utils/SharedKeyComparator.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/utils/SharedKeyComparator.js
 var require_SharedKeyComparator = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/utils/SharedKeyComparator.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/utils/SharedKeyComparator.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.compareHeader = compareHeader;
@@ -41860,9 +42065,9 @@ var require_SharedKeyComparator = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/policies/StorageSharedKeyCredentialPolicy.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/policies/StorageSharedKeyCredentialPolicy.js
 var require_StorageSharedKeyCredentialPolicy = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/policies/StorageSharedKeyCredentialPolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/policies/StorageSharedKeyCredentialPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.StorageSharedKeyCredentialPolicy = void 0;
@@ -41996,9 +42201,9 @@ ${key}:${decodeURIComponent(lowercaseQueries[key])}`;
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/credentials/Credential.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/credentials/Credential.js
 var require_Credential = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/credentials/Credential.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/credentials/Credential.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.Credential = void 0;
@@ -42017,9 +42222,9 @@ var require_Credential = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/credentials/StorageSharedKeyCredential.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/credentials/StorageSharedKeyCredential.js
 var require_StorageSharedKeyCredential = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/credentials/StorageSharedKeyCredential.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/credentials/StorageSharedKeyCredential.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.StorageSharedKeyCredential = void 0;
@@ -42067,9 +42272,9 @@ var require_StorageSharedKeyCredential = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/policies/AnonymousCredentialPolicy.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/policies/AnonymousCredentialPolicy.js
 var require_AnonymousCredentialPolicy = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/policies/AnonymousCredentialPolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/policies/AnonymousCredentialPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.AnonymousCredentialPolicy = void 0;
@@ -42090,9 +42295,9 @@ var require_AnonymousCredentialPolicy = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/credentials/AnonymousCredential.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/credentials/AnonymousCredential.js
 var require_AnonymousCredential = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/credentials/AnonymousCredential.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/credentials/AnonymousCredential.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.AnonymousCredential = void 0;
@@ -42113,9 +42318,9 @@ var require_AnonymousCredential = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/BuffersStream.js
+// node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/BuffersStream.js
 var require_BuffersStream = __commonJS({
-  "node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/BuffersStream.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/BuffersStream.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.BuffersStream = void 0;
@@ -42206,9 +42411,9 @@ var require_BuffersStream = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/PooledBuffer.js
+// node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/PooledBuffer.js
 var require_PooledBuffer = __commonJS({
-  "node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/PooledBuffer.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/PooledBuffer.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.PooledBuffer = void 0;
@@ -42296,9 +42501,9 @@ var require_PooledBuffer = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/BufferScheduler.js
+// node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/BufferScheduler.js
 var require_BufferScheduler = __commonJS({
-  "node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/BufferScheduler.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/BufferScheduler.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.BufferScheduler = void 0;
@@ -42550,9 +42755,9 @@ var require_BufferScheduler = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/cache.js
+// node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/cache.js
 var require_cache2 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/cache.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/cache.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getCachedDefaultHttpClient = getCachedDefaultHttpClient;
@@ -42567,9 +42772,9 @@ var require_cache2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/policies/RequestPolicy.js
+// node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/policies/RequestPolicy.js
 var require_RequestPolicy2 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/policies/RequestPolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/policies/RequestPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.BaseRequestPolicy = void 0;
@@ -42605,9 +42810,9 @@ var require_RequestPolicy2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/utils/constants.js
+// node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/utils/constants.js
 var require_constants10 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/utils/constants.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/utils/constants.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.PathStylePorts = exports2.DevelopmentConnectionString = exports2.HeaderConstants = exports2.URLConstants = exports2.SDK_VERSION = void 0;
@@ -42673,9 +42878,9 @@ var require_constants10 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/utils/utils.common.js
+// node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/utils/utils.common.js
 var require_utils_common2 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/utils/utils.common.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/utils/utils.common.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.escapeURLPath = escapeURLPath;
@@ -43016,9 +43221,9 @@ var require_utils_common2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/policies/StorageBrowserPolicy.js
+// node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/policies/StorageBrowserPolicy.js
 var require_StorageBrowserPolicy = __commonJS({
-  "node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/policies/StorageBrowserPolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/policies/StorageBrowserPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.StorageBrowserPolicy = void 0;
@@ -43058,9 +43263,9 @@ var require_StorageBrowserPolicy = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/StorageBrowserPolicyFactory.js
+// node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/StorageBrowserPolicyFactory.js
 var require_StorageBrowserPolicyFactory = __commonJS({
-  "node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/StorageBrowserPolicyFactory.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/StorageBrowserPolicyFactory.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.StorageBrowserPolicyFactory = exports2.StorageBrowserPolicy = void 0;
@@ -43083,9 +43288,9 @@ var require_StorageBrowserPolicyFactory = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/policies/CredentialPolicy.js
+// node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/policies/CredentialPolicy.js
 var require_CredentialPolicy2 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/policies/CredentialPolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/policies/CredentialPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.CredentialPolicy = void 0;
@@ -43113,9 +43318,9 @@ var require_CredentialPolicy2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/policies/AnonymousCredentialPolicy.js
+// node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/policies/AnonymousCredentialPolicy.js
 var require_AnonymousCredentialPolicy2 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/policies/AnonymousCredentialPolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/policies/AnonymousCredentialPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.AnonymousCredentialPolicy = void 0;
@@ -43136,9 +43341,9 @@ var require_AnonymousCredentialPolicy2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/credentials/Credential.js
+// node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/credentials/Credential.js
 var require_Credential2 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/credentials/Credential.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/credentials/Credential.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.Credential = void 0;
@@ -43157,9 +43362,9 @@ var require_Credential2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/credentials/AnonymousCredential.js
+// node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/credentials/AnonymousCredential.js
 var require_AnonymousCredential2 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/credentials/AnonymousCredential.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/credentials/AnonymousCredential.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.AnonymousCredential = void 0;
@@ -43180,9 +43385,9 @@ var require_AnonymousCredential2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/utils/SharedKeyComparator.js
+// node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/utils/SharedKeyComparator.js
 var require_SharedKeyComparator2 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/utils/SharedKeyComparator.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/utils/SharedKeyComparator.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.compareHeader = compareHeader;
@@ -43612,9 +43817,9 @@ var require_SharedKeyComparator2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/policies/StorageSharedKeyCredentialPolicy.js
+// node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/policies/StorageSharedKeyCredentialPolicy.js
 var require_StorageSharedKeyCredentialPolicy2 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/policies/StorageSharedKeyCredentialPolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/policies/StorageSharedKeyCredentialPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.StorageSharedKeyCredentialPolicy = void 0;
@@ -43748,9 +43953,9 @@ ${key}:${decodeURIComponent(lowercaseQueries[key])}`;
   }
 });
 
-// node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/credentials/StorageSharedKeyCredential.js
+// node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/credentials/StorageSharedKeyCredential.js
 var require_StorageSharedKeyCredential2 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/credentials/StorageSharedKeyCredential.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/credentials/StorageSharedKeyCredential.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.StorageSharedKeyCredential = void 0;
@@ -43798,9 +44003,9 @@ var require_StorageSharedKeyCredential2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/log.js
+// node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/log.js
 var require_log7 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/log.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/log.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.logger = void 0;
@@ -43809,9 +44014,9 @@ var require_log7 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/policies/StorageRetryPolicyType.js
+// node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/policies/StorageRetryPolicyType.js
 var require_StorageRetryPolicyType2 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/policies/StorageRetryPolicyType.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/policies/StorageRetryPolicyType.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.StorageRetryPolicyType = void 0;
@@ -43823,9 +44028,9 @@ var require_StorageRetryPolicyType2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/policies/StorageRetryPolicy.js
+// node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/policies/StorageRetryPolicy.js
 var require_StorageRetryPolicy2 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/policies/StorageRetryPolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/policies/StorageRetryPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.StorageRetryPolicy = void 0;
@@ -43964,6 +44169,19 @@ var require_StorageRetryPolicy2 = __commonJS({
             return true;
           }
         }
+        if (response) {
+          if (response?.status >= 400) {
+            const copySourceError = response.headers.get(constants_js_1.HeaderConstants.X_MS_CopySourceErrorCode);
+            if (copySourceError !== void 0) {
+              switch (copySourceError) {
+                case "InternalError":
+                case "OperationTimedOut":
+                case "ServerBusy":
+                  return true;
+              }
+            }
+          }
+        }
         if (err?.code === "PARSE_ERROR" && err?.message.startsWith(`Error "Error: Unclosed root tag`)) {
           log_js_1.logger.info("RetryPolicy: Incomplete XML response likely due to service timeout, will retry.");
           return true;
@@ -43999,9 +44217,9 @@ var require_StorageRetryPolicy2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/StorageRetryPolicyFactory.js
+// node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/StorageRetryPolicyFactory.js
 var require_StorageRetryPolicyFactory2 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/StorageRetryPolicyFactory.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/StorageRetryPolicyFactory.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.StorageRetryPolicyFactory = exports2.StorageRetryPolicy = exports2.StorageRetryPolicyType = void 0;
@@ -44036,9 +44254,9 @@ var require_StorageRetryPolicyFactory2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/policies/StorageBrowserPolicyV2.js
+// node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/policies/StorageBrowserPolicyV2.js
 var require_StorageBrowserPolicyV2 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/policies/StorageBrowserPolicyV2.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/policies/StorageBrowserPolicyV2.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.storageBrowserPolicyName = void 0;
@@ -44066,9 +44284,9 @@ var require_StorageBrowserPolicyV2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/policies/StorageCorrectContentLengthPolicy.js
+// node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/policies/StorageCorrectContentLengthPolicy.js
 var require_StorageCorrectContentLengthPolicy = __commonJS({
-  "node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/policies/StorageCorrectContentLengthPolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/policies/StorageCorrectContentLengthPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.storageCorrectContentLengthPolicyName = void 0;
@@ -44092,9 +44310,9 @@ var require_StorageCorrectContentLengthPolicy = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/policies/StorageRetryPolicyV2.js
+// node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/policies/StorageRetryPolicyV2.js
 var require_StorageRetryPolicyV2 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/policies/StorageRetryPolicyV2.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/policies/StorageRetryPolicyV2.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.storageRetryPolicyName = void 0;
@@ -44163,6 +44381,19 @@ var require_StorageRetryPolicyV2 = __commonJS({
             return true;
           }
         }
+        if (response) {
+          if (response?.status >= 400) {
+            const copySourceError = response.headers.get(constants_js_1.HeaderConstants.X_MS_CopySourceErrorCode);
+            if (copySourceError !== void 0) {
+              switch (copySourceError) {
+                case "InternalError":
+                case "OperationTimedOut":
+                case "ServerBusy":
+                  return true;
+              }
+            }
+          }
+        }
         return false;
       }
       function calculateDelay(isPrimaryRetry, attempt) {
@@ -44229,9 +44460,9 @@ var require_StorageRetryPolicyV2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/policies/StorageSharedKeyCredentialPolicyV2.js
+// node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/policies/StorageSharedKeyCredentialPolicyV2.js
 var require_StorageSharedKeyCredentialPolicyV2 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/policies/StorageSharedKeyCredentialPolicyV2.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/policies/StorageSharedKeyCredentialPolicyV2.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.storageSharedKeyCredentialPolicyName = void 0;
@@ -44331,9 +44562,38 @@ ${key}:${decodeURIComponent(lowercaseQueries[key])}`;
   }
 });
 
-// node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/index.js
+// node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/policies/StorageRequestFailureDetailsParserPolicy.js
+var require_StorageRequestFailureDetailsParserPolicy = __commonJS({
+  "node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/policies/StorageRequestFailureDetailsParserPolicy.js"(exports2) {
+    "use strict";
+    Object.defineProperty(exports2, "__esModule", { value: true });
+    exports2.storageRequestFailureDetailsParserPolicyName = void 0;
+    exports2.storageRequestFailureDetailsParserPolicy = storageRequestFailureDetailsParserPolicy;
+    exports2.storageRequestFailureDetailsParserPolicyName = "storageRequestFailureDetailsParserPolicy";
+    function storageRequestFailureDetailsParserPolicy() {
+      return {
+        name: exports2.storageRequestFailureDetailsParserPolicyName,
+        async sendRequest(request, next) {
+          try {
+            const response = await next(request);
+            return response;
+          } catch (err) {
+            if (typeof err === "object" && err !== null && err.response && err.response.parsedBody) {
+              if (err.response.parsedBody.code === "InvalidHeaderValue" && err.response.parsedBody.HeaderName === "x-ms-version") {
+                err.message = "The provided service version is not enabled on this storage account. Please see https://learn.microsoft.com/rest/api/storageservices/versioning-for-the-azure-storage-services for additional information.\n";
+              }
+            }
+            throw err;
+          }
+        }
+      };
+    }
+  }
+});
+
+// node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/index.js
 var require_commonjs11 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-common@12.0.0/node_modules/@azure/storage-common/dist/commonjs/index.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-common@12.1.1/node_modules/@azure/storage-common/dist/commonjs/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.BaseRequestPolicy = exports2.getCachedDefaultHttpClient = void 0;
@@ -44363,12 +44623,13 @@ var require_commonjs11 = __commonJS({
     tslib_1.__exportStar(require_StorageSharedKeyCredentialPolicy2(), exports2);
     tslib_1.__exportStar(require_StorageSharedKeyCredentialPolicyV2(), exports2);
     tslib_1.__exportStar(require_StorageRetryPolicyFactory2(), exports2);
+    tslib_1.__exportStar(require_StorageRequestFailureDetailsParserPolicy(), exports2);
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/policies/StorageBrowserPolicyV2.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/policies/StorageBrowserPolicyV2.js
 var require_StorageBrowserPolicyV22 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/policies/StorageBrowserPolicyV2.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/policies/StorageBrowserPolicyV2.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.storageBrowserPolicyName = void 0;
@@ -44396,9 +44657,9 @@ var require_StorageBrowserPolicyV22 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/policies/StorageRetryPolicyV2.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/policies/StorageRetryPolicyV2.js
 var require_StorageRetryPolicyV22 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/policies/StorageRetryPolicyV2.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/policies/StorageRetryPolicyV2.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.storageRetryPolicyName = void 0;
@@ -44467,6 +44728,19 @@ var require_StorageRetryPolicyV22 = __commonJS({
             return true;
           }
         }
+        if (response) {
+          if (response?.status >= 400) {
+            const copySourceError = response.headers.get(constants_js_1.HeaderConstants.X_MS_CopySourceErrorCode);
+            if (copySourceError !== void 0) {
+              switch (copySourceError) {
+                case "InternalError":
+                case "OperationTimedOut":
+                case "ServerBusy":
+                  return true;
+              }
+            }
+          }
+        }
         return false;
       }
       function calculateDelay(isPrimaryRetry, attempt) {
@@ -44533,9 +44807,9 @@ var require_StorageRetryPolicyV22 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/policies/StorageSharedKeyCredentialPolicyV2.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/policies/StorageSharedKeyCredentialPolicyV2.js
 var require_StorageSharedKeyCredentialPolicyV22 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/policies/StorageSharedKeyCredentialPolicyV2.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/policies/StorageSharedKeyCredentialPolicyV2.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.storageSharedKeyCredentialPolicyName = void 0;
@@ -44635,9 +44909,9 @@ ${key}:${decodeURIComponent(lowercaseQueries[key])}`;
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/policies/StorageBrowserPolicy.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/policies/StorageBrowserPolicy.js
 var require_StorageBrowserPolicy2 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/policies/StorageBrowserPolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/policies/StorageBrowserPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.StorageBrowserPolicy = void 0;
@@ -44677,9 +44951,9 @@ var require_StorageBrowserPolicy2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/StorageBrowserPolicyFactory.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/StorageBrowserPolicyFactory.js
 var require_StorageBrowserPolicyFactory2 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/StorageBrowserPolicyFactory.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/StorageBrowserPolicyFactory.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.StorageBrowserPolicyFactory = exports2.StorageBrowserPolicy = void 0;
@@ -44702,9 +44976,9 @@ var require_StorageBrowserPolicyFactory2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/policies/StorageCorrectContentLengthPolicy.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/policies/StorageCorrectContentLengthPolicy.js
 var require_StorageCorrectContentLengthPolicy2 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/policies/StorageCorrectContentLengthPolicy.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/policies/StorageCorrectContentLengthPolicy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.storageCorrectContentLengthPolicyName = void 0;
@@ -44728,9 +45002,9 @@ var require_StorageCorrectContentLengthPolicy2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/Pipeline.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/Pipeline.js
 var require_Pipeline = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/Pipeline.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/Pipeline.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.Pipeline = exports2.StorageOAuthScopes = void 0;
@@ -44875,6 +45149,7 @@ var require_Pipeline = __commonJS({
         corePipeline.removePolicy({ name: core_rest_pipeline_1.decompressResponsePolicyName });
         corePipeline.addPolicy((0, StorageCorrectContentLengthPolicy_js_1.storageCorrectContentLengthPolicy)());
         corePipeline.addPolicy((0, StorageRetryPolicyV2_js_1.storageRetryPolicy)(restOptions.retryOptions), { phase: "Retry" });
+        corePipeline.addPolicy((0, storage_common_1.storageRequestFailureDetailsParserPolicy)());
         corePipeline.addPolicy((0, StorageBrowserPolicyV2_js_1.storageBrowserPolicy)());
         const downlevelResults = processDownlevelPipeline(pipeline);
         if (downlevelResults) {
@@ -44984,9 +45259,9 @@ var require_Pipeline = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/models/index.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/models/index.js
 var require_models = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/models/index.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/models/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.KnownStorageErrorCode = exports2.KnownBlobExpiryOptions = exports2.KnownFileShareTokenIntent = exports2.KnownEncryptionAlgorithmType = void 0;
@@ -45125,9 +45400,9 @@ var require_models = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/models/mappers.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/models/mappers.js
 var require_mappers = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/models/mappers.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/models/mappers.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.ServiceGetUserDelegationKeyHeaders = exports2.ServiceListContainersSegmentExceptionHeaders = exports2.ServiceListContainersSegmentHeaders = exports2.ServiceGetStatisticsExceptionHeaders = exports2.ServiceGetStatisticsHeaders = exports2.ServiceGetPropertiesExceptionHeaders = exports2.ServiceGetPropertiesHeaders = exports2.ServiceSetPropertiesExceptionHeaders = exports2.ServiceSetPropertiesHeaders = exports2.ArrowField = exports2.ArrowConfiguration = exports2.JsonTextConfiguration = exports2.DelimitedTextConfiguration = exports2.QueryFormat = exports2.QuerySerialization = exports2.QueryRequest = exports2.ClearRange = exports2.PageRange = exports2.PageList = exports2.Block = exports2.BlockList = exports2.BlockLookupList = exports2.BlobPrefix = exports2.BlobHierarchyListSegment = exports2.ListBlobsHierarchySegmentResponse = exports2.BlobPropertiesInternal = exports2.BlobName = exports2.BlobItemInternal = exports2.BlobFlatListSegment = exports2.ListBlobsFlatSegmentResponse = exports2.AccessPolicy = exports2.SignedIdentifier = exports2.BlobTag = exports2.BlobTags = exports2.FilterBlobItem = exports2.FilterBlobSegment = exports2.UserDelegationKey = exports2.KeyInfo = exports2.ContainerProperties = exports2.ContainerItem = exports2.ListContainersSegmentResponse = exports2.GeoReplication = exports2.BlobServiceStatistics = exports2.StorageError = exports2.StaticWebsite = exports2.CorsRule = exports2.Metrics = exports2.RetentionPolicy = exports2.Logging = exports2.BlobServiceProperties = void 0;
@@ -45420,6 +45695,27 @@ var require_mappers = __commonJS({
           message: {
             serializedName: "Message",
             xmlName: "Message",
+            type: {
+              name: "String"
+            }
+          },
+          copySourceStatusCode: {
+            serializedName: "CopySourceStatusCode",
+            xmlName: "CopySourceStatusCode",
+            type: {
+              name: "Number"
+            }
+          },
+          copySourceErrorCode: {
+            serializedName: "CopySourceErrorCode",
+            xmlName: "CopySourceErrorCode",
+            type: {
+              name: "String"
+            }
+          },
+          copySourceErrorMessage: {
+            serializedName: "CopySourceErrorMessage",
+            xmlName: "CopySourceErrorMessage",
             type: {
               name: "String"
             }
@@ -50757,6 +51053,20 @@ var require_mappers = __commonJS({
             type: {
               name: "String"
             }
+          },
+          copySourceErrorCode: {
+            serializedName: "x-ms-copy-source-error-code",
+            xmlName: "x-ms-copy-source-error-code",
+            type: {
+              name: "String"
+            }
+          },
+          copySourceStatusCode: {
+            serializedName: "x-ms-copy-source-status-code",
+            xmlName: "x-ms-copy-source-status-code",
+            type: {
+              name: "Number"
+            }
           }
         }
       }
@@ -50873,6 +51183,20 @@ var require_mappers = __commonJS({
             xmlName: "x-ms-error-code",
             type: {
               name: "String"
+            }
+          },
+          copySourceErrorCode: {
+            serializedName: "x-ms-copy-source-error-code",
+            xmlName: "x-ms-copy-source-error-code",
+            type: {
+              name: "String"
+            }
+          },
+          copySourceStatusCode: {
+            serializedName: "x-ms-copy-source-status-code",
+            xmlName: "x-ms-copy-source-status-code",
+            type: {
+              name: "Number"
             }
           }
         }
@@ -51900,6 +52224,20 @@ var require_mappers = __commonJS({
             type: {
               name: "String"
             }
+          },
+          copySourceErrorCode: {
+            serializedName: "x-ms-copy-source-error-code",
+            xmlName: "x-ms-copy-source-error-code",
+            type: {
+              name: "String"
+            }
+          },
+          copySourceStatusCode: {
+            serializedName: "x-ms-copy-source-status-code",
+            xmlName: "x-ms-copy-source-status-code",
+            type: {
+              name: "Number"
+            }
           }
         }
       }
@@ -52661,6 +52999,20 @@ var require_mappers = __commonJS({
             type: {
               name: "String"
             }
+          },
+          copySourceErrorCode: {
+            serializedName: "x-ms-copy-source-error-code",
+            xmlName: "x-ms-copy-source-error-code",
+            type: {
+              name: "String"
+            }
+          },
+          copySourceStatusCode: {
+            serializedName: "x-ms-copy-source-status-code",
+            xmlName: "x-ms-copy-source-status-code",
+            type: {
+              name: "Number"
+            }
           }
         }
       }
@@ -52953,6 +53305,20 @@ var require_mappers = __commonJS({
             type: {
               name: "String"
             }
+          },
+          copySourceErrorCode: {
+            serializedName: "x-ms-copy-source-error-code",
+            xmlName: "x-ms-copy-source-error-code",
+            type: {
+              name: "String"
+            }
+          },
+          copySourceStatusCode: {
+            serializedName: "x-ms-copy-source-status-code",
+            xmlName: "x-ms-copy-source-status-code",
+            type: {
+              name: "Number"
+            }
           }
         }
       }
@@ -53142,6 +53508,20 @@ var require_mappers = __commonJS({
             xmlName: "x-ms-error-code",
             type: {
               name: "String"
+            }
+          },
+          copySourceErrorCode: {
+            serializedName: "x-ms-copy-source-error-code",
+            xmlName: "x-ms-copy-source-error-code",
+            type: {
+              name: "String"
+            }
+          },
+          copySourceStatusCode: {
+            serializedName: "x-ms-copy-source-status-code",
+            xmlName: "x-ms-copy-source-status-code",
+            type: {
+              name: "Number"
             }
           }
         }
@@ -53354,9 +53734,9 @@ var require_mappers = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/models/parameters.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/models/parameters.js
 var require_parameters = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/models/parameters.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/models/parameters.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.action3 = exports2.action2 = exports2.leaseId1 = exports2.action1 = exports2.proposedLeaseId = exports2.duration = exports2.action = exports2.comp10 = exports2.sourceLeaseId = exports2.sourceContainerName = exports2.comp9 = exports2.deletedContainerVersion = exports2.deletedContainerName = exports2.comp8 = exports2.containerAcl = exports2.comp7 = exports2.comp6 = exports2.ifUnmodifiedSince = exports2.ifModifiedSince = exports2.leaseId = exports2.preventEncryptionScopeOverride = exports2.defaultEncryptionScope = exports2.access = exports2.metadata = exports2.restype2 = exports2.where = exports2.comp5 = exports2.multipartContentType = exports2.contentLength = exports2.comp4 = exports2.body = exports2.restype1 = exports2.comp3 = exports2.keyInfo = exports2.include = exports2.maxPageSize = exports2.marker = exports2.prefix = exports2.comp2 = exports2.comp1 = exports2.accept1 = exports2.requestId = exports2.version = exports2.timeoutInSeconds = exports2.comp = exports2.restype = exports2.url = exports2.accept = exports2.blobServiceProperties = exports2.contentType = void 0;
@@ -53439,7 +53819,7 @@ var require_parameters = __commonJS({
     exports2.version = {
       parameterPath: "version",
       mapper: {
-        defaultValue: "2025-07-05",
+        defaultValue: "2025-11-05",
         isConstant: true,
         serializedName: "x-ms-version",
         type: {
@@ -54977,9 +55357,9 @@ var require_parameters = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operations/service.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operations/service.js
 var require_service = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operations/service.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operations/service.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.ServiceImpl = void 0;
@@ -55306,9 +55686,9 @@ var require_service = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operations/container.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operations/container.js
 var require_container = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operations/container.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operations/container.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.ContainerImpl = void 0;
@@ -56025,9 +56405,9 @@ var require_container = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operations/blob.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operations/blob.js
 var require_blob = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operations/blob.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operations/blob.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.BlobImpl = void 0;
@@ -57052,9 +57432,9 @@ var require_blob = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operations/pageBlob.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operations/pageBlob.js
 var require_pageBlob = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operations/pageBlob.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operations/pageBlob.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.PageBlobImpl = void 0;
@@ -57515,9 +57895,9 @@ var require_pageBlob = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operations/appendBlob.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operations/appendBlob.js
 var require_appendBlob = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operations/appendBlob.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operations/appendBlob.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.AppendBlobImpl = void 0;
@@ -57743,9 +58123,9 @@ var require_appendBlob = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operations/blockBlob.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operations/blockBlob.js
 var require_blockBlob = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operations/blockBlob.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operations/blockBlob.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.BlockBlobImpl = void 0;
@@ -58116,9 +58496,9 @@ var require_blockBlob = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operations/index.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operations/index.js
 var require_operations = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operations/index.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operations/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var tslib_1 = (init_tslib_es6(), __toCommonJS(tslib_es6_exports));
@@ -58131,9 +58511,9 @@ var require_operations = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/storageClient.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/storageClient.js
 var require_storageClient = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/storageClient.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/storageClient.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.StorageClient = void 0;
@@ -58157,7 +58537,7 @@ var require_storageClient = __commonJS({
         const defaults = {
           requestContentType: "application/json; charset=utf-8"
         };
-        const packageDetails = `azsdk-js-azure-storage-blob/12.28.0`;
+        const packageDetails = `azsdk-js-azure-storage-blob/12.29.1`;
         const userAgentPrefix = options2.userAgentOptions && options2.userAgentOptions.userAgentPrefix ? `${options2.userAgentOptions.userAgentPrefix} ${packageDetails}` : `${packageDetails}`;
         const optionsWithDefaults = {
           ...defaults,
@@ -58177,7 +58557,7 @@ var require_storageClient = __commonJS({
         __publicField(this, "appendBlob");
         __publicField(this, "blockBlob");
         this.url = url;
-        this.version = options2.version || "2025-07-05";
+        this.version = options2.version || "2025-11-05";
         this.service = new index_js_1.ServiceImpl(this);
         this.container = new index_js_1.ContainerImpl(this);
         this.blob = new index_js_1.BlobImpl(this);
@@ -58190,57 +58570,57 @@ var require_storageClient = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operationsInterfaces/service.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operationsInterfaces/service.js
 var require_service2 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operationsInterfaces/service.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operationsInterfaces/service.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operationsInterfaces/container.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operationsInterfaces/container.js
 var require_container2 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operationsInterfaces/container.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operationsInterfaces/container.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operationsInterfaces/blob.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operationsInterfaces/blob.js
 var require_blob2 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operationsInterfaces/blob.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operationsInterfaces/blob.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operationsInterfaces/pageBlob.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operationsInterfaces/pageBlob.js
 var require_pageBlob2 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operationsInterfaces/pageBlob.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operationsInterfaces/pageBlob.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operationsInterfaces/appendBlob.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operationsInterfaces/appendBlob.js
 var require_appendBlob2 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operationsInterfaces/appendBlob.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operationsInterfaces/appendBlob.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operationsInterfaces/blockBlob.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operationsInterfaces/blockBlob.js
 var require_blockBlob2 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operationsInterfaces/blockBlob.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operationsInterfaces/blockBlob.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operationsInterfaces/index.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operationsInterfaces/index.js
 var require_operationsInterfaces = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operationsInterfaces/index.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/operationsInterfaces/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var tslib_1 = (init_tslib_es6(), __toCommonJS(tslib_es6_exports));
@@ -58253,9 +58633,9 @@ var require_operationsInterfaces = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/index.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/index.js
 var require_src2 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generated/src/index.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generated/src/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.StorageClient = void 0;
@@ -58269,9 +58649,9 @@ var require_src2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/StorageContextClient.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/StorageContextClient.js
 var require_StorageContextClient = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/StorageContextClient.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/StorageContextClient.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.StorageContextClient = void 0;
@@ -58289,9 +58669,9 @@ var require_StorageContextClient = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/StorageClient.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/StorageClient.js
 var require_StorageClient = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/StorageClient.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/StorageClient.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.StorageClient = void 0;
@@ -58342,9 +58722,9 @@ var require_StorageClient = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/utils/tracing.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/utils/tracing.js
 var require_tracing = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/utils/tracing.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/utils/tracing.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.tracingClient = void 0;
@@ -58358,9 +58738,9 @@ var require_tracing = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/sas/BlobSASPermissions.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/sas/BlobSASPermissions.js
 var require_BlobSASPermissions = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/sas/BlobSASPermissions.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/sas/BlobSASPermissions.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.BlobSASPermissions = void 0;
@@ -58551,9 +58931,9 @@ var require_BlobSASPermissions = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/sas/ContainerSASPermissions.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/sas/ContainerSASPermissions.js
 var require_ContainerSASPermissions = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/sas/ContainerSASPermissions.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/sas/ContainerSASPermissions.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.ContainerSASPermissions = void 0;
@@ -58772,9 +59152,9 @@ var require_ContainerSASPermissions = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/credentials/UserDelegationKeyCredential.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/credentials/UserDelegationKeyCredential.js
 var require_UserDelegationKeyCredential = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/credentials/UserDelegationKeyCredential.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/credentials/UserDelegationKeyCredential.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.UserDelegationKeyCredential = void 0;
@@ -58815,9 +59195,9 @@ var require_UserDelegationKeyCredential = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/sas/SasIPRange.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/sas/SasIPRange.js
 var require_SasIPRange = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/sas/SasIPRange.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/sas/SasIPRange.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.ipRangeToString = ipRangeToString;
@@ -58827,9 +59207,9 @@ var require_SasIPRange = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/sas/SASQueryParameters.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/sas/SASQueryParameters.js
 var require_SASQueryParameters = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/sas/SASQueryParameters.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/sas/SASQueryParameters.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.SASQueryParameters = exports2.SASProtocol = void 0;
@@ -59171,9 +59551,9 @@ var require_SASQueryParameters = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/sas/BlobSASSignatureValues.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/sas/BlobSASSignatureValues.js
 var require_BlobSASSignatureValues = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/sas/BlobSASSignatureValues.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/sas/BlobSASSignatureValues.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.generateBlobSASQueryParameters = generateBlobSASQueryParameters;
@@ -59640,9 +60020,9 @@ var require_BlobSASSignatureValues = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/BlobLeaseClient.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/BlobLeaseClient.js
 var require_BlobLeaseClient = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/BlobLeaseClient.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/BlobLeaseClient.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.BlobLeaseClient = void 0;
@@ -59829,9 +60209,9 @@ var require_BlobLeaseClient = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/utils/RetriableReadableStream.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/utils/RetriableReadableStream.js
 var require_RetriableReadableStream = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/utils/RetriableReadableStream.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/utils/RetriableReadableStream.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.RetriableReadableStream = void 0;
@@ -59939,9 +60319,9 @@ var require_RetriableReadableStream = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/BlobDownloadResponse.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/BlobDownloadResponse.js
 var require_BlobDownloadResponse = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/BlobDownloadResponse.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/BlobDownloadResponse.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.BlobDownloadResponse = void 0;
@@ -60401,9 +60781,9 @@ var require_BlobDownloadResponse = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/internal-avro/AvroConstants.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/internal-avro/AvroConstants.js
 var require_AvroConstants = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/internal-avro/AvroConstants.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/internal-avro/AvroConstants.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.AVRO_SCHEMA_KEY = exports2.AVRO_CODEC_KEY = exports2.AVRO_INIT_BYTES = exports2.AVRO_SYNC_MARKER_SIZE = void 0;
@@ -60414,9 +60794,9 @@ var require_AvroConstants = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/internal-avro/AvroParser.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/internal-avro/AvroParser.js
 var require_AvroParser = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/internal-avro/AvroParser.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/internal-avro/AvroParser.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.AvroType = exports2.AvroParser = void 0;
@@ -60734,9 +61114,9 @@ var require_AvroParser = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/internal-avro/utils/utils.common.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/internal-avro/utils/utils.common.js
 var require_utils_common3 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/internal-avro/utils/utils.common.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/internal-avro/utils/utils.common.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.arraysEqual = arraysEqual;
@@ -60756,9 +61136,9 @@ var require_utils_common3 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/internal-avro/AvroReader.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/internal-avro/AvroReader.js
 var require_AvroReader = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/internal-avro/AvroReader.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/internal-avro/AvroReader.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.AvroReader = void 0;
@@ -60868,9 +61248,9 @@ var require_AvroReader = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/internal-avro/AvroReadable.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/internal-avro/AvroReadable.js
 var require_AvroReadable = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/internal-avro/AvroReadable.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/internal-avro/AvroReadable.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.AvroReadable = void 0;
@@ -60880,9 +61260,9 @@ var require_AvroReadable = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/internal-avro/AvroReadableFromStream.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/internal-avro/AvroReadableFromStream.js
 var require_AvroReadableFromStream = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/internal-avro/AvroReadableFromStream.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/internal-avro/AvroReadableFromStream.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.AvroReadableFromStream = void 0;
@@ -60966,9 +61346,9 @@ var require_AvroReadableFromStream = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/internal-avro/index.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/internal-avro/index.js
 var require_internal_avro = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/internal-avro/index.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/internal-avro/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.AvroReadableFromStream = exports2.AvroReadable = exports2.AvroReader = void 0;
@@ -60987,9 +61367,9 @@ var require_internal_avro = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/utils/BlobQuickQueryStream.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/utils/BlobQuickQueryStream.js
 var require_BlobQuickQueryStream = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/utils/BlobQuickQueryStream.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/utils/BlobQuickQueryStream.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.BlobQuickQueryStream = void 0;
@@ -61105,9 +61485,9 @@ var require_BlobQuickQueryStream = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/BlobQueryResponse.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/BlobQueryResponse.js
 var require_BlobQueryResponse = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/BlobQueryResponse.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/BlobQueryResponse.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.BlobQueryResponse = void 0;
@@ -61475,9 +61855,9 @@ var require_BlobQueryResponse = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/models.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/models.js
 var require_models2 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/models.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/models.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.StorageBlobAudience = exports2.PremiumPageBlobTier = exports2.BlockBlobTier = void 0;
@@ -61531,9 +61911,9 @@ var require_models2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/PageBlobRangeResponse.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/PageBlobRangeResponse.js
 var require_PageBlobRangeResponse = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/PageBlobRangeResponse.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/PageBlobRangeResponse.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.rangeResponseFromModel = rangeResponseFromModel;
@@ -62719,9 +63099,9 @@ var require_commonjs12 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/pollers/BlobStartCopyFromUrlPoller.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/pollers/BlobStartCopyFromUrlPoller.js
 var require_BlobStartCopyFromUrlPoller = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/pollers/BlobStartCopyFromUrlPoller.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/pollers/BlobStartCopyFromUrlPoller.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.BlobBeginCopyFromUrlPoller = void 0;
@@ -62822,9 +63202,9 @@ var require_BlobStartCopyFromUrlPoller = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/Range.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/Range.js
 var require_Range = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/Range.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/Range.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.rangeToString = rangeToString;
@@ -62840,9 +63220,9 @@ var require_Range = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/utils/Batch.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/utils/Batch.js
 var require_Batch = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/utils/Batch.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/utils/Batch.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.Batch = void 0;
@@ -62965,9 +63345,9 @@ var require_Batch = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/utils/utils.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/utils/utils.js
 var require_utils5 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/utils/utils.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/utils/utils.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.fsCreateReadStream = exports2.fsStat = void 0;
@@ -63069,9 +63449,9 @@ var require_utils5 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/Clients.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/Clients.js
 var require_Clients = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/Clients.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/Clients.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.PageBlobClient = exports2.BlockBlobClient = exports2.AppendBlobClient = exports2.BlobClient = void 0;
@@ -65757,9 +66137,9 @@ var require_Clients = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/BatchUtils.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/BatchUtils.js
 var require_BatchUtils = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/BatchUtils.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/BatchUtils.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getBodyAsText = getBodyAsText;
@@ -65778,9 +66158,9 @@ var require_BatchUtils = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/BatchResponseParser.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/BatchResponseParser.js
 var require_BatchResponseParser = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/BatchResponseParser.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/BatchResponseParser.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.BatchResponseParser = void 0;
@@ -65893,9 +66273,9 @@ var require_BatchResponseParser = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/utils/Mutex.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/utils/Mutex.js
 var require_Mutex = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/utils/Mutex.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/utils/Mutex.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.Mutex = void 0;
@@ -65960,9 +66340,9 @@ var require_Mutex = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/BlobBatch.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/BlobBatch.js
 var require_BlobBatch = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/BlobBatch.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/BlobBatch.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.BlobBatch = void 0;
@@ -66210,9 +66590,9 @@ var require_BlobBatch = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/BlobBatchClient.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/BlobBatchClient.js
 var require_BlobBatchClient = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/BlobBatchClient.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/BlobBatchClient.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.BlobBatchClient = void 0;
@@ -66366,9 +66746,9 @@ var require_BlobBatchClient = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/ContainerClient.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/ContainerClient.js
 var require_ContainerClient = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/ContainerClient.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/ContainerClient.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.ContainerClient = void 0;
@@ -67620,9 +68000,9 @@ var require_ContainerClient = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/sas/AccountSASPermissions.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/sas/AccountSASPermissions.js
 var require_AccountSASPermissions = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/sas/AccountSASPermissions.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/sas/AccountSASPermissions.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.AccountSASPermissions = void 0;
@@ -67842,9 +68222,9 @@ var require_AccountSASPermissions = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/sas/AccountSASResourceTypes.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/sas/AccountSASResourceTypes.js
 var require_AccountSASResourceTypes = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/sas/AccountSASResourceTypes.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/sas/AccountSASResourceTypes.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.AccountSASResourceTypes = void 0;
@@ -67912,9 +68292,9 @@ var require_AccountSASResourceTypes = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/sas/AccountSASServices.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/sas/AccountSASServices.js
 var require_AccountSASServices = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/sas/AccountSASServices.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/sas/AccountSASServices.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.AccountSASServices = void 0;
@@ -67990,9 +68370,9 @@ var require_AccountSASServices = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/sas/AccountSASSignatureValues.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/sas/AccountSASSignatureValues.js
 var require_AccountSASSignatureValues = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/sas/AccountSASSignatureValues.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/sas/AccountSASSignatureValues.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.generateAccountSASQueryParameters = generateAccountSASQueryParameters;
@@ -68070,9 +68450,9 @@ var require_AccountSASSignatureValues = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/BlobServiceClient.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/BlobServiceClient.js
 var require_BlobServiceClient = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/BlobServiceClient.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/BlobServiceClient.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.BlobServiceClient = void 0;
@@ -68761,17 +69141,17 @@ var require_BlobServiceClient = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/BatchResponse.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/BatchResponse.js
 var require_BatchResponse = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/BatchResponse.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/BatchResponse.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generatedModels.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generatedModels.js
 var require_generatedModels = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/generatedModels.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/generatedModels.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.KnownEncryptionAlgorithmType = void 0;
@@ -68782,9 +69162,9 @@ var require_generatedModels = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/index.js
+// node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/index.js
 var require_commonjs13 = __commonJS({
-  "node_modules/.pnpm/@azure+storage-blob@12.28.0/node_modules/@azure/storage-blob/dist/commonjs/index.js"(exports2) {
+  "node_modules/.pnpm/@azure+storage-blob@12.29.1/node_modules/@azure/storage-blob/dist/commonjs/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.logger = exports2.RestError = exports2.BaseRequestPolicy = exports2.StorageOAuthScopes = exports2.newPipeline = exports2.isPipelineLike = exports2.Pipeline = exports2.getBlobServiceAccountAudience = exports2.StorageBlobAudience = exports2.PremiumPageBlobTier = exports2.BlockBlobTier = exports2.generateBlobSASQueryParameters = exports2.generateAccountSASQueryParameters = void 0;
@@ -68861,9 +69241,9 @@ var require_commonjs13 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/internal/shared/errors.js
+// node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/internal/shared/errors.js
 var require_errors2 = __commonJS({
-  "node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/internal/shared/errors.js"(exports2) {
+  "node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/internal/shared/errors.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.UsageError = exports2.NetworkError = exports2.GHESNotSupportedError = exports2.CacheNotFoundError = exports2.InvalidResponseError = exports2.FilesNotFoundError = void 0;
@@ -68938,9 +69318,9 @@ More info on storage limits: https://docs.github.com/en/billing/managing-billing
   }
 });
 
-// node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/internal/uploadUtils.js
+// node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/internal/uploadUtils.js
 var require_uploadUtils = __commonJS({
-  "node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/internal/uploadUtils.js"(exports2) {
+  "node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/internal/uploadUtils.js"(exports2) {
     "use strict";
     var __createBinding2 = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
@@ -69113,9 +69493,9 @@ var require_uploadUtils = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/internal/requestUtils.js
+// node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/internal/requestUtils.js
 var require_requestUtils = __commonJS({
-  "node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/internal/requestUtils.js"(exports2) {
+  "node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/internal/requestUtils.js"(exports2) {
     "use strict";
     var __createBinding2 = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
@@ -69446,9 +69826,9 @@ var init_src = __esm({
   }
 });
 
-// node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/internal/downloadUtils.js
+// node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/internal/downloadUtils.js
 var require_downloadUtils = __commonJS({
-  "node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/internal/downloadUtils.js"(exports2) {
+  "node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/internal/downloadUtils.js"(exports2) {
     "use strict";
     var __createBinding2 = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
@@ -69806,9 +70186,9 @@ var require_downloadUtils = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/options.js
+// node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/options.js
 var require_options2 = __commonJS({
-  "node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/options.js"(exports2) {
+  "node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/options.js"(exports2) {
     "use strict";
     var __createBinding2 = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
@@ -69910,9 +70290,9 @@ var require_options2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/internal/config.js
+// node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/internal/config.js
 var require_config = __commonJS({
-  "node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/internal/config.js"(exports2) {
+  "node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/internal/config.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getCacheServiceURL = exports2.getCacheServiceVersion = exports2.isGhes = void 0;
@@ -69946,12 +70326,12 @@ var require_config = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/package.json
+// node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/package.json
 var require_package = __commonJS({
-  "node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/package.json"(exports2, module2) {
+  "node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/package.json"(exports2, module2) {
     module2.exports = {
       name: "@actions/cache",
-      version: "4.0.5",
+      version: "4.1.0",
       preview: true,
       description: "Actions cache lib",
       keywords: [
@@ -70009,9 +70389,9 @@ var require_package = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/internal/shared/user-agent.js
+// node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/internal/shared/user-agent.js
 var require_user_agent = __commonJS({
-  "node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/internal/shared/user-agent.js"(exports2) {
+  "node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/internal/shared/user-agent.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getUserAgentString = void 0;
@@ -70023,9 +70403,9 @@ var require_user_agent = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/internal/cacheHttpClient.js
+// node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/internal/cacheHttpClient.js
 var require_cacheHttpClient = __commonJS({
-  "node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/internal/cacheHttpClient.js"(exports2) {
+  "node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/internal/cacheHttpClient.js"(exports2) {
     "use strict";
     var __createBinding2 = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
@@ -74235,9 +74615,9 @@ var init_es20152 = __esm({
   }
 });
 
-// node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/generated/results/entities/v1/cachescope.js
+// node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/generated/results/entities/v1/cachescope.js
 var require_cachescope = __commonJS({
-  "node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/generated/results/entities/v1/cachescope.js"(exports2) {
+  "node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/generated/results/entities/v1/cachescope.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.CacheScope = void 0;
@@ -74311,9 +74691,9 @@ var require_cachescope = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/generated/results/entities/v1/cachemetadata.js
+// node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/generated/results/entities/v1/cachemetadata.js
 var require_cachemetadata = __commonJS({
-  "node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/generated/results/entities/v1/cachemetadata.js"(exports2) {
+  "node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/generated/results/entities/v1/cachemetadata.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.CacheMetadata = void 0;
@@ -74382,9 +74762,9 @@ var require_cachemetadata = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/generated/results/api/v1/cache.js
+// node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/generated/results/api/v1/cache.js
 var require_cache3 = __commonJS({
-  "node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/generated/results/api/v1/cache.js"(exports2) {
+  "node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/generated/results/api/v1/cache.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.CacheService = exports2.GetCacheEntryDownloadURLResponse = exports2.GetCacheEntryDownloadURLRequest = exports2.FinalizeCacheEntryUploadResponse = exports2.FinalizeCacheEntryUploadRequest = exports2.CreateCacheEntryResponse = exports2.CreateCacheEntryRequest = void 0;
@@ -74480,11 +74860,18 @@ var require_cache3 = __commonJS({
             kind: "scalar",
             T: 9
             /*ScalarType.STRING*/
+          },
+          {
+            no: 3,
+            name: "message",
+            kind: "scalar",
+            T: 9
+            /*ScalarType.STRING*/
           }
         ]);
       }
       create(value) {
-        const message = { ok: false, signedUploadUrl: "" };
+        const message = { ok: false, signedUploadUrl: "", message: "" };
         globalThis.Object.defineProperty(message, runtime_4.MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== void 0)
           (0, runtime_3.reflectionMergePartial)(this, message, value);
@@ -74503,6 +74890,10 @@ var require_cache3 = __commonJS({
             2:
               message.signedUploadUrl = reader.string();
               break;
+            case /* string message */
+            3:
+              message.message = reader.string();
+              break;
             default:
               let u = options2.readUnknownField;
               if (u === "throw")
@@ -74519,6 +74910,8 @@ var require_cache3 = __commonJS({
           writer.tag(1, runtime_1.WireType.Varint).bool(message.ok);
         if (message.signedUploadUrl !== "")
           writer.tag(2, runtime_1.WireType.LengthDelimited).string(message.signedUploadUrl);
+        if (message.message !== "")
+          writer.tag(3, runtime_1.WireType.LengthDelimited).string(message.message);
         let u = options2.writeUnknownFields;
         if (u !== false)
           (u == true ? runtime_2.UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -74624,11 +75017,18 @@ var require_cache3 = __commonJS({
             kind: "scalar",
             T: 3
             /*ScalarType.INT64*/
+          },
+          {
+            no: 3,
+            name: "message",
+            kind: "scalar",
+            T: 9
+            /*ScalarType.STRING*/
           }
         ]);
       }
       create(value) {
-        const message = { ok: false, entryId: "0" };
+        const message = { ok: false, entryId: "0", message: "" };
         globalThis.Object.defineProperty(message, runtime_4.MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== void 0)
           (0, runtime_3.reflectionMergePartial)(this, message, value);
@@ -74647,6 +75047,10 @@ var require_cache3 = __commonJS({
             2:
               message.entryId = reader.int64().toString();
               break;
+            case /* string message */
+            3:
+              message.message = reader.string();
+              break;
             default:
               let u = options2.readUnknownField;
               if (u === "throw")
@@ -74663,6 +75067,8 @@ var require_cache3 = __commonJS({
           writer.tag(1, runtime_1.WireType.Varint).bool(message.ok);
         if (message.entryId !== "0")
           writer.tag(2, runtime_1.WireType.Varint).int64(message.entryId);
+        if (message.message !== "")
+          writer.tag(3, runtime_1.WireType.LengthDelimited).string(message.message);
         let u = options2.writeUnknownFields;
         if (u !== false)
           (u == true ? runtime_2.UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -74836,9 +75242,9 @@ var require_cache3 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/generated/results/api/v1/cache.twirp-client.js
+// node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/generated/results/api/v1/cache.twirp-client.js
 var require_cache_twirp_client = __commonJS({
-  "node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/generated/results/api/v1/cache.twirp-client.js"(exports2) {
+  "node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/generated/results/api/v1/cache.twirp-client.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.CacheServiceClientProtobuf = exports2.CacheServiceClientJSON = void 0;
@@ -74909,9 +75315,9 @@ var require_cache_twirp_client = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/internal/shared/util.js
+// node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/internal/shared/util.js
 var require_util10 = __commonJS({
-  "node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/internal/shared/util.js"(exports2) {
+  "node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/internal/shared/util.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.maskSecretUrls = exports2.maskSigUrl = void 0;
@@ -74947,9 +75353,9 @@ var require_util10 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/internal/shared/cacheTwirpClient.js
+// node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/internal/shared/cacheTwirpClient.js
 var require_cacheTwirpClient = __commonJS({
-  "node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/internal/shared/cacheTwirpClient.js"(exports2) {
+  "node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/internal/shared/cacheTwirpClient.js"(exports2) {
     "use strict";
     var __awaiter7 = exports2 && exports2.__awaiter || function(thisArg, _arguments, P, generator) {
       function adopt(value) {
@@ -75124,9 +75530,9 @@ var require_cacheTwirpClient = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/internal/tar.js
+// node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/internal/tar.js
 var require_tar = __commonJS({
-  "node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/internal/tar.js"(exports2) {
+  "node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/internal/tar.js"(exports2) {
     "use strict";
     var __createBinding2 = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
@@ -75367,9 +75773,9 @@ var require_tar = __commonJS({
   }
 });
 
-// node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/cache.js
+// node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/cache.js
 var require_cache4 = __commonJS({
-  "node_modules/.pnpm/@actions+cache@4.0.5/node_modules/@actions/cache/lib/cache.js"(exports2) {
+  "node_modules/.pnpm/@actions+cache@4.1.0/node_modules/@actions/cache/lib/cache.js"(exports2) {
     "use strict";
     var __createBinding2 = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
@@ -75426,7 +75832,7 @@ var require_cache4 = __commonJS({
       });
     };
     Object.defineProperty(exports2, "__esModule", { value: true });
-    exports2.saveCache = exports2.restoreCache = exports2.isFeatureAvailable = exports2.ReserveCacheError = exports2.ValidationError = void 0;
+    exports2.saveCache = exports2.restoreCache = exports2.isFeatureAvailable = exports2.FinalizeCacheError = exports2.ReserveCacheError = exports2.ValidationError = void 0;
     var core6 = __importStar2(require_core());
     var path4 = __importStar2(require("path"));
     var utils = __importStar2(require_cacheUtils());
@@ -75434,7 +75840,6 @@ var require_cache4 = __commonJS({
     var cacheTwirpClient = __importStar2(require_cacheTwirpClient());
     var config_1 = require_config();
     var tar_1 = require_tar();
-    var constants_1 = require_constants6();
     var http_client_1 = require_lib();
     var ValidationError = class _ValidationError extends Error {
       constructor(message) {
@@ -75452,6 +75857,14 @@ var require_cache4 = __commonJS({
       }
     };
     exports2.ReserveCacheError = ReserveCacheError;
+    var FinalizeCacheError = class _FinalizeCacheError extends Error {
+      constructor(message) {
+        super(message);
+        this.name = "FinalizeCacheError";
+        Object.setPrototypeOf(this, _FinalizeCacheError.prototype);
+      }
+    };
+    exports2.FinalizeCacheError = FinalizeCacheError;
     function checkPaths(paths) {
       if (!paths || paths.length === 0) {
         throw new ValidationError(`Path Validation Error: At least one directory or file path is required`);
@@ -75723,9 +76136,6 @@ var require_cache4 = __commonJS({
           }
           const archiveFileSize = utils.getArchiveFileSizeInBytes(archivePath);
           core6.debug(`File Size: ${archiveFileSize}`);
-          if (archiveFileSize > constants_1.CacheFileSizeLimit && !(0, config_1.isGhes)()) {
-            throw new Error(`Cache size of ~${Math.round(archiveFileSize / (1024 * 1024))} MB (${archiveFileSize} B) is over the 10GB limit, not saving cache.`);
-          }
           options2.archiveSizeBytes = archiveFileSize;
           core6.debug("Reserving Cache");
           const version2 = utils.getCacheVersion(paths, compressionMethod, enableCrossOsArchive);
@@ -75737,7 +76147,10 @@ var require_cache4 = __commonJS({
           try {
             const response = yield twirpClient.CreateCacheEntry(request);
             if (!response.ok) {
-              throw new Error("Response was not ok");
+              if (response.message) {
+                core6.warning(`Cache reservation failed: ${response.message}`);
+              }
+              throw new Error(response.message || "Response was not ok");
             }
             signedUploadUrl = response.signedUploadUrl;
           } catch (error3) {
@@ -75754,6 +76167,9 @@ var require_cache4 = __commonJS({
           const finalizeResponse = yield twirpClient.FinalizeCacheEntryUpload(finalizeRequest);
           core6.debug(`FinalizeCacheEntryUploadResponse: ${finalizeResponse.ok}`);
           if (!finalizeResponse.ok) {
+            if (finalizeResponse.message) {
+              throw new FinalizeCacheError(finalizeResponse.message);
+            }
             throw new Error(`Unable to finalize cache with key ${key}, another job may be finalizing this cache.`);
           }
           cacheId = parseInt(finalizeResponse.entryId);
@@ -75763,6 +76179,8 @@ var require_cache4 = __commonJS({
             throw error3;
           } else if (typedError.name === ReserveCacheError.name) {
             core6.info(`Failed to save: ${typedError.message}`);
+          } else if (typedError.name === FinalizeCacheError.name) {
+            core6.warning(typedError.message);
           } else {
             if (typedError instanceof http_client_1.HttpClientError && typeof typedError.statusCode === "number" && typedError.statusCode >= 500) {
               core6.error(`Failed to save: ${typedError.message}`);
@@ -75798,7 +76216,7 @@ var import_process = require("process");
 var import_fs = require("fs");
 var core2 = __toESM(require_core());
 
-// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/core/core.js
+// node_modules/.pnpm/zod@4.1.12/node_modules/zod/v4/core/core.js
 var NEVER = Object.freeze({
   status: "aborted"
 });
@@ -75864,7 +76282,7 @@ function config(newConfig) {
   return globalConfig;
 }
 
-// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/core/util.js
+// node_modules/.pnpm/zod@4.1.12/node_modules/zod/v4/core/util.js
 var util_exports = {};
 __export(util_exports, {
   BIGINT_FORMAT_RANGES: () => BIGINT_FORMAT_RANGES,
@@ -76096,6 +76514,8 @@ function isPlainObject(o) {
 function shallowClone(o) {
   if (isPlainObject(o))
     return { ...o };
+  if (Array.isArray(o))
+    return [...o];
   return o;
 }
 function numKeys(data) {
@@ -76496,7 +76916,7 @@ var Class = class {
   }
 };
 
-// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/core/errors.js
+// node_modules/.pnpm/zod@4.1.12/node_modules/zod/v4/core/errors.js
 var initializer = (inst, def) => {
   inst.name = "$ZodError";
   Object.defineProperty(inst, "_zod", {
@@ -76528,10 +76948,7 @@ function flattenError(error3, mapper = (issue2) => issue2.message) {
   }
   return { formErrors, fieldErrors };
 }
-function formatError(error3, _mapper) {
-  const mapper = _mapper || function(issue2) {
-    return issue2.message;
-  };
+function formatError(error3, mapper = (issue2) => issue2.message) {
   const fieldErrors = { _errors: [] };
   const processError = (error4) => {
     for (const issue2 of error4.issues) {
@@ -76565,7 +76982,7 @@ function formatError(error3, _mapper) {
   return fieldErrors;
 }
 
-// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/core/parse.js
+// node_modules/.pnpm/zod@4.1.12/node_modules/zod/v4/core/parse.js
 var _parse = (_Err) => (schema, value, _ctx, _params) => {
   const ctx = _ctx ? Object.assign(_ctx, { async: false }) : { async: false };
   const result = schema._zod.run({ value, issues: [] }, ctx);
@@ -76643,7 +77060,7 @@ var _safeDecodeAsync = (_Err) => async (schema, value, _ctx) => {
   return _safeParseAsync(_Err)(schema, value, _ctx);
 };
 
-// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/core/regexes.js
+// node_modules/.pnpm/zod@4.1.12/node_modules/zod/v4/core/regexes.js
 var cuid = /^[cC][^\s-]{8,}$/;
 var cuid2 = /^[0-9a-z]+$/;
 var ulid = /^[0-9A-HJKMNP-TV-Za-hjkmnp-tv-z]{26}$/;
@@ -76663,7 +77080,7 @@ function emoji() {
   return new RegExp(_emoji, "u");
 }
 var ipv4 = /^(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])$/;
-var ipv6 = /^(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|::|([0-9a-fA-F]{1,4})?::([0-9a-fA-F]{1,4}:?){0,6})$/;
+var ipv6 = /^(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:))$/;
 var cidrv4 = /^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\/([0-9]|[1-2][0-9]|3[0-2])$/;
 var cidrv6 = /^(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|::|([0-9a-fA-F]{1,4})?::([0-9a-fA-F]{1,4}:?){0,6})\/(12[0-8]|1[01][0-9]|[1-9]?[0-9])$/;
 var base64 = /^$|^(?:[0-9a-zA-Z+/]{4})*(?:(?:[0-9a-zA-Z+/]{2}==)|(?:[0-9a-zA-Z+/]{3}=))?$/;
@@ -76694,11 +77111,11 @@ var string = (params) => {
   const regex = params ? `[\\s\\S]{${params?.minimum ?? 0},${params?.maximum ?? ""}}` : `[\\s\\S]*`;
   return new RegExp(`^${regex}$`);
 };
-var boolean = /true|false/i;
+var boolean = /^(?:true|false)$/i;
 var lowercase = /^[^A-Z]*$/;
 var uppercase = /^[^a-z]*$/;
 
-// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/core/checks.js
+// node_modules/.pnpm/zod@4.1.12/node_modules/zod/v4/core/checks.js
 var $ZodCheck = /* @__PURE__ */ $constructor("$ZodCheck", (inst, def) => {
   var _a;
   inst._zod ?? (inst._zod = {});
@@ -76926,14 +77343,14 @@ var $ZodCheckOverwrite = /* @__PURE__ */ $constructor("$ZodCheckOverwrite", (ins
   };
 });
 
-// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/core/versions.js
+// node_modules/.pnpm/zod@4.1.12/node_modules/zod/v4/core/versions.js
 var version = {
   major: 4,
   minor: 1,
-  patch: 5
+  patch: 12
 };
 
-// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/core/schemas.js
+// node_modules/.pnpm/zod@4.1.12/node_modules/zod/v4/core/schemas.js
 var $ZodType = /* @__PURE__ */ $constructor("$ZodType", (inst, def) => {
   var _a;
   inst ?? (inst = {});
@@ -77227,8 +77644,11 @@ var $ZodCIDRv6 = /* @__PURE__ */ $constructor("$ZodCIDRv6", (inst, def) => {
   def.pattern ?? (def.pattern = cidrv6);
   $ZodStringFormat.init(inst, def);
   inst._zod.check = (payload) => {
-    const [address, prefix] = payload.value.split("/");
+    const parts = payload.value.split("/");
     try {
+      if (parts.length !== 2)
+        throw new Error();
+      const [address, prefix] = parts;
       if (!prefix)
         throw new Error();
       const prefixNum = Number(prefix);
@@ -77931,12 +78351,12 @@ function handleRefineResult(result, payload, input, inst) {
   }
 }
 
-// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/core/registries.js
+// node_modules/.pnpm/zod@4.1.12/node_modules/zod/v4/core/registries.js
 var $output = Symbol("ZodOutput");
 var $input = Symbol("ZodInput");
 var $ZodRegistry = class {
   constructor() {
-    this._map = /* @__PURE__ */ new Map();
+    this._map = /* @__PURE__ */ new WeakMap();
     this._idmap = /* @__PURE__ */ new Map();
   }
   add(schema, ..._meta) {
@@ -77951,7 +78371,7 @@ var $ZodRegistry = class {
     return this;
   }
   clear() {
-    this._map = /* @__PURE__ */ new Map();
+    this._map = /* @__PURE__ */ new WeakMap();
     this._idmap = /* @__PURE__ */ new Map();
     return this;
   }
@@ -77982,7 +78402,7 @@ function registry() {
 }
 var globalRegistry = /* @__PURE__ */ registry();
 
-// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/core/api.js
+// node_modules/.pnpm/zod@4.1.12/node_modules/zod/v4/core/api.js
 function _string(Class2, params) {
   return new Class2({
     type: "string",
@@ -78366,7 +78786,7 @@ function _check(fn, params) {
   return ch;
 }
 
-// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/classic/iso.js
+// node_modules/.pnpm/zod@4.1.12/node_modules/zod/v4/classic/iso.js
 var ZodISODateTime = /* @__PURE__ */ $constructor("ZodISODateTime", (inst, def) => {
   $ZodISODateTime.init(inst, def);
   ZodStringFormat.init(inst, def);
@@ -78396,7 +78816,7 @@ function duration2(params) {
   return _isoDuration(ZodISODuration, params);
 }
 
-// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/classic/errors.js
+// node_modules/.pnpm/zod@4.1.12/node_modules/zod/v4/classic/errors.js
 var initializer2 = (inst, issues) => {
   $ZodError.init(inst, issues);
   inst.name = "ZodError";
@@ -78436,7 +78856,7 @@ var ZodRealError = $constructor("ZodError", initializer2, {
   Parent: Error
 });
 
-// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/classic/parse.js
+// node_modules/.pnpm/zod@4.1.12/node_modules/zod/v4/classic/parse.js
 var parse2 = /* @__PURE__ */ _parse(ZodRealError);
 var parseAsync2 = /* @__PURE__ */ _parseAsync(ZodRealError);
 var safeParse2 = /* @__PURE__ */ _safeParse(ZodRealError);
@@ -78450,23 +78870,19 @@ var safeDecode = /* @__PURE__ */ _safeDecode(ZodRealError);
 var safeEncodeAsync = /* @__PURE__ */ _safeEncodeAsync(ZodRealError);
 var safeDecodeAsync = /* @__PURE__ */ _safeDecodeAsync(ZodRealError);
 
-// node_modules/.pnpm/zod@4.1.5/node_modules/zod/v4/classic/schemas.js
+// node_modules/.pnpm/zod@4.1.12/node_modules/zod/v4/classic/schemas.js
 var ZodType = /* @__PURE__ */ $constructor("ZodType", (inst, def) => {
   $ZodType.init(inst, def);
   inst.def = def;
   inst.type = def.type;
   Object.defineProperty(inst, "_def", { value: def });
   inst.check = (...checks) => {
-    return inst.clone(
-      {
-        ...def,
-        checks: [
-          ...def.checks ?? [],
-          ...checks.map((ch) => typeof ch === "function" ? { _zod: { check: ch, def: { check: "custom" }, onattach: [] } } : ch)
-        ]
-      }
-      // { parent: true }
-    );
+    return inst.clone(util_exports.mergeDefs(def, {
+      checks: [
+        ...def.checks ?? [],
+        ...checks.map((ch) => typeof ch === "function" ? { _zod: { check: ch, def: { check: "custom" }, onattach: [] } } : ch)
+      ]
+    }));
   };
   inst.clone = (def2, params) => clone(inst, def2, params);
   inst.brand = () => inst;
@@ -78933,14 +79349,34 @@ function superRefine(fn) {
   return _superRefine(fn);
 }
 
-// node_modules/.pnpm/untildify@5.0.0/node_modules/untildify/index.js
+// node_modules/.pnpm/untildify@6.0.0/node_modules/untildify/index.js
 var import_node_os = __toESM(require("os"), 1);
-var homeDirectory = import_node_os.default.homedir();
+var homeDirectory;
+var currentUser;
 function untildify(pathWithTilde) {
   if (typeof pathWithTilde !== "string") {
     throw new TypeError(`Expected a string, got ${typeof pathWithTilde}`);
   }
-  return homeDirectory ? pathWithTilde.replace(/^~(?=$|\/|\\)/, homeDirectory) : pathWithTilde;
+  if (homeDirectory === void 0) {
+    homeDirectory = import_node_os.default.homedir();
+  }
+  if (homeDirectory && /^~(?=$|\/|\\)/.test(pathWithTilde)) {
+    return pathWithTilde.replace(/^~/, homeDirectory);
+  }
+  const userMatch = pathWithTilde.match(/^~([^/\\]+)(.*)/);
+  if (userMatch) {
+    if (currentUser === void 0) {
+      currentUser = import_node_os.default.userInfo().username;
+    }
+    if (currentUser) {
+      const username = userMatch[1];
+      const rest = userMatch[2];
+      if (username === currentUser) {
+        return homeDirectory + rest;
+      }
+    }
+  }
+  return pathWithTilde;
 }
 
 // node_modules/.pnpm/smol-toml@1.4.2/node_modules/smol-toml/dist/error.js
