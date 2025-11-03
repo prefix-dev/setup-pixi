@@ -1,4 +1,4 @@
-[project]
+[workspace]
 name = "test-auth"
 channels = ["conda-forge", "https://repo.prefix.dev/setup-pixi-test"]
 platforms = ["osx-arm64", "osx-64", "linux-64", "linux-aarch64", "win-64"]

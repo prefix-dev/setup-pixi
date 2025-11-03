@@ -157,8 +157,8 @@ const run = async () => {
   addPixiToPath()
   await pixiLogin()
   await pixiGlobalInstall()
-  await pixiInstall()
   await generateInfo()
+  await pixiInstall()
   await generateList()
   if (options.activatedEnvironment) {
     await activateEnv(options.activatedEnvironment)

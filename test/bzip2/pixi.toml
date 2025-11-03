@@ -1,4 +1,4 @@
-[project]
+[workspace]
 name = "test-win-arm64"
 channels = ["conda-forge"]
 platforms = [

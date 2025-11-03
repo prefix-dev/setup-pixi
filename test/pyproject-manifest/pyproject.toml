@@ -19,7 +19,7 @@ lint = ["ruff>=0.1.14"]
 [tool.ruff]
 target-version = "py310"
 line-length = 100
-exclude = [ ".pixi", "__pycache__" ]
+exclude = [".pixi", "__pycache__"]
 # the TOML parser should also support comments in lists
 lint.select = [
   # flake8-bugbear
@@ -34,7 +34,7 @@ lint.select = [
   "F",
 ]
 
-[tool.pixi.project]
+[tool.pixi.workspace]
 name = "pyproject-manifest"
 channels = ["conda-forge"]
 platforms = ["linux-64", "osx-arm64", "osx-64", "win-64"]
