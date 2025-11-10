@@ -47,7 +47,7 @@ jobs:
         run: |
           set -euo pipefail
           latest_version="$(jq -r '.version' package.json)"
-          count_expected=21
+          count_expected=23
           count_actual="$(grep -c "setup-pixi@v$latest_version" README.md || true)"
           if [ "$count_actual" -ne "$count_expected" ]; then
             echo "::error file=README.md::Expected $count_expected mentions of \`setup-pixi@v$latest_version\` in README.md, but found $count_actual."

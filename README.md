@@ -418,6 +418,27 @@ This can be overwritten by setting the `manifest-path` input argument.
     manifest-path: pyproject.toml
 ```
 
+### Working directory for monorepos
+
+If you're working with a monorepo where your pixi project is in a subdirectory, you can use the `working-directory` input to specify where pixi should look for manifest files (`pixi.toml` or `pyproject.toml`).
+
+```yml
+- uses: prefix-dev/setup-pixi@v0.9.3
+  with:
+    working-directory: ./packages/my-project
+```
+
+This will make pixi look for `pixi.toml` or `pyproject.toml` in the `./packages/my-project` directory instead of the repository root. All pixi commands will be executed from this working directory.
+
+You can combine `working-directory` with `manifest-path` if needed:
+
+```yml
+- uses: prefix-dev/setup-pixi@v0.9.3
+  with:
+    working-directory: ./packages/my-project
+    manifest-path: custom-pixi.toml
+```
+
 ### Only install pixi
 
 If you only want to install pixi and not install the current project, you can use the `run-install` option.

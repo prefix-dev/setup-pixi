@@ -18,6 +18,10 @@ inputs:
       One of `q`, `default`, `v`, `vv`, or `vvv`.
   manifest-path:
     description: Path to the manifest file (i.e., `pixi.toml`) to use for the pixi CLI. Defaults to `pixi.toml`.
+  working-directory:
+    description: |
+      Working directory to use for pixi commands. If specified, pixi will look for manifest files (pixi.toml or pyproject.toml) 
+      in this directory instead of the repository root. Useful for monorepos where pixi projects are in subdirectories.
   run-install:
     description: Whether to run `pixi install` after installing pixi. Defaults to `true`.
   environments:
