@@ -17,7 +17,7 @@ jobs:
     strategy:
       matrix:
         # TODO: add windows-11-arm: https://github.com/conda-forge/conda-forge.github.io/issues/1940
-        os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest, windows-latest, macos-13]
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest, windows-latest]
         cache: [true, false]
     runs-on: ${{ matrix.os }}
     name: default ${{ matrix.cache == true && 'with' || 'without' }} cache (${{ matrix.os }})
@@ -131,7 +131,7 @@ jobs:
   custom-pixi-version:
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest, macos-13]
+        os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
@@ -168,7 +168,7 @@ jobs:
   install-path:
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest, macos-13]
+        os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
@@ -181,7 +181,7 @@ jobs:
   global-install:
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest, macos-13]
+        os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
@@ -770,7 +770,7 @@ jobs:
     name: multiple-environments (${{ matrix.os }}, cache=${{ matrix.cache }})
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest, macos-13]
+        os: [ubuntu-latest, macos-latest, windows-latest]
         cache: ['true', 'false']
     runs-on: ${{ matrix.os }}
     steps:
@@ -808,7 +808,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest, macos-13]
+        os: [windows-latest, ubuntu-latest, macos-latest]
     steps:
       - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
       - name: Move pixi files
@@ -824,7 +824,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest, macos-13]
+        os: [windows-latest, ubuntu-latest, macos-latest]
     steps:
       - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
       - name: Move pixi files
@@ -849,7 +849,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest, macos-13]
+        os: [windows-latest, ubuntu-latest, macos-latest]
     steps:
       - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
       - name: Move pixi files
@@ -873,7 +873,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest, macos-13]
+        os: [windows-latest, ubuntu-latest, macos-latest]
     steps:
       - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
       - name: Move pixi files
