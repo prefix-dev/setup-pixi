@@ -48,6 +48,7 @@ export const activateEnvironment = async (environment: string): Promise<void> =>
   // First, obtain the environment variables that would be set by environment activation
   const envOption = environment === 'default' ? '' : `-e ${environment}`
   const shellHookOutput = await executeGetOutput(pixiCmd(`shell-hook ${envOption} --json`), { silent: true })
+  core.debug(`Got shell hook output '${shellHookOutput.stdout}'`)
   const shellHook = JSON.parse(shellHookOutput.stdout) as ShellHook
 
   // Then, we split the environment variables into the special 'PATH' and all others
