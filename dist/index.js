@@ -80815,6 +80815,7 @@ var getNewPathComponents = (path17) => {
 var activateEnvironment = async (environment) => {
   const envOption = environment === "default" ? "" : `-e ${environment}`;
   const shellHookOutput = await executeGetOutput(pixiCmd(`shell-hook ${envOption} --json`), { silent: true });
+  debug(`Got shell hook output '${shellHookOutput.stdout}'`);
   const shellHook = JSON.parse(shellHookOutput.stdout);
   const [envVars, path17] = splitEnvironment(shellHook);
   if (path17) {
