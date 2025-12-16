@@ -80804,11 +80804,11 @@ var getNewPathComponents = (path17) => {
   if (!currentPath) {
     throw new Error("Unable to obtain current PATH from environment");
   }
+  debug(`Found current path '${currentPath}'`);
+  debug(`Got new path '${path17}'`);
   if (!path17.endsWith(currentPath)) {
     throw new Error("Unable to handle environment activation which does not only append to PATH");
   }
-  debug(`Found current path '${currentPath}'`);
-  debug(`Got new path '${path17}'`);
   const newPath = path17.slice(0, path17.length - currentPath.length);
   return newPath.split(osPath.delimiter).filter((p) => p.length > 0);
 };
