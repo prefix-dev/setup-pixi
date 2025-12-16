@@ -35,11 +35,11 @@ const getNewPathComponents = (path: string): string[] => {
   if (!currentPath) {
     throw new Error('Unable to obtain current PATH from environment')
   }
+  core.debug(`Found current path '${currentPath}'`)
+  core.debug(`Got new path '${path}'`)
   if (!path.endsWith(currentPath)) {
     throw new Error('Unable to handle environment activation which does not only append to PATH')
   }
-  core.debug(`Found current path '${currentPath}'`)
-  core.debug(`Got new path '${path}'`)
   const newPath = path.slice(0, path.length - currentPath.length)
   return newPath.split(osPath.delimiter).filter((p) => p.length > 0)
 }
