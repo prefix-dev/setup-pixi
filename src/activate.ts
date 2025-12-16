@@ -35,11 +35,11 @@ const getNewPathComponents = (path: string): string[] => {
   if (!currentPath) {
     throw new Error('Unable to obtain current PATH from environment')
   }
+  core.debug(`Found current path '${currentPath}'`)
+  core.debug(`Got new path '${path}'`)
   if (!path.endsWith(currentPath)) {
     throw new Error('Unable to handle environment activation which does not only append to PATH')
   }
-  core.debug(`Found current path '${currentPath}'`)
-  core.debug(`Got new path '${path}'`)
   const newPath = path.slice(0, path.length - currentPath.length)
   return newPath.split(osPath.delimiter).filter((p) => p.length > 0)
 }
@@ -48,6 +48,7 @@ export const activateEnvironment = async (environment: string): Promise<void> =>
   // First, obtain the environment variables that would be set by environment activation
   const envOption = environment === 'default' ? '' : `-e ${environment}`
   const shellHookOutput = await executeGetOutput(pixiCmd(`shell-hook ${envOption} --json`), { silent: true })
+  core.debug(`Got shell hook output '${shellHookOutput.stdout}'`)
   const shellHook = JSON.parse(shellHookOutput.stdout) as ShellHook
 
   // Then, we split the environment variables into the special 'PATH' and all others
