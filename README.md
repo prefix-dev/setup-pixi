@@ -25,7 +25,7 @@ GitHub Action to set up the [pixi](https://github.com/prefix-dev/pixi) package m
 ```yml
 - uses: prefix-dev/setup-pixi@v0.9.3
   with:
-    pixi-version: v0.59.0
+    pixi-version: v0.62.2
 
     cache: true
     auth-host: prefix.dev
