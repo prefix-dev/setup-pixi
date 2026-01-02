@@ -80665,17 +80665,18 @@ var getNewPathComponents = (path4) => {
   if (!currentPath) {
     throw new Error("Unable to obtain current PATH from environment");
   }
+  core4.debug(`Found current path '${currentPath}'`);
+  core4.debug(`Got new path '${path4}'`);
   if (!path4.endsWith(currentPath)) {
     throw new Error("Unable to handle environment activation which does not only append to PATH");
   }
-  core4.debug(`Found current path '${currentPath}'`);
-  core4.debug(`Got new path '${path4}'`);
   const newPath = path4.slice(0, path4.length - currentPath.length);
   return newPath.split(osPath.delimiter).filter((p) => p.length > 0);
 };
 var activateEnvironment = async (environment) => {
   const envOption = environment === "default" ? "" : `-e ${environment}`;
   const shellHookOutput = await executeGetOutput(pixiCmd(`shell-hook ${envOption} --json`), { silent: true });
+  core4.debug(`Got shell hook output '${shellHookOutput.stdout}'`);
   const shellHook = JSON.parse(shellHookOutput.stdout);
   const [envVars, path4] = splitEnvironment(shellHook);
   if (path4) {
