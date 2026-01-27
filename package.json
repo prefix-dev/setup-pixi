@@ -1,6 +1,6 @@
 {
   "name": "setup-pixi",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "private": true,
   "description": "Action to set up the pixi package manager.",
   "scripts": {

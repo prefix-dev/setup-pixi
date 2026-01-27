@@ -327,6 +327,94 @@ jobs:
           pixi-version: latest
       - run: pixi --version | grep -q "pixi 0.14.0"
 
+  working-directory:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - uses: ./
+        with:
+          cache: false
+          working-directory: test/default
+      - run: |
+          set -o pipefail
+          pixi info
+          test -f .pixi/envs/default/bin/python
+          .pixi/envs/default/bin/python --version | grep -q 3.11
+        shell: bash
+        working-directory: test/default
+        if: matrix.os != 'windows-latest'
+      - run: |
+          set -o pipefail
+          pixi info
+          test -f .pixi/envs/default/python.exe
+          .pixi/envs/default/python.exe --version | grep -q 3.11
+        shell: bash
+        working-directory: test/default
+        if: matrix.os == 'windows-latest'
+      - run: pixi run python --version | grep -q 3.11
+        working-directory: test/default
+
+  working-directory-with-manifest-path:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - uses: ./
+        with:
+          cache: false
+          working-directory: test
+          manifest-path: default/pixi.toml
+      - run: |
+          set -o pipefail
+          pixi info
+          test -f .pixi/envs/default/bin/python
+        shell: bash
+        working-directory: test/default
+        if: matrix.os != 'windows-latest'
+      - run: |
+          set -o pipefail
+          pixi info
+          test -f .pixi/envs/default/python.exe
+        shell: bash
+        working-directory: test/default
+        if: matrix.os == 'windows-latest'
+      - run: pixi run python --version | grep -q 3.11
+        working-directory: test/default
+
+  working-directory-with-absolute-manifest-path:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - uses: ./
+        with:
+          cache: false
+          working-directory: test/default
+          manifest-path: ${{ github.workspace }}/test/default/pixi.toml
+      - run: |
+          set -o pipefail
+          pixi info
+          test -f .pixi/envs/default/bin/python
+        shell: bash
+        working-directory: test/default
+        if: matrix.os != 'windows-latest'
+      - run: |
+          set -o pipefail
+          pixi info
+          test -f .pixi/envs/default/python.exe
+        shell: bash
+        working-directory: test/default
+        if: matrix.os == 'windows-latest'
+      - run: pixi run python --version | grep -q 3.11
+        working-directory: test/default
+
   custom-manifest-path:
     strategy:
       matrix:

@@ -289,35 +289,37 @@ const inferOptions = (inputs: Inputs): Options => {
   core.debug(`Working directory: ${workingDirectory}`)
 
   // infer manifest path from inputs or default to pixi.toml or pyproject.toml depending on what is present in the working directory.
-  const pixiPathInWorkingDir = path.join(workingDirectory, pixiPath)
-  const pyprojectPathInWorkingDir = path.join(workingDirectory, pyprojectPath)
+  const pixiTomlPathInWorkingDir = path.join(workingDirectory, pixiPath)
+  const pyprojectTomlPathInWorkingDir = path.join(workingDirectory, pyprojectPath)
 
-  let manifestPath = pixiPathInWorkingDir // default
+  let manifestPath = pixiTomlPathInWorkingDir // default
   if (inputs.manifestPath) {
     // If manifest path is provided, resolve it relative to working directory if it's not absolute
     manifestPath = path.isAbsolute(inputs.manifestPath)
       ? path.resolve(untildify(inputs.manifestPath))
-      : path.resolve(workingDirectory, untildify(inputs.manifestPath))
+      : path.resolve(workingDirectory, inputs.manifestPath)
   } else {
-    if (existsSync(pixiPathInWorkingDir)) {
-      manifestPath = pixiPathInWorkingDir
+    if (existsSync(pixiTomlPathInWorkingDir)) {
+      manifestPath = pixiTomlPathInWorkingDir
       core.debug(`Found pixi.toml at: ${manifestPath}`)
-    } else if (existsSync(pyprojectPathInWorkingDir)) {
+    } else if (existsSync(pyprojectTomlPathInWorkingDir)) {
       try {
-        const fileContent = readFileSync(pyprojectPathInWorkingDir, 'utf-8')
+        const fileContent = readFileSync(pyprojectTomlPathInWorkingDir, 'utf-8')
         const parsedContent: Record<string, unknown> = parse(fileContent)
 
         // Test if the tool.pixi table is present in the pyproject.toml file, if so, use it as the manifest file.
         if (parsedContent.tool && typeof parsedContent.tool === 'object' && 'pixi' in parsedContent.tool) {
-          core.debug(`The tool.pixi table found, using ${pyprojectPathInWorkingDir} as manifest file.`)
-          manifestPath = pyprojectPathInWorkingDir
+          core.debug(`The tool.pixi table found, using ${pyprojectTomlPathInWorkingDir} as manifest file.`)
+          manifestPath = pyprojectTomlPathInWorkingDir
         }
       } catch (error) {
-        core.error(`Error while trying to read ${pyprojectPathInWorkingDir} file.`)
+        core.error(`Error while trying to read ${pyprojectTomlPathInWorkingDir} file.`)
         core.error(error as Error)
       }
     } else if (runInstall) {
-      core.warning(`Could not find any manifest file in ${workingDirectory}. Defaulting to ${pixiPathInWorkingDir}.`)
+      core.warning(
+        `Could not find any manifest file in ${workingDirectory}. Defaulting to ${pixiTomlPathInWorkingDir}.`
+      )
     }
   }
 
