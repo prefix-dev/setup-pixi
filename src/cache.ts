@@ -32,8 +32,8 @@ export const generateProjectCacheKey = async (cacheKeyPrefix: string) => {
     core.debug(`lockfilePathSha: ${lockfilePathSha}`)
     const environments = sha256(options.environments?.join(' ') ?? '')
     core.debug(`environments: ${environments}`)
-    // since the lockfile path is not necessarily absolute, we need to include the cwd in the cache key
-    const cwdSha = sha256(process.cwd())
+    // since the lockfile path is not necessarily absolute, we need to include the working directory in the cache key
+    const cwdSha = sha256(options.workingDirectory)
     core.debug(`cwdSha: ${cwdSha}`)
     const sha = sha256(lockfileSha + environments + pixiSha + lockfilePathSha + cwdSha)
     core.debug(`sha: ${sha}`)

@@ -15,6 +15,7 @@ type Inputs = Readonly<{
   pixiUrlHeaders?: NodeJS.Dict<string>
   logLevel?: LogLevel
   manifestPath?: string
+  workingDirectory?: string
   runInstall?: boolean
   environments?: string[]
   activateEnvironment?: string
@@ -80,6 +81,7 @@ export type Options = Readonly<{
   downloadPixi: boolean
   logLevel: LogLevel
   manifestPath: string
+  workingDirectory: string
   pixiLockFile: string
   runInstall: boolean
   environments?: string[]
@@ -281,29 +283,43 @@ const inferOptions = (inputs: Inputs): Options => {
     inputs.pixiBinPath
   )
   const logLevel = inputs.logLevel ?? (core.isDebug() ? 'vv' : 'default')
-  // infer manifest path from inputs or default to pixi.toml or pyproject.toml depending on what is present in the repo.
-  let manifestPath = pixiPath // default
+
+  // Determine the working directory - resolve to absolute path if provided
+  const workingDirectory = inputs.workingDirectory ? path.resolve(untildify(inputs.workingDirectory)) : process.cwd()
+  core.debug(`Working directory: ${workingDirectory}`)
+
+  // infer manifest path from inputs or default to pixi.toml or pyproject.toml depending on what is present in the working directory.
+  const pixiTomlPathInWorkingDir = path.join(workingDirectory, pixiPath)
+  const pyprojectTomlPathInWorkingDir = path.join(workingDirectory, pyprojectPath)
+
+  let manifestPath = pixiTomlPathInWorkingDir // default
   if (inputs.manifestPath) {
-    manifestPath = path.resolve(untildify(inputs.manifestPath))
+    // If manifest path is provided, resolve it relative to working directory if it's not absolute
+    manifestPath = path.isAbsolute(inputs.manifestPath)
+      ? path.resolve(untildify(inputs.manifestPath))
+      : path.resolve(workingDirectory, inputs.manifestPath)
   } else {
-    if (existsSync(pixiPath)) {
-      manifestPath = pixiPath
-    } else if (existsSync(pyprojectPath)) {
+    if (existsSync(pixiTomlPathInWorkingDir)) {
+      manifestPath = pixiTomlPathInWorkingDir
+      core.debug(`Found pixi.toml at: ${manifestPath}`)
+    } else if (existsSync(pyprojectTomlPathInWorkingDir)) {
       try {
-        const fileContent = readFileSync(pyprojectPath, 'utf-8')
+        const fileContent = readFileSync(pyprojectTomlPathInWorkingDir, 'utf-8')
         const parsedContent: Record<string, unknown> = parse(fileContent)
 
         // Test if the tool.pixi table is present in the pyproject.toml file, if so, use it as the manifest file.
         if (parsedContent.tool && typeof parsedContent.tool === 'object' && 'pixi' in parsedContent.tool) {
-          core.debug(`The tool.pixi table found, using ${pyprojectPath} as manifest file.`)
-          manifestPath = pyprojectPath
+          core.debug(`The tool.pixi table found, using ${pyprojectTomlPathInWorkingDir} as manifest file.`)
+          manifestPath = pyprojectTomlPathInWorkingDir
         }
       } catch (error) {
-        core.error(`Error while trying to read ${pyprojectPath} file.`)
+        core.error(`Error while trying to read ${pyprojectTomlPathInWorkingDir} file.`)
         core.error(error as Error)
       }
     } else if (runInstall) {
-      core.warning(`Could not find any manifest file. Defaulting to ${pixiPath}.`)
+      core.warning(
+        `Could not find any manifest file in ${workingDirectory}. Defaulting to ${pixiTomlPathInWorkingDir}.`
+      )
     }
   }
 
@@ -372,6 +388,7 @@ const inferOptions = (inputs: Inputs): Options => {
     downloadPixi,
     logLevel,
     manifestPath,
+    workingDirectory,
     pixiLockFile,
     runInstall,
     environments: inputs.environments,
@@ -410,6 +427,7 @@ const getOptions = () => {
       'log-level must be one of `q`, `default`, `v`, `vv`, `vvv`.'
     ),
     manifestPath: parseOrUndefined('manifest-path', z.string()),
+    workingDirectory: parseOrUndefined('working-directory', z.string()),
     runInstall: parseOrUndefinedJSON('run-install', z.boolean()),
     environments: parseOrUndefinedList('environments', z.string()),
     activateEnvironment: parseOrUndefined('activate-environment', z.string()),

@@ -30951,26 +30951,33 @@ var inferOptions = (inputs) => {
     inputs.pixiBinPath
   );
   const logLevel = inputs.logLevel ?? (core2.isDebug() ? "vv" : "default");
-  let manifestPath = pixiPath;
+  const workingDirectory = inputs.workingDirectory ? import_path.default.resolve(untildify(inputs.workingDirectory)) : process.cwd();
+  core2.debug(`Working directory: ${workingDirectory}`);
+  const pixiTomlPathInWorkingDir = import_path.default.join(workingDirectory, pixiPath);
+  const pyprojectTomlPathInWorkingDir = import_path.default.join(workingDirectory, pyprojectPath);
+  let manifestPath = pixiTomlPathInWorkingDir;
   if (inputs.manifestPath) {
-    manifestPath = import_path.default.resolve(untildify(inputs.manifestPath));
+    manifestPath = import_path.default.isAbsolute(inputs.manifestPath) ? import_path.default.resolve(untildify(inputs.manifestPath)) : import_path.default.resolve(workingDirectory, inputs.manifestPath);
   } else {
-    if ((0, import_fs.existsSync)(pixiPath)) {
-      manifestPath = pixiPath;
-    } else if ((0, import_fs.existsSync)(pyprojectPath)) {
+    if ((0, import_fs.existsSync)(pixiTomlPathInWorkingDir)) {
+      manifestPath = pixiTomlPathInWorkingDir;
+      core2.debug(`Found pixi.toml at: ${manifestPath}`);
+    } else if ((0, import_fs.existsSync)(pyprojectTomlPathInWorkingDir)) {
       try {
-        const fileContent = (0, import_fs.readFileSync)(pyprojectPath, "utf-8");
+        const fileContent = (0, import_fs.readFileSync)(pyprojectTomlPathInWorkingDir, "utf-8");
         const parsedContent = parse3(fileContent);
         if (parsedContent.tool && typeof parsedContent.tool === "object" && "pixi" in parsedContent.tool) {
-          core2.debug(`The tool.pixi table found, using ${pyprojectPath} as manifest file.`);
-          manifestPath = pyprojectPath;
+          core2.debug(`The tool.pixi table found, using ${pyprojectTomlPathInWorkingDir} as manifest file.`);
+          manifestPath = pyprojectTomlPathInWorkingDir;
         }
       } catch (error2) {
-        core2.error(`Error while trying to read ${pyprojectPath} file.`);
+        core2.error(`Error while trying to read ${pyprojectTomlPathInWorkingDir} file.`);
         core2.error(error2);
       }
     } else if (runInstall) {
-      core2.warning(`Could not find any manifest file. Defaulting to ${pixiPath}.`);
+      core2.warning(
+        `Could not find any manifest file in ${workingDirectory}. Defaulting to ${pixiTomlPathInWorkingDir}.`
+      );
     }
   }
   const pixiLockFile = import_path.default.join(import_path.default.dirname(manifestPath), "pixi.lock");
@@ -31024,6 +31031,7 @@ var inferOptions = (inputs) => {
     downloadPixi,
     logLevel,
     manifestPath,
+    workingDirectory,
     pixiLockFile,
     runInstall,
     environments: inputs.environments,
@@ -31054,6 +31062,7 @@ var getOptions = () => {
       "log-level must be one of `q`, `default`, `v`, `vv`, `vvv`."
     ),
     manifestPath: parseOrUndefined("manifest-path", string2()),
+    workingDirectory: parseOrUndefined("working-directory", string2()),
     runInstall: parseOrUndefinedJSON("run-install", boolean2()),
     environments: parseOrUndefinedList("environments", string2()),
     activateEnvironment: parseOrUndefined("activate-environment", string2()),
