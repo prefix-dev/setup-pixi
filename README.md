@@ -458,6 +458,22 @@ If you only want to install pixi and not install the current project, you can us
     run-install: false
 ```
 
+### Global configuration
+
+You can specify global pixi configuration in TOML format using the `configuration` input.
+This allows you to customize pixi's behavior by setting various configuration options.
+
+```yml
+- uses: prefix-dev/setup-pixi@v0.9.4
+  with:
+    configuration: |
+      run-post-link-scripts = "insecure"
+```
+
+The configuration will be written to `~/.pixi/config.toml` before pixi runs any commands.
+You can specify any valid pixi configuration option.
+For more information about available configuration options, see the [pixi configuration documentation](https://pixi.sh/latest/reference/pixi_configuration/).
+
 ### Download pixi from a custom URL
 
 You can also download pixi from a custom URL by setting the `pixi-url` input argument.
