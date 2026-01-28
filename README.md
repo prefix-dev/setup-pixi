@@ -51,6 +51,8 @@ GitHub Action to set up the [pixi](https://github.com/prefix-dev/pixi) package m
 >       dependencies:
 >         patterns:
 >           - '*'
+>     cooldown:
+>       default-days: 7
 > ```
 
 ## Features
