@@ -38,6 +38,7 @@ type Inputs = Readonly<{
   pypiKeyringProvider?: 'disabled' | 'subprocess'
   postCleanup?: boolean
   globalEnvironments?: string[]
+  configuration?: string
 }>
 
 export interface PixiSource {
@@ -95,6 +96,7 @@ export type Options = Readonly<{
   postCleanup: boolean
   activatedEnvironment?: string
   globalEnvironments?: string[]
+  configuration?: string
 }>
 const pixiPath = 'pixi.toml'
 const pyprojectPath = 'pyproject.toml'
@@ -399,7 +401,8 @@ const inferOptions = (inputs: Inputs): Options => {
     globalCache,
     pixiBinPath,
     auth,
-    postCleanup
+    postCleanup,
+    configuration: inputs.configuration
   }
 }
 
@@ -449,7 +452,8 @@ const getOptions = () => {
     authS3SessionToken: parseOrUndefined('auth-s3-session-token', z.string()),
     pypiKeyringProvider: parseOrUndefined('pypi-keyring-provider', pypiKeyringProviderSchema),
     globalEnvironments: parseOrUndefinedMultilineList('global-environments', z.string()),
-    postCleanup: parseOrUndefinedJSON('post-cleanup', z.boolean())
+    postCleanup: parseOrUndefinedJSON('post-cleanup', z.boolean()),
+    configuration: parseOrUndefined('configuration', z.string())
   }
   core.debug(`Inputs: ${JSON.stringify(inputs)}`)
   validateInputs(inputs)

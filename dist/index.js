@@ -84442,7 +84442,8 @@ var inferOptions = (inputs) => {
     globalCache,
     pixiBinPath,
     auth,
-    postCleanup
+    postCleanup,
+    configuration: inputs.configuration
   };
 };
 var assertOptions = (_options2) => {
@@ -84484,7 +84485,8 @@ var getOptions = () => {
     authS3SessionToken: parseOrUndefined("auth-s3-session-token", string2()),
     pypiKeyringProvider: parseOrUndefined("pypi-keyring-provider", pypiKeyringProviderSchema),
     globalEnvironments: parseOrUndefinedMultilineList("global-environments", string2()),
-    postCleanup: parseOrUndefinedJSON("post-cleanup", boolean2())
+    postCleanup: parseOrUndefinedJSON("post-cleanup", boolean2()),
+    configuration: parseOrUndefined("configuration", string2())
   };
   core2.debug(`Inputs: ${JSON.stringify(inputs)}`);
   validateInputs(inputs);
@@ -84707,6 +84709,21 @@ var downloadPixi = async (source) => {
     core5.info(`Pixi installed to ${options.pixiBinPath}`);
   });
 };
+var writePixiConfig = async () => {
+  const { configuration } = options;
+  if (!configuration) {
+    core5.debug("Skipping pixi config setup.");
+    return;
+  }
+  await core5.group("Writing pixi configuration", async () => {
+    const configDir = import_path3.default.join(import_os4.default.homedir(), ".pixi");
+    const configPath = import_path3.default.join(configDir, "config.toml");
+    core5.debug(`Writing pixi configuration to ${configPath}`);
+    await import_promises2.default.mkdir(configDir, { recursive: true });
+    await import_promises2.default.writeFile(configPath, configuration, "utf-8");
+    core5.info(`Pixi configuration written to ${configPath}`);
+  });
+};
 var pixiLogin = async () => {
   const auth = options.auth;
   if (!auth) {
@@ -84815,6 +84832,7 @@ var run = async () => {
     await downloadPixi(options.pixiSource);
   }
   addPixiToPath();
+  await writePixiConfig();
   await pixiLogin();
   await pixiGlobalInstall();
   await generateInfo();
