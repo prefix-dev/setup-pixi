@@ -23,6 +23,23 @@ const downloadPixi = async (source: PixiSource) => {
   })
 }
 
+const writePixiConfig = async () => {
+  const { configuration } = options
+  if (!configuration) {
+    core.debug('Skipping pixi config setup.')
+    return
+  }
+
+  await core.group('Writing pixi configuration', async () => {
+    const configDir = path.join(os.homedir(), '.pixi')
+    const configPath = path.join(configDir, 'config.toml')
+    core.debug(`Writing pixi configuration to ${configPath}`)
+    await fs.mkdir(configDir, { recursive: true })
+    await fs.writeFile(configPath, configuration, 'utf-8')
+    core.info(`Pixi configuration written to ${configPath}`)
+  })
+}
+
 const pixiLogin = async () => {
   const auth = options.auth
   if (!auth) {
@@ -191,6 +208,7 @@ const run = async () => {
     core.saveState('pixi-bin-installed', 'true')
   }
   addPixiToPath()
+  await writePixiConfig()
   await pixiLogin()
   await pixiGlobalInstall()
   await generateInfo()
