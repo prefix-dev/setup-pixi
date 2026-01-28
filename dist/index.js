@@ -84867,17 +84867,19 @@ var writePixiConfig = async () => {
       throw new Error(`Invalid TOML configuration: ${error3 instanceof Error ? error3.message : String(error3)}`);
     }
     await import_promises2.default.mkdir(configDir, { recursive: true });
-    let finalConfig = parsedNewConfig;
     try {
-      const existingConfig = await import_promises2.default.readFile(configPath, "utf-8");
-      const parsedExistingConfig = parse(existingConfig);
-      core5.info(`Found existing configuration at ${configPath}, merging with new configuration`);
-      finalConfig = { ...parsedExistingConfig, ...parsedNewConfig };
-    } catch {
+      await import_promises2.default.access(configPath);
+      throw new Error(
+        `Configuration file already exists at ${configPath}. Please remove the existing file or do not use the configuration input.`
+      );
+    } catch (error3) {
+      if (error3 instanceof Error && "code" in error3 && error3.code !== "ENOENT") {
+        throw error3;
+      }
       core5.debug(`No existing configuration found at ${configPath}, creating new file`);
     }
     core5.debug(`Writing pixi configuration to ${configPath}`);
-    const tomlContent = stringify(finalConfig);
+    const tomlContent = stringify(parsedNewConfig);
     await import_promises2.default.writeFile(configPath, tomlContent, "utf-8");
     core5.info(`Pixi configuration written to ${configPath}`);
   });
