@@ -4,6 +4,7 @@ import path from 'path'
 import { exit } from 'process'
 import * as core from '@actions/core'
 import { downloadTool } from '@actions/tool-cache'
+import { parse, stringify } from 'smol-toml'
 import type { PixiSource } from './options'
 import { options } from './options'
 import { execute, pixiCmd, renderPixiUrl } from './util'
@@ -33,9 +34,34 @@ const writePixiConfig = async () => {
   await core.group('Writing pixi configuration', async () => {
     const configDir = path.join(os.homedir(), '.pixi')
     const configPath = path.join(configDir, 'config.toml')
-    core.debug(`Writing pixi configuration to ${configPath}`)
+
+    // Validate TOML before writing
+    let parsedNewConfig: Record<string, unknown>
+    try {
+      parsedNewConfig = parse(configuration)
+      core.debug(`Parsed configuration: ${JSON.stringify(parsedNewConfig)}`)
+    } catch (error) {
+      throw new Error(`Invalid TOML configuration: ${error instanceof Error ? error.message : String(error)}`)
+    }
+
     await fs.mkdir(configDir, { recursive: true })
-    await fs.writeFile(configPath, configuration, 'utf-8')
+
+    // Check if config file already exists and merge if needed
+    let finalConfig: Record<string, unknown> = parsedNewConfig
+    try {
+      const existingConfig = await fs.readFile(configPath, 'utf-8')
+      const parsedExistingConfig = parse(existingConfig)
+      core.info(`Found existing configuration at ${configPath}, merging with new configuration`)
+      // Merge configurations, with new config taking precedence
+      finalConfig = { ...parsedExistingConfig, ...parsedNewConfig }
+    } catch {
+      // File doesn't exist or can't be read, just use the new config
+      core.debug(`No existing configuration found at ${configPath}, creating new file`)
+    }
+
+    core.debug(`Writing pixi configuration to ${configPath}`)
+    const tomlContent = stringify(finalConfig)
+    await fs.writeFile(configPath, tomlContent, 'utf-8')
     core.info(`Pixi configuration written to ${configPath}`)
   })
 }
