@@ -4,6 +4,7 @@ import path from 'path'
 import { exit } from 'process'
 import * as core from '@actions/core'
 import { downloadTool } from '@actions/tool-cache'
+import { parse, stringify } from 'smol-toml'
 import type { PixiSource } from './options'
 import { options } from './options'
 import { execute, pixiCmd, renderPixiUrl } from './util'
@@ -20,6 +21,50 @@ const downloadPixi = async (source: PixiSource) => {
     await downloadTool(url, options.pixiBinPath, undefined, source.headers)
     await fs.chmod(options.pixiBinPath, 0o755)
     core.info(`Pixi installed to ${options.pixiBinPath}`)
+  })
+}
+
+const writePixiConfig = async () => {
+  const { configuration } = options
+  if (!configuration) {
+    core.debug('Skipping pixi config setup.')
+    return
+  }
+
+  await core.group('Writing pixi configuration', async () => {
+    const configDir = path.join(os.homedir(), '.pixi')
+    const configPath = path.join(configDir, 'config.toml')
+
+    // Validate TOML before writing
+    let parsedNewConfig: Record<string, unknown>
+    try {
+      parsedNewConfig = parse(configuration)
+      core.debug(`Parsed configuration: ${JSON.stringify(parsedNewConfig)}`)
+    } catch (error) {
+      throw new Error(`Invalid TOML configuration: ${error instanceof Error ? error.message : String(error)}`)
+    }
+
+    await fs.mkdir(configDir, { recursive: true })
+
+    // Check if config file already exists and throw error if it does
+    try {
+      await fs.access(configPath)
+      throw new Error(
+        `Configuration file already exists at ${configPath}. ` +
+          `Please remove the existing file or do not use the configuration input.`
+      )
+    } catch (error) {
+      // If file doesn't exist (ENOENT), continue with writing
+      if (error instanceof Error && 'code' in error && (error as NodeJS.ErrnoException).code !== 'ENOENT') {
+        throw error
+      }
+      core.debug(`No existing configuration found at ${configPath}, creating new file`)
+    }
+
+    core.debug(`Writing pixi configuration to ${configPath}`)
+    const tomlContent = stringify(parsedNewConfig)
+    await fs.writeFile(configPath, tomlContent, 'utf-8')
+    core.info(`Pixi configuration written to ${configPath}`)
   })
 }
 
@@ -155,6 +200,7 @@ const run = async () => {
     await downloadPixi(options.pixiSource)
   }
   addPixiToPath()
+  await writePixiConfig()
   await pixiLogin()
   await pixiGlobalInstall()
   await generateInfo()

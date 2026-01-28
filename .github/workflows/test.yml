@@ -1326,3 +1326,40 @@ jobs:
           echo "Unexpected success!"
           exit 1
         if: ${{ steps.test.outcome != 'failure' }}
+
+  configuration:
+    timeout-minutes: 10
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - name: Move pixi.toml
+        run: mv test/default/* .
+      - uses: ./
+        with:
+          cache: false
+          configuration: |
+            change-ps1 = false
+      - name: Check configuration file was created (Unix)
+        run: |
+          test -f ~/.pixi/config.toml
+          cat ~/.pixi/config.toml
+          grep -q "change-ps1 = false" ~/.pixi/config.toml
+        shell: bash
+        if: matrix.os != 'windows-latest'
+      - name: Check configuration file was created (Windows)
+        run: |
+          if (!(Test-Path "$env:USERPROFILE\.pixi\config.toml")) {
+            Write-Error "Config file not found"
+            exit 1
+          }
+          Get-Content "$env:USERPROFILE\.pixi\config.toml"
+          if (!(Select-String -Path "$env:USERPROFILE\.pixi\config.toml" -Pattern "change-ps1 = false" -Quiet)) {
+            Write-Error "Configuration not found in config file"
+            exit 1
+          }
+        if: matrix.os == 'windows-latest'
+      - run: pixi run python --version | grep -q 3.11

@@ -86,6 +86,10 @@ inputs:
     description: |
       If the action should clean up after itself. Defaults to `true`.
       If `true`, the pixi environment, the pixi binary and the rattler files in ~/.rattler and ~/.cache/rattler are removed.
+  configuration:
+    description: |
+      Global pixi configuration in TOML format. Will be written to ~/.pixi/config.toml.
+      For example, to enable insecure post-link scripts: `run-post-link-scripts = "insecure"`
 
 runs:
   using: node24
