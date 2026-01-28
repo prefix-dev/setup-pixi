@@ -46,21 +46,23 @@ const writePixiConfig = async () => {
 
     await fs.mkdir(configDir, { recursive: true })
 
-    // Check if config file already exists and merge if needed
-    let finalConfig: Record<string, unknown> = parsedNewConfig
+    // Check if config file already exists and throw error if it does
     try {
-      const existingConfig = await fs.readFile(configPath, 'utf-8')
-      const parsedExistingConfig = parse(existingConfig)
-      core.info(`Found existing configuration at ${configPath}, merging with new configuration`)
-      // Merge configurations, with new config taking precedence
-      finalConfig = { ...parsedExistingConfig, ...parsedNewConfig }
-    } catch {
-      // File doesn't exist or can't be read, just use the new config
+      await fs.access(configPath)
+      throw new Error(
+        `Configuration file already exists at ${configPath}. ` +
+          `Please remove the existing file or do not use the configuration input.`
+      )
+    } catch (error) {
+      // If file doesn't exist (ENOENT), continue with writing
+      if (error instanceof Error && 'code' in error && (error as NodeJS.ErrnoException).code !== 'ENOENT') {
+        throw error
+      }
       core.debug(`No existing configuration found at ${configPath}, creating new file`)
     }
 
     core.debug(`Writing pixi configuration to ${configPath}`)
-    const tomlContent = stringify(finalConfig)
+    const tomlContent = stringify(parsedNewConfig)
     await fs.writeFile(configPath, tomlContent, 'utf-8')
     core.info(`Pixi configuration written to ${configPath}`)
   })
