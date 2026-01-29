@@ -63,7 +63,7 @@ inputs:
     description: |
       Host to use for authentication. If not set, pixi is not authenticating.
       Requires `auth-token` or `auth-conda-token` or `auth-username` and `auth-password` to be set.
-      See https://prefix.dev/docs/pixi/authentication
+      See https://pixi.prefix.dev/latest/deployment/authentication/
   auth-token:
     description: Token to use for authentication.
   auth-username:
