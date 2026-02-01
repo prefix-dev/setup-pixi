@@ -31042,7 +31042,8 @@ var inferOptions = (inputs) => {
     globalCache,
     pixiBinPath,
     auth,
-    postCleanup
+    postCleanup,
+    configuration: inputs.configuration
   };
 };
 var assertOptions = (_options2) => {
@@ -31084,7 +31085,8 @@ var getOptions = () => {
     authS3SessionToken: parseOrUndefined("auth-s3-session-token", string2()),
     pypiKeyringProvider: parseOrUndefined("pypi-keyring-provider", pypiKeyringProviderSchema),
     globalEnvironments: parseOrUndefinedMultilineList("global-environments", string2()),
-    postCleanup: parseOrUndefinedJSON("post-cleanup", boolean2())
+    postCleanup: parseOrUndefinedJSON("post-cleanup", boolean2()),
+    configuration: parseOrUndefined("configuration", string2())
   };
   core2.debug(`Inputs: ${JSON.stringify(inputs)}`);
   validateInputs(inputs);
