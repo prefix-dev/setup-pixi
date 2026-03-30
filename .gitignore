@@ -1,5 +1,6 @@
 # Dependency directory
 node_modules
+.pnpm-store
 
 # Rest pulled from https://github.com/github/gitignore/blob/master/Node.gitignore
 # Logs

@@ -39,8 +39,7 @@ export const generateProjectCacheKey = async (cacheKeyPrefix: string) => {
     core.debug(`sha: ${sha}`)
     return `${cacheKeyPrefix}${getCondaArch()}-${sha}`
   } catch (err: unknown) {
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    throw new Error(`Failed to generate cache key: ${err}`, { cause: err })
+    throw new Error(`Failed to generate cache key`, { cause: err })
   }
 }
 
@@ -54,8 +53,7 @@ export const generateGlobalCacheKey = async (cacheKeyPrefix: string) => {
     core.debug(`sha: ${sha}`)
     return `${cacheKeyPrefix}${getCondaArch()}-${getYearMonth()}-${sha}`
   } catch (err: unknown) {
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    throw new Error(`Failed to generate cache key: ${err}`, { cause: err })
+    throw new Error(`Failed to generate cache key`, { cause: err })
   }
 }
 

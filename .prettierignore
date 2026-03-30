@@ -1,3 +1,4 @@
 dist
 pnpm-lock.yaml
 pixi.lock
+.pnpm-store

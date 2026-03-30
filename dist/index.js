@@ -18670,9 +18670,9 @@ var require_undici = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/internal/constants.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/internal/constants.js
 var require_constants6 = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/internal/constants.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/internal/constants.js"(exports2, module2) {
     "use strict";
     var SEMVER_SPEC_VERSION = "2.0.0";
     var MAX_LENGTH = 256;
@@ -18702,9 +18702,9 @@ var require_constants6 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/internal/debug.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/internal/debug.js
 var require_debug = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/internal/debug.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/internal/debug.js"(exports2, module2) {
     "use strict";
     var debug2 = typeof process === "object" && process.env && process.env.NODE_DEBUG && /\bsemver\b/i.test(process.env.NODE_DEBUG) ? (...args) => console.error("SEMVER", ...args) : () => {
     };
@@ -18712,9 +18712,9 @@ var require_debug = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/internal/re.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/internal/re.js
 var require_re = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/internal/re.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/internal/re.js"(exports2, module2) {
     "use strict";
     var {
       MAX_SAFE_COMPONENT_LENGTH,
@@ -18800,9 +18800,9 @@ var require_re = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/internal/parse-options.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/internal/parse-options.js
 var require_parse_options = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/internal/parse-options.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/internal/parse-options.js"(exports2, module2) {
     "use strict";
     var looseOption = Object.freeze({ loose: true });
     var emptyOpts = Object.freeze({});
@@ -18819,9 +18819,9 @@ var require_parse_options = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/internal/identifiers.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/internal/identifiers.js
 var require_identifiers = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/internal/identifiers.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/internal/identifiers.js"(exports2, module2) {
     "use strict";
     var numeric = /^[0-9]+$/;
     var compareIdentifiers = (a, b) => {
@@ -18844,9 +18844,9 @@ var require_identifiers = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/classes/semver.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/classes/semver.js
 var require_semver = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/classes/semver.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/classes/semver.js"(exports2, module2) {
     "use strict";
     var debug2 = require_debug();
     var { MAX_LENGTH, MAX_SAFE_INTEGER } = require_constants6();
@@ -19123,9 +19123,9 @@ var require_semver = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/parse.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/parse.js
 var require_parse2 = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/parse.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/parse.js"(exports2, module2) {
     "use strict";
     var SemVer = require_semver();
     var parse5 = (version4, options2, throwErrors = false) => {
@@ -19145,9 +19145,9 @@ var require_parse2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/valid.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/valid.js
 var require_valid = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/valid.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/valid.js"(exports2, module2) {
     "use strict";
     var parse5 = require_parse2();
     var valid2 = (version4, options2) => {
@@ -19158,9 +19158,9 @@ var require_valid = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/clean.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/clean.js
 var require_clean = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/clean.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/clean.js"(exports2, module2) {
     "use strict";
     var parse5 = require_parse2();
     var clean3 = (version4, options2) => {
@@ -19171,9 +19171,9 @@ var require_clean = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/inc.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/inc.js
 var require_inc = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/inc.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/inc.js"(exports2, module2) {
     "use strict";
     var SemVer = require_semver();
     var inc = (version4, release, options2, identifier, identifierBase) => {
@@ -19195,9 +19195,9 @@ var require_inc = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/diff.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/diff.js
 var require_diff = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/diff.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/diff.js"(exports2, module2) {
     "use strict";
     var parse5 = require_parse2();
     var diff = (version1, version22) => {
@@ -19239,9 +19239,9 @@ var require_diff = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/major.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/major.js
 var require_major = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/major.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/major.js"(exports2, module2) {
     "use strict";
     var SemVer = require_semver();
     var major = (a, loose) => new SemVer(a, loose).major;
@@ -19249,9 +19249,9 @@ var require_major = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/minor.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/minor.js
 var require_minor = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/minor.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/minor.js"(exports2, module2) {
     "use strict";
     var SemVer = require_semver();
     var minor = (a, loose) => new SemVer(a, loose).minor;
@@ -19259,9 +19259,9 @@ var require_minor = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/patch.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/patch.js
 var require_patch = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/patch.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/patch.js"(exports2, module2) {
     "use strict";
     var SemVer = require_semver();
     var patch = (a, loose) => new SemVer(a, loose).patch;
@@ -19269,9 +19269,9 @@ var require_patch = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/prerelease.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/prerelease.js
 var require_prerelease = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/prerelease.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/prerelease.js"(exports2, module2) {
     "use strict";
     var parse5 = require_parse2();
     var prerelease = (version4, options2) => {
@@ -19282,9 +19282,9 @@ var require_prerelease = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/compare.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/compare.js
 var require_compare = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/compare.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/compare.js"(exports2, module2) {
     "use strict";
     var SemVer = require_semver();
     var compare = (a, b, loose) => new SemVer(a, loose).compare(new SemVer(b, loose));
@@ -19292,9 +19292,9 @@ var require_compare = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/rcompare.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/rcompare.js
 var require_rcompare = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/rcompare.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/rcompare.js"(exports2, module2) {
     "use strict";
     var compare = require_compare();
     var rcompare = (a, b, loose) => compare(b, a, loose);
@@ -19302,9 +19302,9 @@ var require_rcompare = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/compare-loose.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/compare-loose.js
 var require_compare_loose = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/compare-loose.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/compare-loose.js"(exports2, module2) {
     "use strict";
     var compare = require_compare();
     var compareLoose = (a, b) => compare(a, b, true);
@@ -19312,9 +19312,9 @@ var require_compare_loose = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/compare-build.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/compare-build.js
 var require_compare_build = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/compare-build.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/compare-build.js"(exports2, module2) {
     "use strict";
     var SemVer = require_semver();
     var compareBuild = (a, b, loose) => {
@@ -19326,9 +19326,9 @@ var require_compare_build = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/sort.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/sort.js
 var require_sort = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/sort.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/sort.js"(exports2, module2) {
     "use strict";
     var compareBuild = require_compare_build();
     var sort = (list, loose) => list.sort((a, b) => compareBuild(a, b, loose));
@@ -19336,9 +19336,9 @@ var require_sort = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/rsort.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/rsort.js
 var require_rsort = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/rsort.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/rsort.js"(exports2, module2) {
     "use strict";
     var compareBuild = require_compare_build();
     var rsort = (list, loose) => list.sort((a, b) => compareBuild(b, a, loose));
@@ -19346,9 +19346,9 @@ var require_rsort = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/gt.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/gt.js
 var require_gt = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/gt.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/gt.js"(exports2, module2) {
     "use strict";
     var compare = require_compare();
     var gt2 = (a, b, loose) => compare(a, b, loose) > 0;
@@ -19356,9 +19356,9 @@ var require_gt = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/lt.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/lt.js
 var require_lt = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/lt.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/lt.js"(exports2, module2) {
     "use strict";
     var compare = require_compare();
     var lt = (a, b, loose) => compare(a, b, loose) < 0;
@@ -19366,9 +19366,9 @@ var require_lt = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/eq.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/eq.js
 var require_eq = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/eq.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/eq.js"(exports2, module2) {
     "use strict";
     var compare = require_compare();
     var eq = (a, b, loose) => compare(a, b, loose) === 0;
@@ -19376,9 +19376,9 @@ var require_eq = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/neq.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/neq.js
 var require_neq = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/neq.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/neq.js"(exports2, module2) {
     "use strict";
     var compare = require_compare();
     var neq = (a, b, loose) => compare(a, b, loose) !== 0;
@@ -19386,9 +19386,9 @@ var require_neq = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/gte.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/gte.js
 var require_gte = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/gte.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/gte.js"(exports2, module2) {
     "use strict";
     var compare = require_compare();
     var gte = (a, b, loose) => compare(a, b, loose) >= 0;
@@ -19396,9 +19396,9 @@ var require_gte = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/lte.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/lte.js
 var require_lte = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/lte.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/lte.js"(exports2, module2) {
     "use strict";
     var compare = require_compare();
     var lte = (a, b, loose) => compare(a, b, loose) <= 0;
@@ -19406,9 +19406,9 @@ var require_lte = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/cmp.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/cmp.js
 var require_cmp = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/cmp.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/cmp.js"(exports2, module2) {
     "use strict";
     var eq = require_eq();
     var neq = require_neq();
@@ -19456,9 +19456,9 @@ var require_cmp = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/coerce.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/coerce.js
 var require_coerce = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/coerce.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/coerce.js"(exports2, module2) {
     "use strict";
     var SemVer = require_semver();
     var parse5 = require_parse2();
@@ -19502,9 +19502,9 @@ var require_coerce = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/internal/lrucache.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/internal/lrucache.js
 var require_lrucache = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/internal/lrucache.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/internal/lrucache.js"(exports2, module2) {
     "use strict";
     var LRUCache = class {
       constructor() {
@@ -19540,9 +19540,9 @@ var require_lrucache = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/classes/range.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/classes/range.js
 var require_range = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/classes/range.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/classes/range.js"(exports2, module2) {
     "use strict";
     var SPACE_CHARACTERS = /\s+/g;
     var Range = class _Range {
@@ -19917,9 +19917,9 @@ var require_range = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/classes/comparator.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/classes/comparator.js
 var require_comparator = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/classes/comparator.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/classes/comparator.js"(exports2, module2) {
     "use strict";
     var ANY = Symbol("SemVer ANY");
     var Comparator = class _Comparator {
@@ -20030,9 +20030,9 @@ var require_comparator = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/satisfies.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/satisfies.js
 var require_satisfies = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/functions/satisfies.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/functions/satisfies.js"(exports2, module2) {
     "use strict";
     var Range = require_range();
     var satisfies3 = (version4, range2, options2) => {
@@ -20047,9 +20047,9 @@ var require_satisfies = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/ranges/to-comparators.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/ranges/to-comparators.js
 var require_to_comparators = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/ranges/to-comparators.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/ranges/to-comparators.js"(exports2, module2) {
     "use strict";
     var Range = require_range();
     var toComparators = (range2, options2) => new Range(range2, options2).set.map((comp26) => comp26.map((c) => c.value).join(" ").trim().split(" "));
@@ -20057,9 +20057,9 @@ var require_to_comparators = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/ranges/max-satisfying.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/ranges/max-satisfying.js
 var require_max_satisfying = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/ranges/max-satisfying.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/ranges/max-satisfying.js"(exports2, module2) {
     "use strict";
     var SemVer = require_semver();
     var Range = require_range();
@@ -20086,9 +20086,9 @@ var require_max_satisfying = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/ranges/min-satisfying.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/ranges/min-satisfying.js
 var require_min_satisfying = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/ranges/min-satisfying.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/ranges/min-satisfying.js"(exports2, module2) {
     "use strict";
     var SemVer = require_semver();
     var Range = require_range();
@@ -20115,9 +20115,9 @@ var require_min_satisfying = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/ranges/min-version.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/ranges/min-version.js
 var require_min_version = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/ranges/min-version.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/ranges/min-version.js"(exports2, module2) {
     "use strict";
     var SemVer = require_semver();
     var Range = require_range();
@@ -20174,9 +20174,9 @@ var require_min_version = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/ranges/valid.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/ranges/valid.js
 var require_valid2 = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/ranges/valid.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/ranges/valid.js"(exports2, module2) {
     "use strict";
     var Range = require_range();
     var validRange = (range2, options2) => {
@@ -20190,9 +20190,9 @@ var require_valid2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/ranges/outside.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/ranges/outside.js
 var require_outside = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/ranges/outside.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/ranges/outside.js"(exports2, module2) {
     "use strict";
     var SemVer = require_semver();
     var Comparator = require_comparator();
@@ -20259,9 +20259,9 @@ var require_outside = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/ranges/gtr.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/ranges/gtr.js
 var require_gtr = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/ranges/gtr.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/ranges/gtr.js"(exports2, module2) {
     "use strict";
     var outside = require_outside();
     var gtr = (version4, range2, options2) => outside(version4, range2, ">", options2);
@@ -20269,9 +20269,9 @@ var require_gtr = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/ranges/ltr.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/ranges/ltr.js
 var require_ltr = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/ranges/ltr.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/ranges/ltr.js"(exports2, module2) {
     "use strict";
     var outside = require_outside();
     var ltr = (version4, range2, options2) => outside(version4, range2, "<", options2);
@@ -20279,9 +20279,9 @@ var require_ltr = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/ranges/intersects.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/ranges/intersects.js
 var require_intersects = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/ranges/intersects.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/ranges/intersects.js"(exports2, module2) {
     "use strict";
     var Range = require_range();
     var intersects = (r1, r2, options2) => {
@@ -20293,9 +20293,9 @@ var require_intersects = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/ranges/simplify.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/ranges/simplify.js
 var require_simplify = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/ranges/simplify.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/ranges/simplify.js"(exports2, module2) {
     "use strict";
     var satisfies3 = require_satisfies();
     var compare = require_compare();
@@ -20343,9 +20343,9 @@ var require_simplify = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/ranges/subset.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/ranges/subset.js
 var require_subset = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/ranges/subset.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/ranges/subset.js"(exports2, module2) {
     "use strict";
     var Range = require_range();
     var Comparator = require_comparator();
@@ -20505,9 +20505,9 @@ var require_subset = __commonJS({
   }
 });
 
-// node_modules/.pnpm/semver@7.7.3/node_modules/semver/index.js
+// node_modules/.pnpm/semver@7.7.4/node_modules/semver/index.js
 var require_semver2 = __commonJS({
-  "node_modules/.pnpm/semver@7.7.3/node_modules/semver/index.js"(exports2, module2) {
+  "node_modules/.pnpm/semver@7.7.4/node_modules/semver/index.js"(exports2, module2) {
     "use strict";
     var internalRe = require_re();
     var constants4 = require_constants6();
@@ -26926,9 +26926,9 @@ var require_brace_expansion = __commonJS({
   }
 });
 
-// node_modules/.pnpm/minimatch@3.1.2/node_modules/minimatch/minimatch.js
+// node_modules/.pnpm/minimatch@3.1.5/node_modules/minimatch/minimatch.js
 var require_minimatch = __commonJS({
-  "node_modules/.pnpm/minimatch@3.1.2/node_modules/minimatch/minimatch.js"(exports2, module2) {
+  "node_modules/.pnpm/minimatch@3.1.5/node_modules/minimatch/minimatch.js"(exports2, module2) {
     "use strict";
     module2.exports = minimatch2;
     minimatch2.Minimatch = Minimatch2;
@@ -27033,6 +27033,7 @@ var require_minimatch = __commonJS({
         pattern = pattern.split(path16.sep).join("/");
       }
       this.options = options2;
+      this.maxGlobstarRecursion = options2.maxGlobstarRecursion !== void 0 ? options2.maxGlobstarRecursion : 200;
       this.set = [];
       this.pattern = pattern;
       this.regexp = null;
@@ -27190,6 +27191,7 @@ var require_minimatch = __commonJS({
               re += c;
               continue;
             }
+            if (c === "*" && stateChar === "*") continue;
             self2.debug("call clearStateChar %j", stateChar);
             clearStateChar();
             stateChar = c;
@@ -27428,50 +27430,147 @@ var require_minimatch = __commonJS({
       return this.negate;
     };
     Minimatch2.prototype.matchOne = function(file, pattern, partial2) {
-      var options2 = this.options;
-      this.debug(
-        "matchOne",
-        { "this": this, file, pattern }
+      if (pattern.indexOf(GLOBSTAR) !== -1) {
+        return this._matchGlobstar(file, pattern, partial2, 0, 0);
+      }
+      return this._matchOne(file, pattern, partial2, 0, 0);
+    };
+    Minimatch2.prototype._matchGlobstar = function(file, pattern, partial2, fileIndex, patternIndex) {
+      var i;
+      var firstgs = -1;
+      for (i = patternIndex; i < pattern.length; i++) {
+        if (pattern[i] === GLOBSTAR) {
+          firstgs = i;
+          break;
+        }
+      }
+      var lastgs = -1;
+      for (i = pattern.length - 1; i >= 0; i--) {
+        if (pattern[i] === GLOBSTAR) {
+          lastgs = i;
+          break;
+        }
+      }
+      var head = pattern.slice(patternIndex, firstgs);
+      var body2 = partial2 ? pattern.slice(firstgs + 1) : pattern.slice(firstgs + 1, lastgs);
+      var tail = partial2 ? [] : pattern.slice(lastgs + 1);
+      if (head.length) {
+        var fileHead = file.slice(fileIndex, fileIndex + head.length);
+        if (!this._matchOne(fileHead, head, partial2, 0, 0)) {
+          return false;
+        }
+        fileIndex += head.length;
+      }
+      var fileTailMatch = 0;
+      if (tail.length) {
+        if (tail.length + fileIndex > file.length) return false;
+        var tailStart = file.length - tail.length;
+        if (this._matchOne(file, tail, partial2, tailStart, 0)) {
+          fileTailMatch = tail.length;
+        } else {
+          if (file[file.length - 1] !== "" || fileIndex + tail.length === file.length) {
+            return false;
+          }
+          tailStart--;
+          if (!this._matchOne(file, tail, partial2, tailStart, 0)) {
+            return false;
+          }
+          fileTailMatch = tail.length + 1;
+        }
+      }
+      if (!body2.length) {
+        var sawSome = !!fileTailMatch;
+        for (i = fileIndex; i < file.length - fileTailMatch; i++) {
+          var f = String(file[i]);
+          sawSome = true;
+          if (f === "." || f === ".." || !this.options.dot && f.charAt(0) === ".") {
+            return false;
+          }
+        }
+        return partial2 || sawSome;
+      }
+      var bodySegments = [[[], 0]];
+      var currentBody = bodySegments[0];
+      var nonGsParts = 0;
+      var nonGsPartsSums = [0];
+      for (var bi = 0; bi < body2.length; bi++) {
+        var b = body2[bi];
+        if (b === GLOBSTAR) {
+          nonGsPartsSums.push(nonGsParts);
+          currentBody = [[], 0];
+          bodySegments.push(currentBody);
+        } else {
+          currentBody[0].push(b);
+          nonGsParts++;
+        }
+      }
+      var idx = bodySegments.length - 1;
+      var fileLength = file.length - fileTailMatch;
+      for (var si = 0; si < bodySegments.length; si++) {
+        bodySegments[si][1] = fileLength - (nonGsPartsSums[idx--] + bodySegments[si][0].length);
+      }
+      return !!this._matchGlobStarBodySections(
+        file,
+        bodySegments,
+        fileIndex,
+        0,
+        partial2,
+        0,
+        !!fileTailMatch
       );
-      this.debug("matchOne", file.length, pattern.length);
-      for (var fi = 0, pi = 0, fl = file.length, pl = pattern.length; fi < fl && pi < pl; fi++, pi++) {
+    };
+    Minimatch2.prototype._matchGlobStarBodySections = function(file, bodySegments, fileIndex, bodyIndex, partial2, globStarDepth, sawTail) {
+      var bs = bodySegments[bodyIndex];
+      if (!bs) {
+        for (var i = fileIndex; i < file.length; i++) {
+          sawTail = true;
+          var f = file[i];
+          if (f === "." || f === ".." || !this.options.dot && f.charAt(0) === ".") {
+            return false;
+          }
+        }
+        return sawTail;
+      }
+      var body2 = bs[0];
+      var after = bs[1];
+      while (fileIndex <= after) {
+        var m = this._matchOne(
+          file.slice(0, fileIndex + body2.length),
+          body2,
+          partial2,
+          fileIndex,
+          0
+        );
+        if (m && globStarDepth < this.maxGlobstarRecursion) {
+          var sub = this._matchGlobStarBodySections(
+            file,
+            bodySegments,
+            fileIndex + body2.length,
+            bodyIndex + 1,
+            partial2,
+            globStarDepth + 1,
+            sawTail
+          );
+          if (sub !== false) {
+            return sub;
+          }
+        }
+        var f = file[fileIndex];
+        if (f === "." || f === ".." || !this.options.dot && f.charAt(0) === ".") {
+          return false;
+        }
+        fileIndex++;
+      }
+      return partial2 || null;
+    };
+    Minimatch2.prototype._matchOne = function(file, pattern, partial2, fileIndex, patternIndex) {
+      var fi, pi, fl, pl;
+      for (fi = fileIndex, pi = patternIndex, fl = file.length, pl = pattern.length; fi < fl && pi < pl; fi++, pi++) {
         this.debug("matchOne loop");
         var p = pattern[pi];
         var f = file[fi];
         this.debug(pattern, p, f);
-        if (p === false) return false;
-        if (p === GLOBSTAR) {
-          this.debug("GLOBSTAR", [pattern, p, f]);
-          var fr = fi;
-          var pr = pi + 1;
-          if (pr === pl) {
-            this.debug("** at the end");
-            for (; fi < fl; fi++) {
-              if (file[fi] === "." || file[fi] === ".." || !options2.dot && file[fi].charAt(0) === ".") return false;
-            }
-            return true;
-          }
-          while (fr < fl) {
-            var swallowee = file[fr];
-            this.debug("\nglobstar while", file, fr, pattern, pr, swallowee);
-            if (this.matchOne(file.slice(fr), pattern.slice(pr), partial2)) {
-              this.debug("globstar found match!", fr, fl, swallowee);
-              return true;
-            } else {
-              if (swallowee === "." || swallowee === ".." || !options2.dot && swallowee.charAt(0) === ".") {
-                this.debug("dot detected!", file, fr, pattern, pr);
-                break;
-              }
-              this.debug("globstar swallow a segment, and continue");
-              fr++;
-            }
-          }
-          if (partial2) {
-            this.debug("\n>>> no match, partial?", file, fr, pattern, pr);
-            if (fr === fl) return true;
-          }
-          return false;
-        }
+        if (p === false || p === GLOBSTAR) return false;
         var hit;
         if (typeof p === "string") {
           hit = f === p;
@@ -37083,7 +37182,7 @@ function getRuntimeToken() {
 var fs8 = __toESM(require("fs"), 1);
 var import_url = require("url");
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/abort-controller/AbortError.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/abort-controller/AbortError.js
 var AbortError = class extends Error {
   constructor(message) {
     super(message);
@@ -37091,7 +37190,7 @@ var AbortError = class extends Error {
   }
 };
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/logger/log.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/logger/log.js
 var import_node_os2 = require("os");
 var import_node_util = __toESM(require("util"), 1);
 var import_node_process = __toESM(require("process"), 1);
@@ -37099,7 +37198,7 @@ function log(message, ...args) {
   import_node_process.default.stderr.write(`${import_node_util.default.format(message, ...args)}${import_node_os2.EOL}`);
 }
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/logger/debug.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/logger/debug.js
 var debugEnvVariable = typeof process !== "undefined" && process.env && process.env.DEBUG || void 0;
 var enabledString;
 var enabledNamespaces = [];
@@ -37257,7 +37356,7 @@ function extend2(namespace) {
 }
 var debug_default = debugObj;
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/logger/logger.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/logger/logger.js
 var TYPESPEC_RUNTIME_LOG_LEVELS = ["verbose", "info", "warning", "error"];
 var levelMap = {
   verbose: 400,
@@ -37345,7 +37444,7 @@ function createClientLogger(namespace) {
   return context.createClientLogger(namespace);
 }
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/httpHeaders.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/httpHeaders.js
 function normalizeName(name) {
   return name.toLowerCase();
 }
@@ -37428,12 +37527,12 @@ function createHttpHeaders(rawHeaders) {
   return new HttpHeadersImpl(rawHeaders);
 }
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/util/uuidUtils.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/util/uuidUtils.js
 function randomUUID4() {
   return crypto.randomUUID();
 }
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/pipelineRequest.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/pipelineRequest.js
 var PipelineRequestImpl = class {
   constructor(options2) {
     __publicField(this, "url");
@@ -37480,7 +37579,7 @@ function createPipelineRequest(options2) {
   return new PipelineRequestImpl(options2);
 }
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/pipeline.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/pipeline.js
 var ValidPhaseNames = /* @__PURE__ */ new Set(["Deserialize", "Serialize", "Retry", "Sign"]);
 var HttpPipeline = class _HttpPipeline {
   constructor(policies) {
@@ -37661,12 +37760,12 @@ function createEmptyPipeline() {
   return HttpPipeline.create();
 }
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/util/object.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/util/object.js
 function isObject2(input) {
   return typeof input === "object" && input !== null && !Array.isArray(input) && !(input instanceof RegExp) && !(input instanceof Date);
 }
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/util/error.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/util/error.js
 function isError(e) {
   if (isObject2(e)) {
     const hasName = typeof e.name === "string";
@@ -37676,11 +37775,11 @@ function isError(e) {
   return false;
 }
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/util/inspect.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/util/inspect.js
 var import_node_util2 = require("util");
 var custom = import_node_util2.inspect.custom;
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/util/sanitizer.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/util/sanitizer.js
 var RedactedString = "REDACTED";
 var defaultAllowedHeaderNames = [
   "x-ms-client-request-id",
@@ -37816,7 +37915,7 @@ var Sanitizer = class {
   }
 };
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/restError.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/restError.js
 var errorSanitizer = new Sanitizer();
 var _RestError = class _RestError extends Error {
   constructor(message, options2 = {}) {
@@ -37885,21 +37984,21 @@ function isRestError(e) {
   return isError(e) && e.name === "RestError";
 }
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/util/bytesEncoding.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/util/bytesEncoding.js
 function stringToUint8Array(value, format) {
   return Buffer.from(value, format);
 }
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/nodeHttpClient.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/nodeHttpClient.js
 var import_node_http = __toESM(require("http"), 1);
 var import_node_https = __toESM(require("https"), 1);
 var import_node_zlib = __toESM(require("zlib"), 1);
 var import_node_stream = require("stream");
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/log.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/log.js
 var logger = createClientLogger("ts-http-runtime");
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/nodeHttpClient.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/nodeHttpClient.js
 var DEFAULT_TLS_SETTINGS = {};
 function isReadableStream(body2) {
   return body2 && typeof body2.pipe === "function";
@@ -38194,12 +38293,12 @@ function createNodeHttpClient() {
   return new NodeHttpClient();
 }
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/defaultHttpClient.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/defaultHttpClient.js
 function createDefaultHttpClient() {
   return createNodeHttpClient();
 }
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/policies/logPolicy.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/policies/logPolicy.js
 var logPolicyName = "logPolicy";
 function logPolicy(options2 = {}) {
   const logger7 = options2.logger ?? logger.info;
@@ -38222,7 +38321,7 @@ function logPolicy(options2 = {}) {
   };
 }
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/policies/redirectPolicy.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/policies/redirectPolicy.js
 var redirectPolicyName = "redirectPolicy";
 var allowedRedirect = ["GET", "HEAD"];
 function redirectPolicy(options2 = {}) {
@@ -38253,25 +38352,25 @@ async function handleRedirect(next, response, maxRetries, currentRetries = 0) {
   return response;
 }
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/util/userAgentPlatform.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/util/userAgentPlatform.js
 var import_node_os3 = __toESM(require("os"), 1);
 var import_node_process2 = __toESM(require("process"), 1);
 function getHeaderName() {
   return "User-Agent";
 }
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/constants.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/constants.js
 var DEFAULT_RETRY_POLICY_COUNT = 3;
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/util/userAgent.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/util/userAgent.js
 function getUserAgentHeaderName() {
   return getHeaderName();
 }
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/policies/userAgentPolicy.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/policies/userAgentPolicy.js
 var UserAgentHeaderName = getUserAgentHeaderName();
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/policies/decompressResponsePolicy.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/policies/decompressResponsePolicy.js
 var decompressResponsePolicyName = "decompressResponsePolicy";
 function decompressResponsePolicy() {
   return {
@@ -38285,7 +38384,7 @@ function decompressResponsePolicy() {
   };
 }
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/util/random.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/util/random.js
 function getRandomIntegerInclusive(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -38293,7 +38392,7 @@ function getRandomIntegerInclusive(min, max) {
   return offset + min;
 }
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/util/delay.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/util/delay.js
 function calculateRetryDelay(retryAttempt, config2) {
   const exponentialDelay = config2.retryDelayInMs * Math.pow(2, retryAttempt);
   const clampedDelay = Math.min(config2.maxRetryDelayInMs, exponentialDelay);
@@ -38301,7 +38400,7 @@ function calculateRetryDelay(retryAttempt, config2) {
   return { retryAfterInMs };
 }
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/util/helpers.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/util/helpers.js
 var StandardAbortMessage = "The operation was aborted.";
 function delay(delayInMs, value, options2) {
   return new Promise((resolve2, reject) => {
@@ -38344,7 +38443,7 @@ function parseHeaderValueAsNumber(response, headerName) {
   return valueAsNum;
 }
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/retryStrategies/throttlingRetryStrategy.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/retryStrategies/throttlingRetryStrategy.js
 var RetryAfterHeader = "Retry-After";
 var AllRetryAfterHeaders = ["retry-after-ms", "x-ms-retry-after-ms", RetryAfterHeader];
 function getRetryAfterInMs(response) {
@@ -38386,7 +38485,7 @@ function throttlingRetryStrategy() {
   };
 }
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/retryStrategies/exponentialRetryStrategy.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/retryStrategies/exponentialRetryStrategy.js
 var DEFAULT_CLIENT_RETRY_INTERVAL = 1e3;
 var DEFAULT_CLIENT_MAX_RETRY_INTERVAL = 1e3 * 64;
 function exponentialRetryStrategy(options2 = {}) {
@@ -38423,7 +38522,7 @@ function isSystemError(err) {
   return err.code === "ETIMEDOUT" || err.code === "ESOCKETTIMEDOUT" || err.code === "ECONNREFUSED" || err.code === "ECONNRESET" || err.code === "ENOENT" || err.code === "ENOTFOUND";
 }
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/policies/retryPolicy.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/policies/retryPolicy.js
 var retryPolicyLogger = createClientLogger("ts-http-runtime retryPolicy");
 var retryPolicyName = "retryPolicy";
 function retryPolicy(strategies, options2 = { maxRetries: DEFAULT_RETRY_POLICY_COUNT }) {
@@ -38507,7 +38606,7 @@ function retryPolicy(strategies, options2 = { maxRetries: DEFAULT_RETRY_POLICY_C
   };
 }
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/policies/defaultRetryPolicy.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/policies/defaultRetryPolicy.js
 var defaultRetryPolicyName = "defaultRetryPolicy";
 function defaultRetryPolicy(options2 = {}) {
   return {
@@ -38518,7 +38617,7 @@ function defaultRetryPolicy(options2 = {}) {
   };
 }
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/util/checkEnvironment.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/util/checkEnvironment.js
 var isBrowser = typeof window !== "undefined" && typeof window.document !== "undefined";
 var isWebWorker = typeof self === "object" && typeof self?.importScripts === "function" && (self.constructor?.name === "DedicatedWorkerGlobalScope" || self.constructor?.name === "ServiceWorkerGlobalScope" || self.constructor?.name === "SharedWorkerGlobalScope");
 var isDeno = typeof Deno !== "undefined" && typeof Deno.version !== "undefined" && typeof Deno.version.deno !== "undefined";
@@ -38526,7 +38625,7 @@ var isBun = typeof Bun !== "undefined" && typeof Bun.version !== "undefined";
 var isNodeLike = typeof globalThis.process !== "undefined" && Boolean(globalThis.process.version) && Boolean(globalThis.process.versions?.node);
 var isReactNative = typeof navigator !== "undefined" && navigator?.product === "ReactNative";
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/policies/formDataPolicy.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/policies/formDataPolicy.js
 var formDataPolicyName = "formDataPolicy";
 function formDataToFormDataMap(formData) {
   const formDataMap = {};
@@ -38603,7 +38702,7 @@ async function prepareFormData(formData, request) {
   request.multipartBody = { parts };
 }
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/policies/proxyPolicy.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/policies/proxyPolicy.js
 var import_https_proxy_agent = __toESM(require_dist2(), 1);
 var import_http_proxy_agent = __toESM(require_dist3(), 1);
 var HTTPS_PROXY = "HTTPS_PROXY";
@@ -38743,7 +38842,7 @@ function proxyPolicy(proxySettings, options2) {
   };
 }
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/policies/agentPolicy.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/policies/agentPolicy.js
 var agentPolicyName = "agentPolicy";
 function agentPolicy(agent) {
   return {
@@ -38757,7 +38856,7 @@ function agentPolicy(agent) {
   };
 }
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/policies/tlsPolicy.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/policies/tlsPolicy.js
 var tlsPolicyName = "tlsPolicy";
 function tlsPolicy(tlsSettings) {
   return {
@@ -38771,12 +38870,12 @@ function tlsPolicy(tlsSettings) {
   };
 }
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/util/typeGuards.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/util/typeGuards.js
 function isBlob(x) {
   return typeof x.stream === "function";
 }
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/util/concat.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/util/concat.js
 var import_stream = require("stream");
 async function* streamAsyncIterator() {
   const reader = this.getReader();
@@ -38830,7 +38929,7 @@ async function concat(sources) {
   };
 }
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/policies/multipartPolicy.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/policies/multipartPolicy.js
 function generateBoundary() {
   return `----AzSDKFormBoundary${randomUUID4()}`;
 }
@@ -39019,7 +39118,7 @@ function userAgentPolicy2(options2 = {}) {
   };
 }
 
-// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.2/node_modules/@typespec/ts-http-runtime/dist/esm/util/sha256.js
+// node_modules/.pnpm/@typespec+ts-http-runtime@0.3.3/node_modules/@typespec/ts-http-runtime/dist/esm/util/sha256.js
 var import_node_crypto = require("crypto");
 
 // node_modules/.pnpm/@azure+abort-controller@2.1.2/node_modules/@azure/abort-controller/dist/esm/AbortError.js
@@ -39813,7 +39912,7 @@ function isTokenCredential(credential) {
   return castCredential && typeof castCredential.getToken === "function" && (castCredential.signRequest === void 0 || castCredential.getToken.length > 0);
 }
 
-// node_modules/.pnpm/@azure+core-http-compat@2.3.1/node_modules/@azure/core-http-compat/dist/esm/policies/disableKeepAlivePolicy.js
+// node_modules/.pnpm/@azure+core-http-compat@2.3.2_@azure+core-client@1.10.1_@azure+core-rest-pipeline@1.22.2/node_modules/@azure/core-http-compat/dist/esm/policies/disableKeepAlivePolicy.js
 var disableKeepAlivePolicyName = "DisableKeepAlivePolicy";
 function createDisableKeepAlivePolicy() {
   return {
@@ -41509,7 +41608,7 @@ function requestToOptions(request) {
   };
 }
 
-// node_modules/.pnpm/@azure+core-http-compat@2.3.1/node_modules/@azure/core-http-compat/dist/esm/util.js
+// node_modules/.pnpm/@azure+core-http-compat@2.3.2_@azure+core-client@1.10.1_@azure+core-rest-pipeline@1.22.2/node_modules/@azure/core-http-compat/dist/esm/util.js
 var originalRequestSymbol2 = Symbol("Original PipelineRequest");
 var originalClientRequestSymbol = Symbol.for("@azure/core-client original request");
 function toPipelineRequest(webResource, options2 = {}) {
@@ -41745,7 +41844,7 @@ var HttpHeaders = class _HttpHeaders {
   }
 };
 
-// node_modules/.pnpm/@azure+core-http-compat@2.3.1/node_modules/@azure/core-http-compat/dist/esm/response.js
+// node_modules/.pnpm/@azure+core-http-compat@2.3.2_@azure+core-client@1.10.1_@azure+core-rest-pipeline@1.22.2/node_modules/@azure/core-http-compat/dist/esm/response.js
 var originalResponse = Symbol("Original FullOperationResponse");
 function toCompatResponse(response, options2) {
   let request = toWebResourceLike(response.request);
@@ -41795,7 +41894,7 @@ function toPipelineResponse(compatResponse) {
   }
 }
 
-// node_modules/.pnpm/@azure+core-http-compat@2.3.1/node_modules/@azure/core-http-compat/dist/esm/extendedClient.js
+// node_modules/.pnpm/@azure+core-http-compat@2.3.2_@azure+core-client@1.10.1_@azure+core-rest-pipeline@1.22.2/node_modules/@azure/core-http-compat/dist/esm/extendedClient.js
 var ExtendedServiceClient = class extends ServiceClient {
   constructor(options2) {
     super(options2);
@@ -41838,7 +41937,7 @@ var ExtendedServiceClient = class extends ServiceClient {
   }
 };
 
-// node_modules/.pnpm/@azure+core-http-compat@2.3.1/node_modules/@azure/core-http-compat/dist/esm/policies/requestPolicyFactoryPolicy.js
+// node_modules/.pnpm/@azure+core-http-compat@2.3.2_@azure+core-client@1.10.1_@azure+core-rest-pipeline@1.22.2/node_modules/@azure/core-http-compat/dist/esm/policies/requestPolicyFactoryPolicy.js
 var HttpPipelineLogLevel;
 (function(HttpPipelineLogLevel2) {
   HttpPipelineLogLevel2[HttpPipelineLogLevel2["ERROR"] = 1] = "ERROR";
@@ -41875,7 +41974,7 @@ function createRequestPolicyFactoryPolicy(factories) {
   };
 }
 
-// node_modules/.pnpm/@azure+core-http-compat@2.3.1/node_modules/@azure/core-http-compat/dist/esm/httpClientAdapter.js
+// node_modules/.pnpm/@azure+core-http-compat@2.3.2_@azure+core-client@1.10.1_@azure+core-rest-pipeline@1.22.2/node_modules/@azure/core-http-compat/dist/esm/httpClientAdapter.js
 function convertHttpClient(requestPolicyClient) {
   return {
     sendRequest: async (request) => {
@@ -41885,7 +41984,7 @@ function convertHttpClient(requestPolicyClient) {
   };
 }
 
-// node_modules/.pnpm/fast-xml-parser@5.3.4/node_modules/fast-xml-parser/src/util.js
+// node_modules/.pnpm/fast-xml-parser@5.4.1/node_modules/fast-xml-parser/src/util.js
 var nameStartChar = ":A-Za-z_\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD";
 var nameChar = nameStartChar + "\\-.\\d\\u00B7\\u0300-\\u036F\\u203F-\\u2040";
 var nameRegexp = "[" + nameStartChar + "][" + nameChar + "]*";
@@ -41913,7 +42012,7 @@ function isExist(v) {
   return typeof v !== "undefined";
 }
 
-// node_modules/.pnpm/fast-xml-parser@5.3.4/node_modules/fast-xml-parser/src/validator.js
+// node_modules/.pnpm/fast-xml-parser@5.4.1/node_modules/fast-xml-parser/src/validator.js
 var defaultOptions = {
   allowBooleanAttributes: false,
   //A tag can have attributes without any value
@@ -42151,7 +42250,7 @@ function validateAttributeString(attrStr, options2) {
     if (!validateAttrName(attrName)) {
       return getErrorObject("InvalidAttr", "Attribute '" + attrName + "' is an invalid name.", getPositionFromMatch(matches[i]));
     }
-    if (!attrNames.hasOwnProperty(attrName)) {
+    if (!Object.prototype.hasOwnProperty.call(attrNames, attrName)) {
       attrNames[attrName] = 1;
     } else {
       return getErrorObject("InvalidAttr", "Attribute '" + attrName + "' is repeated.", getPositionFromMatch(matches[i]));
@@ -42219,7 +42318,7 @@ function getPositionFromMatch(match2) {
   return match2.startIndex + match2[1].length;
 }
 
-// node_modules/.pnpm/fast-xml-parser@5.3.4/node_modules/fast-xml-parser/src/xmlparser/OptionsBuilder.js
+// node_modules/.pnpm/fast-xml-parser@5.4.1/node_modules/fast-xml-parser/src/xmlparser/OptionsBuilder.js
 var defaultOptions2 = {
   preserveOrder: false,
   attributeNamePrefix: "@_",
@@ -42263,13 +42362,44 @@ var defaultOptions2 = {
     return tagName;
   },
   // skipEmptyListItem: false
-  captureMetaData: false
+  captureMetaData: false,
+  maxNestedTags: 100,
+  strictReservedNames: true
 };
+function normalizeProcessEntities(value) {
+  if (typeof value === "boolean") {
+    return {
+      enabled: value,
+      // true or false
+      maxEntitySize: 1e4,
+      maxExpansionDepth: 10,
+      maxTotalExpansions: 1e3,
+      maxExpandedLength: 1e5,
+      allowedTags: null,
+      tagFilter: null
+    };
+  }
+  if (typeof value === "object" && value !== null) {
+    return {
+      enabled: value.enabled !== false,
+      // default true if not specified
+      maxEntitySize: value.maxEntitySize ?? 1e4,
+      maxExpansionDepth: value.maxExpansionDepth ?? 10,
+      maxTotalExpansions: value.maxTotalExpansions ?? 1e3,
+      maxExpandedLength: value.maxExpandedLength ?? 1e5,
+      allowedTags: value.allowedTags ?? null,
+      tagFilter: value.tagFilter ?? null
+    };
+  }
+  return normalizeProcessEntities(true);
+}
 var buildOptions = function(options2) {
-  return Object.assign({}, defaultOptions2, options2);
+  const built = Object.assign({}, defaultOptions2, options2);
+  built.processEntities = normalizeProcessEntities(built.processEntities);
+  return built;
 };
 
-// node_modules/.pnpm/fast-xml-parser@5.3.4/node_modules/fast-xml-parser/src/xmlparser/xmlNode.js
+// node_modules/.pnpm/fast-xml-parser@5.4.1/node_modules/fast-xml-parser/src/xmlparser/xmlNode.js
 var METADATA_SYMBOL;
 if (typeof Symbol !== "function") {
   METADATA_SYMBOL = "@@xmlMetadata";
@@ -42280,7 +42410,7 @@ var XmlNode = class {
   constructor(tagname) {
     this.tagname = tagname;
     this.child = [];
-    this[":@"] = {};
+    this[":@"] = /* @__PURE__ */ Object.create(null);
   }
   add(key, val) {
     if (key === "__proto__") key = "#__proto__";
@@ -42303,13 +42433,14 @@ var XmlNode = class {
   }
 };
 
-// node_modules/.pnpm/fast-xml-parser@5.3.4/node_modules/fast-xml-parser/src/xmlparser/DocTypeReader.js
+// node_modules/.pnpm/fast-xml-parser@5.4.1/node_modules/fast-xml-parser/src/xmlparser/DocTypeReader.js
 var DocTypeReader = class {
-  constructor(processEntities) {
-    this.suppressValidationErr = !processEntities;
+  constructor(options2) {
+    this.suppressValidationErr = !options2;
+    this.options = options2;
   }
   readDocType(xmlData, i) {
-    const entities = {};
+    const entities = /* @__PURE__ */ Object.create(null);
     if (xmlData[i + 3] === "O" && xmlData[i + 4] === "C" && xmlData[i + 5] === "T" && xmlData[i + 6] === "Y" && xmlData[i + 7] === "P" && xmlData[i + 8] === "E") {
       i = i + 9;
       let angleBracketsCount = 1;
@@ -42321,11 +42452,13 @@ var DocTypeReader = class {
             i += 7;
             let entityName, val;
             [entityName, val, i] = this.readEntityExp(xmlData, i + 1, this.suppressValidationErr);
-            if (val.indexOf("&") === -1)
+            if (val.indexOf("&") === -1) {
+              const escaped = entityName.replace(/[.\-+*:]/g, "\\.");
               entities[entityName] = {
-                regx: RegExp(`&${entityName};`, "g"),
+                regx: RegExp(`&${escaped};`, "g"),
                 val
               };
+            }
           } else if (hasBody && hasSeq(xmlData, "!ELEMENT", i)) {
             i += 8;
             const { index } = this.readElementExp(xmlData, i + 1);
@@ -42384,6 +42517,11 @@ var DocTypeReader = class {
     }
     let entityValue = "";
     [i, entityValue] = this.readIdentifierVal(xmlData, i, "entity");
+    if (this.options.enabled !== false && this.options.maxEntitySize && entityValue.length > this.options.maxEntitySize) {
+      throw new Error(
+        `Entity "${entityName}" size (${entityValue.length}) exceeds maximum allowed size (${this.options.maxEntitySize})`
+      );
+    }
     i--;
     return [entityName, entityValue, i];
   }
@@ -42565,7 +42703,7 @@ function validateEntityName(name) {
     throw new Error(`Invalid entity name ${name}`);
 }
 
-// node_modules/.pnpm/strnum@2.1.2/node_modules/strnum/strnum.js
+// node_modules/.pnpm/strnum@2.2.0/node_modules/strnum/strnum.js
 var hexRegex = /^[-+]?0x[a-fA-F0-9]+$/;
 var numRegex = /^([\-\+])?(0*)([0-9]*(\.[0-9]*)?)$/;
 var consider = {
@@ -42573,8 +42711,10 @@ var consider = {
   // oct: false,
   leadingZeros: true,
   decimalPoint: ".",
-  eNotation: true
-  //skipLike: /regex/
+  eNotation: true,
+  //skipLike: /regex/,
+  infinity: "original"
+  // "null", "infinity" (Infinity type), "string" ("Infinity" (the string literal))
 };
 function toNumber(str, options2 = {}) {
   options2 = Object.assign({}, consider, options2);
@@ -42584,6 +42724,8 @@ function toNumber(str, options2 = {}) {
   else if (str === "0") return 0;
   else if (options2.hex && hexRegex.test(trimmedStr)) {
     return parse_int(trimmedStr, 16);
+  } else if (!isFinite(trimmedStr)) {
+    return handleInfinity(str, Number(trimmedStr), options2);
   } else if (trimmedStr.includes("e") || trimmedStr.includes("E")) {
     return resolveEnotation(str, trimmedStr, options2);
   } else {
@@ -42662,8 +42804,23 @@ function parse_int(numStr, base) {
   else if (window && window.parseInt) return window.parseInt(numStr, base);
   else throw new Error("parseInt, Number.parseInt, window.parseInt are not supported");
 }
+function handleInfinity(str, num, options2) {
+  const isPositive = num === Infinity;
+  switch (options2.infinity.toLowerCase()) {
+    case "null":
+      return null;
+    case "infinity":
+      return num;
+    // Return Infinity or -Infinity
+    case "string":
+      return isPositive ? "Infinity" : "-Infinity";
+    case "original":
+    default:
+      return str;
+  }
+}
 
-// node_modules/.pnpm/fast-xml-parser@5.3.4/node_modules/fast-xml-parser/src/ignoreAttributes.js
+// node_modules/.pnpm/fast-xml-parser@5.4.1/node_modules/fast-xml-parser/src/ignoreAttributes.js
 function getIgnoreAttributesFn(ignoreAttributes) {
   if (typeof ignoreAttributes === "function") {
     return ignoreAttributes;
@@ -42683,7 +42840,7 @@ function getIgnoreAttributesFn(ignoreAttributes) {
   return () => false;
 }
 
-// node_modules/.pnpm/fast-xml-parser@5.3.4/node_modules/fast-xml-parser/src/xmlparser/OrderedObjParser.js
+// node_modules/.pnpm/fast-xml-parser@5.4.1/node_modules/fast-xml-parser/src/xmlparser/OrderedObjParser.js
 var OrderedObjParser = class {
   constructor(options2) {
     this.options = options2;
@@ -42725,6 +42882,8 @@ var OrderedObjParser = class {
     this.saveTextToParentTag = saveTextToParentTag;
     this.addChild = addChild;
     this.ignoreAttributesFn = getIgnoreAttributesFn(this.options.ignoreAttributes);
+    this.entityExpansionCount = 0;
+    this.currentExpandedLength = 0;
     if (this.options.stopNodes && this.options.stopNodes.length > 0) {
       this.stopNodesExact = /* @__PURE__ */ new Set();
       this.stopNodesWildcard = /* @__PURE__ */ new Set();
@@ -42744,8 +42903,9 @@ function addExternalEntities(externalEntities) {
   const entKeys = Object.keys(externalEntities);
   for (let i = 0; i < entKeys.length; i++) {
     const ent = entKeys[i];
+    const escaped = ent.replace(/[.\-+*:]/g, "\\.");
     this.lastEntities[ent] = {
-      regex: new RegExp("&" + ent + ";", "g"),
+      regex: new RegExp("&" + escaped + ";", "g"),
       val: externalEntities[ent]
     };
   }
@@ -42756,7 +42916,7 @@ function parseTextData(val, tagName, jPath, dontTrim, hasAttributes, isLeafNode,
       val = val.trim();
     }
     if (val.length > 0) {
-      if (!escapeEntities) val = this.replaceEntitiesValue(val);
+      if (!escapeEntities) val = this.replaceEntitiesValue(val, tagName, jPath);
       const newval = this.options.tagValueProcessor(tagName, val, jPath, hasAttributes, isLeafNode);
       if (newval === null || newval === void 0) {
         return val;
@@ -42789,7 +42949,7 @@ function resolveNameSpace(tagname) {
   return tagname;
 }
 var attrsRegx = new RegExp(`([^\\s=]+)\\s*(=\\s*(['"])([\\s\\S]*?)\\3)?`, "gm");
-function buildAttributesMap(attrStr, jPath) {
+function buildAttributesMap(attrStr, jPath, tagName) {
   if (this.options.ignoreAttributes !== true && typeof attrStr === "string") {
     const matches = getAllMatches(attrStr, attrsRegx);
     const len = matches.length;
@@ -42810,7 +42970,7 @@ function buildAttributesMap(attrStr, jPath) {
           if (this.options.trimValues) {
             oldVal = oldVal.trim();
           }
-          oldVal = this.replaceEntitiesValue(oldVal);
+          oldVal = this.replaceEntitiesValue(oldVal, tagName, jPath);
           const newVal = this.options.attributeValueProcessor(attrName, oldVal, jPath);
           if (newVal === null || newVal === void 0) {
             attrs[aName] = oldVal;
@@ -42845,6 +43005,8 @@ var parseXml = function(xmlData) {
   let currentNode = xmlObj;
   let textData = "";
   let jPath = "";
+  this.entityExpansionCount = 0;
+  this.currentExpandedLength = 0;
   const docTypeReader = new DocTypeReader(this.options.processEntities);
   for (let i = 0; i < xmlData.length; i++) {
     const ch = xmlData[i];
@@ -42888,7 +43050,7 @@ var parseXml = function(xmlData) {
           const childNode = new XmlNode(tagData.tagName);
           childNode.add(this.options.textNodeName, "");
           if (tagData.tagName !== tagData.tagExp && tagData.attrExpPresent) {
-            childNode[":@"] = this.buildAttributesMap(tagData.tagExp, jPath);
+            childNode[":@"] = this.buildAttributesMap(tagData.tagExp, jPath, tagData.tagName);
           }
           this.addChild(currentNode, childNode, jPath, i);
         }
@@ -42931,6 +43093,9 @@ var parseXml = function(xmlData) {
           }
           tagName = newTagName;
         }
+        if (this.options.strictReservedNames && (tagName === this.options.commentPropName || tagName === this.options.cdataPropName)) {
+          throw new Error(`Invalid tag name: ${tagName}`);
+        }
         if (currentNode && textData) {
           if (currentNode.tagname !== "!xml") {
             textData = this.saveTextToParentTag(textData, currentNode, jPath, false);
@@ -42966,10 +43131,7 @@ var parseXml = function(xmlData) {
           }
           const childNode = new XmlNode(tagName);
           if (tagName !== tagExp && attrExpPresent) {
-            childNode[":@"] = this.buildAttributesMap(
-              tagExp,
-              jPath
-            );
+            childNode[":@"] = this.buildAttributesMap(tagExp, jPath, tagName);
           }
           if (tagContent) {
             tagContent = this.parseTextData(tagContent, tagName, jPath, true, attrExpPresent, true, true);
@@ -42995,15 +43157,27 @@ var parseXml = function(xmlData) {
             }
             const childNode = new XmlNode(tagName);
             if (tagName !== tagExp && attrExpPresent) {
+              childNode[":@"] = this.buildAttributesMap(tagExp, jPath, tagName);
+            }
+            this.addChild(currentNode, childNode, jPath, startIndex);
+            jPath = jPath.substr(0, jPath.lastIndexOf("."));
+          } else if (this.options.unpairedTags.indexOf(tagName) !== -1) {
+            const childNode = new XmlNode(tagName);
+            if (tagName !== tagExp && attrExpPresent) {
               childNode[":@"] = this.buildAttributesMap(tagExp, jPath);
             }
             this.addChild(currentNode, childNode, jPath, startIndex);
             jPath = jPath.substr(0, jPath.lastIndexOf("."));
+            i = result.closeIndex;
+            continue;
           } else {
             const childNode = new XmlNode(tagName);
+            if (this.tagsNodeStack.length > this.options.maxNestedTags) {
+              throw new Error("Maximum nested tags exceeded");
+            }
             this.tagsNodeStack.push(currentNode);
             if (tagName !== tagExp && attrExpPresent) {
-              childNode[":@"] = this.buildAttributesMap(tagExp, jPath);
+              childNode[":@"] = this.buildAttributesMap(tagExp, jPath, tagName);
             }
             this.addChild(currentNode, childNode, jPath, startIndex);
             currentNode = childNode;
@@ -43029,39 +43203,74 @@ function addChild(currentNode, childNode, jPath, startIndex) {
     currentNode.addChild(childNode, startIndex);
   }
 }
-var replaceEntitiesValue = function(val) {
-  if (this.options.processEntities) {
-    for (let entityName in this.docTypeEntities) {
-      const entity = this.docTypeEntities[entityName];
+var replaceEntitiesValue = function(val, tagName, jPath) {
+  if (val.indexOf("&") === -1) {
+    return val;
+  }
+  const entityConfig = this.options.processEntities;
+  if (!entityConfig.enabled) {
+    return val;
+  }
+  if (entityConfig.allowedTags) {
+    if (!entityConfig.allowedTags.includes(tagName)) {
+      return val;
+    }
+  }
+  if (entityConfig.tagFilter) {
+    if (!entityConfig.tagFilter(tagName, jPath)) {
+      return val;
+    }
+  }
+  for (let entityName in this.docTypeEntities) {
+    const entity = this.docTypeEntities[entityName];
+    const matches = val.match(entity.regx);
+    if (matches) {
+      this.entityExpansionCount += matches.length;
+      if (entityConfig.maxTotalExpansions && this.entityExpansionCount > entityConfig.maxTotalExpansions) {
+        throw new Error(
+          `Entity expansion limit exceeded: ${this.entityExpansionCount} > ${entityConfig.maxTotalExpansions}`
+        );
+      }
+      const lengthBefore = val.length;
       val = val.replace(entity.regx, entity.val);
-    }
-    for (let entityName in this.lastEntities) {
-      const entity = this.lastEntities[entityName];
-      val = val.replace(entity.regex, entity.val);
-    }
-    if (this.options.htmlEntities) {
-      for (let entityName in this.htmlEntities) {
-        const entity = this.htmlEntities[entityName];
-        val = val.replace(entity.regex, entity.val);
+      if (entityConfig.maxExpandedLength) {
+        this.currentExpandedLength += val.length - lengthBefore;
+        if (this.currentExpandedLength > entityConfig.maxExpandedLength) {
+          throw new Error(
+            `Total expanded content size exceeded: ${this.currentExpandedLength} > ${entityConfig.maxExpandedLength}`
+          );
+        }
       }
     }
-    val = val.replace(this.ampEntity.regex, this.ampEntity.val);
   }
+  if (val.indexOf("&") === -1) return val;
+  for (let entityName in this.lastEntities) {
+    const entity = this.lastEntities[entityName];
+    val = val.replace(entity.regex, entity.val);
+  }
+  if (val.indexOf("&") === -1) return val;
+  if (this.options.htmlEntities) {
+    for (let entityName in this.htmlEntities) {
+      const entity = this.htmlEntities[entityName];
+      val = val.replace(entity.regex, entity.val);
+    }
+  }
+  val = val.replace(this.ampEntity.regex, this.ampEntity.val);
   return val;
 };
-function saveTextToParentTag(textData, currentNode, jPath, isLeafNode) {
+function saveTextToParentTag(textData, parentNode, jPath, isLeafNode) {
   if (textData) {
-    if (isLeafNode === void 0) isLeafNode = currentNode.child.length === 0;
+    if (isLeafNode === void 0) isLeafNode = parentNode.child.length === 0;
     textData = this.parseTextData(
       textData,
-      currentNode.tagname,
+      parentNode.tagname,
       jPath,
       false,
-      currentNode[":@"] ? Object.keys(currentNode[":@"]).length !== 0 : false,
+      parentNode[":@"] ? Object.keys(parentNode[":@"]).length !== 0 : false,
       isLeafNode
     );
     if (textData !== void 0 && textData !== "")
-      currentNode.add(this.options.textNodeName, textData);
+      parentNode.add(this.options.textNodeName, textData);
     textData = "";
   }
   return textData;
@@ -43199,7 +43408,7 @@ function fromCodePoint(str, base, prefix2) {
   }
 }
 
-// node_modules/.pnpm/fast-xml-parser@5.3.4/node_modules/fast-xml-parser/src/xmlparser/node2json.js
+// node_modules/.pnpm/fast-xml-parser@5.4.1/node_modules/fast-xml-parser/src/xmlparser/node2json.js
 var METADATA_SYMBOL2 = XmlNode.getMetaDataSymbol();
 function prettify(node, options2) {
   return compress(node, options2);
@@ -43221,9 +43430,6 @@ function compress(arr, options2, jPath) {
     } else if (tagObj[property]) {
       let val = compress(tagObj[property], options2, newJpath);
       const isLeaf = isLeafTag(val, options2);
-      if (tagObj[METADATA_SYMBOL2] !== void 0) {
-        val[METADATA_SYMBOL2] = tagObj[METADATA_SYMBOL2];
-      }
       if (tagObj[":@"]) {
         assignAttributes(val, tagObj[":@"], newJpath, options2);
       } else if (Object.keys(val).length === 1 && val[options2.textNodeName] !== void 0 && !options2.alwaysCreateTextNode) {
@@ -43232,7 +43438,10 @@ function compress(arr, options2, jPath) {
         if (options2.alwaysCreateTextNode) val[options2.textNodeName] = "";
         else val = "";
       }
-      if (compressedObj[property] !== void 0 && compressedObj.hasOwnProperty(property)) {
+      if (tagObj[METADATA_SYMBOL2] !== void 0 && typeof val === "object" && val !== null) {
+        val[METADATA_SYMBOL2] = tagObj[METADATA_SYMBOL2];
+      }
+      if (compressedObj[property] !== void 0 && Object.prototype.hasOwnProperty.call(compressedObj, property)) {
         if (!Array.isArray(compressedObj[property])) {
           compressedObj[property] = [compressedObj[property]];
         }
@@ -43284,7 +43493,7 @@ function isLeafTag(obj, options2) {
   return false;
 }
 
-// node_modules/.pnpm/fast-xml-parser@5.3.4/node_modules/fast-xml-parser/src/xmlparser/XMLParser.js
+// node_modules/.pnpm/fast-xml-parser@5.4.1/node_modules/fast-xml-parser/src/xmlparser/XMLParser.js
 var XMLParser = class {
   constructor(options2) {
     this.externalEntities = {};
@@ -43345,7 +43554,7 @@ var XMLParser = class {
   }
 };
 
-// node_modules/.pnpm/fast-xml-parser@5.3.4/node_modules/fast-xml-parser/src/xmlbuilder/orderedJs2Xml.js
+// node_modules/.pnpm/fast-xml-builder@1.0.0/node_modules/fast-xml-builder/src/orderedJs2Xml.js
 var EOL7 = "\n";
 function toXml(jArray, options2) {
   let indentation = "";
@@ -43357,6 +43566,14 @@ function toXml(jArray, options2) {
 function arrToStr(arr, options2, jPath, indentation) {
   let xmlStr = "";
   let isPreviousElementTag = false;
+  if (!Array.isArray(arr)) {
+    if (arr !== void 0 && arr !== null) {
+      let text = arr.toString();
+      text = replaceEntitiesValue2(text, options2);
+      return text;
+    }
+    return "";
+  }
   for (let i = 0; i < arr.length; i++) {
     const tagObj = arr[i];
     const tagName = propName2(tagObj);
@@ -43427,7 +43644,7 @@ function propName2(obj) {
   const keys = Object.keys(obj);
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
-    if (!obj.hasOwnProperty(key)) continue;
+    if (!Object.prototype.hasOwnProperty.call(obj, key)) continue;
     if (key !== ":@") return key;
   }
 }
@@ -43435,7 +43652,7 @@ function attr_to_str(attrMap, options2) {
   let attrStr = "";
   if (attrMap && !options2.ignoreAttributes) {
     for (let attr in attrMap) {
-      if (!attrMap.hasOwnProperty(attr)) continue;
+      if (!Object.prototype.hasOwnProperty.call(attrMap, attr)) continue;
       let attrVal = options2.attributeValueProcessor(attr, attrMap[attr]);
       attrVal = replaceEntitiesValue2(attrVal, options2);
       if (attrVal === true && options2.suppressBooleanAttributes) {
@@ -43465,7 +43682,27 @@ function replaceEntitiesValue2(textValue, options2) {
   return textValue;
 }
 
-// node_modules/.pnpm/fast-xml-parser@5.3.4/node_modules/fast-xml-parser/src/xmlbuilder/json2xml.js
+// node_modules/.pnpm/fast-xml-builder@1.0.0/node_modules/fast-xml-builder/src/ignoreAttributes.js
+function getIgnoreAttributesFn2(ignoreAttributes) {
+  if (typeof ignoreAttributes === "function") {
+    return ignoreAttributes;
+  }
+  if (Array.isArray(ignoreAttributes)) {
+    return (attrName) => {
+      for (const pattern of ignoreAttributes) {
+        if (typeof pattern === "string" && attrName === pattern) {
+          return true;
+        }
+        if (pattern instanceof RegExp && pattern.test(attrName)) {
+          return true;
+        }
+      }
+    };
+  }
+  return () => false;
+}
+
+// node_modules/.pnpm/fast-xml-builder@1.0.0/node_modules/fast-xml-builder/src/fxb.js
 var defaultOptions3 = {
   attributeNamePrefix: "@_",
   attributesGroupName: false,
@@ -43507,7 +43744,7 @@ function Builder(options2) {
       return false;
     };
   } else {
-    this.ignoreAttributesFn = getIgnoreAttributesFn(this.options.ignoreAttributes);
+    this.ignoreAttributesFn = getIgnoreAttributesFn2(this.options.ignoreAttributes);
     this.attrPrefixLen = this.options.attributeNamePrefix.length;
     this.isAttribute = isAttribute;
   }
@@ -43703,7 +43940,10 @@ function isAttribute(name) {
   }
 }
 
-// node_modules/.pnpm/fast-xml-parser@5.3.4/node_modules/fast-xml-parser/src/fxp.js
+// node_modules/.pnpm/fast-xml-parser@5.4.1/node_modules/fast-xml-parser/src/xmlbuilder/json2xml.js
+var json2xml_default = Builder;
+
+// node_modules/.pnpm/fast-xml-parser@5.4.1/node_modules/fast-xml-parser/src/fxp.js
 var XMLValidator = {
   validate
 };
@@ -43731,7 +43971,7 @@ function getParserOptions(options2 = {}) {
 }
 function stringifyXML(obj, opts = {}) {
   const parserOptions = getSerializerOptions(opts);
-  const j2x = new Builder(parserOptions);
+  const j2x = new json2xml_default(parserOptions);
   const node = { [parserOptions.rootNodeName]: obj };
   const xmlData = j2x.build(node);
   return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>${xmlData}`.replace(/\n/g, "");
@@ -43758,13 +43998,13 @@ async function parseXML(str, opts = {}) {
   return parsedXml;
 }
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/log.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/log.js
 var logger4 = createClientLogger2("storage-blob");
 
-// node_modules/.pnpm/@azure+storage-common@12.2.0/node_modules/@azure/storage-common/dist/esm/BufferScheduler.js
+// node_modules/.pnpm/@azure+storage-common@12.3.0_@azure+core-client@1.10.1/node_modules/@azure/storage-common/dist/esm/BufferScheduler.js
 var import_events = require("events");
 
-// node_modules/.pnpm/@azure+storage-common@12.2.0/node_modules/@azure/storage-common/dist/esm/BuffersStream.js
+// node_modules/.pnpm/@azure+storage-common@12.3.0_@azure+core-client@1.10.1/node_modules/@azure/storage-common/dist/esm/BuffersStream.js
 var import_node_stream2 = require("stream");
 var BuffersStream = class extends import_node_stream2.Readable {
   /**
@@ -43849,7 +44089,7 @@ var BuffersStream = class extends import_node_stream2.Readable {
   }
 };
 
-// node_modules/.pnpm/@azure+storage-common@12.2.0/node_modules/@azure/storage-common/dist/esm/PooledBuffer.js
+// node_modules/.pnpm/@azure+storage-common@12.3.0_@azure+core-client@1.10.1/node_modules/@azure/storage-common/dist/esm/PooledBuffer.js
 var import_node_buffer = __toESM(require("buffer"), 1);
 var maxBufferLength = import_node_buffer.default.constants.MAX_LENGTH;
 var PooledBuffer = class {
@@ -43929,7 +44169,7 @@ var PooledBuffer = class {
   }
 };
 
-// node_modules/.pnpm/@azure+storage-common@12.2.0/node_modules/@azure/storage-common/dist/esm/BufferScheduler.js
+// node_modules/.pnpm/@azure+storage-common@12.3.0_@azure+core-client@1.10.1/node_modules/@azure/storage-common/dist/esm/BufferScheduler.js
 var BufferScheduler = class {
   /**
    * Creates an instance of BufferScheduler.
@@ -44173,7 +44413,7 @@ var BufferScheduler = class {
   }
 };
 
-// node_modules/.pnpm/@azure+storage-common@12.2.0/node_modules/@azure/storage-common/dist/esm/cache.js
+// node_modules/.pnpm/@azure+storage-common@12.3.0_@azure+core-client@1.10.1/node_modules/@azure/storage-common/dist/esm/cache.js
 var _defaultHttpClient;
 function getCachedDefaultHttpClient2() {
   if (!_defaultHttpClient) {
@@ -44182,7 +44422,7 @@ function getCachedDefaultHttpClient2() {
   return _defaultHttpClient;
 }
 
-// node_modules/.pnpm/@azure+storage-common@12.2.0/node_modules/@azure/storage-common/dist/esm/policies/RequestPolicy.js
+// node_modules/.pnpm/@azure+storage-common@12.3.0_@azure+core-client@1.10.1/node_modules/@azure/storage-common/dist/esm/policies/RequestPolicy.js
 var BaseRequestPolicy = class {
   /**
    * The main method to implement that manipulates a request/response.
@@ -44212,7 +44452,7 @@ var BaseRequestPolicy = class {
   }
 };
 
-// node_modules/.pnpm/@azure+storage-common@12.2.0/node_modules/@azure/storage-common/dist/esm/utils/constants.js
+// node_modules/.pnpm/@azure+storage-common@12.3.0_@azure+core-client@1.10.1/node_modules/@azure/storage-common/dist/esm/utils/constants.js
 var URLConstants = {
   Parameters: {
     FORCE_BROWSER_NO_CACHE: "_",
@@ -44249,7 +44489,7 @@ var HeaderConstants = {
   X_MS_CopySourceErrorCode: "x-ms-copy-source-error-code"
 };
 
-// node_modules/.pnpm/@azure+storage-common@12.2.0/node_modules/@azure/storage-common/dist/esm/utils/utils.common.js
+// node_modules/.pnpm/@azure+storage-common@12.3.0_@azure+core-client@1.10.1/node_modules/@azure/storage-common/dist/esm/utils/utils.common.js
 function setURLParameter(url2, name, value) {
   const urlParsed = new URL(url2);
   const encodedName = encodeURIComponent(name);
@@ -44327,7 +44567,7 @@ async function delay3(timeInMs, aborter, abortError) {
   });
 }
 
-// node_modules/.pnpm/@azure+storage-common@12.2.0/node_modules/@azure/storage-common/dist/esm/policies/StorageBrowserPolicy.js
+// node_modules/.pnpm/@azure+storage-common@12.3.0_@azure+core-client@1.10.1/node_modules/@azure/storage-common/dist/esm/policies/StorageBrowserPolicy.js
 var StorageBrowserPolicy = class extends BaseRequestPolicy {
   /**
    * Creates an instance of StorageBrowserPolicy.
@@ -44357,7 +44597,7 @@ var StorageBrowserPolicy = class extends BaseRequestPolicy {
   }
 };
 
-// node_modules/.pnpm/@azure+storage-common@12.2.0/node_modules/@azure/storage-common/dist/esm/StorageBrowserPolicyFactory.js
+// node_modules/.pnpm/@azure+storage-common@12.3.0_@azure+core-client@1.10.1/node_modules/@azure/storage-common/dist/esm/StorageBrowserPolicyFactory.js
 var StorageBrowserPolicyFactory = class {
   /**
    * Creates a StorageBrowserPolicyFactory object.
@@ -44370,7 +44610,7 @@ var StorageBrowserPolicyFactory = class {
   }
 };
 
-// node_modules/.pnpm/@azure+storage-common@12.2.0/node_modules/@azure/storage-common/dist/esm/policies/CredentialPolicy.js
+// node_modules/.pnpm/@azure+storage-common@12.3.0_@azure+core-client@1.10.1/node_modules/@azure/storage-common/dist/esm/policies/CredentialPolicy.js
 var CredentialPolicy = class extends BaseRequestPolicy {
   /**
    * Sends out request.
@@ -44391,7 +44631,7 @@ var CredentialPolicy = class extends BaseRequestPolicy {
   }
 };
 
-// node_modules/.pnpm/@azure+storage-common@12.2.0/node_modules/@azure/storage-common/dist/esm/policies/AnonymousCredentialPolicy.js
+// node_modules/.pnpm/@azure+storage-common@12.3.0_@azure+core-client@1.10.1/node_modules/@azure/storage-common/dist/esm/policies/AnonymousCredentialPolicy.js
 var AnonymousCredentialPolicy = class extends CredentialPolicy {
   /**
    * Creates an instance of AnonymousCredentialPolicy.
@@ -44405,7 +44645,7 @@ var AnonymousCredentialPolicy = class extends CredentialPolicy {
   }
 };
 
-// node_modules/.pnpm/@azure+storage-common@12.2.0/node_modules/@azure/storage-common/dist/esm/credentials/Credential.js
+// node_modules/.pnpm/@azure+storage-common@12.3.0_@azure+core-client@1.10.1/node_modules/@azure/storage-common/dist/esm/credentials/Credential.js
 var Credential = class {
   /**
    * Creates a RequestPolicy object.
@@ -44418,7 +44658,7 @@ var Credential = class {
   }
 };
 
-// node_modules/.pnpm/@azure+storage-common@12.2.0/node_modules/@azure/storage-common/dist/esm/credentials/AnonymousCredential.js
+// node_modules/.pnpm/@azure+storage-common@12.3.0_@azure+core-client@1.10.1/node_modules/@azure/storage-common/dist/esm/credentials/AnonymousCredential.js
 var AnonymousCredential = class extends Credential {
   /**
    * Creates an {@link AnonymousCredentialPolicy} object.
@@ -44431,10 +44671,10 @@ var AnonymousCredential = class extends Credential {
   }
 };
 
-// node_modules/.pnpm/@azure+storage-common@12.2.0/node_modules/@azure/storage-common/dist/esm/credentials/StorageSharedKeyCredential.js
+// node_modules/.pnpm/@azure+storage-common@12.3.0_@azure+core-client@1.10.1/node_modules/@azure/storage-common/dist/esm/credentials/StorageSharedKeyCredential.js
 var import_node_crypto2 = require("crypto");
 
-// node_modules/.pnpm/@azure+storage-common@12.2.0/node_modules/@azure/storage-common/dist/esm/utils/SharedKeyComparator.js
+// node_modules/.pnpm/@azure+storage-common@12.3.0_@azure+core-client@1.10.1/node_modules/@azure/storage-common/dist/esm/utils/SharedKeyComparator.js
 var table_lv0 = new Uint32Array([
   0,
   0,
@@ -44859,7 +45099,7 @@ function isLessThan(lhs, rhs) {
   return false;
 }
 
-// node_modules/.pnpm/@azure+storage-common@12.2.0/node_modules/@azure/storage-common/dist/esm/policies/StorageSharedKeyCredentialPolicy.js
+// node_modules/.pnpm/@azure+storage-common@12.3.0_@azure+core-client@1.10.1/node_modules/@azure/storage-common/dist/esm/policies/StorageSharedKeyCredentialPolicy.js
 var StorageSharedKeyCredentialPolicy = class extends CredentialPolicy {
   /**
    * Creates an instance of StorageSharedKeyCredentialPolicy.
@@ -44983,7 +45223,7 @@ ${key}:${decodeURIComponent(lowercaseQueries[key])}`;
   }
 };
 
-// node_modules/.pnpm/@azure+storage-common@12.2.0/node_modules/@azure/storage-common/dist/esm/credentials/StorageSharedKeyCredential.js
+// node_modules/.pnpm/@azure+storage-common@12.3.0_@azure+core-client@1.10.1/node_modules/@azure/storage-common/dist/esm/credentials/StorageSharedKeyCredential.js
 var StorageSharedKeyCredential = class extends Credential {
   /**
    * Creates an instance of StorageSharedKeyCredential.
@@ -45022,17 +45262,17 @@ var StorageSharedKeyCredential = class extends Credential {
   }
 };
 
-// node_modules/.pnpm/@azure+storage-common@12.2.0/node_modules/@azure/storage-common/dist/esm/log.js
+// node_modules/.pnpm/@azure+storage-common@12.3.0_@azure+core-client@1.10.1/node_modules/@azure/storage-common/dist/esm/log.js
 var logger5 = createClientLogger2("storage-common");
 
-// node_modules/.pnpm/@azure+storage-common@12.2.0/node_modules/@azure/storage-common/dist/esm/policies/StorageRetryPolicyType.js
+// node_modules/.pnpm/@azure+storage-common@12.3.0_@azure+core-client@1.10.1/node_modules/@azure/storage-common/dist/esm/policies/StorageRetryPolicyType.js
 var StorageRetryPolicyType;
 (function(StorageRetryPolicyType2) {
   StorageRetryPolicyType2[StorageRetryPolicyType2["EXPONENTIAL"] = 0] = "EXPONENTIAL";
   StorageRetryPolicyType2[StorageRetryPolicyType2["FIXED"] = 1] = "FIXED";
 })(StorageRetryPolicyType || (StorageRetryPolicyType = {}));
 
-// node_modules/.pnpm/@azure+storage-common@12.2.0/node_modules/@azure/storage-common/dist/esm/policies/StorageRetryPolicy.js
+// node_modules/.pnpm/@azure+storage-common@12.3.0_@azure+core-client@1.10.1/node_modules/@azure/storage-common/dist/esm/policies/StorageRetryPolicy.js
 var DEFAULT_RETRY_OPTIONS = {
   maxRetryDelayInMs: 120 * 1e3,
   maxTries: 4,
@@ -45199,7 +45439,7 @@ var StorageRetryPolicy = class extends BaseRequestPolicy {
   }
 };
 
-// node_modules/.pnpm/@azure+storage-common@12.2.0/node_modules/@azure/storage-common/dist/esm/StorageRetryPolicyFactory.js
+// node_modules/.pnpm/@azure+storage-common@12.3.0_@azure+core-client@1.10.1/node_modules/@azure/storage-common/dist/esm/StorageRetryPolicyFactory.js
 var StorageRetryPolicyFactory = class {
   /**
    * Creates an instance of StorageRetryPolicyFactory.
@@ -45220,7 +45460,7 @@ var StorageRetryPolicyFactory = class {
   }
 };
 
-// node_modules/.pnpm/@azure+storage-common@12.2.0/node_modules/@azure/storage-common/dist/esm/policies/StorageBrowserPolicyV2.js
+// node_modules/.pnpm/@azure+storage-common@12.3.0_@azure+core-client@1.10.1/node_modules/@azure/storage-common/dist/esm/policies/StorageBrowserPolicyV2.js
 var storageBrowserPolicyName = "storageBrowserPolicy";
 function storageBrowserPolicy() {
   return {
@@ -45239,7 +45479,7 @@ function storageBrowserPolicy() {
   };
 }
 
-// node_modules/.pnpm/@azure+storage-common@12.2.0/node_modules/@azure/storage-common/dist/esm/policies/StorageCorrectContentLengthPolicy.js
+// node_modules/.pnpm/@azure+storage-common@12.3.0_@azure+core-client@1.10.1/node_modules/@azure/storage-common/dist/esm/policies/StorageCorrectContentLengthPolicy.js
 var storageCorrectContentLengthPolicyName = "StorageCorrectContentLengthPolicy";
 function storageCorrectContentLengthPolicy() {
   function correctContentLength(request) {
@@ -45256,7 +45496,7 @@ function storageCorrectContentLengthPolicy() {
   };
 }
 
-// node_modules/.pnpm/@azure+storage-common@12.2.0/node_modules/@azure/storage-common/dist/esm/policies/StorageRetryPolicyV2.js
+// node_modules/.pnpm/@azure+storage-common@12.3.0_@azure+core-client@1.10.1/node_modules/@azure/storage-common/dist/esm/policies/StorageRetryPolicyV2.js
 var storageRetryPolicyName = "storageRetryPolicy";
 var DEFAULT_RETRY_OPTIONS2 = {
   maxRetryDelayInMs: 120 * 1e3,
@@ -45391,7 +45631,7 @@ function storageRetryPolicy(options2 = {}) {
   };
 }
 
-// node_modules/.pnpm/@azure+storage-common@12.2.0/node_modules/@azure/storage-common/dist/esm/policies/StorageSharedKeyCredentialPolicyV2.js
+// node_modules/.pnpm/@azure+storage-common@12.3.0_@azure+core-client@1.10.1/node_modules/@azure/storage-common/dist/esm/policies/StorageSharedKeyCredentialPolicyV2.js
 var import_node_crypto3 = require("crypto");
 var storageSharedKeyCredentialPolicyName = "storageSharedKeyCredentialPolicy";
 function storageSharedKeyCredentialPolicy(options2) {
@@ -45482,7 +45722,7 @@ ${key}:${decodeURIComponent(lowercaseQueries[key])}`;
   };
 }
 
-// node_modules/.pnpm/@azure+storage-common@12.2.0/node_modules/@azure/storage-common/dist/esm/policies/StorageRequestFailureDetailsParserPolicy.js
+// node_modules/.pnpm/@azure+storage-common@12.3.0_@azure+core-client@1.10.1/node_modules/@azure/storage-common/dist/esm/policies/StorageRequestFailureDetailsParserPolicy.js
 var storageRequestFailureDetailsParserPolicyName = "storageRequestFailureDetailsParserPolicy";
 function storageRequestFailureDetailsParserPolicy() {
   return {
@@ -45503,7 +45743,7 @@ function storageRequestFailureDetailsParserPolicy() {
   };
 }
 
-// node_modules/.pnpm/@azure+storage-common@12.2.0/node_modules/@azure/storage-common/dist/esm/credentials/UserDelegationKeyCredential.js
+// node_modules/.pnpm/@azure+storage-common@12.3.0_@azure+core-client@1.10.1/node_modules/@azure/storage-common/dist/esm/credentials/UserDelegationKeyCredential.js
 var import_node_crypto4 = require("crypto");
 var UserDelegationKeyCredential = class {
   /**
@@ -45538,8 +45778,8 @@ var UserDelegationKeyCredential = class {
   }
 };
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/utils/constants.js
-var SDK_VERSION3 = "12.30.0";
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/utils/constants.js
+var SDK_VERSION3 = "12.31.0";
 var SERVICE_VERSION = "2026-02-06";
 var BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES = 256 * 1024 * 1024;
 var BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES = 4e3 * 1024 * 1024;
@@ -45722,7 +45962,7 @@ var PathStylePorts2 = [
   "11104"
 ];
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/Pipeline.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/Pipeline.js
 function isPipelineLike(pipeline3) {
   if (!pipeline3 || typeof pipeline3 !== "object") {
     return false;
@@ -45948,7 +46188,7 @@ function isCoreHttpPolicyFactory(factory) {
   });
 }
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/generated/src/models/index.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/generated/src/models/index.js
 var KnownEncryptionAlgorithmType;
 (function(KnownEncryptionAlgorithmType3) {
   KnownEncryptionAlgorithmType3["AES256"] = "AES256";
@@ -46082,7 +46322,7 @@ var KnownStorageErrorCode;
   KnownStorageErrorCode2["BlobAccessTierNotSupportedForAccountType"] = "BlobAccessTierNotSupportedForAccountType";
 })(KnownStorageErrorCode || (KnownStorageErrorCode = {}));
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/generated/src/models/mappers.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/generated/src/models/mappers.js
 var mappers_exports = {};
 __export(mappers_exports, {
   AccessPolicy: () => AccessPolicy,
@@ -54588,7 +54828,7 @@ var BlockBlobGetBlockListExceptionHeaders = {
   }
 };
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/generated/src/models/parameters.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/generated/src/models/parameters.js
 var contentType = {
   parameterPath: ["options", "contentType"],
   mapper: {
@@ -56255,7 +56495,7 @@ var listType = {
   }
 };
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/generated/src/operations/service.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/generated/src/operations/service.js
 var ServiceImpl = class {
   /**
    * Initialize a new instance of the class Service class.
@@ -56572,7 +56812,7 @@ var filterBlobsOperationSpec = {
   serializer: xmlSerializer
 };
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/generated/src/operations/container.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/generated/src/operations/container.js
 var ContainerImpl = class {
   /**
    * Initialize a new instance of the class Container class.
@@ -57281,7 +57521,7 @@ var getAccountInfoOperationSpec2 = {
   serializer: xmlSerializer2
 };
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/generated/src/operations/blob.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/generated/src/operations/blob.js
 var BlobImpl = class {
   /**
    * Initialize a new instance of the class Blob class.
@@ -58304,7 +58544,7 @@ var setTagsOperationSpec = {
   serializer: xmlSerializer3
 };
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/generated/src/operations/pageBlob.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/generated/src/operations/pageBlob.js
 var PageBlobImpl = class {
   /**
    * Initialize a new instance of the class PageBlob class.
@@ -58755,7 +58995,7 @@ var copyIncrementalOperationSpec = {
   serializer: xmlSerializer4
 };
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/generated/src/operations/appendBlob.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/generated/src/operations/appendBlob.js
 var AppendBlobImpl = class {
   /**
    * Initialize a new instance of the class AppendBlob class.
@@ -58971,7 +59211,7 @@ var sealOperationSpec = {
   serializer: xmlSerializer5
 };
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/generated/src/operations/blockBlob.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/generated/src/operations/blockBlob.js
 var BlockBlobImpl = class {
   /**
    * Initialize a new instance of the class BlockBlob class.
@@ -59332,7 +59572,7 @@ var getBlockListOperationSpec = {
   serializer: xmlSerializer6
 };
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/generated/src/storageClient.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/generated/src/storageClient.js
 var StorageClient = class extends ExtendedServiceClient {
   /**
    * Initializes a new instance of the StorageClient class.
@@ -59380,7 +59620,7 @@ var StorageClient = class extends ExtendedServiceClient {
   }
 };
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/StorageContextClient.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/StorageContextClient.js
 var StorageContextClient = class extends StorageClient {
   async sendOperationRequest(operationArguments, operationSpec) {
     const operationSpecToSend = { ...operationSpec };
@@ -59391,7 +59631,7 @@ var StorageContextClient = class extends StorageClient {
   }
 };
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/utils/utils.common.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/utils/utils.common.js
 function escapeURLPath(url2) {
   const urlParsed = new URL(url2);
   let path16 = urlParsed.pathname;
@@ -59753,7 +59993,7 @@ function assertResponse(response) {
   throw new TypeError(`Unexpected response object ${response}`);
 }
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/StorageClient.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/StorageClient.js
 var StorageClient2 = class {
   /**
    * Creates an instance of StorageClient.
@@ -59795,14 +60035,14 @@ var StorageClient2 = class {
   }
 };
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/utils/tracing.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/utils/tracing.js
 var tracingClient = createTracingClient({
   packageName: "@azure/storage-blob",
   packageVersion: SDK_VERSION3,
   namespace: "Microsoft.Storage"
 });
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/sas/BlobSASPermissions.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/sas/BlobSASPermissions.js
 var BlobSASPermissions = class _BlobSASPermissions {
   constructor() {
     /**
@@ -59987,7 +60227,7 @@ var BlobSASPermissions = class _BlobSASPermissions {
   }
 };
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/sas/ContainerSASPermissions.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/sas/ContainerSASPermissions.js
 var ContainerSASPermissions = class _ContainerSASPermissions {
   constructor() {
     /**
@@ -60200,12 +60440,12 @@ var ContainerSASPermissions = class _ContainerSASPermissions {
   }
 };
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/sas/SasIPRange.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/sas/SasIPRange.js
 function ipRangeToString(ipRange) {
   return ipRange.end ? `${ipRange.start}-${ipRange.end}` : ipRange.start;
 }
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/sas/SASQueryParameters.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/sas/SASQueryParameters.js
 var SASProtocol;
 (function(SASProtocol2) {
   SASProtocol2["Https"] = "https";
@@ -60552,7 +60792,7 @@ var SASQueryParameters = class {
   }
 };
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/sas/BlobSASSignatureValues.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/sas/BlobSASSignatureValues.js
 function generateBlobSASQueryParameters(blobSASSignatureValues, sharedKeyCredentialOrUserDelegationKey, accountName) {
   return generateBlobSASQueryParametersInternal(blobSASSignatureValues, sharedKeyCredentialOrUserDelegationKey, accountName).sasQueryParameters;
 }
@@ -61004,7 +61244,7 @@ function SASSignatureValuesSanityCheckAndAutofill(blobSASSignatureValues) {
   return blobSASSignatureValues;
 }
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/BlobLeaseClient.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/BlobLeaseClient.js
 var BlobLeaseClient = class {
   /**
    * Creates an instance of BlobLeaseClient.
@@ -61181,7 +61421,7 @@ var BlobLeaseClient = class {
   }
 };
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/utils/RetriableReadableStream.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/utils/RetriableReadableStream.js
 var import_node_stream3 = require("stream");
 var RetriableReadableStream = class extends import_node_stream3.Readable {
   /**
@@ -61282,7 +61522,7 @@ var RetriableReadableStream = class extends import_node_stream3.Readable {
   }
 };
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/BlobDownloadResponse.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/BlobDownloadResponse.js
 var BlobDownloadResponse = class {
   /**
    * Creates an instance of BlobDownloadResponse.
@@ -61734,16 +61974,16 @@ var BlobDownloadResponse = class {
   }
 };
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/utils/BlobQuickQueryStream.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/utils/BlobQuickQueryStream.js
 var import_node_stream4 = require("stream");
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/internal-avro/AvroConstants.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/internal-avro/AvroConstants.js
 var AVRO_SYNC_MARKER_SIZE = 16;
 var AVRO_INIT_BYTES = new Uint8Array([79, 98, 106, 1]);
 var AVRO_CODEC_KEY = "avro.codec";
 var AVRO_SCHEMA_KEY = "avro.schema";
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/internal-avro/AvroParser.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/internal-avro/AvroParser.js
 var AvroParser = class _AvroParser {
   /**
    * Reads a fixed number of bytes from the stream.
@@ -62054,7 +62294,7 @@ var AvroRecordType = class extends AvroType {
   }
 };
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/internal-avro/utils/utils.common.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/internal-avro/utils/utils.common.js
 function arraysEqual(a, b) {
   if (a === b)
     return true;
@@ -62069,7 +62309,7 @@ function arraysEqual(a, b) {
   return true;
 }
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/internal-avro/AvroReader.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/internal-avro/AvroReader.js
 var AvroReader = class {
   constructor(dataStream, headerStream, currentBlockOffset, indexWithinCurrentBlock) {
     __publicField(this, "_dataStream");
@@ -62170,11 +62410,11 @@ var AvroReader = class {
   }
 };
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/internal-avro/AvroReadable.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/internal-avro/AvroReadable.js
 var AvroReadable = class {
 };
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/internal-avro/AvroReadableFromStream.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/internal-avro/AvroReadableFromStream.js
 var import_buffer = require("buffer");
 var ABORT_ERROR = new AbortError2("Reading from the avro stream was aborted.");
 var AvroReadableFromStream = class extends AvroReadable {
@@ -62250,7 +62490,7 @@ var AvroReadableFromStream = class extends AvroReadable {
   }
 };
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/utils/BlobQuickQueryStream.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/utils/BlobQuickQueryStream.js
 var BlobQuickQueryStream = class extends import_node_stream4.Readable {
   /**
    * Creates an instance of BlobQuickQueryStream.
@@ -62358,7 +62598,7 @@ var BlobQuickQueryStream = class extends import_node_stream4.Readable {
   }
 };
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/BlobQueryResponse.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/BlobQueryResponse.js
 var BlobQueryResponse = class {
   /**
    * Creates an instance of BlobQueryResponse.
@@ -62718,7 +62958,7 @@ var BlobQueryResponse = class {
   }
 };
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/models.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/models.js
 var BlockBlobTier;
 (function(BlockBlobTier2) {
   BlockBlobTier2["Hot"] = "Hot";
@@ -62760,7 +63000,7 @@ var StorageBlobAudience;
   StorageBlobAudience2["DiskComputeOAuthScopes"] = "https://disk.compute.azure.com/.default";
 })(StorageBlobAudience || (StorageBlobAudience = {}));
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/PageBlobRangeResponse.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/PageBlobRangeResponse.js
 function rangeResponseFromModel(response) {
   const pageRange = (response._response.parsedBody.pageRange || []).map((x) => ({
     offset: x.start,
@@ -63100,7 +63340,7 @@ var Poller = class {
   }
 };
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/pollers/BlobStartCopyFromUrlPoller.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/pollers/BlobStartCopyFromUrlPoller.js
 var BlobBeginCopyFromUrlPoller = class extends Poller {
   constructor(options2) {
     const { blobClient, copySource: copySource2, intervalInMs = 15e3, onProgress, resumeFrom, startCopyFromURLOptions } = options2;
@@ -63193,7 +63433,7 @@ function makeBlobBeginCopyFromURLPollOperation(state3) {
   };
 }
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/Range.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/Range.js
 function rangeToString(iRange) {
   if (iRange.offset < 0) {
     throw new RangeError(`Range.offset cannot be smaller than 0.`);
@@ -63204,7 +63444,7 @@ function rangeToString(iRange) {
   return iRange.count ? `bytes=${iRange.offset}-${iRange.offset + iRange.count - 1}` : `bytes=${iRange.offset}-`;
 }
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/utils/Batch.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/utils/Batch.js
 var import_events2 = require("events");
 var BatchStates;
 (function(BatchStates2) {
@@ -63321,7 +63561,7 @@ var Batch = class {
   }
 };
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/utils/utils.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/utils/utils.js
 var import_node_fs = __toESM(require("fs"), 1);
 var import_node_util3 = __toESM(require("util"), 1);
 async function streamToBuffer(stream3, buffer3, offset, end, encoding) {
@@ -63375,7 +63615,7 @@ async function readStreamToLocalFile(rs, file) {
 var fsStat = import_node_util3.default.promisify(import_node_fs.default.stat);
 var fsCreateReadStream = import_node_fs.default.createReadStream;
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/Clients.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/Clients.js
 var BlobClient = class _BlobClient extends StorageClient2 {
   constructor(urlOrConnectionString, credentialOrPipelineOrContainerName, blobNameOrOptions, options2) {
     options2 = options2 || {};
@@ -66032,14 +66272,14 @@ var PageBlobClient = class _PageBlobClient extends BlobClient {
   }
 };
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/utils/Mutex.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/utils/Mutex.js
 var MutexLockStatus;
 (function(MutexLockStatus2) {
   MutexLockStatus2[MutexLockStatus2["LOCKED"] = 0] = "LOCKED";
   MutexLockStatus2[MutexLockStatus2["UNLOCKED"] = 1] = "UNLOCKED";
 })(MutexLockStatus || (MutexLockStatus = {}));
 
-// node_modules/.pnpm/@azure+storage-blob@12.30.0/node_modules/@azure/storage-blob/dist/esm/generatedModels.js
+// node_modules/.pnpm/@azure+storage-blob@12.31.0/node_modules/@azure/storage-blob/dist/esm/generatedModels.js
 var KnownEncryptionAlgorithmType2;
 (function(KnownEncryptionAlgorithmType3) {
   KnownEncryptionAlgorithmType3["AES256"] = "AES256";
@@ -70879,7 +71119,7 @@ var generateProjectCacheKey = async (cacheKeyPrefix) => {
     debug(`sha: ${sha}`);
     return `${cacheKeyPrefix}${getCondaArch()}-${sha}`;
   } catch (err) {
-    throw new Error(`Failed to generate cache key: ${err}`, { cause: err });
+    throw new Error(`Failed to generate cache key`, { cause: err });
   }
 };
 var generateGlobalCacheKey = async (cacheKeyPrefix) => {
@@ -70892,7 +71132,7 @@ var generateGlobalCacheKey = async (cacheKeyPrefix) => {
     debug(`sha: ${sha}`);
     return `${cacheKeyPrefix}${getCondaArch()}-${getYearMonth()}-${sha}`;
   } catch (err) {
-    throw new Error(`Failed to generate cache key: ${err}`, { cause: err });
+    throw new Error(`Failed to generate cache key`, { cause: err });
   }
 };
 var projectCachePath = import_path2.default.join(import_path2.default.dirname(options.pixiLockFile), ".pixi");
