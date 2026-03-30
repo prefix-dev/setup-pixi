@@ -71071,7 +71071,7 @@ var generateProjectCacheKey = async (cacheKeyPrefix) => {
     debug(`sha: ${sha}`);
     return `${cacheKeyPrefix}${getCondaArch()}-${sha}`;
   } catch (err) {
-    throw new Error(`Failed to generate cache key: ${err}`);
+    throw new Error(`Failed to generate cache key`, { cause: err });
   }
 };
 var generateGlobalCacheKey = async (cacheKeyPrefix) => {
@@ -71084,7 +71084,7 @@ var generateGlobalCacheKey = async (cacheKeyPrefix) => {
     debug(`sha: ${sha}`);
     return `${cacheKeyPrefix}${getCondaArch()}-${getYearMonth()}-${sha}`;
   } catch (err) {
-    throw new Error(`Failed to generate cache key: ${err}`);
+    throw new Error(`Failed to generate cache key`, { cause: err });
   }
 };
 var projectCachePath = import_path2.default.join(import_path2.default.dirname(options.pixiLockFile), ".pixi");
