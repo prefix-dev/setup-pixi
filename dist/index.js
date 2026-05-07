@@ -71269,6 +71269,29 @@ var activateEnvironment = async (environment) => {
 };
 
 // src/main.ts
+var fileExists = async (p) => {
+  try {
+    await import_promises2.default.access(p);
+    return true;
+  } catch {
+    return false;
+  }
+};
+var readInstalledPixiVersion = async (binPath) => {
+  try {
+    const { stdout, exitCode } = await executeGetOutput([binPath, "--version"], {
+      silent: true,
+      ignoreReturnCode: true
+    });
+    if (exitCode !== 0) {
+      return void 0;
+    }
+    const match2 = /\b(\d+\.\d+\.\d+\S*)/.exec(stdout);
+    return match2?.[1];
+  } catch {
+    return void 0;
+  }
+};
 var downloadPixi = async (source) => {
   const url2 = renderPixiUrl(source.urlTemplate, source.version);
   await group("Downloading Pixi", async () => {
@@ -71276,6 +71299,22 @@ var downloadPixi = async (source) => {
     debug(`Downloading pixi from ${url2}`);
     debug(`Using headers: ${JSON.stringify(source.headers)}`);
     await import_promises2.default.mkdir(import_path3.default.dirname(options.pixiBinPath), { recursive: true });
+    if (await fileExists(options.pixiBinPath)) {
+      if (source.version !== "latest") {
+        const installed = await readInstalledPixiVersion(options.pixiBinPath);
+        const requested = source.version.replace(/^v/, "");
+        if (installed && installed === requested) {
+          info(`Pixi ${installed} already installed at ${options.pixiBinPath}, skipping download`);
+          return;
+        }
+        info(
+          `Replacing existing pixi at ${options.pixiBinPath} (installed: ${installed ?? "unknown"}, requested: ${requested})`
+        );
+      } else {
+        info(`Replacing existing pixi at ${options.pixiBinPath} (requested: latest)`);
+      }
+      await import_promises2.default.rm(options.pixiBinPath, { force: true });
+    }
     await downloadTool(url2, options.pixiBinPath, void 0, source.headers);
     await import_promises2.default.chmod(options.pixiBinPath, 493);
     info(`Pixi installed to ${options.pixiBinPath}`);

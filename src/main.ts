@@ -6,9 +6,37 @@ import * as core from '@actions/core'
 import { downloadTool } from '@actions/tool-cache'
 import type { PixiSource } from './options'
 import { options } from './options'
-import { execute, pixiCmd, renderPixiUrl } from './util'
+import { execute, executeGetOutput, pixiCmd, renderPixiUrl } from './util'
 import { tryRestoreGlobalCache, tryRestoreProjectCache, saveGlobalCache, saveProjectCache } from './cache'
 import { activateEnvironment } from './activate'
+
+const fileExists = async (p: string) => {
+  try {
+    await fs.access(p)
+    return true
+  } catch {
+    return false
+  }
+}
+
+// Returns the installed version (e.g. "0.67.2") or undefined if the binary
+// cannot be executed or the output does not match the expected format.
+const readInstalledPixiVersion = async (binPath: string) => {
+  try {
+    const { stdout, exitCode } = await executeGetOutput([binPath, '--version'], {
+      silent: true,
+      ignoreReturnCode: true
+    })
+    if (exitCode !== 0) {
+      return undefined
+    }
+    // `pixi --version` prints something like "pixi 0.67.2"
+    const match = /\b(\d+\.\d+\.\d+\S*)/.exec(stdout)
+    return match?.[1]
+  } catch {
+    return undefined
+  }
+}
 
 const downloadPixi = async (source: PixiSource) => {
   const url = renderPixiUrl(source.urlTemplate, source.version)
@@ -17,6 +45,29 @@ const downloadPixi = async (source: PixiSource) => {
     core.debug(`Downloading pixi from ${url}`)
     core.debug(`Using headers: ${JSON.stringify(source.headers)}`)
     await fs.mkdir(path.dirname(options.pixiBinPath), { recursive: true })
+
+    // If a previous step in this job already installed pixi at the same path,
+    // @actions/tool-cache's downloadTool will throw "Destination file path
+    // ... already exists". If the existing binary matches the requested
+    // version we can safely skip the download; otherwise remove it so the
+    // download can proceed. See prefix-dev/setup-pixi#107.
+    if (await fileExists(options.pixiBinPath)) {
+      if (source.version !== 'latest') {
+        const installed = await readInstalledPixiVersion(options.pixiBinPath)
+        const requested = source.version.replace(/^v/, '')
+        if (installed && installed === requested) {
+          core.info(`Pixi ${installed} already installed at ${options.pixiBinPath}, skipping download`)
+          return
+        }
+        core.info(
+          `Replacing existing pixi at ${options.pixiBinPath} (installed: ${installed ?? 'unknown'}, requested: ${requested})`
+        )
+      } else {
+        core.info(`Replacing existing pixi at ${options.pixiBinPath} (requested: latest)`)
+      }
+      await fs.rm(options.pixiBinPath, { force: true })
+    }
+
     await downloadTool(url, options.pixiBinPath, undefined, source.headers)
     await fs.chmod(options.pixiBinPath, 0o755)
     core.info(`Pixi installed to ${options.pixiBinPath}`)
