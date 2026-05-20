@@ -36431,8 +36431,8 @@ var validateInputs = (inputs) => {
     if (inputs.authToken || inputs.authUsername || inputs.authCondaToken || inputs.authS3AccessKeyId) {
       throw new Error("You need to specify auth-host");
     }
-    if (inputs.authLogout === true) {
-      throw new Error("Cannot use auth-logout without specifying auth-host");
+    if (inputs.persistCredentials === false) {
+      throw new Error("Cannot use persist-credentials without specifying auth-host");
     }
   }
   if (inputs.runInstall === false && inputs.environments) {
@@ -36543,7 +36543,7 @@ var inferOptions = (inputs) => {
     s3SessionToken: inputs.authS3SessionToken
   };
   const postCleanup = inputs.postCleanup ?? true;
-  const authLogout = inputs.authLogout ?? false;
+  const persistCredentials = inputs.persistCredentials ?? true;
   const pypiKeyringProvider = inputs.pypiKeyringProvider;
   return {
     globalEnvironments: inputs.globalEnvironments,
@@ -36563,7 +36563,7 @@ var inferOptions = (inputs) => {
     globalCache,
     pixiBinPath,
     auth,
-    authLogout,
+    persistCredentials,
     postCleanup
   };
 };
@@ -36604,7 +36604,7 @@ var getOptions = () => {
     authS3AccessKeyId: parseOrUndefined("auth-s3-access-key-id", string2()),
     authS3SecretAccessKey: parseOrUndefined("auth-s3-secret-access-key", string2()),
     authS3SessionToken: parseOrUndefined("auth-s3-session-token", string2()),
-    authLogout: parseOrUndefinedJSON("auth-logout", boolean2()),
+    persistCredentials: parseOrUndefinedJSON("persist-credentials", boolean2()),
     pypiKeyringProvider: parseOrUndefined("pypi-keyring-provider", pypiKeyringProviderSchema),
     globalEnvironments: parseOrUndefinedMultilineList("global-environments", string2()),
     postCleanup: parseOrUndefinedJSON("post-cleanup", boolean2())
@@ -74525,7 +74525,7 @@ var run = async () => {
   if (options.activatedEnvironment) {
     await activateEnv(options.activatedEnvironment);
   }
-  if (options.authLogout) {
+  if (!options.persistCredentials) {
     await pixiLogout();
   }
 };

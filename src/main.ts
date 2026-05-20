@@ -175,7 +175,7 @@ const run = async () => {
   if (options.activatedEnvironment) {
     await activateEnv(options.activatedEnvironment)
   }
-  if (options.authLogout) {
+  if (!options.persistCredentials) {
     await pixiLogout()
   }
 }

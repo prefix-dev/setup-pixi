@@ -646,9 +646,9 @@ jobs:
         # https://github.com/prefix-dev/pixi/issues/330
         if: matrix.os == 'ubuntu-latest'
 
-  auth-logout:
+  persist-credentials-false:
     env:
-      # We must set this environment variable explicitly to force all 
+      # We must set this environment variable explicitly to force all
       # operating systems to use the same storage mechanism.
       # Otherwise, windows and mac will use the keychain, which is more cumbersome to test.
       RATTLER_AUTH_FILE: .rattler-credentials.json
@@ -660,7 +660,7 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Move pixi.toml
         run: mv test/default/* .
-      # Sanity check: Login without logout
+      # Sanity check: Login with default persist-credentials behavior
       - uses: ./
         with:
           cache: false
@@ -674,13 +674,13 @@ jobs:
           [ $(jq '."*.custom-conda-registry.com".BearerToken' -r "${RATTLER_AUTH_FILE}") = "custom-token" ]
       - name: Clean up credentials file
         run: rm "${RATTLER_AUTH_FILE}"
-      # Actual test: Login with logout
+      # Actual test: Login with persist-credentials: false
       - uses: ./
         with:
           cache: false
           auth-host: https://custom-conda-registry.com
           auth-token: custom-token
-          auth-logout: true
+          persist-credentials: false
       - name: Assert that the credentials are not stored anymore
         run: |
           # For human log readers
@@ -688,7 +688,6 @@ jobs:
 
           # Actual test
           ! grep -q '"*.custom-conda-registry.com"' "${RATTLER_AUTH_FILE}"
-
 
   auth-token-install:
     strategy:
