@@ -648,6 +648,9 @@ jobs:
 
   auth-logout:
     env:
+      # We must set this environment variable explicitly to force all 
+      # operating systems to use the same storage mechanism.
+      # Otherwise, windows and mac will use the keychain, which is more cumbersome to test.
       RATTLER_AUTH_FILE: .rattler-credentials.json
     strategy:
       matrix:
