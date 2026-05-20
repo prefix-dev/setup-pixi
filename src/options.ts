@@ -35,6 +35,7 @@ type Inputs = Readonly<{
   authS3AccessKeyId?: string
   authS3SecretAccessKey?: string
   authS3SessionToken?: string
+  authLogout?: boolean
   pypiKeyringProvider?: 'disabled' | 'subprocess'
   postCleanup?: boolean
   globalEnvironments?: string[]
@@ -91,6 +92,7 @@ export type Options = Readonly<{
   globalCache?: GlobalCache
   pixiBinPath: string
   auth?: Auth
+  authLogout: boolean
   pypiKeyringProvider?: 'disabled' | 'subprocess'
   postCleanup: boolean
   activatedEnvironment?: string
@@ -240,6 +242,9 @@ const validateInputs = (inputs: Inputs): void => {
     if (inputs.authToken || inputs.authUsername || inputs.authCondaToken || inputs.authS3AccessKeyId) {
       throw new Error('You need to specify auth-host')
     }
+    if (inputs.authLogout === true) {
+      throw new Error('Cannot use auth-logout without specifying auth-host')
+    }
   }
   if (inputs.runInstall === false && inputs.environments) {
     throw new Error('Cannot specify environments without running install')
@@ -380,6 +385,7 @@ const inferOptions = (inputs: Inputs): Options => {
                 s3SessionToken: inputs.authS3SessionToken
               }) as Auth)
   const postCleanup = inputs.postCleanup ?? true
+  const authLogout = inputs.authLogout ?? false
   const pypiKeyringProvider = inputs.pypiKeyringProvider
   return {
     globalEnvironments: inputs.globalEnvironments,
@@ -399,6 +405,7 @@ const inferOptions = (inputs: Inputs): Options => {
     globalCache,
     pixiBinPath,
     auth,
+    authLogout,
     postCleanup
   }
 }
@@ -447,6 +454,7 @@ const getOptions = () => {
     authS3AccessKeyId: parseOrUndefined('auth-s3-access-key-id', z.string()),
     authS3SecretAccessKey: parseOrUndefined('auth-s3-secret-access-key', z.string()),
     authS3SessionToken: parseOrUndefined('auth-s3-session-token', z.string()),
+    authLogout: parseOrUndefinedJSON('auth-logout', z.boolean()),
     pypiKeyringProvider: parseOrUndefined('pypi-keyring-provider', pypiKeyringProviderSchema),
     globalEnvironments: parseOrUndefinedMultilineList('global-environments', z.string()),
     postCleanup: parseOrUndefinedJSON('post-cleanup', z.boolean())

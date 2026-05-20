@@ -238,6 +238,21 @@ You can also specify the session token using the `auth-session-token` input argu
 
 See the [pixi documentation](https://pixi.sh/latest/advanced/s3) for more information about S3 authentication.
 
+#### Logging out after install
+
+If you only want pixi to use the authenticated remote channel during the action's own install step
+(and not in any subsequent step of the workflow), set `auth-logout: true`. The action will then run
+`pixi auth logout <auth-host>` after `pixi install` has completed but before the action returns, so
+that later steps cannot reach the private channel anymore.
+
+```yml
+- uses: prefix-dev/setup-pixi@v0.9.5
+  with:
+    auth-host: prefix.dev
+    auth-token: ${{ secrets.PREFIX_DEV_TOKEN }}
+    auth-logout: true
+```
+
 #### PyPI keyring provider
 
 You can specify whether to use keyring to look up credentials for PyPI.
