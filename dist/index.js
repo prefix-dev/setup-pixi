@@ -49,7 +49,7 @@ var require_tunnel = __commonJS({
     var http3 = require("http");
     var https3 = require("https");
     var events2 = require("events");
-    var assert7 = require("assert");
+    var assert6 = require("assert");
     var util6 = require("util");
     exports2.httpOverHttp = httpOverHttp2;
     exports2.httpsOverHttp = httpsOverHttp2;
@@ -978,7 +978,7 @@ var require_tree = __commonJS({
 var require_util = __commonJS({
   "node_modules/.pnpm/undici@6.23.0/node_modules/undici/lib/core/util.js"(exports2, module2) {
     "use strict";
-    var assert7 = require("assert");
+    var assert6 = require("assert");
     var { kDestroyed, kBodyUsed, kListeners, kBody } = require_symbols();
     var { IncomingMessage } = require("http");
     var stream3 = require("stream");
@@ -997,7 +997,7 @@ var require_util = __commonJS({
         this[kBodyUsed] = false;
       }
       async *[Symbol.asyncIterator]() {
-        assert7(!this[kBodyUsed], "disturbed");
+        assert6(!this[kBodyUsed], "disturbed");
         this[kBodyUsed] = true;
         yield* this[kBody];
       }
@@ -1006,7 +1006,7 @@ var require_util = __commonJS({
       if (isStream(body2)) {
         if (bodyLength(body2) === 0) {
           body2.on("data", function() {
-            assert7(false);
+            assert6(false);
           });
         }
         if (typeof body2.readableDidRead !== "boolean") {
@@ -1114,7 +1114,7 @@ var require_util = __commonJS({
     function getHostname(host) {
       if (host[0] === "[") {
         const idx2 = host.indexOf("]");
-        assert7(idx2 !== -1);
+        assert6(idx2 !== -1);
         return host.substring(1, idx2);
       }
       const idx = host.indexOf(":");
@@ -1125,7 +1125,7 @@ var require_util = __commonJS({
       if (!host) {
         return null;
       }
-      assert7(typeof host === "string");
+      assert6(typeof host === "string");
       const servername = getHostname(host);
       if (net.isIP(servername)) {
         return "";
@@ -1402,7 +1402,7 @@ var require_util = __commonJS({
     function errorRequest(client, request, err) {
       try {
         request.onError(err);
-        assert7(request.aborted);
+        assert6(request.aborted);
       } catch (err2) {
         client.emit("error", err2);
       }
@@ -1673,7 +1673,7 @@ var require_request = __commonJS({
       InvalidArgumentError,
       NotSupportedError
     } = require_errors();
-    var assert7 = require("assert");
+    var assert6 = require("assert");
     var {
       isValidHTTPToken,
       isValidHeaderValue,
@@ -1839,8 +1839,8 @@ var require_request = __commonJS({
         }
       }
       onConnect(abort) {
-        assert7(!this.aborted);
-        assert7(!this.completed);
+        assert6(!this.aborted);
+        assert6(!this.completed);
         if (this.error) {
           abort(this.error);
         } else {
@@ -1852,8 +1852,8 @@ var require_request = __commonJS({
         return this[kHandler].onResponseStarted?.();
       }
       onHeaders(statusCode, headers, resume, statusText) {
-        assert7(!this.aborted);
-        assert7(!this.completed);
+        assert6(!this.aborted);
+        assert6(!this.completed);
         if (channels.headers.hasSubscribers) {
           channels.headers.publish({ request: this, response: { statusCode, headers, statusText } });
         }
@@ -1864,8 +1864,8 @@ var require_request = __commonJS({
         }
       }
       onData(chunk) {
-        assert7(!this.aborted);
-        assert7(!this.completed);
+        assert6(!this.aborted);
+        assert6(!this.completed);
         try {
           return this[kHandler].onData(chunk);
         } catch (err) {
@@ -1874,13 +1874,13 @@ var require_request = __commonJS({
         }
       }
       onUpgrade(statusCode, headers, socket) {
-        assert7(!this.aborted);
-        assert7(!this.completed);
+        assert6(!this.aborted);
+        assert6(!this.completed);
         return this[kHandler].onUpgrade(statusCode, headers, socket);
       }
       onComplete(trailers) {
         this.onFinally();
-        assert7(!this.aborted);
+        assert6(!this.aborted);
         this.completed = true;
         if (channels.trailers.hasSubscribers) {
           channels.trailers.publish({ request: this, trailers });
@@ -2446,7 +2446,7 @@ var require_connect = __commonJS({
   "node_modules/.pnpm/undici@6.23.0/node_modules/undici/lib/core/connect.js"(exports2, module2) {
     "use strict";
     var net = require("net");
-    var assert7 = require("assert");
+    var assert6 = require("assert");
     var util6 = require_util();
     var { InvalidArgumentError, ConnectTimeoutError } = require_errors();
     var timers = require_timers();
@@ -2518,7 +2518,7 @@ var require_connect = __commonJS({
           }
           servername = servername || options2.servername || util6.getServerName(host) || null;
           const sessionKey = servername || hostname;
-          assert7(sessionKey);
+          assert6(sessionKey);
           const session = customSession || sessionCache.get(sessionKey) || null;
           port = port || 443;
           socket = tls.connect({
@@ -2539,7 +2539,7 @@ var require_connect = __commonJS({
             sessionCache.set(sessionKey, session2);
           });
         } else {
-          assert7(!httpSocket, "httpSocket can only be sent on TLS update");
+          assert6(!httpSocket, "httpSocket can only be sent on TLS update");
           port = port || 80;
           socket = net.connect({
             highWaterMark: 64 * 1024,
@@ -3238,14 +3238,14 @@ var require_global = __commonJS({
 var require_data_url = __commonJS({
   "node_modules/.pnpm/undici@6.23.0/node_modules/undici/lib/web/fetch/data-url.js"(exports2, module2) {
     "use strict";
-    var assert7 = require("assert");
+    var assert6 = require("assert");
     var encoder = new TextEncoder();
     var HTTP_TOKEN_CODEPOINTS = /^[!#$%&'*+\-.^_|~A-Za-z0-9]+$/;
     var HTTP_WHITESPACE_REGEX = /[\u000A\u000D\u0009\u0020]/;
     var ASCII_WHITESPACE_REPLACE_REGEX = /[\u0009\u000A\u000C\u000D\u0020]/g;
     var HTTP_QUOTED_STRING_TOKENS = /^[\u0009\u0020-\u007E\u0080-\u00FF]+$/;
     function dataURLProcessor(dataURL) {
-      assert7(dataURL.protocol === "data:");
+      assert6(dataURL.protocol === "data:");
       let input = URLSerializer(dataURL, true);
       input = input.slice(5);
       const position = { position: 0 };
@@ -3446,7 +3446,7 @@ var require_data_url = __commonJS({
     function collectAnHTTPQuotedString(input, position, extractValue2) {
       const positionStart = position.position;
       let value = "";
-      assert7(input[position.position] === '"');
+      assert6(input[position.position] === '"');
       position.position++;
       while (true) {
         value += collectASequenceOfCodePoints(
@@ -3467,7 +3467,7 @@ var require_data_url = __commonJS({
           value += input[position.position];
           position.position++;
         } else {
-          assert7(quoteOrBackslash === '"');
+          assert6(quoteOrBackslash === '"');
           break;
         }
       }
@@ -3477,7 +3477,7 @@ var require_data_url = __commonJS({
       return input.slice(positionStart, position.position);
     }
     function serializeAMimeType(mimeType) {
-      assert7(mimeType !== "failure");
+      assert6(mimeType !== "failure");
       const { parameters, essence } = mimeType;
       let serialization = essence;
       for (let [name, value] of parameters.entries()) {
@@ -4016,7 +4016,7 @@ var require_util2 = __commonJS({
     var { collectASequenceOfCodePoints, collectAnHTTPQuotedString, removeChars, parseMIMEType } = require_data_url();
     var { performance: performance2 } = require("perf_hooks");
     var { isBlobLike, ReadableStreamFrom, isValidHTTPToken, normalizedMethodRecordsBase } = require_util();
-    var assert7 = require("assert");
+    var assert6 = require("assert");
     var { isUint8Array } = require("util/types");
     var { webidl } = require_webidl();
     var supportedHashes = [];
@@ -4202,7 +4202,7 @@ var require_util2 = __commonJS({
     }
     function determineRequestsReferrer(request) {
       const policy = request.referrerPolicy;
-      assert7(policy);
+      assert6(policy);
       let referrerSource = null;
       if (request.referrer === "client") {
         const globalOrigin = getGlobalOrigin();
@@ -4260,7 +4260,7 @@ var require_util2 = __commonJS({
       }
     }
     function stripURLForReferrer(url2, originOnly) {
-      assert7(url2 instanceof URL);
+      assert6(url2 instanceof URL);
       url2 = new URL(url2);
       if (url2.protocol === "file:" || url2.protocol === "about:" || url2.protocol === "blank:") {
         return "no-referrer";
@@ -4425,7 +4425,7 @@ var require_util2 = __commonJS({
       if (result === void 0) {
         throw new TypeError("Value is not JSON serializable");
       }
-      assert7(typeof result === "string");
+      assert6(typeof result === "string");
       return result;
     }
     var esIteratorPrototype = Object.getPrototypeOf(Object.getPrototypeOf([][Symbol.iterator]()));
@@ -4590,7 +4590,7 @@ var require_util2 = __commonJS({
     }
     var invalidIsomorphicEncodeValueRegex = /[^\x00-\xFF]/;
     function isomorphicEncode(input) {
-      assert7(!invalidIsomorphicEncodeValueRegex.test(input));
+      assert6(!invalidIsomorphicEncodeValueRegex.test(input));
       return input;
     }
     async function readAllBytes(reader) {
@@ -4609,7 +4609,7 @@ var require_util2 = __commonJS({
       }
     }
     function urlIsLocal(url2) {
-      assert7("protocol" in url2);
+      assert6("protocol" in url2);
       const protocol = url2.protocol;
       return protocol === "about:" || protocol === "blob:" || protocol === "data:";
     }
@@ -4617,7 +4617,7 @@ var require_util2 = __commonJS({
       return typeof url2 === "string" && url2[5] === ":" && url2[0] === "h" && url2[1] === "t" && url2[2] === "t" && url2[3] === "p" && url2[4] === "s" || url2.protocol === "https:";
     }
     function urlIsHttpHttpsScheme(url2) {
-      assert7("protocol" in url2);
+      assert6("protocol" in url2);
       const protocol = url2.protocol;
       return protocol === "http:" || protocol === "https:";
     }
@@ -4784,7 +4784,7 @@ var require_util2 = __commonJS({
               continue;
             }
           } else {
-            assert7(input.charCodeAt(position.position) === 44);
+            assert6(input.charCodeAt(position.position) === 44);
             position.position++;
           }
         }
@@ -5118,7 +5118,7 @@ var require_formdata_parser = __commonJS({
     var { HTTP_TOKEN_CODEPOINTS, isomorphicDecode } = require_data_url();
     var { isFileLike } = require_file();
     var { makeEntry } = require_formdata();
-    var assert7 = require("assert");
+    var assert6 = require("assert");
     var { File: NodeFile } = require("buffer");
     var File2 = globalThis.File ?? NodeFile;
     var formDataNameBuffer = Buffer.from('form-data; name="');
@@ -5147,7 +5147,7 @@ var require_formdata_parser = __commonJS({
       return true;
     }
     function multipartFormDataParser(input, mimeType) {
-      assert7(mimeType !== "failure" && mimeType.essence === "multipart/form-data");
+      assert6(mimeType !== "failure" && mimeType.essence === "multipart/form-data");
       const boundaryString = mimeType.parameters.get("boundary");
       if (boundaryString === void 0) {
         return "failure";
@@ -5211,8 +5211,8 @@ var require_formdata_parser = __commonJS({
         } else {
           value = utf8DecodeBytes(Buffer.from(body2));
         }
-        assert7(isUSVString(name));
-        assert7(typeof value === "string" && isUSVString(value) || isFileLike(value));
+        assert6(isUSVString(name));
+        assert6(typeof value === "string" && isUSVString(value) || isFileLike(value));
         entryList.push(makeEntry(name, value, filename));
       }
     }
@@ -5310,7 +5310,7 @@ var require_formdata_parser = __commonJS({
       }
     }
     function parseMultipartFormDataName(input, position) {
-      assert7(input[position.position - 1] === 34);
+      assert6(input[position.position - 1] === 34);
       let name = collectASequenceOfBytes(
         (char) => char !== 10 && char !== 13 && char !== 34,
         input,
@@ -5379,7 +5379,7 @@ var require_body = __commonJS({
     var { kState } = require_symbols2();
     var { webidl } = require_webidl();
     var { Blob: Blob2 } = require("buffer");
-    var assert7 = require("assert");
+    var assert6 = require("assert");
     var { isErrored, isDisturbed } = require("stream");
     var { isArrayBuffer: isArrayBuffer2 } = require("util/types");
     var { serializeAMimeType } = require_data_url();
@@ -5424,7 +5424,7 @@ var require_body = __commonJS({
           type: "bytes"
         });
       }
-      assert7(isReadableStreamLike(stream3));
+      assert6(isReadableStreamLike(stream3));
       let action5 = null;
       let source = null;
       let length = null;
@@ -5542,8 +5542,8 @@ Content-Type: ${value.type || "application/octet-stream"}\r
     }
     function safelyExtractBody(object, keepalive = false) {
       if (object instanceof ReadableStream) {
-        assert7(!util6.isDisturbed(object), "The body has already been consumed.");
-        assert7(!object.locked, "The stream is locked.");
+        assert6(!util6.isDisturbed(object), "The body has already been consumed.");
+        assert6(!object.locked, "The stream is locked.");
       }
       return extractBody(object, keepalive);
     }
@@ -5678,7 +5678,7 @@ Content-Type: ${value.type || "application/octet-stream"}\r
 var require_client_h1 = __commonJS({
   "node_modules/.pnpm/undici@6.23.0/node_modules/undici/lib/dispatcher/client-h1.js"(exports2, module2) {
     "use strict";
-    var assert7 = require("assert");
+    var assert6 = require("assert");
     var util6 = require_util();
     var { channels } = require_diagnostics();
     var timers = require_timers();
@@ -5748,35 +5748,35 @@ var require_client_h1 = __commonJS({
             return 0;
           },
           wasm_on_status: (p, at, len) => {
-            assert7(currentParser.ptr === p);
+            assert6(currentParser.ptr === p);
             const start = at - currentBufferPtr + currentBufferRef.byteOffset;
             return currentParser.onStatus(new FastBuffer(currentBufferRef.buffer, start, len)) || 0;
           },
           wasm_on_message_begin: (p) => {
-            assert7(currentParser.ptr === p);
+            assert6(currentParser.ptr === p);
             return currentParser.onMessageBegin() || 0;
           },
           wasm_on_header_field: (p, at, len) => {
-            assert7(currentParser.ptr === p);
+            assert6(currentParser.ptr === p);
             const start = at - currentBufferPtr + currentBufferRef.byteOffset;
             return currentParser.onHeaderField(new FastBuffer(currentBufferRef.buffer, start, len)) || 0;
           },
           wasm_on_header_value: (p, at, len) => {
-            assert7(currentParser.ptr === p);
+            assert6(currentParser.ptr === p);
             const start = at - currentBufferPtr + currentBufferRef.byteOffset;
             return currentParser.onHeaderValue(new FastBuffer(currentBufferRef.buffer, start, len)) || 0;
           },
           wasm_on_headers_complete: (p, statusCode, upgrade, shouldKeepAlive) => {
-            assert7(currentParser.ptr === p);
+            assert6(currentParser.ptr === p);
             return currentParser.onHeadersComplete(statusCode, Boolean(upgrade), Boolean(shouldKeepAlive)) || 0;
           },
           wasm_on_body: (p, at, len) => {
-            assert7(currentParser.ptr === p);
+            assert6(currentParser.ptr === p);
             const start = at - currentBufferPtr + currentBufferRef.byteOffset;
             return currentParser.onBody(new FastBuffer(currentBufferRef.buffer, start, len)) || 0;
           },
           wasm_on_message_complete: (p) => {
-            assert7(currentParser.ptr === p);
+            assert6(currentParser.ptr === p);
             return currentParser.onMessageComplete() || 0;
           }
           /* eslint-enable camelcase */
@@ -5797,7 +5797,7 @@ var require_client_h1 = __commonJS({
     var TIMEOUT_KEEP_ALIVE = 8 | USE_NATIVE_TIMER;
     var Parser = class {
       constructor(client, socket, { exports: exports3 }) {
-        assert7(Number.isFinite(client[kMaxHeadersSize]) && client[kMaxHeadersSize] > 0);
+        assert6(Number.isFinite(client[kMaxHeadersSize]) && client[kMaxHeadersSize] > 0);
         this.llhttp = exports3;
         this.ptr = this.llhttp.llhttp_alloc(constants4.TYPE.RESPONSE);
         this.client = client;
@@ -5846,10 +5846,10 @@ var require_client_h1 = __commonJS({
         if (this.socket.destroyed || !this.paused) {
           return;
         }
-        assert7(this.ptr != null);
-        assert7(currentParser == null);
+        assert6(this.ptr != null);
+        assert6(currentParser == null);
         this.llhttp.llhttp_resume(this.ptr);
-        assert7(this.timeoutType === TIMEOUT_BODY);
+        assert6(this.timeoutType === TIMEOUT_BODY);
         if (this.timeout) {
           if (this.timeout.refresh) {
             this.timeout.refresh();
@@ -5869,9 +5869,9 @@ var require_client_h1 = __commonJS({
         }
       }
       execute(data) {
-        assert7(this.ptr != null);
-        assert7(currentParser == null);
-        assert7(!this.paused);
+        assert6(this.ptr != null);
+        assert6(currentParser == null);
+        assert6(!this.paused);
         const { socket, llhttp } = this;
         if (data.length > currentBufferSize) {
           if (currentBufferPtr) {
@@ -5913,8 +5913,8 @@ var require_client_h1 = __commonJS({
         }
       }
       destroy() {
-        assert7(this.ptr != null);
-        assert7(currentParser == null);
+        assert6(this.ptr != null);
+        assert6(currentParser == null);
         this.llhttp.llhttp_free(this.ptr);
         this.ptr = null;
         this.timeout && timers.clearTimeout(this.timeout);
@@ -5975,14 +5975,14 @@ var require_client_h1 = __commonJS({
       }
       onUpgrade(head) {
         const { upgrade, client, socket, headers, statusCode } = this;
-        assert7(upgrade);
-        assert7(client[kSocket] === socket);
-        assert7(!socket.destroyed);
-        assert7(!this.paused);
-        assert7((headers.length & 1) === 0);
+        assert6(upgrade);
+        assert6(client[kSocket] === socket);
+        assert6(!socket.destroyed);
+        assert6(!this.paused);
+        assert6((headers.length & 1) === 0);
         const request = client[kQueue][client[kRunningIdx]];
-        assert7(request);
-        assert7(request.upgrade || request.method === "CONNECT");
+        assert6(request);
+        assert6(request.upgrade || request.method === "CONNECT");
         this.statusCode = null;
         this.statusText = "";
         this.shouldKeepAlive = null;
@@ -6014,8 +6014,8 @@ var require_client_h1 = __commonJS({
         if (!request) {
           return -1;
         }
-        assert7(!this.upgrade);
-        assert7(this.statusCode < 200);
+        assert6(!this.upgrade);
+        assert6(this.statusCode < 200);
         if (statusCode === 100) {
           util6.destroy(socket, new SocketError("bad response", util6.getSocketInfo(socket)));
           return -1;
@@ -6024,7 +6024,7 @@ var require_client_h1 = __commonJS({
           util6.destroy(socket, new SocketError("bad upgrade", util6.getSocketInfo(socket)));
           return -1;
         }
-        assert7(this.timeoutType === TIMEOUT_HEADERS);
+        assert6(this.timeoutType === TIMEOUT_HEADERS);
         this.statusCode = statusCode;
         this.shouldKeepAlive = shouldKeepAlive || // Override llhttp value which does not allow keepAlive for HEAD.
         request.method === "HEAD" && !socket[kReset] && this.connection.toLowerCase() === "keep-alive";
@@ -6037,16 +6037,16 @@ var require_client_h1 = __commonJS({
           }
         }
         if (request.method === "CONNECT") {
-          assert7(client[kRunning] === 1);
+          assert6(client[kRunning] === 1);
           this.upgrade = true;
           return 2;
         }
         if (upgrade) {
-          assert7(client[kRunning] === 1);
+          assert6(client[kRunning] === 1);
           this.upgrade = true;
           return 2;
         }
-        assert7((this.headers.length & 1) === 0);
+        assert6((this.headers.length & 1) === 0);
         this.headers = [];
         this.headersSize = 0;
         if (this.shouldKeepAlive && client[kPipelining]) {
@@ -6089,14 +6089,14 @@ var require_client_h1 = __commonJS({
           return -1;
         }
         const request = client[kQueue][client[kRunningIdx]];
-        assert7(request);
-        assert7(this.timeoutType === TIMEOUT_BODY);
+        assert6(request);
+        assert6(this.timeoutType === TIMEOUT_BODY);
         if (this.timeout) {
           if (this.timeout.refresh) {
             this.timeout.refresh();
           }
         }
-        assert7(statusCode >= 200);
+        assert6(statusCode >= 200);
         if (maxResponseSize > -1 && this.bytesRead + buf.length > maxResponseSize) {
           util6.destroy(socket, new ResponseExceededMaxSizeError());
           return -1;
@@ -6114,10 +6114,10 @@ var require_client_h1 = __commonJS({
         if (upgrade) {
           return;
         }
-        assert7(statusCode >= 100);
-        assert7((this.headers.length & 1) === 0);
+        assert6(statusCode >= 100);
+        assert6((this.headers.length & 1) === 0);
         const request = client[kQueue][client[kRunningIdx]];
-        assert7(request);
+        assert6(request);
         this.statusCode = null;
         this.statusText = "";
         this.bytesRead = 0;
@@ -6136,7 +6136,7 @@ var require_client_h1 = __commonJS({
         request.onComplete(headers);
         client[kQueue][client[kRunningIdx]++] = null;
         if (socket[kWriting]) {
-          assert7(client[kRunning] === 0);
+          assert6(client[kRunning] === 0);
           util6.destroy(socket, new InformationalError("reset"));
           return constants4.ERROR.PAUSED;
         } else if (!shouldKeepAlive) {
@@ -6156,7 +6156,7 @@ var require_client_h1 = __commonJS({
       const { socket, timeoutType, client, paused } = parser.deref();
       if (timeoutType === TIMEOUT_HEADERS) {
         if (!socket[kWriting] || socket.writableNeedDrain || client[kRunning] > 1) {
-          assert7(!paused, "cannot be paused while waiting for headers");
+          assert6(!paused, "cannot be paused while waiting for headers");
           util6.destroy(socket, new HeadersTimeoutError());
         }
       } else if (timeoutType === TIMEOUT_BODY) {
@@ -6164,7 +6164,7 @@ var require_client_h1 = __commonJS({
           util6.destroy(socket, new BodyTimeoutError());
         }
       } else if (timeoutType === TIMEOUT_KEEP_ALIVE) {
-        assert7(client[kRunning] === 0 && client[kKeepAliveTimeoutValue]);
+        assert6(client[kRunning] === 0 && client[kKeepAliveTimeoutValue]);
         util6.destroy(socket, new InformationalError("socket idle timeout"));
       }
     }
@@ -6180,7 +6180,7 @@ var require_client_h1 = __commonJS({
       socket[kBlocking] = false;
       socket[kParser] = new Parser(client, socket, llhttpInstance);
       addListener(socket, "error", function(err) {
-        assert7(err.code !== "ERR_TLS_CERT_ALTNAME_INVALID");
+        assert6(err.code !== "ERR_TLS_CERT_ALTNAME_INVALID");
         const parser = this[kParser];
         if (err.code === "ECONNRESET" && parser.statusCode && !parser.shouldKeepAlive) {
           parser.onMessageComplete();
@@ -6217,7 +6217,7 @@ var require_client_h1 = __commonJS({
         client2[kSocket] = null;
         client2[kHTTPContext] = null;
         if (client2.destroyed) {
-          assert7(client2[kPending] === 0);
+          assert6(client2[kPending] === 0);
           const requests = client2[kQueue].splice(client2[kRunningIdx]);
           for (let i = 0; i < requests.length; i++) {
             const request = requests[i];
@@ -6229,7 +6229,7 @@ var require_client_h1 = __commonJS({
           util6.errorRequest(client2, request, err);
         }
         client2[kPendingIdx] = client2[kRunningIdx];
-        assert7(client2[kRunning] === 0);
+        assert6(client2[kRunning] === 0);
         client2.emit("disconnect", client2[kUrl], [client2], err);
         client2[kResume]();
       });
@@ -6420,12 +6420,12 @@ upgrade: ${upgrade}\r
       } else if (util6.isIterable(body2)) {
         writeIterable(abort, body2, client, request, socket, contentLength2, header, expectsPayload);
       } else {
-        assert7(false);
+        assert6(false);
       }
       return true;
     }
     function writeStream(abort, body2, client, request, socket, contentLength2, header, expectsPayload) {
-      assert7(contentLength2 !== 0 || client[kRunning] === 0, "stream body cannot be pipelined");
+      assert6(contentLength2 !== 0 || client[kRunning] === 0, "stream body cannot be pipelined");
       let finished = false;
       const writer = new AsyncWriter({ abort, socket, request, contentLength: contentLength2, client, expectsPayload, header });
       const onData = function(chunk) {
@@ -6462,7 +6462,7 @@ upgrade: ${upgrade}\r
           return;
         }
         finished = true;
-        assert7(socket.destroyed || socket[kWriting] && client[kRunning] <= 1);
+        assert6(socket.destroyed || socket[kWriting] && client[kRunning] <= 1);
         socket.off("drain", onDrain).off("error", onFinished);
         body2.removeListener("data", onData).removeListener("end", onFinished).removeListener("close", onClose);
         if (!err) {
@@ -6501,12 +6501,12 @@ upgrade: ${upgrade}\r
 \r
 `, "latin1");
           } else {
-            assert7(contentLength2 === null, "no body must not have content length");
+            assert6(contentLength2 === null, "no body must not have content length");
             socket.write(`${header}\r
 `, "latin1");
           }
         } else if (util6.isBuffer(body2)) {
-          assert7(contentLength2 === body2.byteLength, "buffer body must have content length");
+          assert6(contentLength2 === body2.byteLength, "buffer body must have content length");
           socket.cork();
           socket.write(`${header}content-length: ${contentLength2}\r
 \r
@@ -6525,7 +6525,7 @@ upgrade: ${upgrade}\r
       }
     }
     async function writeBlob(abort, body2, client, request, socket, contentLength2, header, expectsPayload) {
-      assert7(contentLength2 === body2.size, "blob body must have content length");
+      assert6(contentLength2 === body2.size, "blob body must have content length");
       try {
         if (contentLength2 != null && contentLength2 !== body2.size) {
           throw new RequestContentLengthMismatchError();
@@ -6548,7 +6548,7 @@ upgrade: ${upgrade}\r
       }
     }
     async function writeIterable(abort, body2, client, request, socket, contentLength2, header, expectsPayload) {
-      assert7(contentLength2 !== 0 || client[kRunning] === 0, "iterator body cannot be pipelined");
+      assert6(contentLength2 !== 0 || client[kRunning] === 0, "iterator body cannot be pipelined");
       let callback = null;
       function onDrain() {
         if (callback) {
@@ -6558,7 +6558,7 @@ upgrade: ${upgrade}\r
         }
       }
       const waitForDrain = () => new Promise((resolve2, reject) => {
-        assert7(callback === null);
+        assert6(callback === null);
         if (socket[kError]) {
           reject(socket[kError]);
         } else {
@@ -6685,7 +6685,7 @@ ${len.toString(16)}\r
         const { socket, client, abort } = this;
         socket[kWriting] = false;
         if (err) {
-          assert7(client[kRunning] <= 1, "pipeline should only contain this request");
+          assert6(client[kRunning] <= 1, "pipeline should only contain this request");
           abort(err);
         }
       }
@@ -6698,7 +6698,7 @@ ${len.toString(16)}\r
 var require_client_h2 = __commonJS({
   "node_modules/.pnpm/undici@6.23.0/node_modules/undici/lib/dispatcher/client-h2.js"(exports2, module2) {
     "use strict";
-    var assert7 = require("assert");
+    var assert6 = require("assert");
     var { pipeline: pipeline3 } = require("stream");
     var util6 = require_util();
     var {
@@ -6784,7 +6784,7 @@ var require_client_h2 = __commonJS({
         const err = this[kSocket][kError] || this[kError] || new SocketError("closed", util6.getSocketInfo(socket2));
         client2[kHTTP2Session] = null;
         if (client2.destroyed) {
-          assert7(client2[kPending] === 0);
+          assert6(client2[kPending] === 0);
           const requests = client2[kQueue].splice(client2[kRunningIdx]);
           for (let i = 0; i < requests.length; i++) {
             const request = requests[i];
@@ -6796,7 +6796,7 @@ var require_client_h2 = __commonJS({
       client[kHTTP2Session] = session;
       socket[kHTTP2Session] = session;
       util6.addListener(socket, "error", function(err) {
-        assert7(err.code !== "ERR_TLS_CERT_ALTNAME_INVALID");
+        assert6(err.code !== "ERR_TLS_CERT_ALTNAME_INVALID");
         this[kError] = err;
         this[kClient][kOnError](err);
       });
@@ -6810,7 +6810,7 @@ var require_client_h2 = __commonJS({
           this[kHTTP2Session].destroy(err);
         }
         client[kPendingIdx] = client[kRunningIdx];
-        assert7(client[kRunning] === 0);
+        assert6(client[kRunning] === 0);
         client.emit("disconnect", client[kUrl], [client], err);
         client[kResume]();
       });
@@ -6855,7 +6855,7 @@ var require_client_h2 = __commonJS({
       }
     }
     function onHttp2SessionError(err) {
-      assert7(err.code !== "ERR_TLS_CERT_ALTNAME_INVALID");
+      assert6(err.code !== "ERR_TLS_CERT_ALTNAME_INVALID");
       this[kSocket][kError] = err;
       this[kClient][kOnError](err);
     }
@@ -6887,7 +6887,7 @@ var require_client_h2 = __commonJS({
         util6.errorRequest(client, request, err);
         client[kPendingIdx] = client[kRunningIdx];
       }
-      assert7(client[kRunning] === 0);
+      assert6(client[kRunning] === 0);
       client.emit("disconnect", client[kUrl], [client], err);
       client[kResume]();
     }
@@ -6991,7 +6991,7 @@ var require_client_h2 = __commonJS({
         process.emitWarning(new RequestContentLengthMismatchError());
       }
       if (contentLength2 != null) {
-        assert7(body2, "no body must not have content length");
+        assert6(body2, "no body must not have content length");
         headers[HTTP2_HEADER_CONTENT_LENGTH] = `${contentLength2}`;
       }
       session.ref();
@@ -7121,14 +7121,14 @@ var require_client_h2 = __commonJS({
             expectsPayload
           );
         } else {
-          assert7(false);
+          assert6(false);
         }
       }
     }
     function writeBuffer(abort, h2stream, body2, client, request, socket, contentLength2, expectsPayload) {
       try {
         if (body2 != null && util6.isBuffer(body2)) {
-          assert7(contentLength2 === body2.byteLength, "buffer body must have content length");
+          assert6(contentLength2 === body2.byteLength, "buffer body must have content length");
           h2stream.cork();
           h2stream.write(body2);
           h2stream.uncork();
@@ -7145,7 +7145,7 @@ var require_client_h2 = __commonJS({
       }
     }
     function writeStream(abort, socket, expectsPayload, h2stream, body2, client, request, contentLength2) {
-      assert7(contentLength2 !== 0 || client[kRunning] === 0, "stream body cannot be pipelined");
+      assert6(contentLength2 !== 0 || client[kRunning] === 0, "stream body cannot be pipelined");
       const pipe2 = pipeline3(
         body2,
         h2stream,
@@ -7169,7 +7169,7 @@ var require_client_h2 = __commonJS({
       }
     }
     async function writeBlob(abort, h2stream, body2, client, request, socket, contentLength2, expectsPayload) {
-      assert7(contentLength2 === body2.size, "blob body must have content length");
+      assert6(contentLength2 === body2.size, "blob body must have content length");
       try {
         if (contentLength2 != null && contentLength2 !== body2.size) {
           throw new RequestContentLengthMismatchError();
@@ -7190,7 +7190,7 @@ var require_client_h2 = __commonJS({
       }
     }
     async function writeIterable(abort, h2stream, body2, client, request, socket, contentLength2, expectsPayload) {
-      assert7(contentLength2 !== 0 || client[kRunning] === 0, "iterator body cannot be pipelined");
+      assert6(contentLength2 !== 0 || client[kRunning] === 0, "iterator body cannot be pipelined");
       let callback = null;
       function onDrain() {
         if (callback) {
@@ -7200,7 +7200,7 @@ var require_client_h2 = __commonJS({
         }
       }
       const waitForDrain = () => new Promise((resolve2, reject) => {
-        assert7(callback === null);
+        assert6(callback === null);
         if (socket[kError]) {
           reject(socket[kError]);
         } else {
@@ -7241,7 +7241,7 @@ var require_redirect_handler = __commonJS({
     "use strict";
     var util6 = require_util();
     var { kBodyUsed } = require_symbols();
-    var assert7 = require("assert");
+    var assert6 = require("assert");
     var { InvalidArgumentError } = require_errors();
     var EE = require("events");
     var redirectableStatusCodes = [300, 301, 302, 303, 307, 308];
@@ -7252,7 +7252,7 @@ var require_redirect_handler = __commonJS({
         this[kBodyUsed] = false;
       }
       async *[Symbol.asyncIterator]() {
-        assert7(!this[kBodyUsed], "disturbed");
+        assert6(!this[kBodyUsed], "disturbed");
         this[kBodyUsed] = true;
         yield* this[kBody];
       }
@@ -7274,7 +7274,7 @@ var require_redirect_handler = __commonJS({
         if (util6.isStream(this.opts.body)) {
           if (util6.bodyLength(this.opts.body) === 0) {
             this.opts.body.on("data", function() {
-              assert7(false);
+              assert6(false);
             });
           }
           if (typeof this.opts.body.readableDidRead !== "boolean") {
@@ -7386,7 +7386,7 @@ var require_redirect_handler = __commonJS({
           }
         }
       } else {
-        assert7(headers == null, "headers must be an object or an array");
+        assert6(headers == null, "headers must be an object or an array");
       }
       return ret;
     }
@@ -7420,7 +7420,7 @@ var require_redirect_interceptor = __commonJS({
 var require_client = __commonJS({
   "node_modules/.pnpm/undici@6.23.0/node_modules/undici/lib/dispatcher/client.js"(exports2, module2) {
     "use strict";
-    var assert7 = require("assert");
+    var assert6 = require("assert");
     var net = require("net");
     var http3 = require("http");
     var util6 = require_util();
@@ -7716,24 +7716,24 @@ var require_client = __commonJS({
     var createRedirectInterceptor = require_redirect_interceptor();
     function onError(client, err) {
       if (client[kRunning] === 0 && err.code !== "UND_ERR_INFO" && err.code !== "UND_ERR_SOCKET") {
-        assert7(client[kPendingIdx] === client[kRunningIdx]);
+        assert6(client[kPendingIdx] === client[kRunningIdx]);
         const requests = client[kQueue].splice(client[kRunningIdx]);
         for (let i = 0; i < requests.length; i++) {
           const request = requests[i];
           util6.errorRequest(client, request, err);
         }
-        assert7(client[kSize] === 0);
+        assert6(client[kSize] === 0);
       }
     }
     async function connect(client) {
-      assert7(!client[kConnecting]);
-      assert7(!client[kHTTPContext]);
+      assert6(!client[kConnecting]);
+      assert6(!client[kHTTPContext]);
       let { host, hostname, protocol, port } = client[kUrl];
       if (hostname[0] === "[") {
         const idx = hostname.indexOf("]");
-        assert7(idx !== -1);
+        assert6(idx !== -1);
         const ip = hostname.substring(1, idx);
-        assert7(net.isIP(ip));
+        assert6(net.isIP(ip));
         hostname = ip;
       }
       client[kConnecting] = true;
@@ -7772,7 +7772,7 @@ var require_client = __commonJS({
           util6.destroy(socket.on("error", noop), new ClientDestroyedError());
           return;
         }
-        assert7(socket);
+        assert6(socket);
         try {
           client[kHTTPContext] = socket.alpnProtocol === "h2" ? await connectH2(client, socket) : await connectH1(client, socket);
         } catch (err) {
@@ -7821,7 +7821,7 @@ var require_client = __commonJS({
           });
         }
         if (err.code === "ERR_TLS_CERT_ALTNAME_INVALID") {
-          assert7(client[kRunning] === 0);
+          assert6(client[kRunning] === 0);
           while (client[kPending] > 0 && client[kQueue][client[kPendingIdx]].servername === client[kServerName]) {
             const request = client[kQueue][client[kPendingIdx]++];
             util6.errorRequest(client, request, err);
@@ -7853,7 +7853,7 @@ var require_client = __commonJS({
     function _resume(client, sync) {
       while (true) {
         if (client.destroyed) {
-          assert7(client[kPending] === 0);
+          assert6(client[kPending] === 0);
           return;
         }
         if (client[kClosedResolve] && !client[kSize]) {
@@ -8867,7 +8867,7 @@ var require_env_http_proxy_agent = __commonJS({
 var require_retry_handler = __commonJS({
   "node_modules/.pnpm/undici@6.23.0/node_modules/undici/lib/handler/retry-handler.js"(exports2, module2) {
     "use strict";
-    var assert7 = require("assert");
+    var assert6 = require("assert");
     var { kRetryHandlerDefaultRetry } = require_symbols();
     var { RequestRetryError } = require_errors();
     var {
@@ -9053,8 +9053,8 @@ var require_retry_handler = __commonJS({
             return false;
           }
           const { start, size, end = size - 1 } = contentRange;
-          assert7(this.start === start, "content-range mismatch");
-          assert7(this.end == null || this.end === end, "content-range mismatch");
+          assert6(this.start === start, "content-range mismatch");
+          assert6(this.end == null || this.end === end, "content-range mismatch");
           this.resume = resume;
           return true;
         }
@@ -9070,11 +9070,11 @@ var require_retry_handler = __commonJS({
               );
             }
             const { start, size, end = size - 1 } = range2;
-            assert7(
+            assert6(
               start != null && Number.isFinite(start),
               "content-range mismatch"
             );
-            assert7(end != null && Number.isFinite(end), "invalid content-length");
+            assert6(end != null && Number.isFinite(end), "invalid content-length");
             this.start = start;
             this.end = end;
           }
@@ -9082,8 +9082,8 @@ var require_retry_handler = __commonJS({
             const contentLength2 = headers["content-length"];
             this.end = contentLength2 != null ? Number(contentLength2) - 1 : null;
           }
-          assert7(Number.isFinite(this.start));
-          assert7(
+          assert6(Number.isFinite(this.start));
+          assert6(
             this.end == null || Number.isFinite(this.end),
             "invalid content-length"
           );
@@ -9203,7 +9203,7 @@ var require_retry_agent = __commonJS({
 var require_readable = __commonJS({
   "node_modules/.pnpm/undici@6.23.0/node_modules/undici/lib/api/readable.js"(exports2, module2) {
     "use strict";
-    var assert7 = require("assert");
+    var assert6 = require("assert");
     var { Readable: Readable5 } = require("stream");
     var { RequestAbortedError, NotSupportedError, InvalidArgumentError, AbortError: AbortError3 } = require_errors();
     var util6 = require_util();
@@ -9316,7 +9316,7 @@ var require_readable = __commonJS({
           this[kBody] = ReadableStreamFrom(this);
           if (this[kConsume]) {
             this[kBody].getReader();
-            assert7(this[kBody].locked);
+            assert6(this[kBody].locked);
           }
         }
         return this[kBody];
@@ -9362,7 +9362,7 @@ var require_readable = __commonJS({
       return util6.isDisturbed(self2) || isLocked(self2);
     }
     async function consume(stream3, type) {
-      assert7(!stream3[kConsume]);
+      assert6(!stream3[kConsume]);
       return new Promise((resolve2, reject) => {
         if (isUnusable(stream3)) {
           const rState = stream3._readableState;
@@ -9496,14 +9496,14 @@ var require_readable = __commonJS({
 var require_util3 = __commonJS({
   "node_modules/.pnpm/undici@6.23.0/node_modules/undici/lib/api/util.js"(exports2, module2) {
     "use strict";
-    var assert7 = require("assert");
+    var assert6 = require("assert");
     var {
       ResponseStatusCodeError
     } = require_errors();
     var { chunksDecode } = require_readable();
     var CHUNK_LIMIT = 128 * 1024;
     async function getResolveErrorBodyCallback({ callback, body: body2, contentType: contentType2, statusCode, statusMessage, headers }) {
-      assert7(body2);
+      assert6(body2);
       let chunks = [];
       let length = 0;
       try {
@@ -9558,7 +9558,7 @@ var require_util3 = __commonJS({
 var require_api_request = __commonJS({
   "node_modules/.pnpm/undici@6.23.0/node_modules/undici/lib/api/api-request.js"(exports2, module2) {
     "use strict";
-    var assert7 = require("assert");
+    var assert6 = require("assert");
     var { Readable: Readable5 } = require_readable();
     var { InvalidArgumentError, RequestAbortedError } = require_errors();
     var util6 = require_util();
@@ -9638,7 +9638,7 @@ var require_api_request = __commonJS({
           abort(this.reason);
           return;
         }
-        assert7(this.callback);
+        assert6(this.callback);
         this.abort = abort;
         this.context = context3;
       }
@@ -9796,7 +9796,7 @@ var require_abort_signal = __commonJS({
 var require_api_stream = __commonJS({
   "node_modules/.pnpm/undici@6.23.0/node_modules/undici/lib/api/api-stream.js"(exports2, module2) {
     "use strict";
-    var assert7 = require("assert");
+    var assert6 = require("assert");
     var { finished, PassThrough } = require("stream");
     var { InvalidArgumentError, InvalidReturnValueError } = require_errors();
     var util6 = require_util();
@@ -9855,7 +9855,7 @@ var require_api_stream = __commonJS({
           abort(this.reason);
           return;
         }
-        assert7(this.callback);
+        assert6(this.callback);
         this.abort = abort;
         this.context = context3;
       }
@@ -9982,7 +9982,7 @@ var require_api_pipeline = __commonJS({
     var util6 = require_util();
     var { AsyncResource } = require("async_hooks");
     var { addSignal, removeSignal } = require_abort_signal();
-    var assert7 = require("assert");
+    var assert6 = require("assert");
     var kResume = Symbol("resume");
     var PipelineRequest = class extends Readable5 {
       constructor() {
@@ -10086,8 +10086,8 @@ var require_api_pipeline = __commonJS({
           abort(this.reason);
           return;
         }
-        assert7(!res, "pipeline cannot be retried");
-        assert7(!ret.destroyed);
+        assert6(!res, "pipeline cannot be retried");
+        assert6(!ret.destroyed);
         this.abort = abort;
         this.context = context3;
       }
@@ -10173,7 +10173,7 @@ var require_api_upgrade = __commonJS({
     var { AsyncResource } = require("async_hooks");
     var util6 = require_util();
     var { addSignal, removeSignal } = require_abort_signal();
-    var assert7 = require("assert");
+    var assert6 = require("assert");
     var UpgradeHandler = class extends AsyncResource {
       constructor(opts, callback) {
         if (!opts || typeof opts !== "object") {
@@ -10199,7 +10199,7 @@ var require_api_upgrade = __commonJS({
           abort(this.reason);
           return;
         }
-        assert7(this.callback);
+        assert6(this.callback);
         this.abort = abort;
         this.context = null;
       }
@@ -10207,7 +10207,7 @@ var require_api_upgrade = __commonJS({
         throw new SocketError("bad upgrade", null);
       }
       onUpgrade(statusCode, rawHeaders, socket) {
-        assert7(statusCode === 101);
+        assert6(statusCode === 101);
         const { callback, opaque, context: context3 } = this;
         removeSignal(this);
         this.callback = null;
@@ -10261,7 +10261,7 @@ var require_api_upgrade = __commonJS({
 var require_api_connect = __commonJS({
   "node_modules/.pnpm/undici@6.23.0/node_modules/undici/lib/api/api-connect.js"(exports2, module2) {
     "use strict";
-    var assert7 = require("assert");
+    var assert6 = require("assert");
     var { AsyncResource } = require("async_hooks");
     var { InvalidArgumentError, SocketError } = require_errors();
     var util6 = require_util();
@@ -10290,7 +10290,7 @@ var require_api_connect = __commonJS({
           abort(this.reason);
           return;
         }
-        assert7(this.callback);
+        assert6(this.callback);
         this.abort = abort;
         this.context = context3;
       }
@@ -11722,7 +11722,7 @@ var require_headers = __commonJS({
       isValidHeaderValue
     } = require_util2();
     var { webidl } = require_webidl();
-    var assert7 = require("assert");
+    var assert6 = require("assert");
     var util6 = require("util");
     var kHeadersMap = Symbol("headers map");
     var kHeadersSortedMap = Symbol("headers map sorted");
@@ -11912,11 +11912,11 @@ var require_headers = __commonJS({
           const iterator = this[kHeadersMap][Symbol.iterator]();
           const firstValue = iterator.next().value;
           array2[0] = [firstValue[0], firstValue[1].value];
-          assert7(firstValue[1].value !== null);
+          assert6(firstValue[1].value !== null);
           for (let i = 1, j = 0, right = 0, left = 0, pivot = 0, x, value; i < size; ++i) {
             value = iterator.next().value;
             x = array2[i] = [value[0], value[1].value];
-            assert7(x[1] !== null);
+            assert6(x[1] !== null);
             left = 0;
             right = i;
             while (left < right) {
@@ -11943,7 +11943,7 @@ var require_headers = __commonJS({
           let i = 0;
           for (const { 0: name, 1: { value } } of this[kHeadersMap]) {
             array2[i++] = [name, value];
-            assert7(value !== null);
+            assert6(value !== null);
           }
           return array2.sort(compareHeaderName);
         }
@@ -12186,7 +12186,7 @@ var require_response = __commonJS({
     var { FormData: FormData2 } = require_formdata();
     var { URLSerializer } = require_data_url();
     var { kConstruct } = require_symbols();
-    var assert7 = require("assert");
+    var assert6 = require("assert");
     var { types } = require("util");
     var textEncoder = new TextEncoder("utf-8");
     var Response = class _Response {
@@ -12409,7 +12409,7 @@ var require_response = __commonJS({
           return p in state3 ? state3[p] : target[p];
         },
         set(target, p, value) {
-          assert7(!(p in state3));
+          assert6(!(p in state3));
           target[p] = value;
           return true;
         }
@@ -12443,11 +12443,11 @@ var require_response = __commonJS({
           body: null
         });
       } else {
-        assert7(false);
+        assert6(false);
       }
     }
     function makeAppropriateNetworkError(fetchParams, err = null) {
-      assert7(isCancelled(fetchParams));
+      assert6(isCancelled(fetchParams));
       return isAborted(fetchParams) ? makeNetworkError(Object.assign(new DOMException("The operation was aborted.", "AbortError"), { cause: err })) : makeNetworkError(Object.assign(new DOMException("Request was cancelled."), { cause: err }));
     }
     function initializeResponse(response, init, body2) {
@@ -12628,7 +12628,7 @@ var require_request2 = __commonJS({
     var { webidl } = require_webidl();
     var { URLSerializer } = require_data_url();
     var { kConstruct } = require_symbols();
-    var assert7 = require("assert");
+    var assert6 = require("assert");
     var { getMaxListeners, setMaxListeners, getEventListeners, defaultMaxListeners } = require("events");
     var kAbortController = Symbol("abortController");
     var requestFinalizer = new FinalizationRegistry2(({ signal, abort }) => {
@@ -12692,7 +12692,7 @@ var require_request2 = __commonJS({
           fallbackMode = "cors";
         } else {
           this[kDispatcher] = init.dispatcher || input[kDispatcher];
-          assert7(input instanceof _Request);
+          assert6(input instanceof _Request);
           request = input[kState];
           signal = input[kSignal];
         }
@@ -13344,7 +13344,7 @@ var require_fetch = __commonJS({
       extractMimeType
     } = require_util2();
     var { kState, kDispatcher } = require_symbols2();
-    var assert7 = require("assert");
+    var assert6 = require("assert");
     var { safelyExtractBody, extractBody } = require_body();
     var {
       redirectStatusSet,
@@ -13422,7 +13422,7 @@ var require_fetch = __commonJS({
         requestObject.signal,
         () => {
           locallyAborted = true;
-          assert7(controller != null);
+          assert6(controller != null);
           controller.abort(requestObject.signal.reason);
           const realResponse = responseObject?.deref();
           abortFetch(p, request, realResponse, requestObject.signal.reason);
@@ -13522,7 +13522,7 @@ var require_fetch = __commonJS({
       dispatcher = getGlobalDispatcher()
       // undici
     }) {
-      assert7(dispatcher);
+      assert6(dispatcher);
       let taskDestination = null;
       let crossOriginIsolatedCapability = false;
       if (request.client != null) {
@@ -13545,7 +13545,7 @@ var require_fetch = __commonJS({
         taskDestination,
         crossOriginIsolatedCapability
       };
-      assert7(!request.body || request.body.stream);
+      assert6(!request.body || request.body.stream);
       if (request.window === "client") {
         request.window = request.client?.globalObject?.constructor?.name === "Window" ? request.client : "no-window";
       }
@@ -13638,7 +13638,7 @@ var require_fetch = __commonJS({
         } else if (request.responseTainting === "opaque") {
           response = filterResponse(response, "opaque");
         } else {
-          assert7(false);
+          assert6(false);
         }
       }
       let internalResponse = response.status === 0 ? response : response.internalResponse;
@@ -13865,7 +13865,7 @@ var require_fetch = __commonJS({
         } else if (request.redirect === "follow") {
           response = await httpRedirectFetch(fetchParams, response);
         } else {
-          assert7(false);
+          assert6(false);
         }
       }
       response.timingInfo = timingInfo;
@@ -13918,7 +13918,7 @@ var require_fetch = __commonJS({
         request.headersList.delete("host", true);
       }
       if (request.body != null) {
-        assert7(request.body.source != null);
+        assert6(request.body.source != null);
         request.body = safelyExtractBody(request.body.source)[0];
       }
       const timingInfo = fetchParams.timingInfo;
@@ -14051,7 +14051,7 @@ var require_fetch = __commonJS({
       return response;
     }
     async function httpNetworkFetch(fetchParams, includeCredentials = false, forceNewConnection = false) {
-      assert7(!fetchParams.controller.connection || fetchParams.controller.connection.destroyed);
+      assert6(!fetchParams.controller.connection || fetchParams.controller.connection.destroyed);
       fetchParams.controller.connection = {
         abort: null,
         destroyed: false,
@@ -15188,7 +15188,7 @@ var require_symbols4 = __commonJS({
 var require_util5 = __commonJS({
   "node_modules/.pnpm/undici@6.23.0/node_modules/undici/lib/web/cache/util.js"(exports2, module2) {
     "use strict";
-    var assert7 = require("assert");
+    var assert6 = require("assert");
     var { URLSerializer } = require_data_url();
     var { isValidHeaderName } = require_util2();
     function urlEquals(A, B, excludeFragment = false) {
@@ -15197,7 +15197,7 @@ var require_util5 = __commonJS({
       return serializedA === serializedB;
     }
     function getFieldValues(header) {
-      assert7(header !== null);
+      assert6(header !== null);
       const values = [];
       for (let value of header.split(",")) {
         value = value.trim();
@@ -15227,7 +15227,7 @@ var require_cache = __commonJS({
     var { kState } = require_symbols2();
     var { fetching } = require_fetch();
     var { urlIsHttpHttpsScheme, createDeferredPromise, readAllBytes } = require_util2();
-    var assert7 = require("assert");
+    var assert6 = require("assert");
     var _relevantRequestResponseList, _Cache_instances, batchCacheOperations_fn, queryCache_fn, requestMatchesCachedItem_fn, internalMatchAll_fn;
     var _Cache = class _Cache {
       constructor() {
@@ -15470,7 +15470,7 @@ var require_cache = __commonJS({
             return false;
           }
         } else {
-          assert7(typeof request === "string");
+          assert6(typeof request === "string");
           r = new Request(request)[kState];
         }
         const operations = [];
@@ -15583,7 +15583,7 @@ var require_cache = __commonJS({
             }
             for (const requestResponse of requestResponses) {
               const idx = cache.indexOf(requestResponse);
-              assert7(idx !== -1);
+              assert6(idx !== -1);
               cache.splice(idx, 1);
             }
           } else if (operation.type === "put") {
@@ -15615,7 +15615,7 @@ var require_cache = __commonJS({
             requestResponses = __privateMethod(this, _Cache_instances, queryCache_fn).call(this, operation.request);
             for (const requestResponse of requestResponses) {
               const idx = cache.indexOf(requestResponse);
-              assert7(idx !== -1);
+              assert6(idx !== -1);
               cache.splice(idx, 1);
             }
             cache.push([operation.request, operation.response]);
@@ -16067,7 +16067,7 @@ var require_parse = __commonJS({
     var { maxNameValuePairSize, maxAttributeValueSize } = require_constants4();
     var { isCTLExcludingHtab } = require_util6();
     var { collectASequenceOfCodePointsFast } = require_data_url();
-    var assert7 = require("assert");
+    var assert6 = require("assert");
     function parseSetCookie(header) {
       if (isCTLExcludingHtab(header)) {
         return null;
@@ -16109,7 +16109,7 @@ var require_parse = __commonJS({
       if (unparsedAttributes.length === 0) {
         return cookieAttributeList;
       }
-      assert7(unparsedAttributes[0] === ";");
+      assert6(unparsedAttributes[0] === ";");
       unparsedAttributes = unparsedAttributes.slice(1);
       let cookieAv = "";
       if (unparsedAttributes.includes(";")) {
@@ -17177,7 +17177,7 @@ var require_receiver = __commonJS({
   "node_modules/.pnpm/undici@6.23.0/node_modules/undici/lib/web/websocket/receiver.js"(exports2, module2) {
     "use strict";
     var { Writable } = require("stream");
-    var assert7 = require("assert");
+    var assert6 = require("assert");
     var { parserStates, opcodes, states, emptyBuffer, sentCloseFrameState } = require_constants5();
     var { kReadyState, kSentClose, kResponse, kReceivedClose } = require_symbols5();
     var { channels } = require_diagnostics();
@@ -17393,7 +17393,7 @@ var require_receiver = __commonJS({
         return buffer3;
       }
       parseCloseBody(data) {
-        assert7(data.length !== 1);
+        assert6(data.length !== 1);
         let code;
         if (data.length >= 2) {
           code = data.readUInt16BE(0);
@@ -36263,6 +36263,13 @@ try {
   throw error2;
 }
 var options = _options;
+var assertAuth = () => {
+  const auth = options.auth;
+  if (!auth) {
+    throw new Error("Authentication configuration is missing.");
+  }
+  return auth;
+};
 
 // src/cache.ts
 var import_promises = __toESM(require("fs/promises"));
@@ -71275,7 +71282,6 @@ var activateEnvironment = async (environment) => {
 };
 
 // src/main.ts
-var import_console = require("console");
 var downloadPixi = async (source) => {
   const url2 = renderPixiUrl(source.urlTemplate, source.version);
   await group("Downloading Pixi", async () => {
@@ -71313,8 +71319,7 @@ var pixiLogin = async () => {
   });
 };
 var pixiLogout = async () => {
-  const auth = options.auth;
-  (0, import_console.assert)(auth);
+  const auth = assertAuth();
   await group("Logging out of private channel", async () => {
     debug(`Logging out of ${auth.host}`);
     await execute(pixiCmd(`auth logout ${auth.host}`, false));

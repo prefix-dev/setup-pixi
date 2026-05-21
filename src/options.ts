@@ -485,3 +485,10 @@ try {
 }
 
 export const options = _options
+export const assertAuth = () => {
+  const auth = options.auth
+  if (!auth) {
+    throw new Error('Authentication configuration is missing.')
+  }
+  return auth
+}

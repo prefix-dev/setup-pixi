@@ -5,11 +5,10 @@ import { exit } from 'process'
 import * as core from '@actions/core'
 import { downloadTool } from '@actions/tool-cache'
 import type { PixiSource } from './options'
-import { options } from './options'
+import { assertAuth, options } from './options'
 import { execute, pixiCmd, renderPixiUrl } from './util'
 import { tryRestoreGlobalCache, tryRestoreProjectCache, saveGlobalCache, saveProjectCache } from './cache'
 import { activateEnvironment } from './activate'
-import { assert } from 'console'
 
 const downloadPixi = async (source: PixiSource) => {
   const url = renderPixiUrl(source.urlTemplate, source.version)
@@ -52,9 +51,10 @@ const pixiLogin = async () => {
   })
 }
 
+
+
 const pixiLogout = async () => {
-  const auth = options.auth
-  assert(auth)
+  const auth = assertAuth()
   await core.group('Logging out of private channel', async () => {
     core.debug(`Logging out of ${auth.host}`)
     await execute(pixiCmd(`auth logout ${auth.host}`, false))
