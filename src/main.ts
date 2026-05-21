@@ -51,6 +51,18 @@ const pixiLogin = async () => {
   })
 }
 
+const pixiLogout = async () => {
+  const auth = options.auth
+  if (!auth || auth.persistCredentials) {
+    core.debug('Skipping pixi logout.')
+    return
+  }
+  await core.group('Logging out of private channel', async () => {
+    core.debug(`Logging out of ${auth.host}`)
+    await execute(pixiCmd(`auth logout ${auth.host}`, false))
+  })
+}
+
 const addPixiToPath = () => {
   core.addPath(path.dirname(options.pixiBinPath))
 }
@@ -163,6 +175,7 @@ const run = async () => {
   if (options.activatedEnvironment) {
     await activateEnv(options.activatedEnvironment)
   }
+  await pixiLogout()
 }
 
 const main = async () => {

@@ -78,6 +78,12 @@ inputs:
     description: Secret access key to use for S3 authentication.
   auth-s3-session-token:
     description: Session token to use for S3 authentication.
+  persist-credentials:
+    description: |
+      Whether to keep the credentials configured by `auth-host` available to subsequent workflow
+      steps. Defaults to `true`. If set to `false`, the action runs `pixi auth logout <auth-host>`
+      after install, so that later steps cannot reach the private channel anymore. Requires
+      `auth-host`.
   pypi-keyring-provider:
     description: |
       Specifies whether to use keyring to look up credentials for PyPI.

@@ -30143,6 +30143,9 @@ var validateInputs = (inputs) => {
     if (inputs.authToken || inputs.authUsername || inputs.authCondaToken || inputs.authS3AccessKeyId) {
       throw new Error("You need to specify auth-host");
     }
+    if (inputs.persistCredentials === false) {
+      throw new Error("Cannot use persist-credentials without specifying auth-host");
+    }
   }
   if (inputs.runInstall === false && inputs.environments) {
     throw new Error("Cannot specify environments without running install");
@@ -30235,21 +30238,26 @@ var inferOptions = (inputs) => {
   } : void 0;
   const frozen = inputs.frozen ?? false;
   const locked = inputs.locked ?? (lockFileAvailable && !frozen);
+  const persistCredentials = inputs.persistCredentials ?? true;
   const auth = !inputs.authHost ? void 0 : inputs.authToken ? {
     host: inputs.authHost,
-    token: inputs.authToken
+    token: inputs.authToken,
+    persistCredentials
   } : inputs.authCondaToken ? {
     host: inputs.authHost,
-    condaToken: inputs.authCondaToken
+    condaToken: inputs.authCondaToken,
+    persistCredentials
   } : inputs.authUsername ? {
     host: inputs.authHost,
     username: inputs.authUsername,
-    password: inputs.authPassword
+    password: inputs.authPassword,
+    persistCredentials
   } : {
     host: inputs.authHost,
     s3AccessKeyId: inputs.authS3AccessKeyId,
     s3SecretAccessKey: inputs.authS3SecretAccessKey,
-    s3SessionToken: inputs.authS3SessionToken
+    s3SessionToken: inputs.authS3SessionToken,
+    persistCredentials
   };
   const postCleanup = inputs.postCleanup ?? true;
   const pypiKeyringProvider = inputs.pypiKeyringProvider;
@@ -30271,6 +30279,7 @@ var inferOptions = (inputs) => {
     globalCache,
     pixiBinPath,
     auth,
+    persistCredentials,
     postCleanup
   };
 };
@@ -30311,6 +30320,7 @@ var getOptions = () => {
     authS3AccessKeyId: parseOrUndefined("auth-s3-access-key-id", string2()),
     authS3SecretAccessKey: parseOrUndefined("auth-s3-secret-access-key", string2()),
     authS3SessionToken: parseOrUndefined("auth-s3-session-token", string2()),
+    persistCredentials: parseOrUndefinedJSON("persist-credentials", boolean2()),
     pypiKeyringProvider: parseOrUndefined("pypi-keyring-provider", pypiKeyringProviderSchema),
     globalEnvironments: parseOrUndefinedMultilineList("global-environments", string2()),
     postCleanup: parseOrUndefinedJSON("post-cleanup", boolean2())

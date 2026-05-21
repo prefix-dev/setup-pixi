@@ -35,6 +35,7 @@ type Inputs = Readonly<{
   authS3AccessKeyId?: string
   authS3SecretAccessKey?: string
   authS3SessionToken?: string
+  persistCredentials?: boolean
   pypiKeyringProvider?: 'disabled' | 'subprocess'
   postCleanup?: boolean
   globalEnvironments?: string[]
@@ -48,6 +49,7 @@ export interface PixiSource {
 
 type Auth = {
   host: string
+  persistCredentials: boolean
 } & (
   | {
       token: string
@@ -91,6 +93,7 @@ export type Options = Readonly<{
   globalCache?: GlobalCache
   pixiBinPath: string
   auth?: Auth
+  persistCredentials: boolean
   pypiKeyringProvider?: 'disabled' | 'subprocess'
   postCleanup: boolean
   activatedEnvironment?: string
@@ -240,6 +243,9 @@ const validateInputs = (inputs: Inputs): void => {
     if (inputs.authToken || inputs.authUsername || inputs.authCondaToken || inputs.authS3AccessKeyId) {
       throw new Error('You need to specify auth-host')
     }
+    if (inputs.persistCredentials === false) {
+      throw new Error('Cannot use persist-credentials without specifying auth-host')
+    }
   }
   if (inputs.runInstall === false && inputs.environments) {
     throw new Error('Cannot specify environments without running install')
@@ -355,29 +361,34 @@ const inferOptions = (inputs: Inputs): Options => {
       : undefined
   const frozen = inputs.frozen ?? false
   const locked = inputs.locked ?? (lockFileAvailable && !frozen)
+  const persistCredentials = inputs.persistCredentials ?? true
   const auth = !inputs.authHost
     ? undefined
     : ((inputs.authToken
         ? {
             host: inputs.authHost,
-            token: inputs.authToken
+            token: inputs.authToken,
+            persistCredentials: persistCredentials
           }
         : inputs.authCondaToken
           ? {
               host: inputs.authHost,
-              condaToken: inputs.authCondaToken
+              condaToken: inputs.authCondaToken,
+              persistCredentials: persistCredentials
             }
           : inputs.authUsername
             ? {
                 host: inputs.authHost,
                 username: inputs.authUsername,
-                password: inputs.authPassword
+                password: inputs.authPassword,
+                persistCredentials: persistCredentials
               }
             : {
                 host: inputs.authHost,
                 s3AccessKeyId: inputs.authS3AccessKeyId,
                 s3SecretAccessKey: inputs.authS3SecretAccessKey,
-                s3SessionToken: inputs.authS3SessionToken
+                s3SessionToken: inputs.authS3SessionToken,
+                persistCredentials: persistCredentials
               }) as Auth)
   const postCleanup = inputs.postCleanup ?? true
   const pypiKeyringProvider = inputs.pypiKeyringProvider
@@ -399,6 +410,7 @@ const inferOptions = (inputs: Inputs): Options => {
     globalCache,
     pixiBinPath,
     auth,
+    persistCredentials,
     postCleanup
   }
 }
@@ -447,6 +459,7 @@ const getOptions = () => {
     authS3AccessKeyId: parseOrUndefined('auth-s3-access-key-id', z.string()),
     authS3SecretAccessKey: parseOrUndefined('auth-s3-secret-access-key', z.string()),
     authS3SessionToken: parseOrUndefined('auth-s3-session-token', z.string()),
+    persistCredentials: parseOrUndefinedJSON('persist-credentials', z.boolean()),
     pypiKeyringProvider: parseOrUndefined('pypi-keyring-provider', pypiKeyringProviderSchema),
     globalEnvironments: parseOrUndefinedMultilineList('global-environments', z.string()),
     postCleanup: parseOrUndefinedJSON('post-cleanup', z.boolean())
@@ -477,3 +490,10 @@ try {
 }
 
 export const options = _options
+export const assertAuth = () => {
+  const auth = options.auth
+  if (!auth) {
+    throw new Error('Authentication configuration is missing.')
+  }
+  return auth
+}
