@@ -49,6 +49,7 @@ export interface PixiSource {
 
 type Auth = {
   host: string
+  persistCredentials: boolean
 } & (
   | {
       token: string
@@ -360,32 +361,36 @@ const inferOptions = (inputs: Inputs): Options => {
       : undefined
   const frozen = inputs.frozen ?? false
   const locked = inputs.locked ?? (lockFileAvailable && !frozen)
+  const persistCredentials = inputs.persistCredentials ?? true
   const auth = !inputs.authHost
     ? undefined
     : ((inputs.authToken
         ? {
             host: inputs.authHost,
-            token: inputs.authToken
+            token: inputs.authToken,
+            persistCredentials: persistCredentials,
           }
         : inputs.authCondaToken
           ? {
               host: inputs.authHost,
-              condaToken: inputs.authCondaToken
+              condaToken: inputs.authCondaToken,
+              persistCredentials: persistCredentials,
             }
           : inputs.authUsername
             ? {
                 host: inputs.authHost,
                 username: inputs.authUsername,
-                password: inputs.authPassword
+                password: inputs.authPassword,
+                persistCredentials: persistCredentials,
               }
             : {
                 host: inputs.authHost,
                 s3AccessKeyId: inputs.authS3AccessKeyId,
                 s3SecretAccessKey: inputs.authS3SecretAccessKey,
-                s3SessionToken: inputs.authS3SessionToken
+                s3SessionToken: inputs.authS3SessionToken,
+                persistCredentials: persistCredentials,
               }) as Auth)
   const postCleanup = inputs.postCleanup ?? true
-  const persistCredentials = inputs.persistCredentials ?? true
   const pypiKeyringProvider = inputs.pypiKeyringProvider
   return {
     globalEnvironments: inputs.globalEnvironments,

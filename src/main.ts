@@ -5,7 +5,7 @@ import { exit } from 'process'
 import * as core from '@actions/core'
 import { downloadTool } from '@actions/tool-cache'
 import type { PixiSource } from './options'
-import { assertAuth, options } from './options'
+import { options } from './options'
 import { execute, pixiCmd, renderPixiUrl } from './util'
 import { tryRestoreGlobalCache, tryRestoreProjectCache, saveGlobalCache, saveProjectCache } from './cache'
 import { activateEnvironment } from './activate'
@@ -52,7 +52,11 @@ const pixiLogin = async () => {
 }
 
 const pixiLogout = async () => {
-  const auth = assertAuth()
+  const auth = options.auth
+  if (!auth || auth.persistCredentials) {
+    core.debug('Skipping pixi logout.')
+    return
+  }
   await core.group('Logging out of private channel', async () => {
     core.debug(`Logging out of ${auth.host}`)
     await execute(pixiCmd(`auth logout ${auth.host}`, false))
@@ -171,9 +175,7 @@ const run = async () => {
   if (options.activatedEnvironment) {
     await activateEnv(options.activatedEnvironment)
   }
-  if (!options.persistCredentials) {
-    await pixiLogout()
-  }
+  await pixiLogout()
 }
 
 const main = async () => {
