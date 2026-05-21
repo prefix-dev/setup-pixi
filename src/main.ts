@@ -54,7 +54,7 @@ const pixiLogin = async () => {
 
 const pixiLogout = async () => {
   const auth = options.auth
-  assert(auth);
+  assert(auth)
   await core.group('Logging out of private channel', async () => {
     core.debug(`Logging out of ${auth.host}`)
     await execute(pixiCmd(`auth logout ${auth.host}`, false))
