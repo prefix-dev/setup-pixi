@@ -368,27 +368,27 @@ const inferOptions = (inputs: Inputs): Options => {
         ? {
             host: inputs.authHost,
             token: inputs.authToken,
-            persistCredentials: persistCredentials,
+            persistCredentials: persistCredentials
           }
         : inputs.authCondaToken
           ? {
               host: inputs.authHost,
               condaToken: inputs.authCondaToken,
-              persistCredentials: persistCredentials,
+              persistCredentials: persistCredentials
             }
           : inputs.authUsername
             ? {
                 host: inputs.authHost,
                 username: inputs.authUsername,
                 password: inputs.authPassword,
-                persistCredentials: persistCredentials,
+                persistCredentials: persistCredentials
               }
             : {
                 host: inputs.authHost,
                 s3AccessKeyId: inputs.authS3AccessKeyId,
                 s3SecretAccessKey: inputs.authS3SecretAccessKey,
                 s3SessionToken: inputs.authS3SessionToken,
-                persistCredentials: persistCredentials,
+                persistCredentials: persistCredentials
               }) as Auth)
   const postCleanup = inputs.postCleanup ?? true
   const pypiKeyringProvider = inputs.pypiKeyringProvider
