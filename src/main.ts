@@ -51,8 +51,6 @@ const pixiLogin = async () => {
   })
 }
 
-
-
 const pixiLogout = async () => {
   const auth = assertAuth()
   await core.group('Logging out of private channel', async () => {
