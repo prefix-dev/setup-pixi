@@ -90,7 +90,7 @@ inputs:
       options: disabled, subprocess
   post-cleanup:
     description: |
-      If the action should clean up after itself. Defaults to `true`.
+      If the action should clean up after itself. Defaults to `false`.
       If `true`, the pixi environment, the pixi binary and the rattler files in ~/.rattler and ~/.cache/rattler are removed.
 
 runs:

@@ -57623,7 +57623,7 @@ var inferOptions = (inputs) => {
     s3SessionToken: inputs.authS3SessionToken,
     persistCredentials
   };
-  const postCleanup = inputs.postCleanup ?? true;
+  const postCleanup = inputs.postCleanup ?? false;
   const pypiKeyringProvider = inputs.pypiKeyringProvider;
   return {
     globalEnvironments: inputs.globalEnvironments,

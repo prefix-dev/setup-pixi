@@ -390,7 +390,7 @@ const inferOptions = (inputs: Inputs): Options => {
                 s3SessionToken: inputs.authS3SessionToken,
                 persistCredentials: persistCredentials
               }) as Auth)
-  const postCleanup = inputs.postCleanup ?? true
+  const postCleanup = inputs.postCleanup ?? false
   const pypiKeyringProvider = inputs.pypiKeyringProvider
   return {
     globalEnvironments: inputs.globalEnvironments,
