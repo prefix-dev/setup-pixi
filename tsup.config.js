@@ -12,6 +12,8 @@ export default defineConfig({
   sourcemap: false,
   platform: 'node',
   minify: false,
+  // shim `import.meta.url` in CJS output; some deps (e.g. @azure/storage-common) rely on it
+  shims: true,
   outExtension() {
     return {
       js: '.js'
