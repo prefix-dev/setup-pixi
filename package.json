@@ -22,7 +22,7 @@
   "author": "Pavel Zwerschke <pavelzw@gmail.com>",
   "license": "BSD-3-Clause",
   "dependencies": {
-    "@actions/cache": "^6.1.0",
+    "@actions/cache": "^6.2.0",
     "@actions/core": "^3.0.1",
     "@actions/exec": "^3.0.0",
     "@actions/io": "^3.0.2",
@@ -35,12 +35,12 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@types/node": "^26.0.0",
+    "@types/node": "^26.1.1",
     "@types/which": "^3.0.4",
-    "eslint": "^10.5.0",
-    "prettier": "^3.8.4",
+    "eslint": "^10.8.0",
+    "prettier": "^3.9.6",
     "tsup": "^8.5.1",
-    "typescript": "^6.0.3",
-    "typescript-eslint": "^8.62.0"
+    "typescript": "^7.0.2",
+    "typescript-eslint": "^8.65.0"
   }
 }
