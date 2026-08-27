@@ -33,15 +33,21 @@ export const getCondaArch = () => {
 
 const getPlatform = () => {
   const platform = os.platform()
+  const arch = os.arch()
+
   switch (platform) {
     case 'darwin':
       return 'apple-darwin'
     case 'linux':
+      if (arch == 'riscv64') {
+        // https://github.com/prefix-dev/pixi/issues/6903
+        return 'unknown-linux-gnu'
+      }
       return 'unknown-linux-musl'
     case 'win32':
       return 'pc-windows-msvc'
     default:
-      throw new Error(`Unsupported architecture: ${platform}`)
+      throw new Error(`Unsupported platform: ${platform}`)
   }
 }
 
@@ -52,6 +58,8 @@ const getArch = () => {
       return 'x86_64'
     case 'arm64':
       return 'aarch64'
+    case 'riscv64':
+      return 'riscv64gc'
     default:
       throw new Error(`Unsupported architecture: ${arch}`)
   }
