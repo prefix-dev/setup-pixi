@@ -16,7 +16,6 @@ jobs:
   default:
     strategy:
       matrix:
-        # TODO: add windows-11-arm: https://github.com/conda-forge/conda-forge.github.io/issues/1940
         os:
           - ubuntu-latest
           - ubuntu-24.04-arm
@@ -740,8 +739,7 @@ jobs:
   pixi-shell:
     strategy:
       matrix:
-        # TODO: add windows-11-arm: https://github.com/conda-forge/conda-forge.github.io/issues/1940
-        os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest, windows-latest]
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest, windows-latest, windows-11-arm]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -767,8 +765,7 @@ jobs:
   pixi-shell-exec:
     strategy:
       matrix:
-        # TODO: add windows-11-arm: https://github.com/conda-forge/conda-forge.github.io/issues/1940
-        os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest, windows-latest]
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest, windows-latest, windows-11-arm]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
