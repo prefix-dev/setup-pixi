@@ -773,14 +773,14 @@ jobs:
         with:
           run-install: false
       - run: |
-          python --version | grep -q "3.11"
-        shell: pixi exec --spec python=3.11.* -- bash -e {0}
+          python --version | grep -q "3.14"
+        shell: pixi exec --spec python=3.14.* -- bash -e {0}
       - run: |
           import ruamel.yaml
         shell: pixi exec --spec python --spec ruamel.yaml -- python {0}
       - run: |
-          python --version | Select-String "3.11"
-        shell: pixi exec --spec python=3.11.* -- pwsh -Command {0}
+          python --version | Select-String "3.14"
+        shell: pixi exec --spec python=3.14.* -- pwsh -Command {0}
         # TODO investigate: for some reason, this errors on ubuntu-arm
         if: matrix.os != 'ubuntu-24.04-arm'
 
