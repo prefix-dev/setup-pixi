@@ -36835,6 +36835,7 @@ var getCondaArch = () => {
     "linux-x64": "linux-64",
     "linux-arm64": "linux-aarch64",
     "linux-ppc64": "linux-ppc64le",
+    "linux-riscv64": "linux-riscv64",
     "win32-x64": "win-64",
     "win32-arm64": "win-arm64"
   };
