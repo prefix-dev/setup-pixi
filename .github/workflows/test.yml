@@ -16,8 +16,13 @@ jobs:
   default:
     strategy:
       matrix:
-        # TODO: add windows-11-arm: https://github.com/conda-forge/conda-forge.github.io/issues/1940
-        os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest, windows-latest]
+        os:
+          - ubuntu-latest
+          - ubuntu-24.04-arm
+          - ubuntu-24.04-riscv
+          - macos-latest
+          - windows-latest
+          - windows-11-arm
         cache: [true, false]
     runs-on: ${{ matrix.os }}
     name: default ${{ matrix.cache == true && 'with' || 'without' }} cache (${{ matrix.os }})
@@ -33,18 +38,18 @@ jobs:
           set -o pipefail
           pixi info
           test -f .pixi/envs/default/bin/python
-          ./.pixi/envs/default/bin/python --version | grep -q 3.11
+          ./.pixi/envs/default/bin/python --version | grep -q 3.14
         shell: bash
-        if: matrix.os != 'windows-latest'
+        if: "!startsWith(matrix.os, 'windows')"
       - run: |
           set -o pipefail
           pixi info
           test -f .pixi/envs/default/python.exe
-          ./.pixi/envs/default/python.exe --version | grep -q 3.11
+          ./.pixi/envs/default/python.exe --version | grep -q 3.14
         shell: bash
-        if: matrix.os == 'windows-latest'
+        if: startsWith(matrix.os, 'windows')
       - run: |
-          pixi run python --version | grep -q 3.11
+          pixi run python --version | grep -q 3.14
           pixi run test | grep -q "Hello world"
 
   global-environments:
@@ -66,10 +71,10 @@ jobs:
           set -o pipefail
           pixi info
           test -f ${{ matrix.os == 'windows-latest' && './.pixi/envs/default/python.exe' || './.pixi/envs/default/bin/python' }}
-          ${{ matrix.os == 'windows-latest' && './.pixi/envs/default/python.exe' || './.pixi/envs/default/bin/python' }} --version | grep -q 3.11
+          ${{ matrix.os == 'windows-latest' && './.pixi/envs/default/python.exe' || './.pixi/envs/default/bin/python' }} --version | grep -q 3.14
         shell: bash
       - run: |
-          pixi run python --version | grep -q 3.11
+          pixi run python --version | grep -q 3.14
           pixi run test | grep -q "Hello world"
 
   global-environments-with-project-install:
@@ -210,7 +215,7 @@ jobs:
         with:
           cache: false
           frozen: true
-      - run: pixi run python --version | grep -q 3.11
+      - run: pixi run python --version | grep -q 3.14
 
   locked:
     strategy:
@@ -225,7 +230,7 @@ jobs:
         with:
           cache: false
           locked: true
-      - run: pixi run python --version | grep -q 3.11
+      - run: pixi run python --version | grep -q 3.14
 
   custom-pixi-url:
     runs-on: ubuntu-latest
@@ -342,7 +347,7 @@ jobs:
           set -o pipefail
           pixi info
           test -f .pixi/envs/default/bin/python
-          .pixi/envs/default/bin/python --version | grep -q 3.11
+          .pixi/envs/default/bin/python --version | grep -q 3.14
         shell: bash
         working-directory: test/default
         if: matrix.os != 'windows-latest'
@@ -350,11 +355,11 @@ jobs:
           set -o pipefail
           pixi info
           test -f .pixi/envs/default/python.exe
-          .pixi/envs/default/python.exe --version | grep -q 3.11
+          .pixi/envs/default/python.exe --version | grep -q 3.14
         shell: bash
         working-directory: test/default
         if: matrix.os == 'windows-latest'
-      - run: pixi run python --version | grep -q 3.11
+      - run: pixi run python --version | grep -q 3.14
         working-directory: test/default
 
   working-directory-with-manifest-path:
@@ -383,7 +388,7 @@ jobs:
         shell: bash
         working-directory: test/default
         if: matrix.os == 'windows-latest'
-      - run: pixi run python --version | grep -q 3.11
+      - run: pixi run python --version | grep -q 3.14
         working-directory: test/default
 
   working-directory-with-absolute-manifest-path:
@@ -412,7 +417,7 @@ jobs:
         shell: bash
         working-directory: test/default
         if: matrix.os == 'windows-latest'
-      - run: pixi run python --version | grep -q 3.11
+      - run: pixi run python --version | grep -q 3.14
         working-directory: test/default
 
   custom-manifest-path:
@@ -485,18 +490,18 @@ jobs:
       - name: Download pixi binary (Ubuntu)
         run: |
           set -o pipefail
-          curl -L --output "$HOME/custom existing pixi/pixi" https://github.com/prefix-dev/pixi/releases/download/v0.43.0/pixi-x86_64-unknown-linux-musl
+          curl -L --output "$HOME/custom existing pixi/pixi" https://github.com/prefix-dev/pixi/releases/download/v0.76.0/pixi-x86_64-unknown-linux-musl
           chmod +x "$HOME/custom existing pixi/pixi"
         if: matrix.os == 'ubuntu-latest'
       - name: Download pixi binary (macOS)
         run: |
           set -o pipefail
-          curl -L --output "$HOME/custom existing pixi/pixi" https://github.com/prefix-dev/pixi/releases/download/v0.43.0/pixi-x86_64-apple-darwin
+          curl -L --output "$HOME/custom existing pixi/pixi" https://github.com/prefix-dev/pixi/releases/download/v0.76.0/pixi-x86_64-apple-darwin
           chmod +x "$HOME/custom existing pixi/pixi"
         if: matrix.os == 'macos-latest'
       - name: Download pixi binary (Windows)
         run: |
-          curl -L --output "$HOME/custom existing pixi/pixi.exe" https://github.com/prefix-dev/pixi/releases/download/v0.43.0/pixi-x86_64-pc-windows-msvc.exe
+          curl -L --output "$HOME/custom existing pixi/pixi.exe" https://github.com/prefix-dev/pixi/releases/download/v0.76.0/pixi-x86_64-pc-windows-msvc.exe
         if: matrix.os == 'windows-latest'
       - run: |
           echo "Path: $PATH"
@@ -504,7 +509,7 @@ jobs:
       - name: Verify pixi version (before setup-pixi)
         run: |
           pixi --version
-          pixi --version | grep -q "pixi 0.43.0"
+          pixi --version | grep -q "pixi 0.76.0"
         shell: bash
       - name: Verify pixi path (before setup-pixi)
         run: |
@@ -525,7 +530,7 @@ jobs:
         uses: ./
         with:
           cache: false
-          pixi-version: v0.44.0
+          pixi-version: v0.77.0
         if: matrix.ignore-reason == 'version'
       - name: Run Action (url should overwrite preinstalled pixi)
         uses: ./
@@ -534,10 +539,10 @@ jobs:
           pixi-url: |
             ${{
                 matrix.os == 'ubuntu-latest' &&
-                    'https://github.com/prefix-dev/pixi/releases/download/v0.44.0/pixi-x86_64-unknown-linux-musl'
+                    'https://github.com/prefix-dev/pixi/releases/download/v0.77.0/pixi-x86_64-unknown-linux-musl'
                 || matrix.os == 'macos-latest' &&
-                    'https://github.com/prefix-dev/pixi/releases/download/v0.44.0/pixi-x86_64-apple-darwin'
-                    || 'https://github.com/prefix-dev/pixi/releases/download/v0.44.0/pixi-x86_64-pc-windows-msvc.exe'
+                    'https://github.com/prefix-dev/pixi/releases/download/v0.77.0/pixi-x86_64-apple-darwin'
+                    || 'https://github.com/prefix-dev/pixi/releases/download/v0.77.0/pixi-x86_64-pc-windows-msvc.exe'
             }}
         if: matrix.ignore-reason == 'url'
       - name: Create custom bin directory
@@ -551,23 +556,23 @@ jobs:
           # this will implicitly set pixi-version to latest
           pixi-bin-path: custom-bin/pixi${{ matrix.os == 'windows-latest' && '.exe' || '' }}
         if: matrix.ignore-reason == 'bin-path'
-      - name: Verify pixi version (after setup-pixi) - still at 0.43.0
+      - name: Verify pixi version (after setup-pixi) - still at 0.76.0
         run: |
           pixi --version
-          pixi --version | grep -q 0.43.0
+          pixi --version | grep -q 0.76.0
         shell: bash
         if: matrix.ignore-reason == 'none'
-      - name: Verify pixi version (after setup-pixi) - should be 0.44.0
+      - name: Verify pixi version (after setup-pixi) - should be 0.77.0
         run: |
           pixi --version
-          pixi --version | grep -q 0.44.0
+          pixi --version | grep -q 0.77.0
         shell: bash
         if: matrix.ignore-reason != 'none' && matrix.ignore-reason != 'bin-path' && matrix.ignore-reason != 'version-latest'
       - name: Verify pixi version (after setup-pixi) - should be latest
         run: |
           pixi --version
-          pixi --version | grep -vq 0.43.0
-          pixi --version | grep -vq 0.44.0
+          pixi --version | grep -vq 0.76.0
+          pixi --version | grep -vq 0.77.0
         shell: bash
         if: matrix.ignore-reason == 'bin-path' || matrix.ignore-reason == 'version-latest'
       - name: Verify pixi path (after setup-pixi, no ignore reason)
@@ -734,8 +739,7 @@ jobs:
   pixi-shell:
     strategy:
       matrix:
-        # TODO: add windows-11-arm: https://github.com/conda-forge/conda-forge.github.io/issues/1940
-        os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest, windows-latest]
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest, windows-latest, windows-11-arm]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -745,7 +749,7 @@ jobs:
         with:
           cache: false
       - run: |
-          python --version | grep -q "3.11"
+          python --version | grep -q "3.14"
         shell: pixi run bash -e {0}
       - run: |
           import sys
@@ -753,7 +757,7 @@ jobs:
           print("Hello world")
         shell: pixi run python {0}
       - run: |
-          python --version | Select-String "3.11"
+          python --version | Select-String "3.14"
         shell: pixi run pwsh -Command {0}
         # TODO investigate: for some reason, this errors on ubuntu-arm
         if: matrix.os != 'ubuntu-24.04-arm'
@@ -761,8 +765,7 @@ jobs:
   pixi-shell-exec:
     strategy:
       matrix:
-        # TODO: add windows-11-arm: https://github.com/conda-forge/conda-forge.github.io/issues/1940
-        os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest, windows-latest]
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest, windows-latest, windows-11-arm]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -770,14 +773,14 @@ jobs:
         with:
           run-install: false
       - run: |
-          python --version | grep -q "3.11"
-        shell: pixi exec --spec python=3.11.* -- bash -e {0}
+          python --version | grep -q "3.14"
+        shell: pixi exec --spec python=3.14.* -- bash -e {0}
       - run: |
           import ruamel.yaml
         shell: pixi exec --spec python --spec ruamel.yaml -- python {0}
       - run: |
-          python --version | Select-String "3.11"
-        shell: pixi exec --spec python=3.11.* -- pwsh -Command {0}
+          python --version | Select-String "3.14"
+        shell: pixi exec --spec python=3.14.* -- pwsh -Command {0}
         # TODO investigate: for some reason, this errors on ubuntu-arm
         if: matrix.os != 'ubuntu-24.04-arm'
 

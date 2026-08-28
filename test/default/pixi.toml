@@ -1,10 +1,20 @@
 [workspace]
 name = "test-default"
 channels = ["conda-forge"]
-platforms = ["linux-64", "linux-aarch64", "osx-64", "osx-arm64", "win-64"]
+platforms = [
+  "linux-64",
+  "linux-aarch64",
+  # remove override when https://github.com/prefix-dev/pixi/pull/6914 is released
+  { platform = "linux-riscv64", glibc = "2.39" },
+  "linux-ppc64le",
+  "osx-64",
+  "osx-arm64",
+  "win-64",
+  "win-arm64",
+]
 
 [tasks]
 test = "python -c 'print(\"Hello world!\")'"
 
 [dependencies]
-python = "3.11.*"
+python = "3.14.*"

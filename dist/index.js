@@ -36835,6 +36835,7 @@ var getCondaArch = () => {
     "linux-x64": "linux-64",
     "linux-arm64": "linux-aarch64",
     "linux-ppc64": "linux-ppc64le",
+    "linux-riscv64": "linux-riscv64",
     "win32-x64": "win-64",
     "win32-arm64": "win-arm64"
   };
@@ -36846,15 +36847,19 @@ var getCondaArch = () => {
 };
 var getPlatform = () => {
   const platform2 = import_os3.default.platform();
+  const arch2 = import_os3.default.arch();
   switch (platform2) {
     case "darwin":
       return "apple-darwin";
     case "linux":
+      if (arch2 == "riscv64") {
+        return "unknown-linux-gnu";
+      }
       return "unknown-linux-musl";
     case "win32":
       return "pc-windows-msvc";
     default:
-      throw new Error(`Unsupported architecture: ${platform2}`);
+      throw new Error(`Unsupported platform: ${platform2}`);
   }
 };
 var getArch = () => {
@@ -36864,6 +36869,8 @@ var getArch = () => {
       return "x86_64";
     case "arm64":
       return "aarch64";
+    case "riscv64":
+      return "riscv64gc";
     default:
       throw new Error(`Unsupported architecture: ${arch2}`);
   }
