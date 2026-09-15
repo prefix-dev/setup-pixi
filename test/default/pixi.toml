@@ -4,8 +4,7 @@ channels = ["conda-forge"]
 platforms = [
   "linux-64",
   "linux-aarch64",
-  # remove override when https://github.com/prefix-dev/pixi/pull/6914 is released
-  { platform = "linux-riscv64", glibc = "2.39" },
+  "linux-riscv64",
   "linux-ppc64le",
   "osx-64",
   "osx-arm64",
