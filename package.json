@@ -6,9 +6,8 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
-    "eslint": "eslint .",
-    "lint": "pnpm eslint && prettier -c .",
-    "lint:fix": "eslint . --fix && prettier -w ."
+    "lint": "oxlint && oxfmt --check",
+    "lint:fix": "oxlint --fix && oxfmt"
   },
   "repository": {
     "type": "git",
@@ -34,13 +33,12 @@
     "zod": "^4.6.5"
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
     "@types/node": "^26.6.2",
     "@types/which": "^3.0.4",
-    "eslint": "^10.11.0",
-    "prettier": "^3.9.9",
+    "oxfmt": "^0.71.0",
+    "oxlint": "^1.86.0",
+    "oxlint-tsgolint": "^7.0.2003",
     "tsup": "^8.5.1",
-    "typescript": "^6.0.3",
-    "typescript-eslint": "^8.70.1"
+    "typescript": "^7.0.2"
   }
 }

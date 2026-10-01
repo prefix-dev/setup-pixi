@@ -1,4 +1,3 @@
-import type { BinaryLike } from 'crypto'
 import { createHash } from 'crypto'
 import os from 'os'
 import * as core from '@actions/core'
@@ -79,11 +78,11 @@ export const renderPixiUrl = (urlTemplate: string, version: string) => {
   })
 }
 
-export const sha256 = (s: BinaryLike) => {
+export const sha256 = (s: string | NodeJS.ArrayBufferView) => {
   return createHash('sha256').update(s).digest('hex')
 }
 
-export const sha256Short = (s: BinaryLike) => {
+export const sha256Short = (s: string | NodeJS.ArrayBufferView) => {
   return sha256(s).slice(0, 7)
 }
 

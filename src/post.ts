@@ -52,7 +52,7 @@ const cleanupEnv = () => {
 const determineCacheDir = (): string => {
   // rattler uses dirs::cache_dir https://docs.rs/dirs/latest/dirs/fn.cache_dir.html
   if (os.platform() === 'win32') {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // oxlint-disable-next-line typescript/no-non-null-assertion
     return process.env.LOCALAPPDATA!
   }
   if (os.platform() === 'linux') {
