@@ -14,7 +14,6 @@ const splitEnvironment = (shellHook: ShellHook): [Record<string, string>, string
     if (pathEnvs.length > 0) {
       const caseSensitivePathName = pathEnvs[0]
       const path = shellHook.environment_variables[caseSensitivePathName]
-      // oxlint-disable-next-line typescript/no-dynamic-delete
       delete shellHook.environment_variables[caseSensitivePathName]
       return [shellHook.environment_variables, path]
     }

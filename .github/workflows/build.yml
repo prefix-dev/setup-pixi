@@ -37,6 +37,9 @@ jobs:
       - name: Lint
         run: pnpm lint
 
+      - name: Format
+        run: pnpm fmt
+
   reference-latest-version-in-readme:
     name: Reference latest version in README
     runs-on: ubuntu-latest
