@@ -116,7 +116,7 @@ async function _saveCache(
       const cacheId = await cache.saveCache([cachePath], cacheKey, undefined, false)
       core.info(`Saved cache with ID "${cacheId.toString()}"`)
     } catch (err: unknown) {
-      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+      // oxlint-disable-next-line typescript/restrict-template-expressions
       core.error(`Error saving ${type} cache: ${err}`)
     }
   })
