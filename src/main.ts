@@ -48,12 +48,13 @@ const pixiLogin = async () => {
       core.debug(`Logging in to ${auth.host} with conda token`)
       await execute(pixiCmd(`auth login --conda-token ${auth.condaToken} ${auth.host}`, false))
     }
+    await execute(pixiCmd('auth status', false))
   })
 }
 
 const pixiLogout = async () => {
   const auth = options.auth
-  if (!auth || auth.persistCredentials) {
+  if (auth?.logout !== 'after-install') {
     core.debug('Skipping pixi logout.')
     return
   }

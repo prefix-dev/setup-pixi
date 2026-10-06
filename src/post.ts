@@ -5,6 +5,7 @@ import os from 'os'
 import { exit } from 'process'
 import * as core from '@actions/core'
 import { options } from './options'
+import { execute, pixiCmd } from './util'
 
 const removeEmptyParentDirs = (dirPath: string): Promise<void> => {
   if (existsSync(dirPath)) {
@@ -71,13 +72,31 @@ const cleanupRattler = () => {
   ])
 }
 
-const run = () => {
+const pixiLogout = async () => {
+  const auth = options.auth
+  if (auth?.logout !== 'post') {
+    core.debug('Skipping pixi logout.')
+    return
+  }
+  if (!existsSync(options.pixiBinPath)) {
+    core.debug(`Skipping pixi logout, pixi binary ${options.pixiBinPath} does not exist.`)
+    return
+  }
+  await core.group('Logging out of private channel', async () => {
+    core.debug(`Logging out of ${auth.host}`)
+    await execute(pixiCmd(`auth logout ${auth.host}`, false))
+  })
+}
+
+const run = async () => {
+  // needs to happen before the cleanup since that removes the pixi binary
+  await pixiLogout()
   const postCleanup = options.postCleanup
   if (postCleanup) {
-    return Promise.all([cleanupPixiBin(), cleanupEnv(), cleanupRattler()])
+    await Promise.all([cleanupPixiBin(), cleanupEnv(), cleanupRattler()])
+    return
   }
   core.debug('Skipping post-cleanup.')
-  return Promise.resolve()
 }
 
 run()

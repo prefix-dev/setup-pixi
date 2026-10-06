@@ -38212,6 +38212,7 @@ var pixiCmd = (command, withManifestPath = true) => {
 var pixiPath = "pixi.toml";
 var pyprojectPath = "pyproject.toml";
 var logLevelSchema = _enum(["q", "default", "v", "vv", "vvv"]);
+var authLogoutSchema = _enum(["post", "after-install", "never"]);
 var pypiKeyringProviderSchema = _enum(["disabled", "subprocess"]);
 var PATHS = {
   pixiBin: import_path.default.join(import_os4.default.homedir(), ".pixi", "bin", `pixi${import_os4.default.platform() === "win32" ? ".exe" : ""}`)
@@ -38328,8 +38329,8 @@ var validateInputs = (inputs) => {
     if (inputs.authToken || inputs.authUsername || inputs.authCondaToken || inputs.authS3AccessKeyId) {
       throw new Error("You need to specify auth-host");
     }
-    if (inputs.persistCredentials === false) {
-      throw new Error("Cannot use persist-credentials without specifying auth-host");
+    if (inputs.authLogout) {
+      throw new Error("Cannot use auth-logout without specifying auth-host");
     }
   }
   if (inputs.runInstall === false && inputs.environments) {
@@ -38423,26 +38424,26 @@ var inferOptions = (inputs) => {
   } : void 0;
   const frozen = inputs.frozen ?? false;
   const locked = inputs.locked ?? (lockFileAvailable && !frozen);
-  const persistCredentials = inputs.persistCredentials ?? true;
+  const authLogout = inputs.authLogout ?? "post";
   const auth = !inputs.authHost ? void 0 : inputs.authToken ? {
     host: inputs.authHost,
     token: inputs.authToken,
-    persistCredentials
+    logout: authLogout
   } : inputs.authCondaToken ? {
     host: inputs.authHost,
     condaToken: inputs.authCondaToken,
-    persistCredentials
+    logout: authLogout
   } : inputs.authUsername ? {
     host: inputs.authHost,
     username: inputs.authUsername,
     password: inputs.authPassword,
-    persistCredentials
+    logout: authLogout
   } : {
     host: inputs.authHost,
     s3AccessKeyId: inputs.authS3AccessKeyId,
     s3SecretAccessKey: inputs.authS3SecretAccessKey,
     s3SessionToken: inputs.authS3SessionToken,
-    persistCredentials
+    logout: authLogout
   };
   const postCleanup = inputs.postCleanup ?? false;
   const pypiKeyringProvider = inputs.pypiKeyringProvider;
@@ -38464,13 +38465,17 @@ var inferOptions = (inputs) => {
     globalCache,
     pixiBinPath,
     auth,
-    persistCredentials,
     postCleanup
   };
 };
 var assertOptions = (_options2) => {
 };
 var getOptions = () => {
+  if (inputOrEnvironmentVariable("persist-credentials") !== void 0) {
+    throw new Error(
+      "`persist-credentials` has been removed, use `auth-logout: after-install` (instead of `false`) or `auth-logout: never` (instead of `true`)."
+    );
+  }
   const inputs = {
     pixiVersion: parseOrUndefined(
       "pixi-version",
@@ -38505,7 +38510,11 @@ var getOptions = () => {
     authS3AccessKeyId: parseOrUndefined("auth-s3-access-key-id", string2()),
     authS3SecretAccessKey: parseOrUndefined("auth-s3-secret-access-key", string2()),
     authS3SessionToken: parseOrUndefined("auth-s3-session-token", string2()),
-    persistCredentials: parseOrUndefinedJSON("persist-credentials", boolean2()),
+    authLogout: parseOrUndefined(
+      "auth-logout",
+      authLogoutSchema,
+      "auth-logout must be one of `post`, `after-install`, `never`."
+    ),
     pypiKeyringProvider: parseOrUndefined("pypi-keyring-provider", pypiKeyringProviderSchema),
     globalEnvironments: parseOrUndefinedMultilineList("global-environments", string2()),
     postCleanup: parseOrUndefinedJSON("post-cleanup", boolean2())
@@ -81290,11 +81299,12 @@ var pixiLogin = async () => {
       debug(`Logging in to ${auth.host} with conda token`);
       await execute(pixiCmd(`auth login --conda-token ${auth.condaToken} ${auth.host}`, false));
     }
+    await execute(pixiCmd("auth status", false));
   });
 };
 var pixiLogout = async () => {
   const auth = options.auth;
-  if (!auth || auth.persistCredentials) {
+  if (auth?.logout !== "after-install") {
     debug("Skipping pixi logout.");
     return;
   }
