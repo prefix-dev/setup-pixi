@@ -48,8 +48,6 @@ const pixiLogin = async () => {
       core.debug(`Logging in to ${auth.host} with conda token`)
       await execute(pixiCmd(`auth login --conda-token ${auth.condaToken} ${auth.host}`, false))
     }
-  })
-  await core.group('Pixi auth status', async () => {
     // `pixi auth status` is not available in older pixi versions, so we don't fail if it errors
     const { exitCode } = await executeGetOutput(pixiCmd('auth status', false), { ignoreReturnCode: true })
     if (exitCode !== 0) {
