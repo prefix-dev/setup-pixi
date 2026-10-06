@@ -651,7 +651,7 @@ jobs:
         # https://github.com/prefix-dev/pixi/issues/330
         if: matrix.os == 'ubuntu-latest'
 
-  persist-credentials-false:
+  auth-logout-after-install:
     env:
       # We must set this environment variable explicitly to force all
       # operating systems to use the same storage mechanism.
@@ -668,27 +668,13 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Move pixi.toml
         run: mv test/default/* .
-      # Sanity check: Login with default persist-credentials behavior
+      # auth-logout: post and never are tested in auth-logout-post-never
       - uses: ./
         with:
           cache: false
           auth-host: https://custom-conda-registry.com
           auth-token: custom-token
-      - name: Assert that the credentials are stored
-        run: |
-          # For human log readers
-          cat "${RATTLER_AUTH_FILE}"
-          # Actual test
-          [ $(jq '."*.custom-conda-registry.com".BearerToken' -r "${RATTLER_AUTH_FILE}") = "custom-token" ]
-      - name: Clean up credentials file
-        run: rm "${RATTLER_AUTH_FILE}"
-      # Actual test: Login with persist-credentials: false
-      - uses: ./
-        with:
-          cache: false
-          auth-host: https://custom-conda-registry.com
-          auth-token: custom-token
-          persist-credentials: false
+          auth-logout: after-install
       - name: Assert that the credentials are not stored anymore
         run: |
           # For human log readers
@@ -696,6 +682,43 @@ jobs:
 
           # Actual test
           ! grep -q '"*.custom-conda-registry.com"' "${RATTLER_AUTH_FILE}"
+
+  auth-logout-post-never:
+    env:
+      # We must set this environment variable explicitly to force all
+      # operating systems to use the same storage mechanism.
+      # Otherwise, mac will use the keychain, which is more cumbersome to test.
+      RATTLER_AUTH_FILE: .rattler-credentials.json
+    strategy:
+      matrix:
+        # action-post-run doesn't support bash on windows
+        os: [ubuntu-latest, macos-latest]
+        auth-logout: [post, never]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Move pixi.toml
+        run: mv test/default/* .
+      # post steps run in reverse order, so this runs after the post step of setup-pixi
+      - uses: lisanna-dettwyler/action-post-run@d053b9b43d788b87a409f6cdb3b6fc87c6c8a4fe # v3.1.0
+        with:
+          run: |
+            set -euxo pipefail
+            cat "${RATTLER_AUTH_FILE}"
+            ${{ matrix.auth-logout == 'post' && '! ' || '' }}grep -q '"*.custom-conda-registry.com"' "${RATTLER_AUTH_FILE}"
+      - uses: ./
+        with:
+          cache: false
+          auth-host: https://custom-conda-registry.com
+          auth-token: custom-token
+          auth-logout: ${{ matrix.auth-logout }}
+      - name: Assert that the credentials are still stored
+        run: |
+          cat "${RATTLER_AUTH_FILE}"
+          [ $(jq '."*.custom-conda-registry.com".BearerToken' -r "${RATTLER_AUTH_FILE}") = "custom-token" ]
 
   auth-token-install:
     strategy:

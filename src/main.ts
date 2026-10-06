@@ -6,7 +6,7 @@ import * as core from '@actions/core'
 import { downloadTool } from '@actions/tool-cache'
 import type { PixiSource } from './options'
 import { options } from './options'
-import { execute, executeGetOutput, pixiCmd, renderPixiUrl } from './util'
+import { execute, pixiCmd, renderPixiUrl } from './util'
 import { tryRestoreGlobalCache, tryRestoreProjectCache, saveGlobalCache, saveProjectCache } from './cache'
 import { activateEnvironment } from './activate'
 
@@ -48,17 +48,13 @@ const pixiLogin = async () => {
       core.debug(`Logging in to ${auth.host} with conda token`)
       await execute(pixiCmd(`auth login --conda-token ${auth.condaToken} ${auth.host}`, false))
     }
-    // `pixi auth status` is not available in older pixi versions, so we don't fail if it errors
-    const { exitCode } = await executeGetOutput(pixiCmd('auth status', false), { ignoreReturnCode: true })
-    if (exitCode !== 0) {
-      core.info('Could not run `pixi auth status`, this command requires a newer pixi version.')
-    }
+    await execute(pixiCmd('auth status', false))
   })
 }
 
 const pixiLogout = async () => {
   const auth = options.auth
-  if (!auth || auth.persistCredentials) {
+  if (auth?.logout !== 'after-install') {
     core.debug('Skipping pixi logout.')
     return
   }

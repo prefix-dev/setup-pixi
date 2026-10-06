@@ -35,7 +35,7 @@ type Inputs = Readonly<{
   authS3AccessKeyId?: string
   authS3SecretAccessKey?: string
   authS3SessionToken?: string
-  persistCredentials?: boolean
+  authLogout?: AuthLogout
   pypiKeyringProvider?: 'disabled' | 'subprocess'
   postCleanup?: boolean
   globalEnvironments?: string[]
@@ -49,7 +49,7 @@ export interface PixiSource {
 
 type Auth = {
   host: string
-  persistCredentials: boolean
+  logout: AuthLogout
 } & (
   | {
       token: string
@@ -93,7 +93,6 @@ export type Options = Readonly<{
   globalCache?: GlobalCache
   pixiBinPath: string
   auth?: Auth
-  persistCredentials: boolean
   pypiKeyringProvider?: 'disabled' | 'subprocess'
   postCleanup: boolean
   activatedEnvironment?: string
@@ -104,6 +103,9 @@ const pyprojectPath = 'pyproject.toml'
 
 const logLevelSchema = z.enum(['q', 'default', 'v', 'vv', 'vvv'])
 export type LogLevel = z.infer<typeof logLevelSchema>
+
+const authLogoutSchema = z.enum(['post', 'after-install', 'never'])
+export type AuthLogout = z.infer<typeof authLogoutSchema>
 
 const pypiKeyringProviderSchema = z.enum(['disabled', 'subprocess'])
 export type PypiKeyringProvider = z.infer<typeof pypiKeyringProviderSchema>
@@ -243,8 +245,8 @@ const validateInputs = (inputs: Inputs): void => {
     if (inputs.authToken || inputs.authUsername || inputs.authCondaToken || inputs.authS3AccessKeyId) {
       throw new Error('You need to specify auth-host')
     }
-    if (inputs.persistCredentials === false) {
-      throw new Error('Cannot use persist-credentials without specifying auth-host')
+    if (inputs.authLogout) {
+      throw new Error('Cannot use auth-logout without specifying auth-host')
     }
   }
   if (inputs.runInstall === false && inputs.environments) {
@@ -361,34 +363,34 @@ const inferOptions = (inputs: Inputs): Options => {
       : undefined
   const frozen = inputs.frozen ?? false
   const locked = inputs.locked ?? (lockFileAvailable && !frozen)
-  const persistCredentials = inputs.persistCredentials ?? true
+  const authLogout = inputs.authLogout ?? 'post'
   const auth = !inputs.authHost
     ? undefined
     : ((inputs.authToken
         ? {
             host: inputs.authHost,
             token: inputs.authToken,
-            persistCredentials: persistCredentials
+            logout: authLogout
           }
         : inputs.authCondaToken
           ? {
               host: inputs.authHost,
               condaToken: inputs.authCondaToken,
-              persistCredentials: persistCredentials
+              logout: authLogout
             }
           : inputs.authUsername
             ? {
                 host: inputs.authHost,
                 username: inputs.authUsername,
                 password: inputs.authPassword,
-                persistCredentials: persistCredentials
+                logout: authLogout
               }
             : {
                 host: inputs.authHost,
                 s3AccessKeyId: inputs.authS3AccessKeyId,
                 s3SecretAccessKey: inputs.authS3SecretAccessKey,
                 s3SessionToken: inputs.authS3SessionToken,
-                persistCredentials: persistCredentials
+                logout: authLogout
               }) as Auth)
   const postCleanup = inputs.postCleanup ?? false
   const pypiKeyringProvider = inputs.pypiKeyringProvider
@@ -410,7 +412,6 @@ const inferOptions = (inputs: Inputs): Options => {
     globalCache,
     pixiBinPath,
     auth,
-    persistCredentials,
     postCleanup
   }
 }
@@ -425,6 +426,11 @@ const assertOptions = (_options: Options) => {
 }
 
 const getOptions = () => {
+  if (inputOrEnvironmentVariable('persist-credentials') !== undefined) {
+    throw new Error(
+      '`persist-credentials` has been removed, use `auth-logout: after-install` (instead of `false`) or `auth-logout: never` (instead of `true`).'
+    )
+  }
   const inputs: Inputs = {
     pixiVersion: parseOrUndefined(
       'pixi-version',
@@ -459,7 +465,11 @@ const getOptions = () => {
     authS3AccessKeyId: parseOrUndefined('auth-s3-access-key-id', z.string()),
     authS3SecretAccessKey: parseOrUndefined('auth-s3-secret-access-key', z.string()),
     authS3SessionToken: parseOrUndefined('auth-s3-session-token', z.string()),
-    persistCredentials: parseOrUndefinedJSON('persist-credentials', z.boolean()),
+    authLogout: parseOrUndefined(
+      'auth-logout',
+      authLogoutSchema,
+      'auth-logout must be one of `post`, `after-install`, `never`.'
+    ),
     pypiKeyringProvider: parseOrUndefined('pypi-keyring-provider', pypiKeyringProviderSchema),
     globalEnvironments: parseOrUndefinedMultilineList('global-environments', z.string()),
     postCleanup: parseOrUndefinedJSON('post-cleanup', z.boolean())
