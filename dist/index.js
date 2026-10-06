@@ -81291,6 +81291,12 @@ var pixiLogin = async () => {
       await execute(pixiCmd(`auth login --conda-token ${auth.condaToken} ${auth.host}`, false));
     }
   });
+  await group("Pixi auth status", async () => {
+    const { exitCode } = await executeGetOutput(pixiCmd("auth status", false), { ignoreReturnCode: true });
+    if (exitCode !== 0) {
+      info("Could not run `pixi auth status`, this command requires a newer pixi version.");
+    }
+  });
 };
 var pixiLogout = async () => {
   const auth = options.auth;

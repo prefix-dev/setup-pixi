@@ -6,7 +6,7 @@ import * as core from '@actions/core'
 import { downloadTool } from '@actions/tool-cache'
 import type { PixiSource } from './options'
 import { options } from './options'
-import { execute, pixiCmd, renderPixiUrl } from './util'
+import { execute, executeGetOutput, pixiCmd, renderPixiUrl } from './util'
 import { tryRestoreGlobalCache, tryRestoreProjectCache, saveGlobalCache, saveProjectCache } from './cache'
 import { activateEnvironment } from './activate'
 
@@ -47,6 +47,13 @@ const pixiLogin = async () => {
     } else if ('condaToken' in auth) {
       core.debug(`Logging in to ${auth.host} with conda token`)
       await execute(pixiCmd(`auth login --conda-token ${auth.condaToken} ${auth.host}`, false))
+    }
+  })
+  await core.group('Pixi auth status', async () => {
+    // `pixi auth status` is not available in older pixi versions, so we don't fail if it errors
+    const { exitCode } = await executeGetOutput(pixiCmd('auth status', false), { ignoreReturnCode: true })
+    if (exitCode !== 0) {
+      core.info('Could not run `pixi auth status`, this command requires a newer pixi version.')
     }
   })
 }
