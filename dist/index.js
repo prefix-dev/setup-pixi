@@ -38213,6 +38213,7 @@ var pixiPath = "pixi.toml";
 var pyprojectPath = "pyproject.toml";
 var logLevelSchema = _enum(["q", "default", "v", "vv", "vvv"]);
 var authLogoutSchema = _enum(["post", "after-install", "never"]);
+var workloadIdentityExchangeSchema = _enum(["token-exchange", "prefix"]);
 var pypiKeyringProviderSchema = _enum(["disabled", "subprocess"]);
 var PATHS = {
   pixiBin: import_path.default.join(import_os4.default.homedir(), ".pixi", "bin", `pixi${import_os4.default.platform() === "win32" ? ".exe" : ""}`)
@@ -38304,9 +38305,16 @@ var validateInputs = (inputs) => {
       "You need to specify both auth-s3-access-key-id and auth-s3-secret-access-key when using auth-s3-session-token"
     );
   }
+  if (!inputs.authWorkloadIdentity && (inputs.authWorkloadIdentityAudience || inputs.authWorkloadIdentityExchange || inputs.authWorkloadIdentityTokenEndpoint)) {
+    throw new Error(
+      "You need to specify auth-workload-identity: true when using auth-workload-identity-audience, auth-workload-identity-exchange or auth-workload-identity-token-endpoint"
+    );
+  }
   if (inputs.authHost) {
-    if (!inputs.authToken && !inputs.authUsername && !inputs.authCondaToken && !inputs.authS3AccessKeyId) {
-      throw new Error("You need to specify either auth-token or auth-username and auth-password or auth-conda-token");
+    if (!inputs.authToken && !inputs.authUsername && !inputs.authCondaToken && !inputs.authS3AccessKeyId && !inputs.authWorkloadIdentity) {
+      throw new Error(
+        "You need to specify either auth-token, auth-username and auth-password, auth-conda-token, auth-s3-access-key-id and auth-s3-secret-access-key, or auth-workload-identity"
+      );
     }
     let authCount = 0;
     if (inputs.authToken) {
@@ -38321,12 +38329,15 @@ var validateInputs = (inputs) => {
     if (inputs.authS3AccessKeyId) {
       authCount++;
     }
+    if (inputs.authWorkloadIdentity) {
+      authCount++;
+    }
     if (authCount > 1) {
       throw new Error("You cannot specify multiple auth methods");
     }
   }
   if (!inputs.authHost) {
-    if (inputs.authToken || inputs.authUsername || inputs.authCondaToken || inputs.authS3AccessKeyId) {
+    if (inputs.authToken || inputs.authUsername || inputs.authCondaToken || inputs.authS3AccessKeyId || inputs.authWorkloadIdentity) {
       throw new Error("You need to specify auth-host");
     }
     if (inputs.authLogout) {
@@ -38438,6 +38449,13 @@ var inferOptions = (inputs) => {
     username: inputs.authUsername,
     password: inputs.authPassword,
     logout: authLogout
+  } : inputs.authWorkloadIdentity ? {
+    host: inputs.authHost,
+    workloadIdentity: true,
+    workloadIdentityAudience: inputs.authWorkloadIdentityAudience,
+    workloadIdentityExchange: inputs.authWorkloadIdentityExchange,
+    workloadIdentityTokenEndpoint: inputs.authWorkloadIdentityTokenEndpoint,
+    logout: authLogout
   } : {
     host: inputs.authHost,
     s3AccessKeyId: inputs.authS3AccessKeyId,
@@ -38510,6 +38528,14 @@ var getOptions = () => {
     authS3AccessKeyId: parseOrUndefined("auth-s3-access-key-id", string2()),
     authS3SecretAccessKey: parseOrUndefined("auth-s3-secret-access-key", string2()),
     authS3SessionToken: parseOrUndefined("auth-s3-session-token", string2()),
+    authWorkloadIdentity: parseOrUndefinedJSON("auth-workload-identity", boolean2()),
+    authWorkloadIdentityAudience: parseOrUndefined("auth-workload-identity-audience", string2()),
+    authWorkloadIdentityExchange: parseOrUndefined(
+      "auth-workload-identity-exchange",
+      workloadIdentityExchangeSchema,
+      "auth-workload-identity-exchange must be one of `token-exchange`, `prefix`."
+    ),
+    authWorkloadIdentityTokenEndpoint: parseOrUndefined("auth-workload-identity-token-endpoint", string2()),
     authLogout: parseOrUndefined(
       "auth-logout",
       authLogoutSchema,
@@ -81298,6 +81324,24 @@ var pixiLogin = async () => {
     } else if ("condaToken" in auth) {
       debug(`Logging in to ${auth.host} with conda token`);
       await execute(pixiCmd(`auth login --conda-token ${auth.condaToken} ${auth.host}`, false));
+    } else if ("workloadIdentity" in auth) {
+      debug(`Logging in to ${auth.host} with workload identity`);
+      if (process.env.GITHUB_ACTIONS === "true" && !process.env.ACTIONS_ID_TOKEN_REQUEST_URL) {
+        throw new Error(
+          "auth-workload-identity requires the job to have `permissions: id-token: write`, see https://docs.github.com/en/actions/concepts/security/openid-connect"
+        );
+      }
+      let command = "auth login --workload-identity";
+      if (auth.workloadIdentityAudience) {
+        command += ` --workload-identity-audience ${auth.workloadIdentityAudience}`;
+      }
+      if (auth.workloadIdentityExchange) {
+        command += ` --workload-identity-exchange ${auth.workloadIdentityExchange}`;
+      }
+      if (auth.workloadIdentityTokenEndpoint) {
+        command += ` --workload-identity-token-endpoint ${auth.workloadIdentityTokenEndpoint}`;
+      }
+      await execute(pixiCmd(`${command} ${auth.host}`, false));
     }
     await execute(pixiCmd("auth status", false));
   });

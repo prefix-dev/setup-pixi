@@ -35,6 +35,10 @@ type Inputs = Readonly<{
   authS3AccessKeyId?: string
   authS3SecretAccessKey?: string
   authS3SessionToken?: string
+  authWorkloadIdentity?: boolean
+  authWorkloadIdentityAudience?: string
+  authWorkloadIdentityExchange?: WorkloadIdentityExchange
+  authWorkloadIdentityTokenEndpoint?: string
   authLogout?: AuthLogout
   pypiKeyringProvider?: 'disabled' | 'subprocess'
   postCleanup?: boolean
@@ -65,6 +69,12 @@ type Auth = {
       s3AccessKeyId: string
       s3SecretAccessKey: string
       s3SessionToken?: string
+    }
+  | {
+      workloadIdentity: true
+      workloadIdentityAudience?: string
+      workloadIdentityExchange?: WorkloadIdentityExchange
+      workloadIdentityTokenEndpoint?: string
     }
 )
 
@@ -106,6 +116,9 @@ export type LogLevel = z.infer<typeof logLevelSchema>
 
 const authLogoutSchema = z.enum(['post', 'after-install', 'never'])
 export type AuthLogout = z.infer<typeof authLogoutSchema>
+
+const workloadIdentityExchangeSchema = z.enum(['token-exchange', 'prefix'])
+export type WorkloadIdentityExchange = z.infer<typeof workloadIdentityExchangeSchema>
 
 const pypiKeyringProviderSchema = z.enum(['disabled', 'subprocess'])
 export type PypiKeyringProvider = z.infer<typeof pypiKeyringProviderSchema>
@@ -219,10 +232,28 @@ const validateInputs = (inputs: Inputs): void => {
       'You need to specify both auth-s3-access-key-id and auth-s3-secret-access-key when using auth-s3-session-token'
     )
   }
+  if (
+    !inputs.authWorkloadIdentity &&
+    (inputs.authWorkloadIdentityAudience ||
+      inputs.authWorkloadIdentityExchange ||
+      inputs.authWorkloadIdentityTokenEndpoint)
+  ) {
+    throw new Error(
+      'You need to specify auth-workload-identity: true when using auth-workload-identity-audience, auth-workload-identity-exchange or auth-workload-identity-token-endpoint'
+    )
+  }
   // now we can assume that authUsername is defined iff authPassword is defined
   if (inputs.authHost) {
-    if (!inputs.authToken && !inputs.authUsername && !inputs.authCondaToken && !inputs.authS3AccessKeyId) {
-      throw new Error('You need to specify either auth-token or auth-username and auth-password or auth-conda-token')
+    if (
+      !inputs.authToken &&
+      !inputs.authUsername &&
+      !inputs.authCondaToken &&
+      !inputs.authS3AccessKeyId &&
+      !inputs.authWorkloadIdentity
+    ) {
+      throw new Error(
+        'You need to specify either auth-token, auth-username and auth-password, auth-conda-token, auth-s3-access-key-id and auth-s3-secret-access-key, or auth-workload-identity'
+      )
     }
     let authCount = 0
     if (inputs.authToken) {
@@ -237,12 +268,21 @@ const validateInputs = (inputs: Inputs): void => {
     if (inputs.authS3AccessKeyId) {
       authCount++
     }
+    if (inputs.authWorkloadIdentity) {
+      authCount++
+    }
     if (authCount > 1) {
       throw new Error('You cannot specify multiple auth methods')
     }
   }
   if (!inputs.authHost) {
-    if (inputs.authToken || inputs.authUsername || inputs.authCondaToken || inputs.authS3AccessKeyId) {
+    if (
+      inputs.authToken ||
+      inputs.authUsername ||
+      inputs.authCondaToken ||
+      inputs.authS3AccessKeyId ||
+      inputs.authWorkloadIdentity
+    ) {
       throw new Error('You need to specify auth-host')
     }
     if (inputs.authLogout) {
@@ -385,13 +425,22 @@ const inferOptions = (inputs: Inputs): Options => {
                 password: inputs.authPassword,
                 logout: authLogout
               }
-            : {
-                host: inputs.authHost,
-                s3AccessKeyId: inputs.authS3AccessKeyId,
-                s3SecretAccessKey: inputs.authS3SecretAccessKey,
-                s3SessionToken: inputs.authS3SessionToken,
-                logout: authLogout
-              }) as Auth)
+            : inputs.authWorkloadIdentity
+              ? {
+                  host: inputs.authHost,
+                  workloadIdentity: true,
+                  workloadIdentityAudience: inputs.authWorkloadIdentityAudience,
+                  workloadIdentityExchange: inputs.authWorkloadIdentityExchange,
+                  workloadIdentityTokenEndpoint: inputs.authWorkloadIdentityTokenEndpoint,
+                  logout: authLogout
+                }
+              : {
+                  host: inputs.authHost,
+                  s3AccessKeyId: inputs.authS3AccessKeyId,
+                  s3SecretAccessKey: inputs.authS3SecretAccessKey,
+                  s3SessionToken: inputs.authS3SessionToken,
+                  logout: authLogout
+                }) as Auth)
   const postCleanup = inputs.postCleanup ?? false
   const pypiKeyringProvider = inputs.pypiKeyringProvider
   return {
@@ -465,6 +514,14 @@ const getOptions = () => {
     authS3AccessKeyId: parseOrUndefined('auth-s3-access-key-id', z.string()),
     authS3SecretAccessKey: parseOrUndefined('auth-s3-secret-access-key', z.string()),
     authS3SessionToken: parseOrUndefined('auth-s3-session-token', z.string()),
+    authWorkloadIdentity: parseOrUndefinedJSON('auth-workload-identity', z.boolean()),
+    authWorkloadIdentityAudience: parseOrUndefined('auth-workload-identity-audience', z.string()),
+    authWorkloadIdentityExchange: parseOrUndefined(
+      'auth-workload-identity-exchange',
+      workloadIdentityExchangeSchema,
+      'auth-workload-identity-exchange must be one of `token-exchange`, `prefix`.'
+    ),
+    authWorkloadIdentityTokenEndpoint: parseOrUndefined('auth-workload-identity-token-endpoint', z.string()),
     authLogout: parseOrUndefined(
       'auth-logout',
       authLogoutSchema,

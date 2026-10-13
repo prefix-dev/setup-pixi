@@ -169,12 +169,13 @@ By default, global environments are not cached. You can enable caching by settin
 
 ### Authentication
 
-There are currently five ways to authenticate with pixi:
+There are currently six ways to authenticate with pixi:
 
 - using a token
 - using a username and password
 - using a conda-token
 - using an S3 key pair
+- using workload identity (OIDC)
 - using keyring for PyPI registries
 
 For more information, see the [pixi documentation](https://pixi.sh/latest/deployment/authentication/).
@@ -237,6 +238,46 @@ You can also specify the session token using the `auth-session-token` input argu
 ```
 
 See the [pixi documentation](https://pixi.sh/latest/advanced/s3) for more information about S3 authentication.
+
+#### Workload identity (OIDC)
+
+Instead of storing a long-lived token as a secret, you can let pixi exchange the GitHub Actions
+[OIDC ID token](https://docs.github.com/en/actions/concepts/security/openid-connect) for a short-lived access token
+by setting `auth-workload-identity: true`.
+This requires the job to have the `id-token: write` permission and the host to trust your repository's OIDC claims.
+Requires at least pixi v0.82.0.
+
+```yml
+permissions:
+  id-token: write
+  contents: read
+steps:
+  - uses: prefix-dev/setup-pixi@v0.11.0
+    with:
+      auth-host: prefix.dev
+      auth-workload-identity: true
+```
+
+For hosts other than prefix.dev, pixi performs an [OAuth 2.0 Token Exchange (RFC 8693)](https://datatracker.ietf.org/doc/html/rfc8693).
+You can fine-tune the exchange using the following optional inputs:
+
+- `auth-workload-identity-audience`: the audience requested in the OIDC ID token. Defaults to the host, or `prefix.dev` for prefix.dev hosts.
+- `auth-workload-identity-exchange`: `token-exchange` or `prefix`. Defaults to `prefix` for prefix.dev hosts and `token-exchange` otherwise.
+- `auth-workload-identity-token-endpoint`: a URL or a path on the host used for `token-exchange`.
+  Defaults to the `token_endpoint` from the host's RFC 8414 metadata, or `/access/api/v1/oidc/token` for `*.jfrog.io` hosts.
+
+```yml
+- uses: prefix-dev/setup-pixi@v0.11.0
+  with:
+    auth-host: https://my-org.jfrog.io
+    auth-workload-identity: true
+    # defaults to /access/api/v1/oidc/token for *.jfrog.io, might be needed for self-hosted Artifactory
+    # auth-workload-identity-token-endpoint: /access/api/v1/oidc/token
+    # defaults to my-org.jfrog.io
+    # auth-workload-identity-audience: ${{ vars.ARTIFACTORY_OIDC_AUDIENCE }}
+```
+
+See the [pixi documentation](https://pixi.sh/latest/deployment/artifactory/#using-oidc-authentication-in-cicd) for how to set this up with Artifactory.
 
 #### Logging out
 

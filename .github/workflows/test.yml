@@ -739,6 +739,29 @@ jobs:
         run: |
           test -f .pixi/envs/default/conda-meta/private-package-0.0.1-0.json
 
+  auth-workload-identity-install:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    # the OIDC token is not available for pull requests from forks
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Move pixi.toml
+        run: mv test/auth/* .
+      - uses: ./
+        with:
+          cache: false
+          auth-host: https://repo.prefix.dev
+          auth-workload-identity: true
+      - name: Ensure private-package is installed
+        run: |
+          test -f .pixi/envs/default/conda-meta/private-package-0.0.1-0.json
+
   auth-s3-install:
     strategy:
       matrix:
