@@ -26501,6 +26501,9 @@ function group(name, fn) {
     return result;
   });
 }
+function getState(name) {
+  return process.env[`STATE_${name}`] || "";
+}
 
 // src/options.ts
 init_cjs_shims();
@@ -32871,6 +32874,11 @@ var validateInputs = (inputs) => {
   }
 };
 var determinePixiInstallation = (pixiUrlOrVersionSet, pixiBinPath) => {
+  const savedPixiBinPath = getState("pixi-bin-path");
+  if (savedPixiBinPath) {
+    debug(`Using pixi binary path ${savedPixiBinPath} saved by the main step.`);
+    return { downloadPixi: getState("pixi-bin-installed") === "true", pixiBinPath: savedPixiBinPath };
+  }
   const preinstalledPixi = import_which.default.sync("pixi", { nothrow: true });
   if (pixiUrlOrVersionSet || pixiBinPath) {
     if (preinstalledPixi) {
@@ -33107,6 +33115,10 @@ var removeEmptyParentDirs = (dirPath) => {
   return Promise.resolve();
 };
 var cleanupPixiBin = () => {
+  if (!options.downloadPixi) {
+    debug("Skipping cleanup of pixi binary, it was not installed by this action.");
+    return Promise.resolve();
+  }
   const pixiBinPath = options.pixiBinPath;
   const pixiBinDir = import_path2.default.dirname(pixiBinPath);
   debug(`Cleaning up pixi binary ${pixiBinPath}.`);

@@ -25,6 +25,10 @@ const removeEmptyParentDirs = (dirPath: string): Promise<void> => {
 }
 
 const cleanupPixiBin = () => {
+  if (!options.downloadPixi) {
+    core.debug('Skipping cleanup of pixi binary, it was not installed by this action.')
+    return Promise.resolve()
+  }
   const pixiBinPath = options.pixiBinPath
   const pixiBinDir = path.dirname(pixiBinPath)
   core.debug(`Cleaning up pixi binary ${pixiBinPath}.`)

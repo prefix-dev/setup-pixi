@@ -31714,6 +31714,16 @@ function group(name, fn) {
     return result;
   });
 }
+function saveState(name, value) {
+  const filePath = process.env["GITHUB_STATE"] || "";
+  if (filePath) {
+    return issueFileCommand("STATE", prepareKeyValueMessage(name, value));
+  }
+  issueCommand("save-state", { name }, toCommandValue(value));
+}
+function getState(name) {
+  return process.env[`STATE_${name}`] || "";
+}
 
 // node_modules/.pnpm/@actions+tool-cache@4.0.0/node_modules/@actions/tool-cache/lib/tool-cache.js
 init_cjs_shims();
@@ -38352,6 +38362,11 @@ var validateInputs = (inputs) => {
   }
 };
 var determinePixiInstallation = (pixiUrlOrVersionSet, pixiBinPath) => {
+  const savedPixiBinPath = getState("pixi-bin-path");
+  if (savedPixiBinPath) {
+    debug(`Using pixi binary path ${savedPixiBinPath} saved by the main step.`);
+    return { downloadPixi: getState("pixi-bin-installed") === "true", pixiBinPath: savedPixiBinPath };
+  }
   const preinstalledPixi = import_which.default.sync("pixi", { nothrow: true });
   if (pixiUrlOrVersionSet || pixiBinPath) {
     if (preinstalledPixi) {
@@ -81437,8 +81452,10 @@ var activateEnv = async (environment) => {
 var run = async () => {
   debug(`process.env.HOME: ${process.env.HOME ?? "-"}`);
   debug(`os.homedir(): ${import_os6.default.homedir()}`);
+  saveState("pixi-bin-path", options.pixiBinPath);
   if (options.downloadPixi) {
     await downloadPixi(options.pixiSource);
+    saveState("pixi-bin-installed", "true");
   }
   addPixiToPath();
   await pixiLogin();
