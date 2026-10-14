@@ -165,10 +165,9 @@ jobs:
           pixi-version: latest
           cache: false
           locked: ${{ matrix.locked }}
-      - if: matrix.os == 'windows-latest'
-        run: choco install yq
       # assert that the lockfile wasn't updated
-      - run: test "$(yq '.version' pixi.lock)" = 1
+      - run: test "$(pixi exec --spec go-yq yq '.version' pixi.lock)" = 1
+        shell: bash
 
   install-path:
     strategy:
