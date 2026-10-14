@@ -290,9 +290,9 @@ var require_tunnel2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/core/symbols.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/symbols.js
 var require_symbols = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/core/symbols.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/symbols.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     module2.exports = {
@@ -365,9 +365,9 @@ var require_symbols = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/core/errors.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/errors.js
 var require_errors = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/core/errors.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/errors.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var kUndiciError = Symbol.for("undici.error.UND_ERR");
@@ -747,9 +747,9 @@ var require_errors = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/core/constants.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/constants.js
 var require_constants = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/core/constants.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/constants.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var headerNameLowerCasedRecord = {};
@@ -863,9 +863,9 @@ var require_constants = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/core/tree.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/tree.js
 var require_tree = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/core/tree.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/tree.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var {
@@ -1006,9 +1006,9 @@ var require_tree = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/core/util.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/util.js
 var require_util = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/core/util.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/util.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert2 = require("assert");
@@ -1513,9 +1513,9 @@ var require_util = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/core/diagnostics.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/diagnostics.js
 var require_diagnostics = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/core/diagnostics.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/diagnostics.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var diagnosticsChannel = require("diagnostics_channel");
@@ -1699,9 +1699,9 @@ var require_diagnostics = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/core/request.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/request.js
 var require_request = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/core/request.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/request.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var {
@@ -1727,6 +1727,7 @@ var require_request = __commonJS({
     var { headerNameLowerCasedRecord } = require_constants();
     var invalidPathRegex = /[^\u0021-\u00ff]/;
     var kHandler = Symbol("handler");
+    var _Request_instances, publishUpgradeHeaders_fn, publishUpgradeTrailers_fn;
     var Request = class {
       constructor(origin, {
         path: path6,
@@ -1744,6 +1745,7 @@ var require_request = __commonJS({
         expectContinue,
         servername
       }, handler) {
+        __privateAdd(this, _Request_instances);
         if (typeof path6 !== "string") {
           throw new InvalidArgumentError("path must be a string");
         } else if (path6[0] !== "/" && !(path6.startsWith("http://") || path6.startsWith("https://")) && method !== "CONNECT") {
@@ -1911,10 +1913,51 @@ var require_request = __commonJS({
           return false;
         }
       }
-      onUpgrade(statusCode, headers, socket) {
+      /**
+       * @param {number|null} statusCode
+       * @param {Buffer[]|null} headers
+       * @param {import('node:stream').Duplex} socket
+       * @param {string} [statusText]
+       */
+      onUpgrade(statusCode, headers, socket, statusText = "") {
+        this.onFinally();
         assert2(!this.aborted);
         assert2(!this.completed);
-        return this[kHandler].onUpgrade(statusCode, headers, socket);
+        if (statusCode !== null) {
+          __privateMethod(this, _Request_instances, publishUpgradeHeaders_fn).call(this, statusCode, headers, statusText);
+        }
+        const result = this[kHandler].onUpgrade(statusCode, headers, socket);
+        if (!this.aborted) {
+          this.completed = true;
+          if (statusCode !== null) {
+            __privateMethod(this, _Request_instances, publishUpgradeTrailers_fn).call(this);
+          }
+        }
+        return result;
+      }
+      /**
+       * @param {number} statusCode
+       * @param {import('node:http2').IncomingHttpHeaders} headers
+       * @param {(headers: import('node:http2').IncomingHttpHeaders) => Buffer[]} parseHeaders
+       * @param {string} [statusText]
+       */
+      onUpgradeResponse(statusCode, headers, parseHeaders, statusText = "") {
+        assert2(!this.aborted);
+        assert2(this.completed);
+        if (channels.headers.hasSubscribers) {
+          __privateMethod(this, _Request_instances, publishUpgradeHeaders_fn).call(this, statusCode, parseHeaders(headers), statusText);
+        }
+        __privateMethod(this, _Request_instances, publishUpgradeTrailers_fn).call(this);
+      }
+      /**
+       * @param {Error} error
+       */
+      onUpgradeError(error3) {
+        assert2(!this.aborted);
+        assert2(this.completed);
+        if (channels.error.hasSubscribers) {
+          channels.error.publish({ request: this, error: error3 });
+        }
       }
       onComplete(trailers) {
         this.onFinally();
@@ -1953,6 +1996,22 @@ var require_request = __commonJS({
       addHeader(key, value) {
         processHeader(this, key, value);
         return this;
+      }
+    };
+    _Request_instances = new WeakSet();
+    /**
+     * @param {number} statusCode
+     * @param {Buffer[]} headers
+     * @param {string} statusText
+     */
+    publishUpgradeHeaders_fn = function(statusCode, headers, statusText) {
+      if (channels.headers.hasSubscribers) {
+        channels.headers.publish({ request: this, response: { statusCode, headers, statusText } });
+      }
+    };
+    publishUpgradeTrailers_fn = function() {
+      if (channels.trailers.hasSubscribers) {
+        channels.trailers.publish({ request: this, trailers: [] });
       }
     };
     function processHeader(request, key, val) {
@@ -2040,9 +2099,9 @@ var require_request = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/dispatcher/dispatcher.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/dispatcher.js
 var require_dispatcher = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/dispatcher/dispatcher.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/dispatcher.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var EventEmitter2 = require("events");
@@ -2099,9 +2158,9 @@ var require_dispatcher = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/dispatcher/dispatcher-base.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/dispatcher-base.js
 var require_dispatcher_base = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/dispatcher/dispatcher-base.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/dispatcher-base.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var Dispatcher = require_dispatcher();
@@ -2269,9 +2328,9 @@ var require_dispatcher_base = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/util/timers.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/util/timers.js
 var require_timers = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/util/timers.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/util/timers.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var fastNow = 0;
@@ -2503,9 +2562,9 @@ var require_timers = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/core/connect.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/connect.js
 var require_connect = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/core/connect.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/connect.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var net = require("net");
@@ -2684,9 +2743,9 @@ var require_connect = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/llhttp/utils.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/llhttp/utils.js
 var require_utils = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/llhttp/utils.js"(exports2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/llhttp/utils.js"(exports2) {
     "use strict";
     init_cjs_shims();
     Object.defineProperty(exports2, "__esModule", { value: true });
@@ -2705,9 +2764,9 @@ var require_utils = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/llhttp/constants.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/llhttp/constants.js
 var require_constants2 = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/llhttp/constants.js"(exports2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/llhttp/constants.js"(exports2) {
     "use strict";
     init_cjs_shims();
     Object.defineProperty(exports2, "__esModule", { value: true });
@@ -3027,9 +3086,9 @@ var require_constants2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/llhttp/llhttp-wasm.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/llhttp/llhttp-wasm.js
 var require_llhttp_wasm = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/llhttp/llhttp-wasm.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/llhttp/llhttp-wasm.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { Buffer: Buffer2 } = require("buffer");
@@ -3037,9 +3096,9 @@ var require_llhttp_wasm = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/llhttp/llhttp_simd-wasm.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/llhttp/llhttp_simd-wasm.js
 var require_llhttp_simd_wasm = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/llhttp/llhttp_simd-wasm.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/llhttp/llhttp_simd-wasm.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { Buffer: Buffer2 } = require("buffer");
@@ -3047,9 +3106,9 @@ var require_llhttp_simd_wasm = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fetch/constants.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/constants.js
 var require_constants3 = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fetch/constants.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/constants.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var corsSafeListedMethods = (
@@ -3266,9 +3325,9 @@ var require_constants3 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fetch/global.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/global.js
 var require_global = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fetch/global.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/global.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var globalOrigin = Symbol.for("undici.globalOrigin.1");
@@ -3303,9 +3362,9 @@ var require_global = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fetch/data-url.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/data-url.js
 var require_data_url = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fetch/data-url.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/data-url.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert2 = require("assert");
@@ -3656,9 +3715,9 @@ var require_data_url = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fetch/webidl.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/webidl.js
 var require_webidl = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fetch/webidl.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/webidl.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { types, inspect } = require("util");
@@ -4076,9 +4135,9 @@ var require_webidl = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fetch/util.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/util.js
 var require_util2 = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fetch/util.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/util.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { Transform } = require("stream");
@@ -4957,9 +5016,9 @@ var require_util2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fetch/symbols.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/symbols.js
 var require_symbols2 = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fetch/symbols.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/symbols.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     module2.exports = {
@@ -4972,9 +5031,9 @@ var require_symbols2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fetch/file.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/file.js
 var require_file = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fetch/file.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/file.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { Blob: Blob2, File: File2 } = require("buffer");
@@ -5036,9 +5095,9 @@ var require_file = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fetch/formdata.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/formdata.js
 var require_formdata = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fetch/formdata.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/formdata.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { isBlobLike, iteratorMixin } = require_util2();
@@ -5184,9 +5243,9 @@ var require_formdata = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fetch/formdata-parser.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/formdata-parser.js
 var require_formdata_parser = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fetch/formdata-parser.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/formdata-parser.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { isUSVString, bufferToLowerCasedHeaderName } = require_util();
@@ -5436,9 +5495,9 @@ var require_formdata_parser = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fetch/body.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/body.js
 var require_body = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fetch/body.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/body.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var util = require_util();
@@ -5751,9 +5810,9 @@ Content-Type: ${value.type || "application/octet-stream"}\r
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/dispatcher/client-h1.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/client-h1.js
 var require_client_h1 = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/dispatcher/client-h1.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/client-h1.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert2 = require("assert");
@@ -6091,7 +6150,7 @@ var require_client_h1 = __commonJS({
         }
       }
       onUpgrade(head) {
-        const { upgrade, client, socket, headers, statusCode } = this;
+        const { upgrade, client, socket, headers, statusCode, statusText } = this;
         assert2(upgrade);
         assert2(client[kSocket] === socket);
         assert2(!socket.destroyed);
@@ -6116,9 +6175,10 @@ var require_client_h1 = __commonJS({
         client[kQueue][client[kRunningIdx]++] = null;
         client.emit("disconnect", client[kUrl], [client], new InformationalError("upgrade"));
         try {
-          request.onUpgrade(statusCode, headers, socket);
-        } catch (err) {
-          util.destroy(socket, err);
+          request.onUpgrade(statusCode, headers, socket, statusText);
+        } catch (error3) {
+          util.errorRequest(client, request, error3);
+          util.destroy(socket, error3);
         }
         client[kResume]();
       }
@@ -6410,21 +6470,20 @@ var require_client_h1 = __commonJS({
     }
     function clearIdleSocketValidation(socket) {
       if (socket[kIdleSocketValidationTimeout]) {
-        clearTimeout(socket[kIdleSocketValidationTimeout]);
+        clearImmediate(socket[kIdleSocketValidationTimeout]);
         socket[kIdleSocketValidationTimeout] = null;
       }
       socket[kIdleSocketValidation] = 0;
     }
     function scheduleIdleSocketValidation(client, socket) {
       socket[kIdleSocketValidation] = 1;
-      socket[kIdleSocketValidationTimeout] = setTimeout(() => {
+      socket[kIdleSocketValidationTimeout] = setImmediate(() => {
         socket[kIdleSocketValidationTimeout] = null;
         socket[kIdleSocketValidation] = 2;
         if (client[kSocket] === socket && !socket.destroyed) {
           client[kResume]();
         }
-      }, 0);
-      socket[kIdleSocketValidationTimeout].unref?.();
+      });
     }
     function resumeH1(client) {
       const socket = client[kSocket];
@@ -6522,11 +6581,17 @@ var require_client_h1 = __commonJS({
       }
       const socket = client[kSocket];
       clearIdleSocketValidation(socket);
-      const abort = (err) => {
-        if (request.aborted || request.completed) {
+      const abort = (error3) => {
+        if (request.aborted) {
           return;
         }
-        util.errorRequest(client, request, err || new RequestAbortedError());
+        if (request.completed) {
+          if (request.upgrade || request.method === "CONNECT") {
+            util.destroy(socket, new InformationalError("aborted"));
+          }
+          return;
+        }
+        util.errorRequest(client, request, error3 || new RequestAbortedError());
         util.destroy(body);
         util.destroy(socket, new InformationalError("aborted"));
       };
@@ -6877,12 +6942,13 @@ ${len.toString(16)}\r
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/dispatcher/client-h2.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/client-h2.js
 var require_client_h2 = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/dispatcher/client-h2.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/client-h2.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert2 = require("assert");
+    var { errorMonitor } = require("events");
     var { pipeline } = require("stream");
     var util = require_util();
     var {
@@ -6942,6 +7008,10 @@ var require_client_h2 = __commonJS({
         }
       }
       return result;
+    }
+    function parseH2ResponseHeaders(headers) {
+      const { [HTTP2_HEADER_STATUS]: _statusCode, ...realHeaders } = headers;
+      return parseH2Headers(realHeaders);
     }
     async function connectH2(client, socket) {
       client[kSocket] = socket;
@@ -7106,16 +7176,22 @@ var require_client_h2 = __commonJS({
       const { hostname, port } = client[kUrl];
       headers[HTTP2_HEADER_AUTHORITY] = host || `${hostname}${port ? `:${port}` : ""}`;
       headers[HTTP2_HEADER_METHOD] = method;
-      const abort = (err) => {
-        if (request.aborted || request.completed) {
+      const abort = (error3) => {
+        if (request.aborted) {
           return;
         }
-        err = err || new RequestAbortedError();
-        util.errorRequest(client, request, err);
-        if (stream != null) {
-          util.destroy(stream, err);
+        if (request.completed) {
+          if (method === "CONNECT" && stream != null) {
+            util.destroy(stream, error3 || new RequestAbortedError());
+          }
+          return;
         }
-        util.destroy(body, err);
+        error3 = error3 || new RequestAbortedError();
+        util.errorRequest(client, request, error3);
+        if (stream != null) {
+          util.destroy(stream, error3);
+        }
+        util.destroy(body, error3);
         client[kQueue][client[kRunningIdx]++] = null;
         client[kResume]();
       };
@@ -7130,18 +7206,42 @@ var require_client_h2 = __commonJS({
       if (method === "CONNECT") {
         session.ref();
         stream = session.request(headers, { endStream: false, signal });
-        if (stream.id && !stream.pending) {
-          request.onUpgrade(null, null, stream);
-          ++session[kOpenStreams];
-          client[kQueue][client[kRunningIdx]++] = null;
-        } else {
-          stream.once("ready", () => {
+        let upgradeResponseFinished = false;
+        const onResponse = (headers2) => {
+          upgradeResponseFinished = true;
+          stream.off(errorMonitor, onUpgradeError);
+          request.onUpgradeResponse(Number(headers2[HTTP2_HEADER_STATUS]), headers2, parseH2ResponseHeaders);
+        };
+        const onUpgradeError = (error3) => {
+          upgradeResponseFinished = true;
+          stream.off("response", onResponse);
+          request.onUpgradeError(error3);
+        };
+        const onReady = () => {
+          try {
             request.onUpgrade(null, null, stream);
-            ++session[kOpenStreams];
-            client[kQueue][client[kRunningIdx]++] = null;
-          });
-        }
+          } catch (error3) {
+            stream.off("response", onResponse);
+            abort(error3);
+            return;
+          }
+          if (request.aborted) {
+            return;
+          }
+          stream.off("error", abort);
+          stream.once(errorMonitor, onUpgradeError);
+          client[kQueue][client[kRunningIdx]++] = null;
+        };
+        stream.once("response", onResponse);
+        stream.once("error", abort);
+        ++session[kOpenStreams];
+        onReady();
         stream.once("close", () => {
+          if (!upgradeResponseFinished && request.completed) {
+            stream.off("response", onResponse);
+            stream.off(errorMonitor, onUpgradeError);
+            request.onUpgradeError(new InformationalError(`HTTP/2: "stream error" received - code ${stream.rstCode}`));
+          }
           session[kOpenStreams] -= 1;
           if (session[kOpenStreams] === 0) session.unref();
         });
@@ -7419,9 +7519,9 @@ var require_client_h2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/handler/redirect-handler.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/handler/redirect-handler.js
 var require_redirect_handler = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/handler/redirect-handler.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/handler/redirect-handler.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var util = require_util();
@@ -7579,9 +7679,9 @@ var require_redirect_handler = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/interceptor/redirect-interceptor.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/interceptor/redirect-interceptor.js
 var require_redirect_interceptor = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/interceptor/redirect-interceptor.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/interceptor/redirect-interceptor.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var RedirectHandler = require_redirect_handler();
@@ -7602,9 +7702,9 @@ var require_redirect_interceptor = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/dispatcher/client.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/client.js
 var require_client = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/dispatcher/client.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/client.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert2 = require("assert");
@@ -8104,9 +8204,9 @@ var require_client = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/dispatcher/fixed-queue.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/fixed-queue.js
 var require_fixed_queue = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/dispatcher/fixed-queue.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/fixed-queue.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var kSize = 2048;
@@ -8162,9 +8262,9 @@ var require_fixed_queue = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/dispatcher/pool-stats.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/pool-stats.js
 var require_pool_stats = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/dispatcher/pool-stats.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/pool-stats.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { kFree, kConnected, kPending, kQueued, kRunning, kSize } = require_symbols();
@@ -8196,9 +8296,9 @@ var require_pool_stats = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/dispatcher/pool-base.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/pool-base.js
 var require_pool_base = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/dispatcher/pool-base.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/pool-base.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var DispatcherBase = require_dispatcher_base();
@@ -8352,9 +8452,9 @@ var require_pool_base = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/dispatcher/pool.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/pool.js
 var require_pool = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/dispatcher/pool.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/pool.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var {
@@ -8444,9 +8544,9 @@ var require_pool = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/dispatcher/balanced-pool.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/balanced-pool.js
 var require_balanced_pool = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/dispatcher/balanced-pool.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/balanced-pool.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var {
@@ -8589,9 +8689,9 @@ var require_balanced_pool = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/dispatcher/agent.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/agent.js
 var require_agent = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/dispatcher/agent.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/agent.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { InvalidArgumentError } = require_errors();
@@ -8687,9 +8787,9 @@ var require_agent = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/dispatcher/proxy-agent.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/proxy-agent.js
 var require_proxy_agent = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/dispatcher/proxy-agent.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/proxy-agent.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { kProxy, kClose, kDestroy, kDispatch, kInterceptors } = require_symbols();
@@ -8916,9 +9016,9 @@ var require_proxy_agent = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/dispatcher/env-http-proxy-agent.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/env-http-proxy-agent.js
 var require_env_http_proxy_agent = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/dispatcher/env-http-proxy-agent.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/env-http-proxy-agent.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var DispatcherBase = require_dispatcher_base();
@@ -9059,9 +9159,9 @@ var require_env_http_proxy_agent = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/handler/retry-handler.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/handler/retry-handler.js
 var require_retry_handler = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/handler/retry-handler.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/handler/retry-handler.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert2 = require("assert");
@@ -9148,6 +9248,7 @@ var require_retry_handler = __commonJS({
         this.end = null;
         this.etag = null;
         this.resume = null;
+        this.headersSent = false;
         this.handler.onConnect((reason) => {
           this.aborted = true;
           if (this.abort) {
@@ -9156,6 +9257,17 @@ var require_retry_handler = __commonJS({
             this.reason = reason;
           }
         });
+      }
+      checkpointResponseEnd(headers, resume) {
+        if (this.end == null && this.opts.method !== "HEAD") {
+          const contentLength = headers["content-length"];
+          this.end = contentLength != null ? Number(contentLength) - 1 : null;
+          assert2(
+            this.end == null || Number.isFinite(this.end),
+            "invalid content-length"
+          );
+        }
+        this.resume = this.end != null ? resume : null;
       }
       onRequestSent() {
         if (this.handler.onRequestSent) {
@@ -9218,7 +9330,9 @@ var require_retry_handler = __commonJS({
         const headers = parseHeaders(rawHeaders);
         this.retryCount += 1;
         if (statusCode >= 300) {
-          if (this.retryOpts.statusCodes.includes(statusCode) === false) {
+          if (!this.headersSent && this.retryOpts.statusCodes.includes(statusCode) === false) {
+            this.headersSent = true;
+            this.checkpointResponseEnd(headers, resume);
             return this.handler.onHeaders(
               statusCode,
               rawHeaders,
@@ -9273,8 +9387,15 @@ var require_retry_handler = __commonJS({
             return false;
           }
           const { start, size, end = size - 1 } = contentRange;
-          assert2(this.start === start, "content-range mismatch");
-          assert2(this.end == null || this.end === end, "content-range mismatch");
+          if (this.start !== start || this.end != null && this.end !== end) {
+            this.abort(
+              new RequestRetryError("Content-Range mismatch", statusCode, {
+                headers,
+                data: { count: this.retryCount }
+              })
+            );
+            return false;
+          }
           this.resume = resume;
           return true;
         }
@@ -9282,6 +9403,7 @@ var require_retry_handler = __commonJS({
           if (statusCode === 206) {
             const range = parseRangeHeader(headers["content-range"]);
             if (range == null) {
+              this.headersSent = true;
               return this.handler.onHeaders(
                 statusCode,
                 rawHeaders,
@@ -9313,6 +9435,7 @@ var require_retry_handler = __commonJS({
             "invalid content-length"
           );
           this.resume = resume;
+          this.headersSent = true;
           this.etag = headers.etag != null ? headers.etag : null;
           if (this.etag != null && this.etag.startsWith("W/")) {
             this.etag = null;
@@ -9340,7 +9463,7 @@ var require_retry_handler = __commonJS({
         return this.handler.onComplete(rawTrailers);
       }
       onError(err) {
-        if (this.aborted || isDisturbed(this.opts.body)) {
+        if (this.aborted || isDisturbed(this.opts.body) || this.headersSent && this.resume == null) {
           return this.handler.onError(err);
         }
         if (this.retryCount - this.retryCountCheckpoint > 0) {
@@ -9386,9 +9509,9 @@ var require_retry_handler = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/dispatcher/retry-agent.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/retry-agent.js
 var require_retry_agent = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/dispatcher/retry-agent.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/retry-agent.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var Dispatcher = require_dispatcher();
@@ -9425,9 +9548,9 @@ var require_retry_agent = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/api/readable.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/readable.js
 var require_readable = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/api/readable.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/readable.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert2 = require("assert");
@@ -9719,9 +9842,9 @@ var require_readable = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/api/util.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/util.js
 var require_util3 = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/api/util.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/util.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert2 = require("assert");
@@ -9782,9 +9905,9 @@ var require_util3 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/api/api-request.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/api-request.js
 var require_api_request = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/api/api-request.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/api-request.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert2 = require("assert");
@@ -9969,9 +10092,9 @@ var require_api_request = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/api/abort-signal.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/abort-signal.js
 var require_abort_signal = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/api/abort-signal.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/abort-signal.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { addAbortListener } = require_util();
@@ -10022,9 +10145,9 @@ var require_abort_signal = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/api/api-stream.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/api-stream.js
 var require_api_stream = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/api/api-stream.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/api-stream.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert2 = require("assert");
@@ -10196,9 +10319,9 @@ var require_api_stream = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/api/api-pipeline.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/api-pipeline.js
 var require_api_pipeline = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/api/api-pipeline.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/api-pipeline.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var {
@@ -10397,9 +10520,9 @@ var require_api_pipeline = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/api/api-upgrade.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/api-upgrade.js
 var require_api_upgrade = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/api/api-upgrade.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/api-upgrade.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { InvalidArgumentError, SocketError } = require_errors();
@@ -10490,9 +10613,9 @@ var require_api_upgrade = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/api/api-connect.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/api-connect.js
 var require_api_connect = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/api/api-connect.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/api-connect.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert2 = require("assert");
@@ -10581,9 +10704,9 @@ var require_api_connect = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/api/index.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/index.js
 var require_api = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/api/index.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/index.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     module2.exports.request = require_api_request();
@@ -10594,9 +10717,9 @@ var require_api = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/mock/mock-errors.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-errors.js
 var require_mock_errors = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/mock/mock-errors.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-errors.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { UndiciError } = require_errors();
@@ -10621,9 +10744,9 @@ var require_mock_errors = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/mock/mock-symbols.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-symbols.js
 var require_mock_symbols = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/mock/mock-symbols.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-symbols.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     module2.exports = {
@@ -10650,9 +10773,9 @@ var require_mock_symbols = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/mock/mock-utils.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-utils.js
 var require_mock_utils = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/mock/mock-utils.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-utils.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { MockNotMatchedError } = require_mock_errors();
@@ -10947,9 +11070,9 @@ var require_mock_utils = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/mock/mock-interceptor.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-interceptor.js
 var require_mock_interceptor = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/mock/mock-interceptor.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-interceptor.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { getResponseData, buildKey, addMockDispatch } = require_mock_utils();
@@ -11110,9 +11233,9 @@ var require_mock_interceptor = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/mock/mock-client.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-client.js
 var require_mock_client = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/mock/mock-client.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-client.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { promisify } = require("util");
@@ -11164,9 +11287,9 @@ var require_mock_client = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/mock/mock-pool.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-pool.js
 var require_mock_pool = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/mock/mock-pool.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-pool.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { promisify } = require("util");
@@ -11218,9 +11341,9 @@ var require_mock_pool = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/mock/pluralizer.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/pluralizer.js
 var require_pluralizer = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/mock/pluralizer.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/pluralizer.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var singulars = {
@@ -11250,9 +11373,9 @@ var require_pluralizer = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/mock/pending-interceptors-formatter.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/pending-interceptors-formatter.js
 var require_pending_interceptors_formatter = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/mock/pending-interceptors-formatter.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/pending-interceptors-formatter.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { Transform } = require("stream");
@@ -11292,9 +11415,9 @@ var require_pending_interceptors_formatter = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/mock/mock-agent.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-agent.js
 var require_mock_agent = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/mock/mock-agent.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-agent.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { kClients } = require_symbols();
@@ -11423,9 +11546,9 @@ ${pendingInterceptorsFormatter.format(pending)}
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/global.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/global.js
 var require_global2 = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/global.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/global.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var globalDispatcher = Symbol.for("undici.globalDispatcher.1");
@@ -11455,9 +11578,9 @@ var require_global2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/handler/decorator-handler.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/handler/decorator-handler.js
 var require_decorator_handler = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/handler/decorator-handler.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/handler/decorator-handler.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var _handler, _a3;
@@ -11497,9 +11620,9 @@ var require_decorator_handler = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/interceptor/redirect.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/interceptor/redirect.js
 var require_redirect = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/interceptor/redirect.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/interceptor/redirect.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var RedirectHandler = require_redirect_handler();
@@ -11524,9 +11647,9 @@ var require_redirect = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/interceptor/retry.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/interceptor/retry.js
 var require_retry = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/interceptor/retry.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/interceptor/retry.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var RetryHandler = require_retry_handler();
@@ -11549,9 +11672,9 @@ var require_retry = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/interceptor/dump.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/interceptor/dump.js
 var require_dump = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/interceptor/dump.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/interceptor/dump.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var util = require_util();
@@ -11658,9 +11781,9 @@ var require_dump = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/interceptor/dns.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/interceptor/dns.js
 var require_dns = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/interceptor/dns.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/interceptor/dns.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { isIP } = require("net");
@@ -11960,9 +12083,9 @@ var require_dns = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fetch/headers.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/headers.js
 var require_headers = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fetch/headers.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/headers.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { kConstruct } = require_symbols();
@@ -12409,9 +12532,9 @@ var require_headers = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fetch/response.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/response.js
 var require_response = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fetch/response.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/response.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { Headers: Headers2, HeadersList, fill, getHeadersGuard, setHeadersGuard, setHeadersList } = require_headers();
@@ -12809,9 +12932,9 @@ var require_response = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fetch/dispatcher-weakref.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/dispatcher-weakref.js
 var require_dispatcher_weakref = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fetch/dispatcher-weakref.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/dispatcher-weakref.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { kConnected, kSize } = require_symbols();
@@ -12852,9 +12975,9 @@ var require_dispatcher_weakref = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fetch/request.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/request.js
 var require_request2 = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fetch/request.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/request.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { extractBody, mixinBody, cloneBody, bodyUnusable } = require_body();
@@ -13548,9 +13671,9 @@ var require_request2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fetch/index.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/index.js
 var require_fetch = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fetch/index.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/index.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var {
@@ -14616,9 +14739,9 @@ var require_fetch = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fileapi/symbols.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fileapi/symbols.js
 var require_symbols3 = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fileapi/symbols.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fileapi/symbols.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     module2.exports = {
@@ -14632,9 +14755,9 @@ var require_symbols3 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fileapi/progressevent.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fileapi/progressevent.js
 var require_progressevent = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fileapi/progressevent.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fileapi/progressevent.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { webidl } = require_webidl();
@@ -14701,9 +14824,9 @@ var require_progressevent = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fileapi/encoding.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fileapi/encoding.js
 var require_encoding = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fileapi/encoding.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fileapi/encoding.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     function getEncoding(label) {
@@ -14988,9 +15111,9 @@ var require_encoding = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fileapi/util.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fileapi/util.js
 var require_util4 = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fileapi/util.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fileapi/util.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var {
@@ -15174,9 +15297,9 @@ var require_util4 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fileapi/filereader.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fileapi/filereader.js
 var require_filereader = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/fileapi/filereader.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fileapi/filereader.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var {
@@ -15434,9 +15557,9 @@ var require_filereader = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/cache/symbols.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cache/symbols.js
 var require_symbols4 = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/cache/symbols.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cache/symbols.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     module2.exports = {
@@ -15445,9 +15568,9 @@ var require_symbols4 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/cache/util.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cache/util.js
 var require_util5 = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/cache/util.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cache/util.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert2 = require("assert");
@@ -15476,9 +15599,9 @@ var require_util5 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/cache/cache.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cache/cache.js
 var require_cache = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/cache/cache.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cache/cache.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { kConstruct } = require_symbols4();
@@ -16027,9 +16150,9 @@ var require_cache = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/cache/cachestorage.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cache/cachestorage.js
 var require_cachestorage = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/cache/cachestorage.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cache/cachestorage.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { kConstruct } = require_symbols4();
@@ -16141,9 +16264,9 @@ var require_cachestorage = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/cookies/constants.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cookies/constants.js
 var require_constants4 = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/cookies/constants.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cookies/constants.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var maxAttributeValueSize = 1024;
@@ -16155,9 +16278,9 @@ var require_constants4 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/cookies/util.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cookies/util.js
 var require_util6 = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/cookies/util.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cookies/util.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     function isCTLExcludingHtab(value) {
@@ -16364,9 +16487,9 @@ var require_util6 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/cookies/parse.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cookies/parse.js
 var require_parse = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/cookies/parse.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cookies/parse.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { maxNameValuePairSize, maxAttributeValueSize } = require_constants4();
@@ -16501,9 +16624,9 @@ var require_parse = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/cookies/index.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cookies/index.js
 var require_cookies = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/cookies/index.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cookies/index.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { parseSetCookie } = require_parse();
@@ -16631,9 +16754,9 @@ var require_cookies = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/websocket/events.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/events.js
 var require_events = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/websocket/events.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/events.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { webidl } = require_webidl();
@@ -16912,9 +17035,9 @@ var require_events = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/websocket/constants.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/constants.js
 var require_constants5 = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/websocket/constants.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/constants.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var uid = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
@@ -16970,9 +17093,9 @@ var require_constants5 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/websocket/symbols.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/symbols.js
 var require_symbols5 = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/websocket/symbols.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/symbols.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     module2.exports = {
@@ -16988,9 +17111,9 @@ var require_symbols5 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/websocket/util.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/util.js
 var require_util7 = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/websocket/util.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/util.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { kReadyState, kController, kResponse, kBinaryType, kWebSocketURL } = require_symbols5();
@@ -17162,9 +17285,9 @@ var require_util7 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/websocket/frame.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/frame.js
 var require_frame = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/websocket/frame.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/frame.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { maxUnsigned16Bit } = require_constants5();
@@ -17240,9 +17363,9 @@ var require_frame = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/websocket/connection.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/connection.js
 var require_connection = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/websocket/connection.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/connection.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { uid, states, sentCloseFrameState, emptyBuffer, opcodes } = require_constants5();
@@ -17330,7 +17453,7 @@ var require_connection = __commonJS({
           const secProtocol = response.headersList.get("Sec-WebSocket-Protocol");
           if (secProtocol !== null) {
             const requestProtocols = getDecodeSplit("sec-websocket-protocol", request.headersList);
-            if (!requestProtocols.includes(secProtocol)) {
+            if (requestProtocols === null || !requestProtocols.includes(secProtocol)) {
               failWebsocketConnection(ws, "Protocol was not set in the opening handshake.");
               return;
             }
@@ -17426,9 +17549,9 @@ var require_connection = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/websocket/permessage-deflate.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/permessage-deflate.js
 var require_permessage_deflate = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/websocket/permessage-deflate.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/permessage-deflate.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { createInflateRaw, Z_DEFAULT_WINDOWBITS } = require("zlib");
@@ -17480,6 +17603,7 @@ var require_permessage_deflate = __commonJS({
             if (__privateGet(this, _maxPayloadSize) > 0 && __privateGet(this, _inflate)[kLength] > __privateGet(this, _maxPayloadSize)) {
               callback(new MessageSizeExceededError());
               __privateGet(this, _inflate).removeAllListeners();
+              __privateGet(this, _inflate).destroy();
               __privateSet(this, _inflate, null);
               return;
             }
@@ -17512,9 +17636,9 @@ var require_permessage_deflate = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/websocket/receiver.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/receiver.js
 var require_receiver = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/websocket/receiver.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/receiver.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { Writable } = require("stream");
@@ -17898,9 +18022,9 @@ var require_receiver = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/websocket/sender.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/sender.js
 var require_sender = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/websocket/sender.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/sender.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { WebsocketFrameSend } = require_frame();
@@ -17987,9 +18111,9 @@ var require_sender = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/websocket/websocket.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/websocket.js
 var require_websocket = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/websocket/websocket.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/websocket.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { webidl } = require_webidl();
@@ -18387,9 +18511,9 @@ var require_websocket = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/eventsource/util.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/eventsource/util.js
 var require_util8 = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/eventsource/util.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/eventsource/util.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     function isValidLastEventId(value) {
@@ -18415,9 +18539,9 @@ var require_util8 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/eventsource/eventsource-stream.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/eventsource/eventsource-stream.js
 var require_eventsource_stream = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/eventsource/eventsource-stream.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/eventsource/eventsource-stream.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { Transform } = require("stream");
@@ -18427,6 +18551,40 @@ var require_eventsource_stream = __commonJS({
     var CR = 13;
     var COLON = 58;
     var SPACE = 32;
+    var DATA = Buffer.from("data");
+    var EVENT = Buffer.from("event");
+    var ID = Buffer.from("id");
+    var RETRY = Buffer.from("retry");
+    function isASCIINumberBytes(buffer, start) {
+      if (start >= buffer.length) {
+        return false;
+      }
+      for (let i = start; i < buffer.length; i++) {
+        if (buffer[i] < 48 || buffer[i] > 57) {
+          return false;
+        }
+      }
+      return true;
+    }
+    function isValidLastEventIdBytes(buffer, start) {
+      for (let i = start; i < buffer.length; i++) {
+        if (buffer[i] === 0) {
+          return false;
+        }
+      }
+      return true;
+    }
+    function isFieldName(line, length, field) {
+      if (length !== field.length) {
+        return false;
+      }
+      for (let i = 0; i < length; i++) {
+        if (line[i] !== field[i]) {
+          return false;
+        }
+      }
+      return true;
+    }
     var EventSourceStream = class extends Transform {
       /**
        * @param {object} options
@@ -18454,10 +18612,13 @@ var require_eventsource_stream = __commonJS({
          */
         __publicField(this, "eventEndCheck", false);
         /**
-         * @type {Buffer}
+         * @type {Buffer[]}
          */
-        __publicField(this, "buffer", null);
+        __publicField(this, "chunks", []);
+        __publicField(this, "chunkIndex", 0);
         __publicField(this, "pos", 0);
+        __publicField(this, "lineChunkIndex", 0);
+        __publicField(this, "linePos", 0);
         __publicField(this, "event", {
           data: void 0,
           event: void 0,
@@ -18480,63 +18641,30 @@ var require_eventsource_stream = __commonJS({
           callback();
           return;
         }
-        if (this.buffer) {
-          this.buffer = Buffer.concat([this.buffer, chunk]);
-        } else {
-          this.buffer = chunk;
-        }
+        this.chunks.push(chunk);
         if (this.checkBOM) {
-          switch (this.buffer.length) {
-            case 1:
-              if (this.buffer[0] === BOM[0]) {
-                callback();
-                return;
-              }
-              this.checkBOM = false;
-              callback();
-              return;
-            case 2:
-              if (this.buffer[0] === BOM[0] && this.buffer[1] === BOM[1]) {
-                callback();
-                return;
-              }
-              this.checkBOM = false;
-              break;
-            case 3:
-              if (this.buffer[0] === BOM[0] && this.buffer[1] === BOM[1] && this.buffer[2] === BOM[2]) {
-                this.buffer = Buffer.alloc(0);
-                this.checkBOM = false;
-                callback();
-                return;
-              }
-              this.checkBOM = false;
-              break;
-            default:
-              if (this.buffer[0] === BOM[0] && this.buffer[1] === BOM[1] && this.buffer[2] === BOM[2]) {
-                this.buffer = this.buffer.subarray(3);
-              }
-              this.checkBOM = false;
-              break;
+          if (this.handleBOM()) {
+            callback();
+            return;
           }
         }
-        while (this.pos < this.buffer.length) {
+        while (this.hasCurrentByte()) {
+          const byte = this.currentByte();
           if (this.eventEndCheck) {
             if (this.crlfCheck) {
-              if (this.buffer[this.pos] === LF) {
-                this.buffer = this.buffer.subarray(this.pos + 1);
-                this.pos = 0;
+              if (byte === LF) {
                 this.crlfCheck = false;
+                this.consumeCurrentByte();
                 continue;
               }
               this.crlfCheck = false;
             }
-            if (this.buffer[this.pos] === LF || this.buffer[this.pos] === CR) {
-              if (this.buffer[this.pos] === CR) {
+            if (byte === LF || byte === CR) {
+              if (byte === CR) {
                 this.crlfCheck = true;
               }
-              this.buffer = this.buffer.subarray(this.pos + 1);
-              this.pos = 0;
-              if (this.event.data !== void 0 || this.event.event || this.event.id || this.event.retry) {
+              this.consumeCurrentByte();
+              if (this.hasPendingEvent()) {
                 this.processEvent(this.event);
               }
               this.clearEvent();
@@ -18545,17 +18673,16 @@ var require_eventsource_stream = __commonJS({
             this.eventEndCheck = false;
             continue;
           }
-          if (this.buffer[this.pos] === LF || this.buffer[this.pos] === CR) {
-            if (this.buffer[this.pos] === CR) {
+          if (byte === LF || byte === CR) {
+            if (byte === CR) {
               this.crlfCheck = true;
             }
-            this.parseLine(this.buffer.subarray(0, this.pos), this.event);
-            this.buffer = this.buffer.subarray(this.pos + 1);
-            this.pos = 0;
+            this.parseLine(this.readLine(), this.event);
+            this.consumeCurrentByte();
             this.eventEndCheck = true;
             continue;
           }
-          this.pos++;
+          this.advanceCursor();
         }
         callback();
       }
@@ -18571,43 +18698,42 @@ var require_eventsource_stream = __commonJS({
         if (colonPosition === 0) {
           return;
         }
-        let field = "";
-        let value = "";
+        let fieldLength = line.length;
+        let valueStart = line.length;
         if (colonPosition !== -1) {
-          field = line.subarray(0, colonPosition).toString("utf8");
-          let valueStart = colonPosition + 1;
+          fieldLength = colonPosition;
+          valueStart = colonPosition + 1;
           if (line[valueStart] === SPACE) {
             ++valueStart;
           }
-          value = line.subarray(valueStart).toString("utf8");
-        } else {
-          field = line.toString("utf8");
-          value = "";
         }
-        switch (field) {
-          case "data":
-            if (event[field] === void 0) {
-              event[field] = value;
-            } else {
-              event[field] += `
+        if (isFieldName(line, fieldLength, DATA)) {
+          const value = line.toString("utf8", valueStart);
+          if (event.data === void 0) {
+            event.data = value;
+          } else {
+            event.data += `
 ${value}`;
-            }
-            break;
-          case "retry":
-            if (isASCIINumber(value)) {
-              event[field] = value;
-            }
-            break;
-          case "id":
-            if (isValidLastEventId(value)) {
-              event[field] = value;
-            }
-            break;
-          case "event":
-            if (value.length > 0) {
-              event[field] = value;
-            }
-            break;
+          }
+          return;
+        }
+        if (isFieldName(line, fieldLength, RETRY)) {
+          if (isASCIINumberBytes(line, valueStart)) {
+            event.retry = line.toString("utf8", valueStart);
+          }
+          return;
+        }
+        if (isFieldName(line, fieldLength, ID)) {
+          if (isValidLastEventIdBytes(line, valueStart)) {
+            event.id = line.toString("utf8", valueStart);
+          }
+          return;
+        }
+        if (isFieldName(line, fieldLength, EVENT)) {
+          const value = line.toString("utf8", valueStart);
+          if (value.length > 0) {
+            event.event = value;
+          }
         }
       }
       /**
@@ -18632,12 +18758,120 @@ ${value}`;
         }
       }
       clearEvent() {
-        this.event = {
-          data: void 0,
-          event: void 0,
-          id: void 0,
-          retry: void 0
-        };
+        this.event.data = void 0;
+        this.event.event = void 0;
+        this.event.id = void 0;
+        this.event.retry = void 0;
+      }
+      hasPendingEvent() {
+        return this.event.data !== void 0 || this.event.event !== void 0 || this.event.id !== void 0 || this.event.retry !== void 0;
+      }
+      hasCurrentByte() {
+        return this.chunkIndex < this.chunks.length && this.pos < this.chunks[this.chunkIndex].length;
+      }
+      currentByte() {
+        return this.chunks[this.chunkIndex][this.pos];
+      }
+      consumeCurrentByte() {
+        this.advanceCursor();
+        this.syncLineStartToCursor();
+      }
+      advanceCursor() {
+        this.pos++;
+        while (this.chunkIndex < this.chunks.length && this.pos >= this.chunks[this.chunkIndex].length) {
+          this.chunkIndex++;
+          this.pos = 0;
+        }
+      }
+      syncLineStartToCursor() {
+        this.lineChunkIndex = this.chunkIndex;
+        this.linePos = this.pos;
+        this.dropConsumedChunks();
+      }
+      dropConsumedChunks() {
+        while (this.lineChunkIndex > 0) {
+          this.chunks.shift();
+          this.lineChunkIndex--;
+          this.chunkIndex--;
+        }
+        if (this.chunkIndex === this.chunks.length) {
+          this.chunks.length = 0;
+          this.chunkIndex = 0;
+          this.pos = 0;
+          this.lineChunkIndex = 0;
+          this.linePos = 0;
+        }
+      }
+      readLine() {
+        if (this.lineChunkIndex === this.chunkIndex) {
+          return this.chunks[this.chunkIndex].subarray(this.linePos, this.pos);
+        }
+        const chunks = [];
+        let length = 0;
+        for (let i = this.lineChunkIndex; i <= this.chunkIndex; i++) {
+          const chunk = this.chunks[i];
+          const start = i === this.lineChunkIndex ? this.linePos : 0;
+          const end = i === this.chunkIndex ? this.pos : chunk.length;
+          const slice = chunk.subarray(start, end);
+          length += slice.length;
+          chunks.push(slice);
+        }
+        return Buffer.concat(chunks, length);
+      }
+      peekBufferedByte(offset) {
+        let chunkIndex = this.lineChunkIndex;
+        let pos = this.linePos;
+        while (chunkIndex < this.chunks.length) {
+          const chunk = this.chunks[chunkIndex];
+          const remaining = chunk.length - pos;
+          if (offset < remaining) {
+            return chunk[pos + offset];
+          }
+          offset -= remaining;
+          chunkIndex++;
+          pos = 0;
+        }
+      }
+      discardLeadingBytes(count) {
+        while (count > 0 && this.lineChunkIndex < this.chunks.length) {
+          const chunk = this.chunks[this.lineChunkIndex];
+          const remaining = chunk.length - this.linePos;
+          if (count < remaining) {
+            this.linePos += count;
+            count = 0;
+          } else {
+            count -= remaining;
+            this.lineChunkIndex++;
+            this.linePos = 0;
+          }
+        }
+        this.chunkIndex = this.lineChunkIndex;
+        this.pos = this.linePos;
+        this.dropConsumedChunks();
+      }
+      handleBOM() {
+        const first = this.peekBufferedByte(0);
+        const second = this.peekBufferedByte(1);
+        const third = this.peekBufferedByte(2);
+        if (second === void 0) {
+          if (first === BOM[0]) {
+            return true;
+          }
+          this.checkBOM = false;
+          return true;
+        }
+        if (third === void 0) {
+          if (first === BOM[0] && second === BOM[1]) {
+            return true;
+          }
+          this.checkBOM = false;
+          return false;
+        }
+        if (first === BOM[0] && second === BOM[1] && third === BOM[2]) {
+          this.discardLeadingBytes(3);
+        }
+        this.checkBOM = false;
+        return !this.hasCurrentByte();
       }
     };
     module2.exports = {
@@ -18646,9 +18880,9 @@ ${value}`;
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/eventsource/eventsource.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/eventsource/eventsource.js
 var require_eventsource = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/lib/web/eventsource/eventsource.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/eventsource/eventsource.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { pipeline } = require("stream");
@@ -18952,9 +19186,9 @@ var require_eventsource = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.28.0/node_modules/undici/index.js
+// node_modules/.pnpm/undici@6.29.0/node_modules/undici/index.js
 var require_undici = __commonJS({
-  "node_modules/.pnpm/undici@6.28.0/node_modules/undici/index.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/index.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var Client = require_client();
@@ -19310,9 +19544,9 @@ var require_lib = __commonJS({
   }
 });
 
-// node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/utils.js
+// node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/utils.js
 var require_utils2 = __commonJS({
-  "node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/utils.js"(exports2) {
+  "node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/utils.js"(exports2) {
     "use strict";
     init_cjs_shims();
     exports2.__esModule = true;
@@ -19372,7 +19606,7 @@ var require_utils2 = __commonJS({
     }
     function escapeExpression(string3) {
       if (typeof string3 !== "string") {
-        if (string3 && string3.toHTML) {
+        if (string3 && typeof string3.toHTML === "function") {
           return string3.toHTML();
         } else if (string3 == null) {
           return "";
@@ -19410,20 +19644,22 @@ var require_utils2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/exception.js
+// node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/exception.js
 var require_exception = __commonJS({
-  "node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/exception.js"(exports2, module2) {
+  "node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/exception.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     exports2.__esModule = true;
     var errorProps = ["description", "fileName", "lineNumber", "endLineNumber", "message", "name", "number", "stack"];
     function Exception(message, node2) {
       var loc = node2 && node2.loc, line = void 0, endLineNumber = void 0, column = void 0, endColumn = void 0;
-      if (loc) {
+      if (loc && loc.start) {
         line = loc.start.line;
-        endLineNumber = loc.end.line;
         column = loc.start.column;
-        endColumn = loc.end.column;
+        if (loc.end) {
+          endLineNumber = loc.end.line;
+          endColumn = loc.end.column;
+        }
         message += " - " + line + ":" + column;
       }
       var tmp = Error.prototype.constructor.call(this, message);
@@ -19460,9 +19696,9 @@ var require_exception = __commonJS({
   }
 });
 
-// node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/helpers/block-helper-missing.js
+// node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/helpers/block-helper-missing.js
 var require_block_helper_missing = __commonJS({
-  "node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/helpers/block-helper-missing.js"(exports2, module2) {
+  "node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/helpers/block-helper-missing.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     exports2.__esModule = true;
@@ -19497,9 +19733,9 @@ var require_block_helper_missing = __commonJS({
   }
 });
 
-// node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/helpers/each.js
+// node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/helpers/each.js
 var require_each = __commonJS({
-  "node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/helpers/each.js"(exports2, module2) {
+  "node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/helpers/each.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     exports2.__esModule = true;
@@ -19509,6 +19745,15 @@ var require_each = __commonJS({
     var _utils = require_utils2();
     var _exception = require_exception();
     var _exception2 = _interopRequireDefault(_exception);
+    function closeIterator(iterator) {
+      try {
+        var _close = iterator["return"];
+        if (_utils.isFunction(_close)) {
+          _close.call(iterator);
+        }
+      } catch (closeError) {
+      }
+    }
     exports2["default"] = function(instance) {
       instance.registerHelper("each", function(context, options2) {
         if (!options2) {
@@ -19524,7 +19769,7 @@ var require_each = __commonJS({
         if (options2.data) {
           data = _utils.createFrame(options2.data);
         }
-        function execIteration(field, index, last) {
+        function execIteration(field, index, last, value) {
           if (data) {
             data.key = field;
             data.index = index;
@@ -19534,40 +19779,46 @@ var require_each = __commonJS({
               data.contextPath = contextPath + field;
             }
           }
-          ret = ret + fn(context[field], {
+          ret = ret + fn(value, {
             data,
-            blockParams: _utils.blockParams([context[field], field], [contextPath + field, null])
+            blockParams: _utils.blockParams([value, field], [contextPath + field, null])
           });
         }
         if (context && typeof context === "object") {
           if (_utils.isArray(context)) {
             for (var j = context.length; i < j; i++) {
               if (i in context) {
-                execIteration(i, i, i === context.length - 1);
+                execIteration(i, i, i === context.length - 1, context[i]);
               }
             }
           } else if (typeof Symbol === "function" && context[Symbol.iterator]) {
-            var newContext = [];
             var iterator = context[Symbol.iterator]();
-            for (var it = iterator.next(); !it.done; it = iterator.next()) {
-              newContext.push(it.value);
-            }
-            context = newContext;
-            for (var j = context.length; i < j; i++) {
-              execIteration(i, i, i === context.length - 1);
+            var current = iterator.next();
+            while (!current.done) {
+              var next = iterator.next();
+              try {
+                execIteration(i, i, next.done, current.value);
+              } catch (e) {
+                if (!next.done) {
+                  closeIterator(iterator);
+                }
+                throw e;
+              }
+              current = next;
+              i++;
             }
           } else {
             (function() {
               var priorKey = void 0;
               Object.keys(context).forEach(function(key) {
                 if (priorKey !== void 0) {
-                  execIteration(priorKey, i - 1);
+                  execIteration(priorKey, i - 1, false, context[priorKey]);
                 }
                 priorKey = key;
                 i++;
               });
               if (priorKey !== void 0) {
-                execIteration(priorKey, i - 1, true);
+                execIteration(priorKey, i - 1, true, context[priorKey]);
               }
             })();
           }
@@ -19582,9 +19833,9 @@ var require_each = __commonJS({
   }
 });
 
-// node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/helpers/helper-missing.js
+// node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/helpers/helper-missing.js
 var require_helper_missing = __commonJS({
-  "node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/helpers/helper-missing.js"(exports2, module2) {
+  "node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/helpers/helper-missing.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     exports2.__esModule = true;
@@ -19606,9 +19857,9 @@ var require_helper_missing = __commonJS({
   }
 });
 
-// node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/helpers/if.js
+// node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/helpers/if.js
 var require_if = __commonJS({
-  "node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/helpers/if.js"(exports2, module2) {
+  "node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/helpers/if.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     exports2.__esModule = true;
@@ -19647,9 +19898,9 @@ var require_if = __commonJS({
   }
 });
 
-// node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/helpers/log.js
+// node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/helpers/log.js
 var require_log = __commonJS({
-  "node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/helpers/log.js"(exports2, module2) {
+  "node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/helpers/log.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     exports2.__esModule = true;
@@ -19673,9 +19924,9 @@ var require_log = __commonJS({
   }
 });
 
-// node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/helpers/lookup.js
+// node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/helpers/lookup.js
 var require_lookup = __commonJS({
-  "node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/helpers/lookup.js"(exports2, module2) {
+  "node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/helpers/lookup.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     exports2.__esModule = true;
@@ -19691,9 +19942,9 @@ var require_lookup = __commonJS({
   }
 });
 
-// node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/helpers/with.js
+// node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/helpers/with.js
 var require_with = __commonJS({
-  "node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/helpers/with.js"(exports2, module2) {
+  "node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/helpers/with.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     exports2.__esModule = true;
@@ -19731,9 +19982,9 @@ var require_with = __commonJS({
   }
 });
 
-// node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/helpers.js
+// node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/helpers.js
 var require_helpers = __commonJS({
-  "node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/helpers.js"(exports2) {
+  "node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/helpers.js"(exports2) {
     "use strict";
     init_cjs_shims();
     exports2.__esModule = true;
@@ -19776,9 +20027,9 @@ var require_helpers = __commonJS({
   }
 });
 
-// node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/decorators/inline.js
+// node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/decorators/inline.js
 var require_inline = __commonJS({
-  "node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/decorators/inline.js"(exports2, module2) {
+  "node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/decorators/inline.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     exports2.__esModule = true;
@@ -19804,9 +20055,9 @@ var require_inline = __commonJS({
   }
 });
 
-// node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/decorators.js
+// node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/decorators.js
 var require_decorators = __commonJS({
-  "node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/decorators.js"(exports2) {
+  "node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/decorators.js"(exports2) {
     "use strict";
     init_cjs_shims();
     exports2.__esModule = true;
@@ -19822,9 +20073,9 @@ var require_decorators = __commonJS({
   }
 });
 
-// node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/logger.js
+// node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/logger.js
 var require_logger = __commonJS({
-  "node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/logger.js"(exports2, module2) {
+  "node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/logger.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     exports2.__esModule = true;
@@ -19864,14 +20115,15 @@ var require_logger = __commonJS({
   }
 });
 
-// node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/internal/proto-access.js
+// node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/internal/proto-access.js
 var require_proto_access = __commonJS({
-  "node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/internal/proto-access.js"(exports2) {
+  "node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/internal/proto-access.js"(exports2) {
     "use strict";
     init_cjs_shims();
     exports2.__esModule = true;
     exports2.createProtoAccessControl = createProtoAccessControl;
     exports2.resultIsAllowed = resultIsAllowed;
+    exports2.isPrototypeConstructor = isPrototypeConstructor;
     exports2.resetLoggedProperties = resetLoggedProperties;
     function _interopRequireDefault(obj) {
       return obj && obj.__esModule ? obj : { "default": obj };
@@ -19909,6 +20161,9 @@ var require_proto_access = __commonJS({
         return checkWhiteList(protoAccessControl.properties, propertyName);
       }
     }
+    function isPrototypeConstructor(parent, propertyName, result) {
+      return propertyName === "constructor" && typeof result === "function" && parent === result.prototype;
+    }
     function checkWhiteList(protoAccessControlForType, propertyName) {
       if (protoAccessControlForType.whitelist[propertyName] !== void 0) {
         return protoAccessControlForType.whitelist[propertyName] === true;
@@ -19933,9 +20188,9 @@ var require_proto_access = __commonJS({
   }
 });
 
-// node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/base.js
+// node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/base.js
 var require_base = __commonJS({
-  "node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/base.js"(exports2) {
+  "node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/base.js"(exports2) {
     "use strict";
     init_cjs_shims();
     exports2.__esModule = true;
@@ -19951,7 +20206,7 @@ var require_base = __commonJS({
     var _logger = require_logger();
     var _logger2 = _interopRequireDefault(_logger);
     var _internalProtoAccess = require_proto_access();
-    var VERSION = "4.7.9";
+    var VERSION = "4.7.10";
     exports2.VERSION = VERSION;
     var COMPILER_REVISION = 8;
     exports2.COMPILER_REVISION = COMPILER_REVISION;
@@ -20035,9 +20290,9 @@ var require_base = __commonJS({
   }
 });
 
-// node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/safe-string.js
+// node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/safe-string.js
 var require_safe_string = __commonJS({
-  "node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/safe-string.js"(exports2, module2) {
+  "node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/safe-string.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     exports2.__esModule = true;
@@ -20052,9 +20307,9 @@ var require_safe_string = __commonJS({
   }
 });
 
-// node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/internal/wrapHelper.js
+// node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/internal/wrapHelper.js
 var require_wrapHelper = __commonJS({
-  "node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/internal/wrapHelper.js"(exports2) {
+  "node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/internal/wrapHelper.js"(exports2) {
     "use strict";
     init_cjs_shims();
     exports2.__esModule = true;
@@ -20073,9 +20328,9 @@ var require_wrapHelper = __commonJS({
   }
 });
 
-// node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/runtime.js
+// node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/runtime.js
 var require_runtime = __commonJS({
-  "node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/runtime.js"(exports2) {
+  "node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/runtime.js"(exports2) {
     "use strict";
     init_cjs_shims();
     exports2.__esModule = true;
@@ -20143,7 +20398,13 @@ var require_runtime = __commonJS({
         options2.hooks = this.hooks;
         options2.protoAccessControl = this.protoAccessControl;
         var result = env.VM.invokePartial.call(this, partial2, context, options2);
+        if (result == null && Utils.isFunction(partial2)) {
+          throw new _exception2["default"]("The partial " + options2.name + " returned no output: partials must return a string");
+        }
         if (result == null && env.compile) {
+          if (typeof partial2 !== "string") {
+            throw new _exception2["default"]("The partial " + options2.name + " could not be compiled: partials must be strings or functions returning strings");
+          }
           options2.partials[options2.name] = env.compile(partial2, templateSpec.compilerOptions, env);
           result = options2.partials[options2.name](context, options2);
         }
@@ -20177,7 +20438,7 @@ var require_runtime = __commonJS({
           if (result == null) {
             return result;
           }
-          if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          if (Object.prototype.hasOwnProperty.call(parent, propertyName) && !_internalProtoAccess.isPrototypeConstructor(parent, propertyName, result)) {
             return result;
           }
           if (_internalProtoAccess.resultIsAllowed(result, container.protoAccessControl, propertyName)) {
@@ -20312,7 +20573,7 @@ var require_runtime = __commonJS({
         } else {
           partial2 = lookupOwnProperty(options2.partials, options2.name);
         }
-      } else if (!partial2.call && !options2.name) {
+      } else if (typeof partial2 !== "function" && !options2.name) {
         options2.name = partial2;
         partial2 = lookupOwnProperty(options2.partials, partial2);
       }
@@ -20389,9 +20650,9 @@ var require_runtime = __commonJS({
   }
 });
 
-// node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/no-conflict.js
+// node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/no-conflict.js
 var require_no_conflict = __commonJS({
-  "node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/no-conflict.js"(exports2, module2) {
+  "node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/no-conflict.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     exports2.__esModule = true;
@@ -20416,9 +20677,9 @@ var require_no_conflict = __commonJS({
   }
 });
 
-// node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars.runtime.js
+// node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars.runtime.js
 var require_handlebars_runtime = __commonJS({
-  "node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars.runtime.js"(exports2, module2) {
+  "node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars.runtime.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     exports2.__esModule = true;
@@ -20473,9 +20734,9 @@ var require_handlebars_runtime = __commonJS({
   }
 });
 
-// node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/compiler/ast.js
+// node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/compiler/ast.js
 var require_ast = __commonJS({
-  "node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/compiler/ast.js"(exports2, module2) {
+  "node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/compiler/ast.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     exports2.__esModule = true;
@@ -20503,9 +20764,9 @@ var require_ast = __commonJS({
   }
 });
 
-// node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/compiler/parser.js
+// node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/compiler/parser.js
 var require_parser = __commonJS({
-  "node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/compiler/parser.js"(exports2, module2) {
+  "node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/compiler/parser.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     exports2.__esModule = true;
@@ -21214,9 +21475,20 @@ var require_parser = __commonJS({
   }
 });
 
-// node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/compiler/visitor.js
+// node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/compiler/node-types.js
+var require_node_types = __commonJS({
+  "node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/compiler/node-types.js"(exports2) {
+    "use strict";
+    init_cjs_shims();
+    exports2.__esModule = true;
+    var NODE_TYPES = ["Program", "BlockStatement", "DecoratorBlock", "PartialStatement", "PartialBlockStatement", "Decorator", "MustacheStatement", "ContentStatement", "CommentStatement", "SubExpression", "PathExpression", "StringLiteral", "NumberLiteral", "BooleanLiteral", "UndefinedLiteral", "NullLiteral", "Hash", "HashPair"];
+    exports2.NODE_TYPES = NODE_TYPES;
+  }
+});
+
+// node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/compiler/visitor.js
 var require_visitor = __commonJS({
-  "node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/compiler/visitor.js"(exports2, module2) {
+  "node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/compiler/visitor.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     exports2.__esModule = true;
@@ -21225,8 +21497,13 @@ var require_visitor = __commonJS({
     }
     var _exception = require_exception();
     var _exception2 = _interopRequireDefault(_exception);
+    var _utils = require_utils2();
+    var _nodeTypes = require_node_types();
     function Visitor() {
       this.parents = [];
+    }
+    function isDispatchable(visitor, type) {
+      return _utils.indexOf(_nodeTypes.NODE_TYPES, type) !== -1 || !(type in Visitor.prototype) && typeof visitor[type] === "function";
     }
     Visitor.prototype = {
       constructor: Visitor,
@@ -21235,7 +21512,7 @@ var require_visitor = __commonJS({
       acceptKey: function acceptKey(node2, name) {
         var value = this.accept(node2[name]);
         if (this.mutating) {
-          if (value && !Visitor.prototype[value.type]) {
+          if (value && !isDispatchable(this, value.type)) {
             throw new _exception2["default"]('Unexpected node type "' + value.type + '" found when accepting ' + name + " on " + node2.type);
           }
           node2[name] = value;
@@ -21265,7 +21542,7 @@ var require_visitor = __commonJS({
         if (!object) {
           return;
         }
-        if (!this[object.type]) {
+        if (!isDispatchable(this, object.type) || !this[object.type]) {
           throw new _exception2["default"]("Unknown type: " + object.type, object);
         }
         if (this.current) {
@@ -21336,9 +21613,9 @@ var require_visitor = __commonJS({
   }
 });
 
-// node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/compiler/whitespace-control.js
+// node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/compiler/whitespace-control.js
 var require_whitespace_control = __commonJS({
-  "node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/compiler/whitespace-control.js"(exports2, module2) {
+  "node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/compiler/whitespace-control.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     exports2.__esModule = true;
@@ -21373,7 +21650,7 @@ var require_whitespace_control = __commonJS({
           omitRight(body, i);
           if (omitLeft(body, i)) {
             if (current.type === "PartialStatement") {
-              current.indent = /([ \t]+$)/.exec(body[i - 1].original)[1];
+              current.indent = /(?:^|[^ \t])([ \t]+)$/.exec(body[i - 1].original)[1];
             }
           }
         }
@@ -21449,7 +21726,7 @@ var require_whitespace_control = __commonJS({
         return isRoot;
       }
       if (prev.type === "ContentStatement") {
-        return (sibling || !isRoot ? /\r?\n\s*?$/ : /(^|\r?\n)\s*?$/).test(prev.original);
+        return (sibling || !isRoot ? /(?:^|\S)[^\S\n]*\n\s*$/ : /^\s*$|(?:^|\S)[^\S\n]*\n\s*$/).test(prev.original);
       }
     }
     function isNextWhitespace(body, i, isRoot) {
@@ -21479,7 +21756,7 @@ var require_whitespace_control = __commonJS({
         return;
       }
       var original = current.value;
-      current.value = current.value.replace(multiple ? /\s+$/ : /[ \t]+$/, "");
+      current.value = current.value.replace(multiple ? /(^|\S)\s+$/ : /(^|[^ \t])[ \t]+$/, "$1");
       current.leftStripped = current.value !== original;
       return current.leftStripped;
     }
@@ -21488,9 +21765,9 @@ var require_whitespace_control = __commonJS({
   }
 });
 
-// node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/compiler/helpers.js
+// node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/compiler/helpers.js
 var require_helpers2 = __commonJS({
-  "node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/compiler/helpers.js"(exports2) {
+  "node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/compiler/helpers.js"(exports2) {
     "use strict";
     init_cjs_shims();
     exports2.__esModule = true;
@@ -21677,9 +21954,9 @@ var require_helpers2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/compiler/base.js
+// node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/compiler/base.js
 var require_base2 = __commonJS({
-  "node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/compiler/base.js"(exports2) {
+  "node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/compiler/base.js"(exports2) {
     "use strict";
     init_cjs_shims();
     exports2.__esModule = true;
@@ -21708,15 +21985,12 @@ var require_base2 = __commonJS({
     var _whitespaceControl2 = _interopRequireDefault(_whitespaceControl);
     var _helpers = require_helpers2();
     var Helpers = _interopRequireWildcard(_helpers);
-    var _exception = require_exception();
-    var _exception2 = _interopRequireDefault(_exception);
     var _utils = require_utils2();
     exports2.parser = _parser2["default"];
     var yy = {};
     _utils.extend(yy, Helpers);
     function parseWithoutProcessing(input, options2) {
       if (input.type === "Program") {
-        validateInputAst(input);
         return input;
       }
       _parser2["default"].yy = yy;
@@ -21731,57 +22005,12 @@ var require_base2 = __commonJS({
       var strip = new _whitespaceControl2["default"](options2);
       return strip.accept(ast);
     }
-    function validateInputAst(ast) {
-      validateAstNode(ast);
-    }
-    function validateAstNode(node2) {
-      if (node2 == null) {
-        return;
-      }
-      if (Array.isArray(node2)) {
-        node2.forEach(validateAstNode);
-        return;
-      }
-      if (typeof node2 !== "object") {
-        return;
-      }
-      if (node2.type === "PathExpression") {
-        if (!isValidDepth(node2.depth)) {
-          throw new _exception2["default"]("Invalid AST: PathExpression.depth must be an integer");
-        }
-        if (!Array.isArray(node2.parts)) {
-          throw new _exception2["default"]("Invalid AST: PathExpression.parts must be an array");
-        }
-        for (var i = 0; i < node2.parts.length; i++) {
-          if (typeof node2.parts[i] !== "string") {
-            throw new _exception2["default"]("Invalid AST: PathExpression.parts must only contain strings");
-          }
-        }
-      } else if (node2.type === "NumberLiteral") {
-        if (typeof node2.value !== "number" || !isFinite(node2.value)) {
-          throw new _exception2["default"]("Invalid AST: NumberLiteral.value must be a number");
-        }
-      } else if (node2.type === "BooleanLiteral") {
-        if (typeof node2.value !== "boolean") {
-          throw new _exception2["default"]("Invalid AST: BooleanLiteral.value must be a boolean");
-        }
-      }
-      Object.keys(node2).forEach(function(propertyName) {
-        if (propertyName === "loc") {
-          return;
-        }
-        validateAstNode(node2[propertyName]);
-      });
-    }
-    function isValidDepth(depth) {
-      return typeof depth === "number" && isFinite(depth) && Math.floor(depth) === depth && depth >= 0;
-    }
   }
 });
 
-// node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/compiler/compiler.js
+// node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/compiler/compiler.js
 var require_compiler = __commonJS({
-  "node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/compiler/compiler.js"(exports2) {
+  "node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/compiler/compiler.js"(exports2) {
     "use strict";
     init_cjs_shims();
     exports2.__esModule = true;
@@ -21796,6 +22025,7 @@ var require_compiler = __commonJS({
     var _utils = require_utils2();
     var _ast = require_ast();
     var _ast2 = _interopRequireDefault(_ast);
+    var _nodeTypes = require_node_types();
     var slice = [].slice;
     function Compiler() {
     }
@@ -21849,7 +22079,7 @@ var require_compiler = __commonJS({
         return guid2;
       },
       accept: function accept(node2) {
-        if (!this[node2.type]) {
+        if (_utils.indexOf(_nodeTypes.NODE_TYPES, node2.type) === -1 || !this[node2.type]) {
           throw new _exception2["default"]("Unknown type: " + node2.type, node2);
         }
         this.sourceNode.unshift(node2);
@@ -21858,6 +22088,7 @@ var require_compiler = __commonJS({
         return ret;
       },
       Program: function Program(program) {
+        validateBlockParams(program);
         this.options.blockParams.unshift(program.blockParams);
         var body = program.body, bodyLength = body.length;
         for (var i = 0; i < bodyLength; i++) {
@@ -21941,6 +22172,9 @@ var require_compiler = __commonJS({
         this.DecoratorBlock(decorator);
       },
       ContentStatement: function ContentStatement(content) {
+        if (content.value != null && typeof content.value !== "string") {
+          throw invalidAst(content, "value must be a string");
+        }
         if (content.value) {
           this.opcode("appendContent", content.value);
         }
@@ -21960,7 +22194,7 @@ var require_compiler = __commonJS({
       },
       ambiguousSexpr: function ambiguousSexpr(sexpr, program, inverse) {
         var path6 = sexpr.path, name = path6.parts[0], isBlock = program != null || inverse != null;
-        this.opcode("getContext", path6.depth);
+        this.opcode("getContext", validateDepth(path6));
         this.opcode("pushProgram", program);
         this.opcode("pushProgram", inverse);
         path6.strict = true;
@@ -21987,27 +22221,32 @@ var require_compiler = __commonJS({
         }
       },
       PathExpression: function PathExpression(path6) {
-        this.addDepth(path6.depth);
-        this.opcode("getContext", path6.depth);
-        var name = path6.parts[0], scoped = _ast2["default"].helpers.scopedId(path6), blockParamId = !path6.depth && !scoped && this.blockParamIndex(name);
+        var depth = validateDepth(path6);
+        var parts = validateParts(path6);
+        this.addDepth(depth);
+        this.opcode("getContext", depth);
+        var name = parts[0], scoped = _ast2["default"].helpers.scopedId(path6), blockParamId = !depth && !scoped && this.blockParamIndex(name);
         if (blockParamId) {
-          this.opcode("lookupBlockParam", blockParamId, path6.parts);
+          this.opcode("lookupBlockParam", blockParamId, parts);
         } else if (!name) {
           this.opcode("pushContext");
         } else if (path6.data) {
           this.options.data = true;
-          this.opcode("lookupData", path6.depth, path6.parts, path6.strict);
+          this.opcode("lookupData", depth, parts, path6.strict);
         } else {
-          this.opcode("lookupOnContext", path6.parts, path6.falsy, path6.strict, scoped);
+          this.opcode("lookupOnContext", parts, path6.falsy, path6.strict, scoped);
         }
       },
       StringLiteral: function StringLiteral(string3) {
+        validateLiteral(string3);
         this.opcode("pushString", string3.value);
       },
       NumberLiteral: function NumberLiteral(number2) {
+        validateLiteral(number2);
         this.opcode("pushLiteral", number2.value);
       },
       BooleanLiteral: function BooleanLiteral(bool) {
+        validateLiteral(bool);
         this.opcode("pushLiteral", bool.value);
       },
       UndefinedLiteral: function UndefinedLiteral() {
@@ -22017,7 +22256,16 @@ var require_compiler = __commonJS({
         this.opcode("pushLiteral", "null");
       },
       Hash: function Hash(hash) {
-        var pairs = hash.pairs, i = 0, l = pairs.length;
+        var pairs = hash.pairs, i = 0, l = void 0;
+        if (!_utils.isArray(pairs)) {
+          throw invalidAst(hash, "pairs must be an array");
+        }
+        l = pairs.length;
+        for (var j = 0; j < l; j++) {
+          if (!pairs[j] || typeof pairs[j].key !== "string") {
+            throw invalidAst(hash, "pair keys must be strings");
+          }
+        }
         this.opcode("pushHash");
         for (; i < l; i++) {
           this.pushParam(pairs[i].value);
@@ -22042,6 +22290,7 @@ var require_compiler = __commonJS({
         this.useDepths = true;
       },
       classifySexpr: function classifySexpr(sexpr) {
+        validateParts(sexpr.path);
         var isSimple = _ast2["default"].helpers.simpleId(sexpr.path);
         var isBlockParam = isSimple && !!this.blockParamIndex(sexpr.path.parts[0]);
         var isHelper = !isBlockParam && _ast2["default"].helpers.helperExpression(sexpr);
@@ -22068,15 +22317,20 @@ var require_compiler = __commonJS({
         }
       },
       pushParam: function pushParam(val) {
+        validateLiteral(val);
         var value = val.value != null ? val.value : val.original || "";
+        var depth = validateDepth(val);
         if (this.stringParams) {
+          if (typeof value !== "number" && typeof value !== "boolean") {
+            value = String(value);
+          }
           if (value.replace) {
             value = value.replace(/^(\.?\.\/)*/g, "").replace(/\//g, ".");
           }
-          if (val.depth) {
-            this.addDepth(val.depth);
+          if (depth) {
+            this.addDepth(depth);
           }
-          this.opcode("getContext", val.depth || 0);
+          this.opcode("getContext", depth);
           this.opcode("pushStringParam", value, val.type);
           if (val.type === "SubExpression") {
             this.accept(val);
@@ -22084,8 +22338,8 @@ var require_compiler = __commonJS({
         } else {
           if (this.trackIds) {
             var blockParamIndex = void 0;
-            if (val.parts && !_ast2["default"].helpers.scopedId(val) && !val.depth) {
-              blockParamIndex = this.blockParamIndex(val.parts[0]);
+            if (val.parts && !_ast2["default"].helpers.scopedId(val) && !depth) {
+              blockParamIndex = this.blockParamIndex(validateParts(val)[0]);
             }
             if (blockParamIndex) {
               var blockParamChild = val.parts.slice(1).join(".");
@@ -22172,6 +22426,48 @@ var require_compiler = __commonJS({
         return compiled._child(i, data, blockParams, depths);
       };
       return ret;
+    }
+    function invalidAst(node2, message) {
+      return new _exception2["default"]("Invalid AST: " + node2.type + " " + message, node2);
+    }
+    function validateDepth(node2) {
+      var depth = node2.depth;
+      if (depth == null) {
+        return 0;
+      }
+      if (typeof depth !== "number" || !isFinite(depth) || Math.floor(depth) !== depth || depth < 0) {
+        throw invalidAst(node2, "depth must be a non-negative integer");
+      }
+      return depth;
+    }
+    function validateLiteral(node2) {
+      var value = node2.value;
+      if (node2.type === "StringLiteral" && typeof value !== "string") {
+        throw invalidAst(node2, "value must be a string");
+      } else if (node2.type === "NumberLiteral" && typeof value !== "number") {
+        throw invalidAst(node2, "value must be a number");
+      } else if (node2.type === "BooleanLiteral" && typeof value !== "boolean") {
+        throw invalidAst(node2, "value must be a boolean");
+      }
+    }
+    function validateStringArray(node2, value, name) {
+      if (!_utils.isArray(value)) {
+        throw invalidAst(node2, name + " must be an array");
+      }
+      for (var i = 0; i < value.length; i++) {
+        if (typeof value[i] !== "string") {
+          throw invalidAst(node2, name + " must only contain strings");
+        }
+      }
+      return value;
+    }
+    function validateParts(path6) {
+      return validateStringArray(path6, path6.parts, "parts");
+    }
+    function validateBlockParams(program) {
+      if (program.blockParams != null) {
+        validateStringArray(program, program.blockParams, "blockParams");
+      }
     }
     function argEquals(a, b) {
       if (a === b) {
@@ -23971,13 +24267,25 @@ var require_source_map = __commonJS({
   }
 });
 
-// node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/compiler/code-gen.js
+// node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/compiler/code-gen.js
 var require_code_gen = __commonJS({
-  "node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/compiler/code-gen.js"(exports2, module2) {
+  "node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/compiler/code-gen.js"(exports2) {
     "use strict";
     init_cjs_shims();
     exports2.__esModule = true;
+    exports2.safeJsonLiteral = safeJsonLiteral;
     var _utils = require_utils2();
+    var NEEDS_ESCAPING = /[\x00-\x1f\\"\u2028\u2029<\ud800-\udfff]/;
+    var SCRIPT_DELIMITERS = /<(?=!--|\/?script)/gi;
+    function escapeScriptDelimiters(code) {
+      return code.replace(SCRIPT_DELIMITERS, "\\u003C");
+    }
+    function escapeSurrogate(surrogate) {
+      return "\\u" + surrogate.charCodeAt(0).toString(16);
+    }
+    function safeJsonLiteral(value) {
+      return escapeScriptDelimiters(JSON.stringify(value).replace(/\u2028/g, "\\u2028").replace(/\u2029/g, "\\u2029").replace(/[\ud800-\udfff]/g, escapeSurrogate));
+    }
     var SourceNode = void 0;
     try {
       if (typeof define !== "function" || !define.amd) {
@@ -24070,7 +24378,11 @@ var require_code_gen = __commonJS({
         return this.wrap([fn, type ? "." + type + "(" : "(", params, ")"]);
       },
       quotedString: function quotedString(str) {
-        return '"' + (str + "").replace(/\\/g, "\\\\").replace(/"/g, '\\"').replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/\u2028/g, "\\u2028").replace(/\u2029/g, "\\u2029") + '"';
+        str = str + "";
+        if (!NEEDS_ESCAPING.test(str)) {
+          return '"' + str + '"';
+        }
+        return safeJsonLiteral(str);
       },
       objectLiteral: function objectLiteral(obj) {
         var _this = this;
@@ -24104,13 +24416,12 @@ var require_code_gen = __commonJS({
       }
     };
     exports2["default"] = CodeGen;
-    module2.exports = exports2["default"];
   }
 });
 
-// node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/compiler/javascript-compiler.js
+// node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/compiler/javascript-compiler.js
 var require_javascript_compiler = __commonJS({
-  "node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/compiler/javascript-compiler.js"(exports2, module2) {
+  "node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/compiler/javascript-compiler.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     exports2.__esModule = true;
@@ -24135,7 +24446,7 @@ var require_javascript_compiler = __commonJS({
         return this.internalNameLookup(parent, name);
       },
       depthedLookup: function depthedLookup(name) {
-        return [this.aliasable("container.lookup"), "(depths, ", JSON.stringify(name), ")"];
+        return [this.aliasable("container.lookup"), "(depths, ", this.quotedString(name), ")"];
       },
       compilerInfo: function compilerInfo() {
         var revision = _base.COMPILER_REVISION, versions = _base.REVISION_CHANGES[revision];
@@ -24161,7 +24472,7 @@ var require_javascript_compiler = __commonJS({
       // END PUBLIC API
       internalNameLookup: function internalNameLookup(parent, name) {
         this.lookupPropertyFunctionIsUsed = true;
-        return ["lookupProperty(", parent, ",", JSON.stringify(name), ")"];
+        return ["lookupProperty(", parent, ",", this.quotedString(name), ")"];
       },
       lookupPropertyFunctionIsUsed: false,
       compile: function compile(environment, options2, context, asObject) {
@@ -24700,7 +25011,7 @@ var require_javascript_compiler = __commonJS({
           delete options2.name;
         }
         if (indent) {
-          options2.indent = JSON.stringify(indent);
+          options2.indent = this.quotedString(indent);
         }
         options2.helpers = "helpers";
         options2.partials = "partials";
@@ -24746,7 +25057,7 @@ var require_javascript_compiler = __commonJS({
       },
       pushId: function pushId(type, name, child2) {
         if (type === "BlockParam") {
-          this.pushStackLiteral("blockParams[" + name[0] + "].path[" + name[1] + "]" + (child2 ? " + " + JSON.stringify("." + child2) : ""));
+          this.pushStackLiteral("blockParams[" + name[0] + "].path[" + name[1] + "]" + (child2 ? " + " + this.quotedString("." + child2) : ""));
         } else if (type === "PathExpression") {
           this.pushString(name);
         } else if (type === "SubExpression") {
@@ -24984,7 +25295,7 @@ var require_javascript_compiler = __commonJS({
       },
       setupHelperArgs: function setupHelperArgs(helper, paramSize, params, useRegister) {
         var options2 = this.setupParams(helper, paramSize, params);
-        options2.loc = JSON.stringify(this.source.currentLocation);
+        options2.loc = locationLiteral(this);
         options2 = this.objectLiteral(options2);
         if (useRegister) {
           this.useRegister("options");
@@ -25008,6 +25319,10 @@ var require_javascript_compiler = __commonJS({
     JavaScriptCompiler.isValidJavaScriptVariableName = function(name) {
       return !JavaScriptCompiler.RESERVED_WORDS[name] && /^[a-zA-Z_$][0-9a-zA-Z_$]*$/.test(name);
     };
+    function locationLiteral(compiler) {
+      var loc = compiler.source.currentLocation;
+      return loc ? _codeGen.safeJsonLiteral(loc) : "undefined";
+    }
     function strictLookup(requireTerminal, compiler, parts, startPartIndex, type) {
       var stack = compiler.popStack(), len = parts.length;
       if (requireTerminal) {
@@ -25017,7 +25332,7 @@ var require_javascript_compiler = __commonJS({
         stack = compiler.nameLookup(stack, parts[i], type);
       }
       if (requireTerminal) {
-        return [compiler.aliasable("container.strict"), "(", stack, ", ", compiler.quotedString(parts[len]), ", ", JSON.stringify(compiler.source.currentLocation), " )"];
+        return [compiler.aliasable("container.strict"), "(", stack, ", ", compiler.quotedString(parts[len]), ", ", locationLiteral(compiler), " )"];
       } else {
         return stack;
       }
@@ -25027,9 +25342,9 @@ var require_javascript_compiler = __commonJS({
   }
 });
 
-// node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars.js
+// node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars.js
 var require_handlebars = __commonJS({
-  "node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars.js"(exports2, module2) {
+  "node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     exports2.__esModule = true;
@@ -25075,9 +25390,9 @@ var require_handlebars = __commonJS({
   }
 });
 
-// node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/compiler/printer.js
+// node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/compiler/printer.js
 var require_printer = __commonJS({
-  "node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/dist/cjs/handlebars/compiler/printer.js"(exports2) {
+  "node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/dist/cjs/handlebars/compiler/printer.js"(exports2) {
     "use strict";
     init_cjs_shims();
     exports2.__esModule = true;
@@ -25222,9 +25537,9 @@ var require_printer = __commonJS({
   }
 });
 
-// node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/lib/index.js
+// node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/lib/index.js
 var require_lib2 = __commonJS({
-  "node_modules/.pnpm/handlebars@4.7.9/node_modules/handlebars/lib/index.js"(exports2, module2) {
+  "node_modules/.pnpm/handlebars@4.7.10/node_modules/handlebars/lib/index.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var handlebars = require_handlebars()["default"];
