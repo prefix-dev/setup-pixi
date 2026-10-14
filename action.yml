@@ -20,7 +20,7 @@ inputs:
     description: Path to the manifest file (i.e., `pixi.toml`) to use for the pixi CLI. Defaults to `pixi.toml`.
   working-directory:
     description: |
-      Working directory to use for pixi commands. If specified, pixi will look for manifest files (pixi.toml or pyproject.toml) 
+      Working directory to use for pixi commands. If specified, pixi will look for manifest files (pixi.toml or pyproject.toml)
       in this directory instead of the repository root. Useful for monorepos where pixi projects are in subdirectories.
   run-install:
     description: Whether to run `pixi install` after installing pixi. Defaults to `true`.
@@ -89,7 +89,7 @@ inputs:
       Requires `auth-workload-identity`.
   auth-workload-identity-exchange:
     description: |
-      How the server exchanges the ID token. Defaults to `prefix` for prefix.dev hosts and `token-exchange` otherwise.
+      How the server exchanges the ID token.
       Requires `auth-workload-identity`.
       options: token-exchange, prefix
       - `token-exchange`: OAuth 2.0 Token Exchange (RFC 8693) at `auth-workload-identity-token-endpoint`.
@@ -97,7 +97,7 @@ inputs:
   auth-workload-identity-token-endpoint:
     description: |
       Token endpoint for `auth-workload-identity-exchange: token-exchange`: a URL or a path on the host.
-      Defaults to the `token_endpoint` from the host's RFC 8414 metadata, or `/access/api/v1/oidc/token` for *.jfrog.io hosts.
+      Defaults to the `token_endpoint` from the host's RFC 8414 metadata.
       Requires `auth-workload-identity`.
   auth-logout:
     description: |
