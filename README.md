@@ -259,7 +259,7 @@ steps:
 pixi performs an [OAuth 2.0 Token Exchange (RFC 8693)](https://datatracker.ietf.org/doc/html/rfc8693) with the host.
 You can fine-tune the exchange using the following optional inputs:
 
-- `auth-workload-identity-audience`: the audience requested in the OIDC ID token. Defaults to the host, or `prefix.dev` for prefix.dev hosts.
+- `auth-workload-identity-audience`: the audience requested in the OIDC ID token.
 - `auth-workload-identity-exchange`: `token-exchange` or `prefix`.
 - `auth-workload-identity-token-endpoint`: a URL or a path on the host used for `token-exchange`.
   Defaults to the `token_endpoint` from the host's RFC 8414 metadata.
