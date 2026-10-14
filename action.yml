@@ -20,7 +20,7 @@ inputs:
     description: Path to the manifest file (i.e., `pixi.toml`) to use for the pixi CLI. Defaults to `pixi.toml`.
   working-directory:
     description: |
-      Working directory to use for pixi commands. If specified, pixi will look for manifest files (pixi.toml or pyproject.toml) 
+      Working directory to use for pixi commands. If specified, pixi will look for manifest files (pixi.toml or pyproject.toml)
       in this directory instead of the repository root. Useful for monorepos where pixi projects are in subdirectories.
   run-install:
     description: Whether to run `pixi install` after installing pixi. Defaults to `true`.
@@ -62,7 +62,8 @@ inputs:
   auth-host:
     description: |
       Host to use for authentication. If not set, pixi is not authenticating.
-      Requires `auth-token` or `auth-conda-token` or `auth-username` and `auth-password` to be set.
+      Requires `auth-token`, `auth-conda-token`, `auth-workload-identity`, `auth-s3-access-key-id` and `auth-s3-secret-access-key`,
+      or `auth-username` and `auth-password` to be set.
       See https://pixi.prefix.dev/latest/deployment/authentication/
   auth-token:
     description: Token to use for authentication.
@@ -78,6 +79,26 @@ inputs:
     description: Secret access key to use for S3 authentication.
   auth-s3-session-token:
     description: Session token to use for S3 authentication.
+  auth-workload-identity:
+    description: |
+      Whether to log in non-interactively by exchanging the GitHub Actions OIDC ID token for an access token
+      (`pixi auth login --workload-identity`). Defaults to `false`. Requires `auth-host` and `permissions: id-token: write`.
+  auth-workload-identity-audience:
+    description: |
+      Audience requested in the OIDC ID token. Defaults to the host, or `prefix.dev` for prefix.dev hosts.
+      Requires `auth-workload-identity`.
+  auth-workload-identity-exchange:
+    description: |
+      How the server exchanges the ID token.
+      Requires `auth-workload-identity`.
+      options: token-exchange, prefix
+      - `token-exchange`: OAuth 2.0 Token Exchange (RFC 8693) at `auth-workload-identity-token-endpoint`.
+      - `prefix`: prefix.dev's mint endpoint.
+  auth-workload-identity-token-endpoint:
+    description: |
+      Token endpoint for `auth-workload-identity-exchange: token-exchange`: a URL or a path on the host.
+      Defaults to the `token_endpoint` from the host's RFC 8414 metadata.
+      Requires `auth-workload-identity`.
   auth-logout:
     description: |
       When to run `pixi auth logout <auth-host>`. Requires `auth-host`.

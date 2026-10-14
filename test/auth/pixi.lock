@@ -8,7 +8,7 @@ metadata:
   channels:
   - url: https://conda.anaconda.org/conda-forge/
     used_env_vars: []
-  - url: https://repo.prefix.dev/setup-pixi-test/
+  - url: https://prefix.dev/setup-pixi-test/
     used_env_vars: []
   platforms:
   - linux-64
@@ -979,7 +979,7 @@ package:
   platform: linux-64
   dependencies:
     python: '>=3.9'
-  url: https://repo.prefix.dev/setup-pixi-test/noarch/private-package-0.0.1-0.tar.bz2
+  url: https://prefix.dev/setup-pixi-test/noarch/private-package-0.0.1-0.tar.bz2
   hash:
     md5: null
     sha256: 670ba2c2fec6b1aa97db99c65efcb5773c9848e6a4d1088306398f366d00d065
@@ -999,7 +999,7 @@ package:
   platform: linux-aarch64
   dependencies:
     python: '>=3.9'
-  url: https://repo.prefix.dev/setup-pixi-test/noarch/private-package-0.0.1-0.tar.bz2
+  url: https://prefix.dev/setup-pixi-test/noarch/private-package-0.0.1-0.tar.bz2
   hash:
     md5: null
     sha256: 670ba2c2fec6b1aa97db99c65efcb5773c9848e6a4d1088306398f366d00d065
@@ -1019,7 +1019,7 @@ package:
   platform: osx-64
   dependencies:
     python: '>=3.9'
-  url: https://repo.prefix.dev/setup-pixi-test/noarch/private-package-0.0.1-0.tar.bz2
+  url: https://prefix.dev/setup-pixi-test/noarch/private-package-0.0.1-0.tar.bz2
   hash:
     md5: null
     sha256: 670ba2c2fec6b1aa97db99c65efcb5773c9848e6a4d1088306398f366d00d065
@@ -1039,7 +1039,7 @@ package:
   platform: osx-arm64
   dependencies:
     python: '>=3.9'
-  url: https://repo.prefix.dev/setup-pixi-test/noarch/private-package-0.0.1-0.tar.bz2
+  url: https://prefix.dev/setup-pixi-test/noarch/private-package-0.0.1-0.tar.bz2
   hash:
     md5: null
     sha256: 670ba2c2fec6b1aa97db99c65efcb5773c9848e6a4d1088306398f366d00d065
@@ -1059,7 +1059,7 @@ package:
   platform: win-64
   dependencies:
     python: '>=3.9'
-  url: https://repo.prefix.dev/setup-pixi-test/noarch/private-package-0.0.1-0.tar.bz2
+  url: https://prefix.dev/setup-pixi-test/noarch/private-package-0.0.1-0.tar.bz2
   hash:
     md5: null
     sha256: 670ba2c2fec6b1aa97db99c65efcb5773c9848e6a4d1088306398f366d00d065

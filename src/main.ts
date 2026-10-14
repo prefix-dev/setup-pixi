@@ -47,6 +47,24 @@ const pixiLogin = async () => {
     } else if ('condaToken' in auth) {
       core.debug(`Logging in to ${auth.host} with conda token`)
       await execute(pixiCmd(`auth login --conda-token ${auth.condaToken} ${auth.host}`, false))
+    } else if ('workloadIdentity' in auth) {
+      core.debug(`Logging in to ${auth.host} with workload identity`)
+      if (process.env.GITHUB_ACTIONS === 'true' && !process.env.ACTIONS_ID_TOKEN_REQUEST_URL) {
+        throw new Error(
+          'auth-workload-identity requires the job to have `permissions: id-token: write`, see https://docs.github.com/en/actions/concepts/security/openid-connect'
+        )
+      }
+      let command = 'auth login --workload-identity'
+      if (auth.workloadIdentityAudience) {
+        command += ` --workload-identity-audience ${auth.workloadIdentityAudience}`
+      }
+      if (auth.workloadIdentityExchange) {
+        command += ` --workload-identity-exchange ${auth.workloadIdentityExchange}`
+      }
+      if (auth.workloadIdentityTokenEndpoint) {
+        command += ` --workload-identity-token-endpoint ${auth.workloadIdentityTokenEndpoint}`
+      }
+      await execute(pixiCmd(`${command} ${auth.host}`, false))
     }
     await execute(pixiCmd('auth status', false))
   })
