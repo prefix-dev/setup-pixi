@@ -166,7 +166,6 @@ jobs:
           cache: false
           locked: ${{ matrix.locked }}
       # assert that the lockfile wasn't updated
-      # use pixi exec instead of choco to avoid flaky chocolatey feed outages
       - run: test "$(pixi exec --spec go-yq yq '.version' pixi.lock)" = 1
         shell: bash
 
