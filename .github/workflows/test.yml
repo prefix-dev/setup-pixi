@@ -918,6 +918,86 @@ jobs:
           cache: false
           post-cleanup: ${{ matrix.post-cleanup }}
 
+  post-cleanup-preinstalled-pixi:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        # none: only the preinstalled pixi is used.
+        # owning-invocation: a first invocation downloads pixi, a second one reuses it.
+        # The post step of the second invocation must preserve the binary, the post step of the first one must remove it.
+        mode: [none, owning-invocation]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Move pixi.toml
+        run: mv test/default/* .
+      - name: Create pixi directory and add to PATH
+        run: |
+          mkdir -p "$HOME/custom existing pixi"
+          echo "$HOME/custom existing pixi" >> $GITHUB_PATH
+        if: matrix.os != 'windows-latest' && matrix.mode == 'none'
+      - name: Create pixi directory and add to PATH (Windows)
+        run: |
+          mkdir "$env:USERPROFILE\custom existing pixi"
+          echo "$env:USERPROFILE\custom existing pixi" >> $env:GITHUB_PATH
+        shell: pwsh
+        if: matrix.os == 'windows-latest' && matrix.mode == 'none'
+      - name: Download pixi binary (Ubuntu)
+        run: |
+          set -o pipefail
+          curl -L --output "$HOME/custom existing pixi/pixi" https://github.com/prefix-dev/pixi/releases/download/v0.79.0/pixi-x86_64-unknown-linux-musl
+          chmod +x "$HOME/custom existing pixi/pixi"
+        if: matrix.os == 'ubuntu-latest' && matrix.mode == 'none'
+      - name: Download pixi binary (macOS)
+        run: |
+          set -o pipefail
+          curl -L --output "$HOME/custom existing pixi/pixi" https://github.com/prefix-dev/pixi/releases/download/v0.79.0/pixi-x86_64-apple-darwin
+          chmod +x "$HOME/custom existing pixi/pixi"
+        if: matrix.os == 'macos-latest' && matrix.mode == 'none'
+      - name: Download pixi binary (Windows)
+        run: |
+          curl -L --output "$HOME/custom existing pixi/pixi.exe" https://github.com/prefix-dev/pixi/releases/download/v0.79.0/pixi-x86_64-pc-windows-msvc.exe
+        if: matrix.os == 'windows-latest' && matrix.mode == 'none'
+      - name: Verify preinstalled pixi (before setup-pixi)
+        run: |
+          pixi --version | grep -q "pixi 0.79.0"
+          which pixi | grep -q "$HOME/custom existing pixi/pixi"
+        shell: bash
+        if: matrix.mode == 'none'
+      - name: Register post-run assertions (preinstalled pixi must be preserved)
+        uses: lisanna-dettwyler/action-post-run@d053b9b43d788b87a409f6cdb3b6fc87c6c8a4fe # v3.1.0
+        with:
+          run: |
+            set -euxo pipefail
+            ! test -d .pixi
+            ! test -f ~/.pixi/bin/pixi
+            test -f "$HOME/custom existing pixi/pixi${{ matrix.os == 'windows-latest' && '.exe' || '' }}"
+        if: matrix.mode == 'none'
+      - name: Register post-run assertions (action-installed pixi must be removed by its owning invocation)
+        uses: lisanna-dettwyler/action-post-run@d053b9b43d788b87a409f6cdb3b6fc87c6c8a4fe # v3.1.0
+        with:
+          run: |
+            set -euxo pipefail
+            ! test -d .pixi
+            ! test -f ~/.pixi/bin/pixi
+        if: matrix.mode == 'owning-invocation'
+      - name: Run Action (downloads pixi and owns the binary)
+        uses: ./
+        with:
+          cache: false
+          pixi-version: v0.80.0
+          post-cleanup: true
+        if: matrix.mode == 'owning-invocation'
+      - name: Run Action (should reuse preinstalled pixi and not delete it)
+        uses: ./
+        with:
+          cache: false
+          post-cleanup: true
+      - name: Verify pixi version (after setup-pixi)
+        run: |
+          pixi --version | grep -q "pixi ${{ matrix.mode == 'none' && '0.79.0' || '0.80.0' }}"
+        shell: bash
+
   no-lockfile:
     strategy:
       matrix:

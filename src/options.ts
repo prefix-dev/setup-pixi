@@ -90,6 +90,7 @@ interface GlobalCache {
 
 export type Options = Readonly<{
   pixiSource: PixiSource
+  // main step: whether pixi needs to be downloaded; post step: whether this action downloaded pixi
   downloadPixi: boolean
   logLevel: LogLevel
   manifestPath: string
@@ -298,6 +299,14 @@ const validateInputs = (inputs: Inputs): void => {
 }
 
 const determinePixiInstallation = (pixiUrlOrVersionSet: boolean, pixiBinPath: string | undefined) => {
+  // In the post step, reuse the decision made in the main step instead of searching PATH again.
+  // Otherwise the binary downloaded by the main step would be detected as pre-installed.
+  const savedPixiBinPath = core.getState('pixi-bin-path')
+  if (savedPixiBinPath) {
+    core.debug(`Using pixi binary path ${savedPixiBinPath} saved by the main step.`)
+    return { downloadPixi: core.getState('pixi-bin-installed') === 'true', pixiBinPath: savedPixiBinPath }
+  }
+
   const preinstalledPixi = which.sync('pixi', { nothrow: true })
 
   if (pixiUrlOrVersionSet || pixiBinPath) {
