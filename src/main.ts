@@ -182,8 +182,13 @@ const activateEnv = async (environment: string) => {
 const run = async () => {
   core.debug(`process.env.HOME: ${process.env.HOME ?? '-'}`)
   core.debug(`os.homedir(): ${os.homedir()}`)
+  // persist the resolved binary path for the post step so it does not need to search PATH again
+  core.saveState('pixi-bin-path', options.pixiBinPath)
   if (options.downloadPixi) {
     await downloadPixi(options.pixiSource)
+    // only mark the binary as owned by this action after a successful download,
+    // so that the post step never removes a binary it did not install
+    core.saveState('pixi-bin-installed', 'true')
   }
   addPixiToPath()
   await pixiLogin()
