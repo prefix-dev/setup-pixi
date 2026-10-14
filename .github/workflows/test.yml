@@ -733,7 +733,7 @@ jobs:
       - uses: ./
         with:
           cache: false
-          auth-host: https://repo.prefix.dev
+          auth-host: https://prefix.dev
           auth-token: ${{ secrets.PREFIX_DEV_TOKEN }}
       - name: Ensure private-package is installed
         run: |
@@ -756,7 +756,7 @@ jobs:
       - uses: ./
         with:
           cache: false
-          auth-host: https://repo.prefix.dev
+          auth-host: https://prefix.dev
           auth-workload-identity: true
       - name: Ensure private-package is installed
         run: |
