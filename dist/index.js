@@ -80807,7 +80807,11 @@ var getNewPathComponents = (path17) => {
   debug(`Found current path '${currentPath}'`);
   debug(`Got new path '${path17}'`);
   if (!path17.endsWith(currentPath)) {
-    throw new Error("Unable to handle environment activation which does not only append to PATH");
+    throw new Error(
+      `Unable to handle environment activation which does not only append to PATH.
+Current PATH: '${currentPath}'
+Activated PATH: '${path17}'`
+    );
   }
   const newPath = path17.slice(0, path17.length - currentPath.length);
   return newPath.split(osPath.delimiter).filter((p) => p.length > 0);
@@ -80815,7 +80819,6 @@ var getNewPathComponents = (path17) => {
 var activateEnvironment = async (environment) => {
   const envOption = environment === "default" ? "" : `-e ${environment}`;
   const shellHookOutput = await executeGetOutput(pixiCmd(`shell-hook ${envOption} --json`), { silent: true });
-  debug(`Got shell hook output '${shellHookOutput.stdout}'`);
   const shellHook = JSON.parse(shellHookOutput.stdout);
   const [envVars, path17] = splitEnvironment(shellHook);
   if (path17) {
