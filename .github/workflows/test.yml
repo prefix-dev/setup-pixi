@@ -785,7 +785,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, ubuntu-24.04-arm]
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -794,61 +794,79 @@ jobs:
       - uses: ./
         with:
           cache: false
-      - name: Inspect pwsh installation
-        run: |
-          set -x
-          uname -a
-          cat /etc/os-release
-          which -a pwsh || true
-          ls -la "$(which pwsh)" || true
-          readlink -f "$(which pwsh)" || true
-          file "$(readlink -f "$(which pwsh)")" || true
-          head -c 200 "$(readlink -f "$(which pwsh)")" | cat -v || true
-          pwsh --version
-          pixi run which -a pwsh || true
-          pixi run bash -c 'echo $PATH' | tr ':' '\n'
-          ls -la "$RUNNER_TEMP"
-          mount | grep -E 'snap|home' || true
-          snap list 2>/dev/null || true
-      - name: Builtin pwsh shell
-        run: |
-          $PSVersionTable
-          (Get-Command pwsh).Source
-        shell: pwsh
-      - name: Plain pwsh -Command {0} (no pixi)
-        continue-on-error: true
-        run: |
-          Write-Output "hello from plain pwsh -Command"
-        shell: pwsh -Command {0}
-      - name: Plain pwsh -File {0}.ps1 (no pixi)
-        continue-on-error: true
-        run: |
-          Write-Output "hello from plain pwsh -File"
-        shell: pwsh -NoProfile -Command "& '{0}'"
-      - name: Manual reproduction of pwsh -Command <file without extension>
-        continue-on-error: true
-        run: |
-          set -x
-          f="$RUNNER_TEMP/repro-noext"
-          printf 'Write-Output "hello"\n' > "$f"
-          ls -la "$f"
-          pwsh -NoProfile -Command "$f" || echo "exit $?"
-          chmod +x "$f"
-          pwsh -NoProfile -Command "$f" || echo "exit $? (after chmod +x)"
-          printf '#!/usr/bin/env pwsh\nWrite-Output "hello shebang"\n' > "$f-shebang"
-          chmod +x "$f-shebang"
-          pwsh -NoProfile -Command "$f-shebang" || echo "exit $? (shebang)"
-          strace -f -e trace=execve,execveat pwsh -NoProfile -Command "$f" 2>&1 | tail -n 40 || true
-      - name: pixi run pwsh -Command {0}
+      - name: Check for xdg-open
+        if: runner.os == 'Linux'
+        run: which xdg-open || echo "xdg-open not found"
+      - name: "baseline-command: pixi run pwsh -Command {0}"
+        id: baseline-command
         continue-on-error: true
         run: |
           python --version | Select-String "3.14"
+          $ErrorActionPreference = "Stop"
+          Set-Content -Path marker-baseline-command.txt -Value "ran"
         shell: pixi run pwsh -Command {0}
-      - name: pixi exec pwsh -Command {0}
+      - name: "verify baseline-command"
+        continue-on-error: true
+        shell: bash
+        run: |
+          echo "outcome=${{ steps.baseline-command.outcome }}"
+          test -f marker-baseline-command.txt && echo "RESULT baseline-command: script ran" || { echo "RESULT baseline-command: script did NOT run"; exit 1; }
+      - name: "file: pixi run pwsh -File {0}"
+        id: file
         continue-on-error: true
         run: |
           python --version | Select-String "3.14"
-        shell: pixi exec --spec python=3.14.* -- pwsh -Command {0}
+          $ErrorActionPreference = "Stop"
+          Set-Content -Path marker-file.txt -Value "ran"
+        shell: pixi run pwsh -File {0}
+      - name: "verify file"
+        continue-on-error: true
+        shell: bash
+        run: |
+          echo "outcome=${{ steps.file.outcome }}"
+          test -f marker-file.txt && echo "RESULT file: script ran" || { echo "RESULT file: script did NOT run"; exit 1; }
+      - name: "iex: pixi run pwsh -NoProfile -Command 'Invoke-Expression (Get-Content -Raw '{0}')'"
+        id: iex
+        continue-on-error: true
+        run: |
+          python --version | Select-String "3.14"
+          $ErrorActionPreference = "Stop"
+          Set-Content -Path marker-iex.txt -Value "ran"
+        shell: pixi run pwsh -NoProfile -Command "Invoke-Expression (Get-Content -Raw '{0}')"
+      - name: "verify iex"
+        continue-on-error: true
+        shell: bash
+        run: |
+          echo "outcome=${{ steps.iex.outcome }}"
+          test -f marker-iex.txt && echo "RESULT iex: script ran" || { echo "RESULT iex: script did NOT run"; exit 1; }
+      - name: "scriptblock: pixi run pwsh -NoProfile -Command '& ([scriptblock]::Create((Get-Content -Raw '{0}')))'"
+        id: scriptblock
+        continue-on-error: true
+        run: |
+          python --version | Select-String "3.14"
+          $ErrorActionPreference = "Stop"
+          Set-Content -Path marker-scriptblock.txt -Value "ran"
+        shell: pixi run pwsh -NoProfile -Command "& ([scriptblock]::Create((Get-Content -Raw '{0}')))"
+      - name: "verify scriptblock"
+        continue-on-error: true
+        shell: bash
+        run: |
+          echo "outcome=${{ steps.scriptblock.outcome }}"
+          test -f marker-scriptblock.txt && echo "RESULT scriptblock: script ran" || { echo "RESULT scriptblock: script did NOT run"; exit 1; }
+      - name: "exec-file: pixi exec --spec python=3.14.* -- pwsh -File {0}"
+        id: exec-file
+        continue-on-error: true
+        run: |
+          python --version | Select-String "3.14"
+          $ErrorActionPreference = "Stop"
+          Set-Content -Path marker-exec-file.txt -Value "ran"
+        shell: pixi exec --spec python=3.14.* -- pwsh -File {0}
+      - name: "verify exec-file"
+        continue-on-error: true
+        shell: bash
+        run: |
+          echo "outcome=${{ steps.exec-file.outcome }}"
+          test -f marker-exec-file.txt && echo "RESULT exec-file: script ran" || { echo "RESULT exec-file: script did NOT run"; exit 1; }
 
 #   post-cleanup-linux:
 #     runs-on: ubuntu-latest
