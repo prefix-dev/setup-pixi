@@ -411,18 +411,13 @@ There are two types of debug logging that you can enable.
 #### Debug logging of the action
 
 The first one is the debug logging of the action itself.
-This can be enabled by running the action with the `RUNNER_DEBUG` environment variable set to `true`.
-
-```yml
-- uses: prefix-dev/setup-pixi@v0.11.3
-  env:
-    RUNNER_DEBUG: true
-```
-
-Alternatively, you can enable debug logging for the action by re-running the action in debug mode:
+You can enable it for a single run by re-running the workflow with debug logging enabled:
 
 ![Re-run in debug mode](.github/assets/enable-debug-logging-light.png#gh-light-mode-only)
 ![Re-run in debug mode](.github/assets/enable-debug-logging-dark.png#gh-dark-mode-only)
+
+To enable it for all runs, set the repository secret or variable `ACTIONS_STEP_DEBUG` to `true`.
+Note that setting `ACTIONS_STEP_DEBUG` or `RUNNER_DEBUG` via `env:` on the step does not enable debug logging.
 
 > For more information about debug logging in GitHub Actions, see [the official documentation](https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/enabling-debug-logging).
 
