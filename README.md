@@ -417,7 +417,6 @@ You can enable it for a single run by re-running the workflow with debug logging
 ![Re-run in debug mode](.github/assets/enable-debug-logging-dark.png#gh-dark-mode-only)
 
 To enable it for all runs, set the repository secret or variable `ACTIONS_STEP_DEBUG` to `true`.
-Note that setting `ACTIONS_STEP_DEBUG` or `RUNNER_DEBUG` via `env:` on the step does not enable debug logging.
 
 > For more information about debug logging in GitHub Actions, see [the official documentation](https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/enabling-debug-logging).
 
