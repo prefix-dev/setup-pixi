@@ -803,9 +803,20 @@ jobs:
         shell: pixi run python {0}
       - run: |
           python --version | Select-String "3.14"
-        shell: pixi run pwsh -Command {0}
-        # TODO investigate: for some reason, this errors on ubuntu-arm
-        if: matrix.os != 'ubuntu-24.04-arm'
+          Set-Content -Path pwsh-marker.txt -Value "ran"
+        shell: pixi run pwsh -NoProfile -Command "Invoke-Expression (Get-Content -Raw '{0}')"
+      - name: Ensure pwsh script was executed
+        run: test -f pwsh-marker.txt
+        shell: bash
+      - name: Failing pwsh script
+        id: pwsh-failure
+        continue-on-error: true
+        run: |
+          exit 1
+        shell: pixi run pwsh -NoProfile -Command "Invoke-Expression (Get-Content -Raw '{0}')"
+      - name: Ensure failing pwsh script fails the step
+        run: test "${{ steps.pwsh-failure.outcome }}" = "failure"
+        shell: bash
 
   pixi-shell-exec:
     strategy:
@@ -825,9 +836,11 @@ jobs:
         shell: pixi exec --spec python --spec ruamel.yaml -- python {0}
       - run: |
           python --version | Select-String "3.14"
-        shell: pixi exec --spec python=3.14.* -- pwsh -Command {0}
-        # TODO investigate: for some reason, this errors on ubuntu-arm
-        if: matrix.os != 'ubuntu-24.04-arm'
+          Set-Content -Path pwsh-marker.txt -Value "ran"
+        shell: pixi exec --spec python=3.14.* -- pwsh -NoProfile -Command "Invoke-Expression (Get-Content -Raw '{0}')"
+      - name: Ensure pwsh script was executed
+        run: test -f pwsh-marker.txt
+        shell: bash
 
   post-cleanup-linux:
     runs-on: ubuntu-latest
