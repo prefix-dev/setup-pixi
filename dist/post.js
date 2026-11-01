@@ -33372,7 +33372,8 @@ var inferOptions = (inputs) => {
     globalCache,
     pixiBinPath,
     auth,
-    postCleanup
+    postCleanup,
+    configuration: inputs.configuration
   };
 };
 var assertOptions = (_options2) => {
@@ -33432,7 +33433,8 @@ var getOptions = () => {
     ),
     pypiKeyringProvider: parseOrUndefined("pypi-keyring-provider", pypiKeyringProviderSchema),
     globalEnvironments: parseOrUndefinedMultilineList("global-environments", string2()),
-    postCleanup: parseOrUndefinedJSON("post-cleanup", boolean2())
+    postCleanup: parseOrUndefinedJSON("post-cleanup", boolean2()),
+    configuration: parseOrUndefined("configuration", string2())
   };
   debug(`Inputs: ${JSON.stringify(inputs)}`);
   validateInputs(inputs);
@@ -33523,6 +33525,15 @@ var cleanupRattler = () => {
     import_promises.default.rm(rattlerCachePath, { recursive: true, force: true })
   ]);
 };
+var cleanupPixiConfig = () => {
+  const configPath = getState("pixi-config-path");
+  if (!configPath) {
+    debug("Skipping cleanup of pixi configuration, it was not created by this action.");
+    return Promise.resolve();
+  }
+  debug(`Cleaning up pixi configuration ${configPath}.`);
+  return import_promises.default.rm(configPath, { force: true }).then(() => removeEmptyParentDirs(import_path2.default.dirname(configPath)));
+};
 var pixiLogout = async () => {
   const auth = options.auth;
   if (auth?.logout !== "post") {
@@ -33542,6 +33553,7 @@ var run = async () => {
   await pixiLogout();
   const postCleanup = options.postCleanup;
   if (postCleanup) {
+    await cleanupPixiConfig();
     await Promise.all([cleanupPixiBin(), cleanupEnv(), cleanupRattler()]);
     return;
   }

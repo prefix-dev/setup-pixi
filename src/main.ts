@@ -4,7 +4,7 @@ import path from 'path'
 import { exit } from 'process'
 import * as core from '@actions/core'
 import { downloadTool } from '@actions/tool-cache'
-import { parse, stringify } from 'smol-toml'
+import { parse } from 'smol-toml'
 import type { PixiSource } from './options'
 import { options } from './options'
 import { execute, pixiCmd, renderPixiUrl } from './util'
@@ -24,6 +24,11 @@ const downloadPixi = async (source: PixiSource) => {
   })
 }
 
+const pixiConfigPath = () => {
+  const pixiHome = process.env.PIXI_HOME ?? path.join(os.homedir(), '.pixi')
+  return path.join(pixiHome, 'config.toml')
+}
+
 const writePixiConfig = async () => {
   const { configuration } = options
   if (!configuration) {
@@ -32,38 +37,32 @@ const writePixiConfig = async () => {
   }
 
   await core.group('Writing pixi configuration', async () => {
-    const configDir = path.join(os.homedir(), '.pixi')
-    const configPath = path.join(configDir, 'config.toml')
+    const configPath = pixiConfigPath()
 
-    // Validate TOML before writing
-    let parsedNewConfig: Record<string, unknown>
     try {
-      parsedNewConfig = parse(configuration)
-      core.debug(`Parsed configuration: ${JSON.stringify(parsedNewConfig)}`)
+      parse(configuration)
     } catch (error) {
-      throw new Error(`Invalid TOML configuration: ${error instanceof Error ? error.message : String(error)}`)
-    }
-
-    await fs.mkdir(configDir, { recursive: true })
-
-    // Check if config file already exists and throw error if it does
-    try {
-      await fs.access(configPath)
       throw new Error(
-        `Configuration file already exists at ${configPath}. ` +
-          `Please remove the existing file or do not use the configuration input.`
+        `Invalid TOML in \`configuration\` input: ${error instanceof Error ? error.message : String(error)}`
       )
-    } catch (error) {
-      // If file doesn't exist (ENOENT), continue with writing
-      if (error instanceof Error && 'code' in error && (error as NodeJS.ErrnoException).code !== 'ENOENT') {
-        throw error
-      }
-      core.debug(`No existing configuration found at ${configPath}, creating new file`)
     }
 
-    core.debug(`Writing pixi configuration to ${configPath}`)
-    const tomlContent = stringify(parsedNewConfig)
-    await fs.writeFile(configPath, tomlContent, 'utf-8')
+    await fs.mkdir(path.dirname(configPath), { recursive: true })
+    try {
+      // `wx` fails if the file already exists, we never overwrite an existing configuration
+      await fs.writeFile(configPath, configuration, { encoding: 'utf-8', flag: 'wx' })
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code === 'EEXIST') {
+        throw new Error(
+          `Pixi configuration file already exists at ${configPath}. ` +
+            'Remove the existing file or do not use the `configuration` input.'
+        )
+      }
+      throw error
+    }
+    // only mark the config file as owned by this action after it was written successfully,
+    // so that the post step never removes a configuration it did not create
+    core.saveState('pixi-config-path', configPath)
     core.info(`Pixi configuration written to ${configPath}`)
   })
 }
