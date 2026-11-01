@@ -76,6 +76,16 @@ const cleanupRattler = () => {
   ])
 }
 
+const cleanupPixiConfig = () => {
+  const configPath = core.getState('pixi-config-path')
+  if (!configPath) {
+    core.debug('Skipping cleanup of pixi configuration, it was not created by this action.')
+    return Promise.resolve()
+  }
+  core.debug(`Cleaning up pixi configuration ${configPath}.`)
+  return fs.rm(configPath, { force: true }).then(() => removeEmptyParentDirs(path.dirname(configPath)))
+}
+
 const pixiLogout = async () => {
   const auth = options.auth
   if (auth?.logout !== 'post') {
@@ -97,6 +107,8 @@ const run = async () => {
   await pixiLogout()
   const postCleanup = options.postCleanup
   if (postCleanup) {
+    // runs before the binary cleanup since both may remove the (then empty) PIXI_HOME directory
+    await cleanupPixiConfig()
     await Promise.all([cleanupPixiBin(), cleanupEnv(), cleanupRattler()])
     return
   }

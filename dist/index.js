@@ -31255,6 +31255,788 @@ function _getGlobal(key, defaultValue) {
   return value !== void 0 ? value : defaultValue;
 }
 
+// node_modules/.pnpm/smol-toml@1.9.1/node_modules/smol-toml/dist/index.js
+init_cjs_shims();
+
+// node_modules/.pnpm/smol-toml@1.9.1/node_modules/smol-toml/dist/parse.js
+init_cjs_shims();
+
+// node_modules/.pnpm/smol-toml@1.9.1/node_modules/smol-toml/dist/struct.js
+init_cjs_shims();
+
+// node_modules/.pnpm/smol-toml@1.9.1/node_modules/smol-toml/dist/primitive.js
+init_cjs_shims();
+
+// node_modules/.pnpm/smol-toml@1.9.1/node_modules/smol-toml/dist/error.js
+init_cjs_shims();
+function getLineColFromPtr(string3, ptr) {
+  let lines = string3.slice(0, ptr).split(/\r?\n/);
+  return [lines.length, lines.pop().length + 1];
+}
+function makeCodeBlock(string3, line, column) {
+  let lines = string3.split(/\r?\n/);
+  let codeblock = "";
+  let numberLen = (Math.log10(line + 1) | 0) + 1;
+  for (let i = line - 1; i <= line + 1; i++) {
+    let l = lines[i - 1];
+    if (!l)
+      continue;
+    codeblock += i.toString().padEnd(numberLen, " ");
+    codeblock += ":  ";
+    codeblock += l;
+    codeblock += "\n";
+    if (i === line) {
+      codeblock += " ".repeat(numberLen + column + 2);
+      codeblock += "^\n";
+    }
+  }
+  return codeblock;
+}
+var TomlError = class _TomlError extends Error {
+  constructor(message, options2) {
+    const [line, column] = getLineColFromPtr(options2.toml, options2.ptr);
+    const codeblock = makeCodeBlock(options2.toml, line, column);
+    super(`Invalid TOML document: ${message}
+
+${codeblock}`, options2);
+    __publicField(this, "line");
+    __publicField(this, "column");
+    __publicField(this, "codeblock");
+    this.line = line;
+    this.column = column;
+    this.codeblock = codeblock;
+  }
+  /** @internal */
+  static x(message, ctx, ptr) {
+    throw new _TomlError(message, { toml: ctx.s, ptr: ptr ?? ctx.p });
+  }
+};
+
+// node_modules/.pnpm/smol-toml@1.9.1/node_modules/smol-toml/dist/primitive.js
+function parseString(ctx) {
+  let startPtr = ctx.p;
+  let c = ctx.s.charCodeAt(ctx.p++);
+  let first = c;
+  let isLiteral = c === 39;
+  let isMultiline = c === ctx.s.charCodeAt(ctx.p) && c === ctx.s.charCodeAt(ctx.p + 1);
+  if (isMultiline) {
+    if ((c = ctx.s.charCodeAt(ctx.p += 2)) === 10)
+      ctx.p++;
+    else if (c === 13 && ctx.s.charCodeAt(ctx.p + 1) === 10)
+      ctx.p += 2;
+  }
+  let parsed = "";
+  let sliceStart = ctx.p;
+  let state3 = 0;
+  for (; ctx.p < ctx.s.length; ctx.p++) {
+    c = ctx.s.charCodeAt(ctx.p);
+    if (isMultiline && (c === 10 || c === 13 && ctx.s.charCodeAt(ctx.p + 1) === 10)) {
+      state3 = state3 && 3;
+    } else if (c < 32 && c !== 9 || c === 127) {
+      TomlError.x("control characters are not allowed in strings", ctx);
+    } else if ((!state3 || state3 === 3) && c === first && (!isMultiline || ctx.s.charCodeAt(ctx.p + 1) === first && ctx.s.charCodeAt(ctx.p + 2) === first)) {
+      if (isMultiline) {
+        if (ctx.s.charCodeAt(ctx.p + 3) === first)
+          ctx.p++;
+        if (ctx.s.charCodeAt(ctx.p + 3) === first)
+          ctx.p++;
+      }
+      if (!state3) {
+        let s = ctx.s.slice(sliceStart, ctx.p);
+        parsed = parsed ? parsed + s : s;
+      }
+      ctx.p += isMultiline ? 3 : 1;
+      return parsed;
+    } else if (!state3) {
+      if (!isLiteral && c === 92) {
+        parsed += ctx.s.slice(sliceStart, sliceStart = ctx.p);
+        state3 = 1;
+      }
+    } else if (state3 === 1) {
+      if (c === 120 || c === 117 || c === 85) {
+        let errPtr = ctx.p++ - 1;
+        let value = 0;
+        let len = c === 120 ? 2 : c === 117 ? 4 : 8;
+        for (let j = 0; j < len; j++, ctx.p++) {
+          let hex = ctx.s.charCodeAt(ctx.p);
+          let digit = (
+            /* 0-9 */
+            hex >= 48 && hex <= 57 ? hex - 48 : (
+              /* A-F */
+              hex >= 65 && hex <= 70 ? hex - 65 + 10 : (
+                /* a-f */
+                hex >= 97 && hex <= 102 ? hex - 97 + 10 : -1
+              )
+            )
+          );
+          if (digit < 0)
+            TomlError.x("invalid non-hex character in unicode escape", ctx);
+          value = value << 4 | digit;
+        }
+        if (value < 0 || value > 1114111 || value >= 55296 && value <= 57343) {
+          TomlError.x("invalid unicode escape", ctx, errPtr);
+        }
+        parsed += String.fromCodePoint(value);
+        sliceStart = ctx.p--;
+        state3 = 0;
+      } else if (isMultiline && (c === 32 || c === 9)) {
+        state3 = 2;
+      } else {
+        if (c === 98)
+          parsed += "\b";
+        else if (c === 116)
+          parsed += "	";
+        else if (c === 110)
+          parsed += "\n";
+        else if (c === 102)
+          parsed += "\f";
+        else if (c === 114)
+          parsed += "\r";
+        else if (c === 101)
+          parsed += "\x1B";
+        else if (c === 34)
+          parsed += '"';
+        else if (c === 92)
+          parsed += "\\";
+        else
+          TomlError.x("unrecognised escape sequence", ctx);
+        sliceStart = ctx.p + 1;
+        state3 = 0;
+      }
+    } else if (c !== 32 && c !== 9) {
+      if (state3 === 2)
+        TomlError.x("invalid escape: only line-ending whitespace may be escaped", ctx, sliceStart);
+      state3 = !isLiteral && c === 92 ? 1 : 0;
+      sliceStart = ctx.p;
+    }
+  }
+  TomlError.x("unfinished string", ctx, startPtr);
+}
+
+// node_modules/.pnpm/smol-toml@1.9.1/node_modules/smol-toml/dist/extract.js
+init_cjs_shims();
+
+// node_modules/.pnpm/smol-toml@1.9.1/node_modules/smol-toml/dist/date.js
+init_cjs_shims();
+var DATE_TIME_RE = /^(\d{4}-\d{2}-\d{2})?[Tt ]?(?:(\d{2}):\d{2}(?::\d{2}(?:\.\d+)?)?)?(Z|z|[-+]\d{2}:\d{2})?$/i;
+var _hasDate, _hasTime, _offset;
+var _TomlDate = class _TomlDate extends Date {
+  constructor(date2, fasttype, unsafeDelim) {
+    let hasDate = true;
+    let hasTime = true;
+    let offset = "Z";
+    let c;
+    if (typeof date2 === "string") {
+      if (fasttype)
+        prep: {
+          if (fasttype < 3) {
+            if (+date2.slice(11, 13) > 23) {
+              date2 = "";
+              break prep;
+            }
+            if (fasttype === 2) {
+              offset = null;
+              date2 += "Z";
+            } else if ((c = date2.charCodeAt(date2.length - 1)) !== 90 && c !== 122) {
+              offset = date2.slice(date2.length - 6);
+            }
+            if (unsafeDelim)
+              date2 = date2.slice(0, 10) + "T" + date2.slice(11);
+          } else if (fasttype === 4) {
+            date2 = +date2.slice(0, 2) > 23 ? "" : `0000-01-01T${date2}Z`;
+          }
+          hasDate = fasttype !== 4;
+          hasTime = fasttype !== 3;
+        }
+      else {
+        let match3 = date2.match(DATE_TIME_RE);
+        if (match3) {
+          if (!match3[1]) {
+            hasDate = false;
+            date2 = `0000-01-01T${date2}`;
+          }
+          hasTime = !!match3[2];
+          hasTime && date2[10] === " " && (date2 = date2.replace(" ", "T"));
+          if (match3[2] && +match3[2] > 23) {
+            date2 = "";
+          } else {
+            offset = match3[3] || null;
+            if (!offset && hasTime)
+              date2 += "Z";
+          }
+        } else {
+          date2 = "";
+        }
+      }
+    }
+    super(date2);
+    __privateAdd(this, _hasDate, false);
+    __privateAdd(this, _hasTime, false);
+    __privateAdd(this, _offset, null);
+    if (!isNaN(this.getTime())) {
+      __privateSet(this, _hasDate, hasDate);
+      __privateSet(this, _hasTime, hasTime);
+      __privateSet(this, _offset, offset);
+    }
+  }
+  isDateTime() {
+    return __privateGet(this, _hasDate) && __privateGet(this, _hasTime);
+  }
+  isLocal() {
+    return !__privateGet(this, _hasDate) || !__privateGet(this, _hasTime) || !__privateGet(this, _offset);
+  }
+  isDate() {
+    return __privateGet(this, _hasDate) && !__privateGet(this, _hasTime);
+  }
+  isTime() {
+    return __privateGet(this, _hasTime) && !__privateGet(this, _hasDate);
+  }
+  isValid() {
+    return __privateGet(this, _hasDate) || __privateGet(this, _hasTime);
+  }
+  toISOString() {
+    let iso = super.toISOString();
+    if (this.isDate())
+      return iso.slice(0, 10);
+    if (this.isTime())
+      return iso.slice(11, 23);
+    if (__privateGet(this, _offset) === null)
+      return iso.slice(0, -1);
+    if (__privateGet(this, _offset) === "Z" || __privateGet(this, _offset) === "z")
+      return iso;
+    let offset = +__privateGet(this, _offset).slice(1, 3) * 60 + +__privateGet(this, _offset).slice(4, 6);
+    offset = __privateGet(this, _offset)[0] === "-" ? offset : -offset;
+    let offsetDate = new Date(this.getTime() - offset * 6e4);
+    return offsetDate.toISOString().slice(0, -1) + __privateGet(this, _offset);
+  }
+  static wrapAsOffsetDateTime(jsDate, offset = "Z") {
+    let date2 = new _TomlDate(jsDate);
+    __privateSet(date2, _offset, offset);
+    return date2;
+  }
+  static wrapAsLocalDateTime(jsDate) {
+    let date2 = new _TomlDate(jsDate);
+    __privateSet(date2, _offset, null);
+    return date2;
+  }
+  static wrapAsLocalDate(jsDate) {
+    let date2 = new _TomlDate(jsDate);
+    __privateSet(date2, _hasTime, false);
+    __privateSet(date2, _offset, null);
+    return date2;
+  }
+  static wrapAsLocalTime(jsDate) {
+    let date2 = new _TomlDate(jsDate);
+    __privateSet(date2, _hasDate, false);
+    __privateSet(date2, _offset, null);
+    return date2;
+  }
+};
+_hasDate = new WeakMap();
+_hasTime = new WeakMap();
+_offset = new WeakMap();
+var TomlDate = _TomlDate;
+
+// node_modules/.pnpm/smol-toml@1.9.1/node_modules/smol-toml/dist/extract.js
+function isDigit(char, base = 10) {
+  return base === 16 ? char > 47 && char < 58 || char > 64 && char < 71 || char > 96 && char < 103 : char > 47 && char < 48 + base;
+}
+function isEndOfValue(char, delim) {
+  return char === 32 || char === 9 || char === 10 || char === 13 || // Structure end or next value delimiter
+  delim && (char === delim || char === 44) || // Comment
+  char === 35;
+}
+function extractValue(ctx, end) {
+  let errPtr = ctx.p;
+  let c = ctx.s.charCodeAt(ctx.p);
+  if (c === 91 || c === 123) {
+    ctx.d-- || TomlError.x("document contains excessively nested structures. aborting.", ctx);
+    let value = c === 91 ? parseArray(ctx) : parseInlineTable(ctx);
+    ctx.d++;
+    return value;
+  }
+  if (c === 34 || c === 39) {
+    return parseString(ctx);
+  }
+  if (c === 116) {
+    if (ctx.s.charCodeAt(++ctx.p) !== 114 || ctx.s.charCodeAt(++ctx.p) !== 117 || ctx.s.charCodeAt(++ctx.p) !== 101)
+      TomlError.x("invalid value", ctx, errPtr);
+    return ctx.p++, true;
+  }
+  if (c === 102) {
+    if (ctx.s.charCodeAt(++ctx.p) !== 97 || ctx.s.charCodeAt(++ctx.p) !== 108 || ctx.s.charCodeAt(++ctx.p) !== 115 || ctx.s.charCodeAt(++ctx.p) !== 101)
+      TomlError.x("invalid value", ctx, errPtr);
+    return ctx.p++, false;
+  }
+  if (c === 43 || c === 45) {
+    return parseNumber(ctx, ctx.p, ctx.s.charCodeAt(++ctx.p), 44 - c, end);
+  }
+  if (ctx.s.charCodeAt(ctx.p + 4) === 45 && ctx.s.charCodeAt(ctx.p + 7) === 45) {
+    return parseDate(ctx, c, end);
+  }
+  if (ctx.s.charCodeAt(ctx.p + 2) === 58) {
+    return parseTime(ctx, c, end);
+  }
+  return parseNumber(ctx, ctx.p, c, 0, end);
+}
+function parseNumber(ctx, startPtr, startChr, sign, endChr) {
+  let c = startChr;
+  let state3 = 0;
+  let hasUnderscores = false;
+  if (c === 105) {
+    if (ctx.s.charCodeAt(++ctx.p) !== 110 || ctx.s.charCodeAt(++ctx.p) !== 102)
+      TomlError.x("invalid value", ctx, startPtr);
+    return ctx.p++, (sign || 1) / 0;
+  }
+  if (c === 110) {
+    if (ctx.s.charCodeAt(++ctx.p) !== 97 || ctx.s.charCodeAt(++ctx.p) !== 110)
+      TomlError.x("invalid value", ctx, startPtr);
+    return ctx.p++, NaN;
+  }
+  if (c === 48) {
+    if (++ctx.p >= ctx.s.length || isEndOfValue(c = ctx.s.charCodeAt(ctx.p), endChr))
+      return ctx.bi === true ? 0n : 0;
+    if (!sign) {
+      if (c === 120)
+        return parseIntegerBaseN(ctx, startPtr, 16, endChr);
+      else if (c === 98)
+        return parseIntegerBaseN(ctx, startPtr, 2, endChr);
+      else if (c === 111)
+        return parseIntegerBaseN(ctx, startPtr, 8, endChr);
+    }
+    if (c === 46)
+      state3 = 2;
+    else if (c === 101 || c === 69)
+      state3 = 4;
+    else
+      TomlError.x("illegal leading zero", ctx, startPtr);
+  } else if (!isDigit(c))
+    TomlError.x("invalid value", ctx, startPtr);
+  while (++ctx.p < ctx.s.length && (c = ctx.s.charCodeAt(ctx.p), !isEndOfValue(c, endChr))) {
+    if (!state3)
+      state3 = 1;
+    if (c === 95) {
+      if (!(state3 & 1))
+        TomlError.x("illegal underscore", ctx);
+      state3 += 11;
+      hasUnderscores = true;
+    } else if (state3 === 1 && c === 46)
+      state3 = 2;
+    else if ((state3 === 1 || state3 === 3) && (c === 101 || c === 69))
+      state3 = 4;
+    else if (state3 === 4 && (c === 43 || c === 45)) {
+      state3 = 6;
+    } else if (!isDigit(c))
+      TomlError.x(`illegal character in numeric literal`, ctx);
+    else if (state3 > 9)
+      state3 -= 11;
+    else if (!(state3 & 1))
+      state3++;
+  }
+  if (!state3) {
+    let val = (startChr - 48) * (sign || 1);
+    return ctx.bi === true ? BigInt(val) : val;
+  }
+  if (!(state3 & 1))
+    TomlError.x("unfinished numeric value", ctx, startPtr);
+  let str = ctx.s.slice(startPtr, ctx.p);
+  if (hasUnderscores)
+    str = str.replaceAll("_", "");
+  return state3 > 1 ? parseFloat(str) : parseInteger(ctx, str, 10, startPtr);
+}
+function parseIntegerBaseN(ctx, startPtr, base, endChr) {
+  let c, underscore = 1;
+  while (++ctx.p < ctx.s.length && (c = ctx.s.charCodeAt(ctx.p), !isEndOfValue(c, endChr))) {
+    if (c === 95) {
+      if (underscore & 1)
+        TomlError.x("illegal underscore", ctx);
+      underscore = 3;
+    } else if (!isDigit(c, base))
+      TomlError.x(`illegal character in numeric literal`, ctx);
+    else if (underscore & 1)
+      underscore--;
+  }
+  if (underscore & 1)
+    TomlError.x("unfinished numeric value", ctx);
+  let str = ctx.s.slice(startPtr + 2, ctx.p);
+  if (underscore)
+    str = str.replaceAll("_", "");
+  return parseInteger(ctx, str, base, startPtr);
+}
+function parseInteger(ctx, str, base, startPtr) {
+  if (ctx.bi !== true)
+    int: {
+      let val = parseInt(str, base);
+      if (!Number.isSafeInteger(val)) {
+        if (ctx.bi)
+          break int;
+        TomlError.x("integer value cannot be represented losslessly", ctx, startPtr);
+      }
+      return val;
+    }
+  return base === 10 ? BigInt(str) : BigInt((base === 2 ? "0b" : base === 8 ? "0o" : "0x") + str);
+}
+function parseDate(ctx, c, endChr) {
+  let startPtr = ctx.p++, unsafeSeparator;
+  if (!isDigit(c) || !isDigit(ctx.s.charCodeAt(ctx.p++)) || !isDigit(ctx.s.charCodeAt(ctx.p++)) || !isDigit(ctx.s.charCodeAt(ctx.p++))) {
+    return parseNumber(ctx, ctx.p = startPtr, c, 0, endChr);
+  }
+  ctx.p += 5;
+  if (!isDigit(ctx.s.charCodeAt(ctx.p++)))
+    TomlError.x("invalid date-time: date part is malformed", ctx, startPtr);
+  if (ctx.p >= ctx.s.length || ((c = ctx.s.charCodeAt(ctx.p)) !== 32 || (unsafeSeparator = true, !isDigit(ctx.s.charCodeAt(ctx.p + 1)))) && c !== 84 && c !== 116) {
+    let t2 = ctx.s.slice(startPtr, ctx.p);
+    return readDate(ctx, t2, 3, false, startPtr);
+  }
+  if (ctx.s.charCodeAt(ctx.p += 3) !== 58)
+    TomlError.x("invalid date-time: time part is malformed", ctx, startPtr);
+  if (ctx.s.charCodeAt(ctx.p += 3) === 58)
+    ctx.p += 3;
+  if (ctx.s.charCodeAt(ctx.p) === 46)
+    while (isDigit(ctx.s.charCodeAt(++ctx.p)))
+      ;
+  if (c = ctx.s.charCodeAt(ctx.p)) {
+    if (c === 90 || c === 122) {
+      let t2 = ctx.s.slice(startPtr, ++ctx.p);
+      return readDate(ctx, t2, 1, unsafeSeparator, startPtr, "[+00:00]");
+    }
+    if (c === 43 || c === 45) {
+      let t2 = ctx.s.slice(startPtr, ctx.p += 6);
+      return readDate(ctx, t2, 1, unsafeSeparator, startPtr, !ctx.ld && "[" + ctx.s.slice(ctx.p - 6, ctx.p) + "]");
+    }
+  }
+  let t = ctx.s.slice(startPtr, ctx.p);
+  return readDate(ctx, t, 2, unsafeSeparator, startPtr);
+}
+function parseTime(ctx, c, endChr) {
+  let start = ctx.p;
+  if (!isDigit(c) || !isDigit(ctx.s.charCodeAt(++ctx.p))) {
+    return parseNumber(ctx, --ctx.p, c, 0, endChr);
+  }
+  if (ctx.s.charCodeAt(ctx.p += 4) === 58)
+    ctx.p += 3;
+  if (ctx.s.charCodeAt(ctx.p) === 46)
+    while (isDigit(ctx.s.charCodeAt(++ctx.p)))
+      ;
+  let t = ctx.s.slice(start, ctx.p);
+  return readDate(ctx, t, 4, false, start);
+}
+function readDate(ctx, str, type, unsafeDelim, errPtr, temporalSuffix) {
+  if (ctx.ld) {
+    let date2 = new TomlDate(str, type, unsafeDelim);
+    if (!date2.isValid())
+      TomlError.x("invalid date", ctx, errPtr);
+    return date2;
+  }
+  try {
+    if (temporalSuffix)
+      str += temporalSuffix;
+    switch (type) {
+      case 1:
+        return Temporal.ZonedDateTime.from(str);
+      case 2:
+        return Temporal.PlainDateTime.from(str);
+      case 3:
+        return Temporal.PlainDate.from(str);
+      case 4:
+        return Temporal.PlainTime.from(str);
+    }
+  } catch (e) {
+    TomlError.x(e instanceof Error ? e.message : "" + e, ctx, errPtr);
+  }
+}
+
+// node_modules/.pnpm/smol-toml@1.9.1/node_modules/smol-toml/dist/util.js
+init_cjs_shims();
+function skipComment(ctx) {
+  for (; ctx.p < ctx.s.length; ctx.p++) {
+    let c = ctx.s.charCodeAt(ctx.p);
+    if (c === 10)
+      break;
+    if (c === 13 && ctx.s.charCodeAt(ctx.p + 1) === 10) {
+      ctx.p++;
+      break;
+    }
+    if (c < 32 && c !== 9 || c === 127) {
+      TomlError.x("control characters are not allowed in comments", ctx);
+    }
+  }
+}
+function skipVoid(ctx, banNewLines, banComments) {
+  let c;
+  while (ctx.p < ctx.s.length) {
+    while (ctx.p < ctx.s.length && ((c = ctx.s.charCodeAt(ctx.p)) === 32 || c === 9 || !banNewLines && (c === 10 || c === 13 && ctx.s.charCodeAt(ctx.p + 1) === 10)))
+      ctx.p++;
+    if (banComments || c !== 35)
+      break;
+    skipComment(ctx);
+  }
+}
+
+// node_modules/.pnpm/smol-toml@1.9.1/node_modules/smol-toml/dist/struct.js
+function parseKey(ctx, end = 61) {
+  let startPtr;
+  let state3 = 0;
+  let parsed = [];
+  let sliceStart;
+  let c = ctx.s.charCodeAt(startPtr = ctx.p);
+  do {
+    if (c === end) {
+      if (!state3)
+        TomlError.x("unexpected end of key", ctx);
+      if (state3 === 1)
+        parsed.push(ctx.s.slice(sliceStart, ctx.p));
+      return ctx.p++, parsed;
+    } else if (c === 46) {
+      if (!state3)
+        TomlError.x("illegal empty bare key", ctx);
+      if (state3 === 1)
+        parsed.push(ctx.s.slice(sliceStart, ctx.p));
+      state3 = 0;
+    } else if (!state3 && (c === 34 || c === 39)) {
+      if (c === ctx.s.charCodeAt(ctx.p + 1) && c === ctx.s.charCodeAt(ctx.p + 2))
+        TomlError.x("illegal quoted key: multiline strings are not allowed", ctx);
+      parsed.push(parseString(ctx));
+      state3 = 2;
+      ctx.p--;
+    } else if (c === 32 || c === 9) {
+      if (state3 === 1) {
+        parsed.push(ctx.s.slice(sliceStart, ctx.p));
+        state3 = 2;
+      }
+    } else if (state3 === 2 || c < 48 && c !== 45 || c > 57 && c < 65 || c > 90 && c < 97 && c !== 95 || c > 122) {
+      TomlError.x("illegal character in key", ctx);
+    } else if (!state3) {
+      state3 = 1;
+      sliceStart = ctx.p;
+    }
+  } while (c = ctx.s.charCodeAt(++ctx.p));
+  TomlError.x("incomplete key-value: cannot find end of key", ctx, startPtr);
+}
+function parseInlineTable(ctx) {
+  let startPtr = ctx.p++;
+  let res = /* @__PURE__ */ Object.create(null);
+  let seen = /* @__PURE__ */ new Set();
+  let c;
+  while (ctx.p < ctx.s.length) {
+    skipVoid(ctx);
+    if ((c = ctx.s.charCodeAt(ctx.p)) === 125) {
+      ctx.p++;
+      return res;
+    }
+    let k;
+    let t = res;
+    let hasOwn = false;
+    let errPtr = ctx.p;
+    let key = parseKey(ctx);
+    for (let i = 0; i < key.length; i++) {
+      if (i)
+        t = hasOwn ? t[k] : t[k] = /* @__PURE__ */ Object.create(null);
+      k = key[i];
+      if ((hasOwn = Object.hasOwn(t, k)) && (typeof t[k] !== "object" || seen.has(t[k]))) {
+        TomlError.x("trying to redefine an already defined value", ctx, errPtr);
+      }
+      let unsafe = k === "__proto__";
+      if (ctx.uk && (unsafe || k === "constructor")) {
+        t = ctx.uk !== 1 && TomlError.x("document contains an unsafe property", ctx, errPtr);
+        break;
+      }
+      if (!hasOwn && unsafe) {
+        Object.defineProperty(t, k, { enumerable: true, configurable: true, writable: true });
+      }
+    }
+    if (hasOwn) {
+      TomlError.x("trying to redefine an already defined value", ctx, errPtr);
+    }
+    skipVoid(ctx, true, true);
+    let value = extractValue(
+      ctx,
+      125
+      /* } */
+    );
+    if (t && typeof (t[k] = value) === "object")
+      seen.add(value);
+    skipVoid(ctx);
+    if ((c = ctx.s.charCodeAt(ctx.p++)) === 125) {
+      return res;
+    }
+    if (c !== 44)
+      TomlError.x("expected comma or end of structure", ctx, ctx.p - 1);
+  }
+  TomlError.x("unfinished table", ctx, startPtr);
+}
+function parseArray(ctx) {
+  let startPtr = ctx.p++;
+  let res = [];
+  let c;
+  while (ctx.p < ctx.s.length) {
+    skipVoid(ctx);
+    if ((c = ctx.s.charCodeAt(ctx.p)) === 93) {
+      ctx.p++;
+      return res;
+    }
+    res.push(extractValue(
+      ctx,
+      93
+      /* ] */
+    ));
+    skipVoid(ctx);
+    if ((c = ctx.s.charCodeAt(ctx.p++)) === 93) {
+      return res;
+    }
+    if (c !== 44)
+      TomlError.x("expected comma or end of structure", ctx, ctx.p - 1);
+  }
+  TomlError.x("unfinished array", ctx, startPtr);
+}
+
+// node_modules/.pnpm/smol-toml@1.9.1/node_modules/smol-toml/dist/parse.js
+function peekTable(ctx, key, table, meta2, type) {
+  let t = table;
+  let m = meta2;
+  let k;
+  let hasOwn = false;
+  let state3;
+  for (let i = 0; i < key.length; i++) {
+    if (i) {
+      t = hasOwn ? t[k] : t[k] = /* @__PURE__ */ Object.create(null);
+      m = (state3 = m[k]).c;
+      if (type === 0 && (state3.t === 1 || state3.t === 2)) {
+        return null;
+      }
+      if (state3.t === 2) {
+        let l = t.length - 1;
+        t = t[l];
+        m = m[l].c;
+      }
+    }
+    k = key[i];
+    if ((hasOwn = Object.hasOwn(t, k)) && m[k]?.t === 0 && m[k]?.d) {
+      return null;
+    }
+    if (!hasOwn) {
+      let unsafe = k === "__proto__";
+      if (ctx.uk && (unsafe || k === "constructor"))
+        return false;
+      if (unsafe) {
+        Object.defineProperty(t, k, { enumerable: true, configurable: true, writable: true });
+        Object.defineProperty(m, k, { enumerable: true, configurable: true, writable: true });
+      }
+      m[k] = {
+        t: i < key.length - 1 && type === 2 ? 3 : type,
+        d: false,
+        i: 0,
+        c: /* @__PURE__ */ Object.create(null)
+      };
+    }
+  }
+  state3 = m[k];
+  if (state3.t !== type && !(type === 1 && state3.t === 3)) {
+    return null;
+  }
+  if (type === 2) {
+    if (!state3.d) {
+      state3.d = true;
+      t[k] = [];
+    }
+    t[k].push(t = /* @__PURE__ */ Object.create(null));
+    state3.c[state3.i++] = state3 = { t: 1, d: false, i: 0, c: /* @__PURE__ */ Object.create(null) };
+  }
+  if (state3.d) {
+    return null;
+  }
+  state3.d = true;
+  if (type === 1) {
+    t = hasOwn ? t[k] : t[k] = /* @__PURE__ */ Object.create(null);
+  } else if (type === 0 && hasOwn) {
+    return null;
+  }
+  return [k, t, state3.c];
+}
+function validateTablePeek(ctx, peek, ptr) {
+  if (peek === null || ctx.uk === 2)
+    TomlError.x(peek === null ? "trying to redefine an already defined table or value" : "document contains an unsafe property", ctx, ptr);
+}
+function parse(toml, options2 = {}) {
+  let ctx = {
+    s: toml,
+    p: 0,
+    d: options2.maxDepth ?? 1e3,
+    bi: options2.integersAsBigInt ?? false,
+    ld: options2.useLegacyDate ?? true,
+    uk: options2.unsafeKeyBehaviour === "throw" ? 2 : options2.unsafeKeyBehaviour === "drop" ? 1 : 0
+  };
+  let res = /* @__PURE__ */ Object.create(null);
+  let meta2 = /* @__PURE__ */ Object.create(null);
+  let tmp;
+  let skipping = false;
+  let tbl = res;
+  let m = meta2;
+  if (toml.charCodeAt(0) === 65279)
+    ctx.p++;
+  skipVoid(ctx);
+  while (ctx.p < toml.length) {
+    if (toml.charCodeAt(ctx.p) === 91) {
+      let isTableArray = toml.charCodeAt(++ctx.p) === 91;
+      tmp = ctx.p += +isTableArray;
+      skipping = false;
+      let k = parseKey(
+        ctx,
+        93
+        /* ] */
+      );
+      if (isTableArray) {
+        if (toml.charCodeAt(ctx.p) !== 93) {
+          TomlError.x("expected end of table array declaration", ctx);
+        }
+        ctx.p++;
+      }
+      let p = peekTable(
+        ctx,
+        k,
+        res,
+        meta2,
+        isTableArray ? 2 : 1
+        /* Type.EXPLICIT */
+      );
+      if (!p) {
+        validateTablePeek(ctx, p, tmp);
+        skipping = true;
+      } else {
+        m = p[2];
+        tbl = p[1];
+      }
+    } else {
+      tmp = ctx.p;
+      let k = parseKey(ctx);
+      let p = peekTable(
+        ctx,
+        k,
+        tbl,
+        m,
+        0
+        /* Type.DOTTED */
+      );
+      if (!p && !skipping)
+        validateTablePeek(ctx, p, tmp);
+      skipVoid(ctx, true, true);
+      let v = extractValue(ctx, void 0);
+      if (p && !skipping)
+        p[1][p[0]] = v;
+    }
+    skipVoid(ctx, true);
+    if (ctx.p < toml.length && (tmp = toml.charCodeAt(ctx.p)) !== 10 && (tmp !== 13 || toml.charCodeAt(ctx.p + 1) !== 10)) {
+      TomlError.x("each key-value declaration must be followed by an end-of-line", ctx);
+    }
+    skipVoid(ctx);
+  }
+  return res;
+}
+
+// node_modules/.pnpm/smol-toml@1.9.1/node_modules/smol-toml/dist/stringify.js
+init_cjs_shims();
+var HAS_WELLFORMED = !!"".isWellFormed;
+
 // src/options.ts
 init_cjs_shims();
 var import_path = __toESM(require("path"));
@@ -35904,7 +36686,7 @@ var ZodRealError = /* @__PURE__ */ $constructor("ZodError", initializer2, void 0
 });
 
 // node_modules/.pnpm/zod@4.6.7/node_modules/zod/v4/classic/parse.js
-var parse = /* @__PURE__ */ _parse(ZodRealError);
+var parse2 = /* @__PURE__ */ _parse(ZodRealError);
 var parseAsync = /* @__PURE__ */ _parseAsync(ZodRealError);
 var safeParse = /* @__PURE__ */ _safeParse(ZodRealError);
 var safeParseAsync = /* @__PURE__ */ _safeParseAsync(ZodRealError);
@@ -36041,7 +36823,7 @@ var ZodType = /* @__PURE__ */ $constructor("ZodType", (inst, def) => {
     util_exports.own(this, "~standard", value);
   },
   parse: function _parse2(data, params) {
-    return parse(this, data, params, { callee: _parse2 });
+    return parse2(this, data, params, { callee: _parse2 });
   },
   parseAsync: async function _parseAsync2(data, params) {
     return await parseAsync(this, data, params, { callee: _parseAsync2 });
@@ -36696,788 +37478,6 @@ function untildify(pathWithTilde) {
   return pathWithTilde;
 }
 
-// node_modules/.pnpm/smol-toml@1.9.1/node_modules/smol-toml/dist/index.js
-init_cjs_shims();
-
-// node_modules/.pnpm/smol-toml@1.9.1/node_modules/smol-toml/dist/parse.js
-init_cjs_shims();
-
-// node_modules/.pnpm/smol-toml@1.9.1/node_modules/smol-toml/dist/struct.js
-init_cjs_shims();
-
-// node_modules/.pnpm/smol-toml@1.9.1/node_modules/smol-toml/dist/primitive.js
-init_cjs_shims();
-
-// node_modules/.pnpm/smol-toml@1.9.1/node_modules/smol-toml/dist/error.js
-init_cjs_shims();
-function getLineColFromPtr(string3, ptr) {
-  let lines = string3.slice(0, ptr).split(/\r?\n/);
-  return [lines.length, lines.pop().length + 1];
-}
-function makeCodeBlock(string3, line, column) {
-  let lines = string3.split(/\r?\n/);
-  let codeblock = "";
-  let numberLen = (Math.log10(line + 1) | 0) + 1;
-  for (let i = line - 1; i <= line + 1; i++) {
-    let l = lines[i - 1];
-    if (!l)
-      continue;
-    codeblock += i.toString().padEnd(numberLen, " ");
-    codeblock += ":  ";
-    codeblock += l;
-    codeblock += "\n";
-    if (i === line) {
-      codeblock += " ".repeat(numberLen + column + 2);
-      codeblock += "^\n";
-    }
-  }
-  return codeblock;
-}
-var TomlError = class _TomlError extends Error {
-  constructor(message, options2) {
-    const [line, column] = getLineColFromPtr(options2.toml, options2.ptr);
-    const codeblock = makeCodeBlock(options2.toml, line, column);
-    super(`Invalid TOML document: ${message}
-
-${codeblock}`, options2);
-    __publicField(this, "line");
-    __publicField(this, "column");
-    __publicField(this, "codeblock");
-    this.line = line;
-    this.column = column;
-    this.codeblock = codeblock;
-  }
-  /** @internal */
-  static x(message, ctx, ptr) {
-    throw new _TomlError(message, { toml: ctx.s, ptr: ptr ?? ctx.p });
-  }
-};
-
-// node_modules/.pnpm/smol-toml@1.9.1/node_modules/smol-toml/dist/primitive.js
-function parseString(ctx) {
-  let startPtr = ctx.p;
-  let c = ctx.s.charCodeAt(ctx.p++);
-  let first = c;
-  let isLiteral = c === 39;
-  let isMultiline = c === ctx.s.charCodeAt(ctx.p) && c === ctx.s.charCodeAt(ctx.p + 1);
-  if (isMultiline) {
-    if ((c = ctx.s.charCodeAt(ctx.p += 2)) === 10)
-      ctx.p++;
-    else if (c === 13 && ctx.s.charCodeAt(ctx.p + 1) === 10)
-      ctx.p += 2;
-  }
-  let parsed = "";
-  let sliceStart = ctx.p;
-  let state3 = 0;
-  for (; ctx.p < ctx.s.length; ctx.p++) {
-    c = ctx.s.charCodeAt(ctx.p);
-    if (isMultiline && (c === 10 || c === 13 && ctx.s.charCodeAt(ctx.p + 1) === 10)) {
-      state3 = state3 && 3;
-    } else if (c < 32 && c !== 9 || c === 127) {
-      TomlError.x("control characters are not allowed in strings", ctx);
-    } else if ((!state3 || state3 === 3) && c === first && (!isMultiline || ctx.s.charCodeAt(ctx.p + 1) === first && ctx.s.charCodeAt(ctx.p + 2) === first)) {
-      if (isMultiline) {
-        if (ctx.s.charCodeAt(ctx.p + 3) === first)
-          ctx.p++;
-        if (ctx.s.charCodeAt(ctx.p + 3) === first)
-          ctx.p++;
-      }
-      if (!state3) {
-        let s = ctx.s.slice(sliceStart, ctx.p);
-        parsed = parsed ? parsed + s : s;
-      }
-      ctx.p += isMultiline ? 3 : 1;
-      return parsed;
-    } else if (!state3) {
-      if (!isLiteral && c === 92) {
-        parsed += ctx.s.slice(sliceStart, sliceStart = ctx.p);
-        state3 = 1;
-      }
-    } else if (state3 === 1) {
-      if (c === 120 || c === 117 || c === 85) {
-        let errPtr = ctx.p++ - 1;
-        let value = 0;
-        let len = c === 120 ? 2 : c === 117 ? 4 : 8;
-        for (let j = 0; j < len; j++, ctx.p++) {
-          let hex = ctx.s.charCodeAt(ctx.p);
-          let digit = (
-            /* 0-9 */
-            hex >= 48 && hex <= 57 ? hex - 48 : (
-              /* A-F */
-              hex >= 65 && hex <= 70 ? hex - 65 + 10 : (
-                /* a-f */
-                hex >= 97 && hex <= 102 ? hex - 97 + 10 : -1
-              )
-            )
-          );
-          if (digit < 0)
-            TomlError.x("invalid non-hex character in unicode escape", ctx);
-          value = value << 4 | digit;
-        }
-        if (value < 0 || value > 1114111 || value >= 55296 && value <= 57343) {
-          TomlError.x("invalid unicode escape", ctx, errPtr);
-        }
-        parsed += String.fromCodePoint(value);
-        sliceStart = ctx.p--;
-        state3 = 0;
-      } else if (isMultiline && (c === 32 || c === 9)) {
-        state3 = 2;
-      } else {
-        if (c === 98)
-          parsed += "\b";
-        else if (c === 116)
-          parsed += "	";
-        else if (c === 110)
-          parsed += "\n";
-        else if (c === 102)
-          parsed += "\f";
-        else if (c === 114)
-          parsed += "\r";
-        else if (c === 101)
-          parsed += "\x1B";
-        else if (c === 34)
-          parsed += '"';
-        else if (c === 92)
-          parsed += "\\";
-        else
-          TomlError.x("unrecognised escape sequence", ctx);
-        sliceStart = ctx.p + 1;
-        state3 = 0;
-      }
-    } else if (c !== 32 && c !== 9) {
-      if (state3 === 2)
-        TomlError.x("invalid escape: only line-ending whitespace may be escaped", ctx, sliceStart);
-      state3 = !isLiteral && c === 92 ? 1 : 0;
-      sliceStart = ctx.p;
-    }
-  }
-  TomlError.x("unfinished string", ctx, startPtr);
-}
-
-// node_modules/.pnpm/smol-toml@1.9.1/node_modules/smol-toml/dist/extract.js
-init_cjs_shims();
-
-// node_modules/.pnpm/smol-toml@1.9.1/node_modules/smol-toml/dist/date.js
-init_cjs_shims();
-var DATE_TIME_RE = /^(\d{4}-\d{2}-\d{2})?[Tt ]?(?:(\d{2}):\d{2}(?::\d{2}(?:\.\d+)?)?)?(Z|z|[-+]\d{2}:\d{2})?$/i;
-var _hasDate, _hasTime, _offset;
-var _TomlDate = class _TomlDate extends Date {
-  constructor(date2, fasttype, unsafeDelim) {
-    let hasDate = true;
-    let hasTime = true;
-    let offset = "Z";
-    let c;
-    if (typeof date2 === "string") {
-      if (fasttype)
-        prep: {
-          if (fasttype < 3) {
-            if (+date2.slice(11, 13) > 23) {
-              date2 = "";
-              break prep;
-            }
-            if (fasttype === 2) {
-              offset = null;
-              date2 += "Z";
-            } else if ((c = date2.charCodeAt(date2.length - 1)) !== 90 && c !== 122) {
-              offset = date2.slice(date2.length - 6);
-            }
-            if (unsafeDelim)
-              date2 = date2.slice(0, 10) + "T" + date2.slice(11);
-          } else if (fasttype === 4) {
-            date2 = +date2.slice(0, 2) > 23 ? "" : `0000-01-01T${date2}Z`;
-          }
-          hasDate = fasttype !== 4;
-          hasTime = fasttype !== 3;
-        }
-      else {
-        let match3 = date2.match(DATE_TIME_RE);
-        if (match3) {
-          if (!match3[1]) {
-            hasDate = false;
-            date2 = `0000-01-01T${date2}`;
-          }
-          hasTime = !!match3[2];
-          hasTime && date2[10] === " " && (date2 = date2.replace(" ", "T"));
-          if (match3[2] && +match3[2] > 23) {
-            date2 = "";
-          } else {
-            offset = match3[3] || null;
-            if (!offset && hasTime)
-              date2 += "Z";
-          }
-        } else {
-          date2 = "";
-        }
-      }
-    }
-    super(date2);
-    __privateAdd(this, _hasDate, false);
-    __privateAdd(this, _hasTime, false);
-    __privateAdd(this, _offset, null);
-    if (!isNaN(this.getTime())) {
-      __privateSet(this, _hasDate, hasDate);
-      __privateSet(this, _hasTime, hasTime);
-      __privateSet(this, _offset, offset);
-    }
-  }
-  isDateTime() {
-    return __privateGet(this, _hasDate) && __privateGet(this, _hasTime);
-  }
-  isLocal() {
-    return !__privateGet(this, _hasDate) || !__privateGet(this, _hasTime) || !__privateGet(this, _offset);
-  }
-  isDate() {
-    return __privateGet(this, _hasDate) && !__privateGet(this, _hasTime);
-  }
-  isTime() {
-    return __privateGet(this, _hasTime) && !__privateGet(this, _hasDate);
-  }
-  isValid() {
-    return __privateGet(this, _hasDate) || __privateGet(this, _hasTime);
-  }
-  toISOString() {
-    let iso = super.toISOString();
-    if (this.isDate())
-      return iso.slice(0, 10);
-    if (this.isTime())
-      return iso.slice(11, 23);
-    if (__privateGet(this, _offset) === null)
-      return iso.slice(0, -1);
-    if (__privateGet(this, _offset) === "Z" || __privateGet(this, _offset) === "z")
-      return iso;
-    let offset = +__privateGet(this, _offset).slice(1, 3) * 60 + +__privateGet(this, _offset).slice(4, 6);
-    offset = __privateGet(this, _offset)[0] === "-" ? offset : -offset;
-    let offsetDate = new Date(this.getTime() - offset * 6e4);
-    return offsetDate.toISOString().slice(0, -1) + __privateGet(this, _offset);
-  }
-  static wrapAsOffsetDateTime(jsDate, offset = "Z") {
-    let date2 = new _TomlDate(jsDate);
-    __privateSet(date2, _offset, offset);
-    return date2;
-  }
-  static wrapAsLocalDateTime(jsDate) {
-    let date2 = new _TomlDate(jsDate);
-    __privateSet(date2, _offset, null);
-    return date2;
-  }
-  static wrapAsLocalDate(jsDate) {
-    let date2 = new _TomlDate(jsDate);
-    __privateSet(date2, _hasTime, false);
-    __privateSet(date2, _offset, null);
-    return date2;
-  }
-  static wrapAsLocalTime(jsDate) {
-    let date2 = new _TomlDate(jsDate);
-    __privateSet(date2, _hasDate, false);
-    __privateSet(date2, _offset, null);
-    return date2;
-  }
-};
-_hasDate = new WeakMap();
-_hasTime = new WeakMap();
-_offset = new WeakMap();
-var TomlDate = _TomlDate;
-
-// node_modules/.pnpm/smol-toml@1.9.1/node_modules/smol-toml/dist/extract.js
-function isDigit(char, base = 10) {
-  return base === 16 ? char > 47 && char < 58 || char > 64 && char < 71 || char > 96 && char < 103 : char > 47 && char < 48 + base;
-}
-function isEndOfValue(char, delim) {
-  return char === 32 || char === 9 || char === 10 || char === 13 || // Structure end or next value delimiter
-  delim && (char === delim || char === 44) || // Comment
-  char === 35;
-}
-function extractValue(ctx, end) {
-  let errPtr = ctx.p;
-  let c = ctx.s.charCodeAt(ctx.p);
-  if (c === 91 || c === 123) {
-    ctx.d-- || TomlError.x("document contains excessively nested structures. aborting.", ctx);
-    let value = c === 91 ? parseArray(ctx) : parseInlineTable(ctx);
-    ctx.d++;
-    return value;
-  }
-  if (c === 34 || c === 39) {
-    return parseString(ctx);
-  }
-  if (c === 116) {
-    if (ctx.s.charCodeAt(++ctx.p) !== 114 || ctx.s.charCodeAt(++ctx.p) !== 117 || ctx.s.charCodeAt(++ctx.p) !== 101)
-      TomlError.x("invalid value", ctx, errPtr);
-    return ctx.p++, true;
-  }
-  if (c === 102) {
-    if (ctx.s.charCodeAt(++ctx.p) !== 97 || ctx.s.charCodeAt(++ctx.p) !== 108 || ctx.s.charCodeAt(++ctx.p) !== 115 || ctx.s.charCodeAt(++ctx.p) !== 101)
-      TomlError.x("invalid value", ctx, errPtr);
-    return ctx.p++, false;
-  }
-  if (c === 43 || c === 45) {
-    return parseNumber(ctx, ctx.p, ctx.s.charCodeAt(++ctx.p), 44 - c, end);
-  }
-  if (ctx.s.charCodeAt(ctx.p + 4) === 45 && ctx.s.charCodeAt(ctx.p + 7) === 45) {
-    return parseDate(ctx, c, end);
-  }
-  if (ctx.s.charCodeAt(ctx.p + 2) === 58) {
-    return parseTime(ctx, c, end);
-  }
-  return parseNumber(ctx, ctx.p, c, 0, end);
-}
-function parseNumber(ctx, startPtr, startChr, sign, endChr) {
-  let c = startChr;
-  let state3 = 0;
-  let hasUnderscores = false;
-  if (c === 105) {
-    if (ctx.s.charCodeAt(++ctx.p) !== 110 || ctx.s.charCodeAt(++ctx.p) !== 102)
-      TomlError.x("invalid value", ctx, startPtr);
-    return ctx.p++, (sign || 1) / 0;
-  }
-  if (c === 110) {
-    if (ctx.s.charCodeAt(++ctx.p) !== 97 || ctx.s.charCodeAt(++ctx.p) !== 110)
-      TomlError.x("invalid value", ctx, startPtr);
-    return ctx.p++, NaN;
-  }
-  if (c === 48) {
-    if (++ctx.p >= ctx.s.length || isEndOfValue(c = ctx.s.charCodeAt(ctx.p), endChr))
-      return ctx.bi === true ? 0n : 0;
-    if (!sign) {
-      if (c === 120)
-        return parseIntegerBaseN(ctx, startPtr, 16, endChr);
-      else if (c === 98)
-        return parseIntegerBaseN(ctx, startPtr, 2, endChr);
-      else if (c === 111)
-        return parseIntegerBaseN(ctx, startPtr, 8, endChr);
-    }
-    if (c === 46)
-      state3 = 2;
-    else if (c === 101 || c === 69)
-      state3 = 4;
-    else
-      TomlError.x("illegal leading zero", ctx, startPtr);
-  } else if (!isDigit(c))
-    TomlError.x("invalid value", ctx, startPtr);
-  while (++ctx.p < ctx.s.length && (c = ctx.s.charCodeAt(ctx.p), !isEndOfValue(c, endChr))) {
-    if (!state3)
-      state3 = 1;
-    if (c === 95) {
-      if (!(state3 & 1))
-        TomlError.x("illegal underscore", ctx);
-      state3 += 11;
-      hasUnderscores = true;
-    } else if (state3 === 1 && c === 46)
-      state3 = 2;
-    else if ((state3 === 1 || state3 === 3) && (c === 101 || c === 69))
-      state3 = 4;
-    else if (state3 === 4 && (c === 43 || c === 45)) {
-      state3 = 6;
-    } else if (!isDigit(c))
-      TomlError.x(`illegal character in numeric literal`, ctx);
-    else if (state3 > 9)
-      state3 -= 11;
-    else if (!(state3 & 1))
-      state3++;
-  }
-  if (!state3) {
-    let val = (startChr - 48) * (sign || 1);
-    return ctx.bi === true ? BigInt(val) : val;
-  }
-  if (!(state3 & 1))
-    TomlError.x("unfinished numeric value", ctx, startPtr);
-  let str = ctx.s.slice(startPtr, ctx.p);
-  if (hasUnderscores)
-    str = str.replaceAll("_", "");
-  return state3 > 1 ? parseFloat(str) : parseInteger(ctx, str, 10, startPtr);
-}
-function parseIntegerBaseN(ctx, startPtr, base, endChr) {
-  let c, underscore = 1;
-  while (++ctx.p < ctx.s.length && (c = ctx.s.charCodeAt(ctx.p), !isEndOfValue(c, endChr))) {
-    if (c === 95) {
-      if (underscore & 1)
-        TomlError.x("illegal underscore", ctx);
-      underscore = 3;
-    } else if (!isDigit(c, base))
-      TomlError.x(`illegal character in numeric literal`, ctx);
-    else if (underscore & 1)
-      underscore--;
-  }
-  if (underscore & 1)
-    TomlError.x("unfinished numeric value", ctx);
-  let str = ctx.s.slice(startPtr + 2, ctx.p);
-  if (underscore)
-    str = str.replaceAll("_", "");
-  return parseInteger(ctx, str, base, startPtr);
-}
-function parseInteger(ctx, str, base, startPtr) {
-  if (ctx.bi !== true)
-    int: {
-      let val = parseInt(str, base);
-      if (!Number.isSafeInteger(val)) {
-        if (ctx.bi)
-          break int;
-        TomlError.x("integer value cannot be represented losslessly", ctx, startPtr);
-      }
-      return val;
-    }
-  return base === 10 ? BigInt(str) : BigInt((base === 2 ? "0b" : base === 8 ? "0o" : "0x") + str);
-}
-function parseDate(ctx, c, endChr) {
-  let startPtr = ctx.p++, unsafeSeparator;
-  if (!isDigit(c) || !isDigit(ctx.s.charCodeAt(ctx.p++)) || !isDigit(ctx.s.charCodeAt(ctx.p++)) || !isDigit(ctx.s.charCodeAt(ctx.p++))) {
-    return parseNumber(ctx, ctx.p = startPtr, c, 0, endChr);
-  }
-  ctx.p += 5;
-  if (!isDigit(ctx.s.charCodeAt(ctx.p++)))
-    TomlError.x("invalid date-time: date part is malformed", ctx, startPtr);
-  if (ctx.p >= ctx.s.length || ((c = ctx.s.charCodeAt(ctx.p)) !== 32 || (unsafeSeparator = true, !isDigit(ctx.s.charCodeAt(ctx.p + 1)))) && c !== 84 && c !== 116) {
-    let t2 = ctx.s.slice(startPtr, ctx.p);
-    return readDate(ctx, t2, 3, false, startPtr);
-  }
-  if (ctx.s.charCodeAt(ctx.p += 3) !== 58)
-    TomlError.x("invalid date-time: time part is malformed", ctx, startPtr);
-  if (ctx.s.charCodeAt(ctx.p += 3) === 58)
-    ctx.p += 3;
-  if (ctx.s.charCodeAt(ctx.p) === 46)
-    while (isDigit(ctx.s.charCodeAt(++ctx.p)))
-      ;
-  if (c = ctx.s.charCodeAt(ctx.p)) {
-    if (c === 90 || c === 122) {
-      let t2 = ctx.s.slice(startPtr, ++ctx.p);
-      return readDate(ctx, t2, 1, unsafeSeparator, startPtr, "[+00:00]");
-    }
-    if (c === 43 || c === 45) {
-      let t2 = ctx.s.slice(startPtr, ctx.p += 6);
-      return readDate(ctx, t2, 1, unsafeSeparator, startPtr, !ctx.ld && "[" + ctx.s.slice(ctx.p - 6, ctx.p) + "]");
-    }
-  }
-  let t = ctx.s.slice(startPtr, ctx.p);
-  return readDate(ctx, t, 2, unsafeSeparator, startPtr);
-}
-function parseTime(ctx, c, endChr) {
-  let start = ctx.p;
-  if (!isDigit(c) || !isDigit(ctx.s.charCodeAt(++ctx.p))) {
-    return parseNumber(ctx, --ctx.p, c, 0, endChr);
-  }
-  if (ctx.s.charCodeAt(ctx.p += 4) === 58)
-    ctx.p += 3;
-  if (ctx.s.charCodeAt(ctx.p) === 46)
-    while (isDigit(ctx.s.charCodeAt(++ctx.p)))
-      ;
-  let t = ctx.s.slice(start, ctx.p);
-  return readDate(ctx, t, 4, false, start);
-}
-function readDate(ctx, str, type, unsafeDelim, errPtr, temporalSuffix) {
-  if (ctx.ld) {
-    let date2 = new TomlDate(str, type, unsafeDelim);
-    if (!date2.isValid())
-      TomlError.x("invalid date", ctx, errPtr);
-    return date2;
-  }
-  try {
-    if (temporalSuffix)
-      str += temporalSuffix;
-    switch (type) {
-      case 1:
-        return Temporal.ZonedDateTime.from(str);
-      case 2:
-        return Temporal.PlainDateTime.from(str);
-      case 3:
-        return Temporal.PlainDate.from(str);
-      case 4:
-        return Temporal.PlainTime.from(str);
-    }
-  } catch (e) {
-    TomlError.x(e instanceof Error ? e.message : "" + e, ctx, errPtr);
-  }
-}
-
-// node_modules/.pnpm/smol-toml@1.9.1/node_modules/smol-toml/dist/util.js
-init_cjs_shims();
-function skipComment(ctx) {
-  for (; ctx.p < ctx.s.length; ctx.p++) {
-    let c = ctx.s.charCodeAt(ctx.p);
-    if (c === 10)
-      break;
-    if (c === 13 && ctx.s.charCodeAt(ctx.p + 1) === 10) {
-      ctx.p++;
-      break;
-    }
-    if (c < 32 && c !== 9 || c === 127) {
-      TomlError.x("control characters are not allowed in comments", ctx);
-    }
-  }
-}
-function skipVoid(ctx, banNewLines, banComments) {
-  let c;
-  while (ctx.p < ctx.s.length) {
-    while (ctx.p < ctx.s.length && ((c = ctx.s.charCodeAt(ctx.p)) === 32 || c === 9 || !banNewLines && (c === 10 || c === 13 && ctx.s.charCodeAt(ctx.p + 1) === 10)))
-      ctx.p++;
-    if (banComments || c !== 35)
-      break;
-    skipComment(ctx);
-  }
-}
-
-// node_modules/.pnpm/smol-toml@1.9.1/node_modules/smol-toml/dist/struct.js
-function parseKey(ctx, end = 61) {
-  let startPtr;
-  let state3 = 0;
-  let parsed = [];
-  let sliceStart;
-  let c = ctx.s.charCodeAt(startPtr = ctx.p);
-  do {
-    if (c === end) {
-      if (!state3)
-        TomlError.x("unexpected end of key", ctx);
-      if (state3 === 1)
-        parsed.push(ctx.s.slice(sliceStart, ctx.p));
-      return ctx.p++, parsed;
-    } else if (c === 46) {
-      if (!state3)
-        TomlError.x("illegal empty bare key", ctx);
-      if (state3 === 1)
-        parsed.push(ctx.s.slice(sliceStart, ctx.p));
-      state3 = 0;
-    } else if (!state3 && (c === 34 || c === 39)) {
-      if (c === ctx.s.charCodeAt(ctx.p + 1) && c === ctx.s.charCodeAt(ctx.p + 2))
-        TomlError.x("illegal quoted key: multiline strings are not allowed", ctx);
-      parsed.push(parseString(ctx));
-      state3 = 2;
-      ctx.p--;
-    } else if (c === 32 || c === 9) {
-      if (state3 === 1) {
-        parsed.push(ctx.s.slice(sliceStart, ctx.p));
-        state3 = 2;
-      }
-    } else if (state3 === 2 || c < 48 && c !== 45 || c > 57 && c < 65 || c > 90 && c < 97 && c !== 95 || c > 122) {
-      TomlError.x("illegal character in key", ctx);
-    } else if (!state3) {
-      state3 = 1;
-      sliceStart = ctx.p;
-    }
-  } while (c = ctx.s.charCodeAt(++ctx.p));
-  TomlError.x("incomplete key-value: cannot find end of key", ctx, startPtr);
-}
-function parseInlineTable(ctx) {
-  let startPtr = ctx.p++;
-  let res = /* @__PURE__ */ Object.create(null);
-  let seen = /* @__PURE__ */ new Set();
-  let c;
-  while (ctx.p < ctx.s.length) {
-    skipVoid(ctx);
-    if ((c = ctx.s.charCodeAt(ctx.p)) === 125) {
-      ctx.p++;
-      return res;
-    }
-    let k;
-    let t = res;
-    let hasOwn = false;
-    let errPtr = ctx.p;
-    let key = parseKey(ctx);
-    for (let i = 0; i < key.length; i++) {
-      if (i)
-        t = hasOwn ? t[k] : t[k] = /* @__PURE__ */ Object.create(null);
-      k = key[i];
-      if ((hasOwn = Object.hasOwn(t, k)) && (typeof t[k] !== "object" || seen.has(t[k]))) {
-        TomlError.x("trying to redefine an already defined value", ctx, errPtr);
-      }
-      let unsafe = k === "__proto__";
-      if (ctx.uk && (unsafe || k === "constructor")) {
-        t = ctx.uk !== 1 && TomlError.x("document contains an unsafe property", ctx, errPtr);
-        break;
-      }
-      if (!hasOwn && unsafe) {
-        Object.defineProperty(t, k, { enumerable: true, configurable: true, writable: true });
-      }
-    }
-    if (hasOwn) {
-      TomlError.x("trying to redefine an already defined value", ctx, errPtr);
-    }
-    skipVoid(ctx, true, true);
-    let value = extractValue(
-      ctx,
-      125
-      /* } */
-    );
-    if (t && typeof (t[k] = value) === "object")
-      seen.add(value);
-    skipVoid(ctx);
-    if ((c = ctx.s.charCodeAt(ctx.p++)) === 125) {
-      return res;
-    }
-    if (c !== 44)
-      TomlError.x("expected comma or end of structure", ctx, ctx.p - 1);
-  }
-  TomlError.x("unfinished table", ctx, startPtr);
-}
-function parseArray(ctx) {
-  let startPtr = ctx.p++;
-  let res = [];
-  let c;
-  while (ctx.p < ctx.s.length) {
-    skipVoid(ctx);
-    if ((c = ctx.s.charCodeAt(ctx.p)) === 93) {
-      ctx.p++;
-      return res;
-    }
-    res.push(extractValue(
-      ctx,
-      93
-      /* ] */
-    ));
-    skipVoid(ctx);
-    if ((c = ctx.s.charCodeAt(ctx.p++)) === 93) {
-      return res;
-    }
-    if (c !== 44)
-      TomlError.x("expected comma or end of structure", ctx, ctx.p - 1);
-  }
-  TomlError.x("unfinished array", ctx, startPtr);
-}
-
-// node_modules/.pnpm/smol-toml@1.9.1/node_modules/smol-toml/dist/parse.js
-function peekTable(ctx, key, table, meta2, type) {
-  let t = table;
-  let m = meta2;
-  let k;
-  let hasOwn = false;
-  let state3;
-  for (let i = 0; i < key.length; i++) {
-    if (i) {
-      t = hasOwn ? t[k] : t[k] = /* @__PURE__ */ Object.create(null);
-      m = (state3 = m[k]).c;
-      if (type === 0 && (state3.t === 1 || state3.t === 2)) {
-        return null;
-      }
-      if (state3.t === 2) {
-        let l = t.length - 1;
-        t = t[l];
-        m = m[l].c;
-      }
-    }
-    k = key[i];
-    if ((hasOwn = Object.hasOwn(t, k)) && m[k]?.t === 0 && m[k]?.d) {
-      return null;
-    }
-    if (!hasOwn) {
-      let unsafe = k === "__proto__";
-      if (ctx.uk && (unsafe || k === "constructor"))
-        return false;
-      if (unsafe) {
-        Object.defineProperty(t, k, { enumerable: true, configurable: true, writable: true });
-        Object.defineProperty(m, k, { enumerable: true, configurable: true, writable: true });
-      }
-      m[k] = {
-        t: i < key.length - 1 && type === 2 ? 3 : type,
-        d: false,
-        i: 0,
-        c: /* @__PURE__ */ Object.create(null)
-      };
-    }
-  }
-  state3 = m[k];
-  if (state3.t !== type && !(type === 1 && state3.t === 3)) {
-    return null;
-  }
-  if (type === 2) {
-    if (!state3.d) {
-      state3.d = true;
-      t[k] = [];
-    }
-    t[k].push(t = /* @__PURE__ */ Object.create(null));
-    state3.c[state3.i++] = state3 = { t: 1, d: false, i: 0, c: /* @__PURE__ */ Object.create(null) };
-  }
-  if (state3.d) {
-    return null;
-  }
-  state3.d = true;
-  if (type === 1) {
-    t = hasOwn ? t[k] : t[k] = /* @__PURE__ */ Object.create(null);
-  } else if (type === 0 && hasOwn) {
-    return null;
-  }
-  return [k, t, state3.c];
-}
-function validateTablePeek(ctx, peek, ptr) {
-  if (peek === null || ctx.uk === 2)
-    TomlError.x(peek === null ? "trying to redefine an already defined table or value" : "document contains an unsafe property", ctx, ptr);
-}
-function parse2(toml, options2 = {}) {
-  let ctx = {
-    s: toml,
-    p: 0,
-    d: options2.maxDepth ?? 1e3,
-    bi: options2.integersAsBigInt ?? false,
-    ld: options2.useLegacyDate ?? true,
-    uk: options2.unsafeKeyBehaviour === "throw" ? 2 : options2.unsafeKeyBehaviour === "drop" ? 1 : 0
-  };
-  let res = /* @__PURE__ */ Object.create(null);
-  let meta2 = /* @__PURE__ */ Object.create(null);
-  let tmp;
-  let skipping = false;
-  let tbl = res;
-  let m = meta2;
-  if (toml.charCodeAt(0) === 65279)
-    ctx.p++;
-  skipVoid(ctx);
-  while (ctx.p < toml.length) {
-    if (toml.charCodeAt(ctx.p) === 91) {
-      let isTableArray = toml.charCodeAt(++ctx.p) === 91;
-      tmp = ctx.p += +isTableArray;
-      skipping = false;
-      let k = parseKey(
-        ctx,
-        93
-        /* ] */
-      );
-      if (isTableArray) {
-        if (toml.charCodeAt(ctx.p) !== 93) {
-          TomlError.x("expected end of table array declaration", ctx);
-        }
-        ctx.p++;
-      }
-      let p = peekTable(
-        ctx,
-        k,
-        res,
-        meta2,
-        isTableArray ? 2 : 1
-        /* Type.EXPLICIT */
-      );
-      if (!p) {
-        validateTablePeek(ctx, p, tmp);
-        skipping = true;
-      } else {
-        m = p[2];
-        tbl = p[1];
-      }
-    } else {
-      tmp = ctx.p;
-      let k = parseKey(ctx);
-      let p = peekTable(
-        ctx,
-        k,
-        tbl,
-        m,
-        0
-        /* Type.DOTTED */
-      );
-      if (!p && !skipping)
-        validateTablePeek(ctx, p, tmp);
-      skipVoid(ctx, true, true);
-      let v = extractValue(ctx, void 0);
-      if (p && !skipping)
-        p[1][p[0]] = v;
-    }
-    skipVoid(ctx, true);
-    if (ctx.p < toml.length && (tmp = toml.charCodeAt(ctx.p)) !== 10 && (tmp !== 13 || toml.charCodeAt(ctx.p + 1) !== 10)) {
-      TomlError.x("each key-value declaration must be followed by an end-of-line", ctx);
-    }
-    skipVoid(ctx);
-  }
-  return res;
-}
-
-// node_modules/.pnpm/smol-toml@1.9.1/node_modules/smol-toml/dist/stringify.js
-init_cjs_shims();
-var HAS_WELLFORMED = !!"".isWellFormed;
-
 // src/options.ts
 var import_which = __toESM(require_lib());
 
@@ -37778,7 +37778,7 @@ var inferOptions = (inputs) => {
     } else if ((0, import_fs2.existsSync)(pyprojectTomlPathInWorkingDir)) {
       try {
         const fileContent = (0, import_fs2.readFileSync)(pyprojectTomlPathInWorkingDir, "utf-8");
-        const parsedContent = parse2(fileContent);
+        const parsedContent = parse(fileContent);
         if (parsedContent.tool && typeof parsedContent.tool === "object" && "pixi" in parsedContent.tool) {
           debug(`The tool.pixi table found, using ${pyprojectTomlPathInWorkingDir} as manifest file.`);
           manifestPath = pyprojectTomlPathInWorkingDir;
@@ -37867,7 +37867,8 @@ var inferOptions = (inputs) => {
     globalCache,
     pixiBinPath,
     auth,
-    postCleanup
+    postCleanup,
+    configuration: inputs.configuration
   };
 };
 var assertOptions = (_options3) => {
@@ -37927,7 +37928,8 @@ var getOptions = () => {
     ),
     pypiKeyringProvider: parseOrUndefined("pypi-keyring-provider", pypiKeyringProviderSchema),
     globalEnvironments: parseOrUndefinedMultilineList("global-environments", string2()),
-    postCleanup: parseOrUndefinedJSON("post-cleanup", boolean2())
+    postCleanup: parseOrUndefinedJSON("post-cleanup", boolean2()),
+    configuration: parseOrUndefined("configuration", string2())
   };
   debug(`Inputs: ${JSON.stringify(inputs)}`);
   validateInputs(inputs);
@@ -80841,6 +80843,40 @@ var downloadPixi = async (source) => {
     info(`Pixi installed to ${options.pixiBinPath}`);
   });
 };
+var pixiConfigPath = () => {
+  const pixiHome = process.env.PIXI_HOME ?? import_path3.default.join(import_os6.default.homedir(), ".pixi");
+  return import_path3.default.join(pixiHome, "config.toml");
+};
+var writePixiConfig = async () => {
+  const { configuration } = options;
+  if (!configuration) {
+    debug("Skipping pixi config setup.");
+    return;
+  }
+  await group("Writing pixi configuration", async () => {
+    const configPath = pixiConfigPath();
+    try {
+      parse(configuration);
+    } catch (error3) {
+      throw new Error(
+        `Invalid TOML in \`configuration\` input: ${error3 instanceof Error ? error3.message : String(error3)}`
+      );
+    }
+    await import_promises2.default.mkdir(import_path3.default.dirname(configPath), { recursive: true });
+    try {
+      await import_promises2.default.writeFile(configPath, configuration, { encoding: "utf-8", flag: "wx" });
+    } catch (error3) {
+      if (error3.code === "EEXIST") {
+        throw new Error(
+          `Pixi configuration file already exists at ${configPath}. Remove the existing file or do not use the \`configuration\` input.`
+        );
+      }
+      throw error3;
+    }
+    saveState("pixi-config-path", configPath);
+    info(`Pixi configuration written to ${configPath}`);
+  });
+};
 var pixiLogin = async () => {
   const auth = options.auth;
   if (!auth) {
@@ -80981,6 +81017,7 @@ var run = async () => {
     saveState("pixi-bin-installed", "true");
   }
   addPixiToPath();
+  await writePixiConfig();
   await pixiLogin();
   await pixiGlobalInstall();
   await generateInfo();

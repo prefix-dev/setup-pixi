@@ -4,6 +4,7 @@ import path from 'path'
 import { exit } from 'process'
 import * as core from '@actions/core'
 import { downloadTool } from '@actions/tool-cache'
+import { parse } from 'smol-toml'
 import type { PixiSource } from './options'
 import { options } from './options'
 import { execute, pixiCmd, renderPixiUrl } from './util'
@@ -20,6 +21,49 @@ const downloadPixi = async (source: PixiSource) => {
     await downloadTool(url, options.pixiBinPath, undefined, source.headers)
     await fs.chmod(options.pixiBinPath, 0o755)
     core.info(`Pixi installed to ${options.pixiBinPath}`)
+  })
+}
+
+const pixiConfigPath = () => {
+  const pixiHome = process.env.PIXI_HOME ?? path.join(os.homedir(), '.pixi')
+  return path.join(pixiHome, 'config.toml')
+}
+
+const writePixiConfig = async () => {
+  const { configuration } = options
+  if (!configuration) {
+    core.debug('Skipping pixi config setup.')
+    return
+  }
+
+  await core.group('Writing pixi configuration', async () => {
+    const configPath = pixiConfigPath()
+
+    try {
+      parse(configuration)
+    } catch (error) {
+      throw new Error(
+        `Invalid TOML in \`configuration\` input: ${error instanceof Error ? error.message : String(error)}`
+      )
+    }
+
+    await fs.mkdir(path.dirname(configPath), { recursive: true })
+    try {
+      // `wx` fails if the file already exists, we never overwrite an existing configuration
+      await fs.writeFile(configPath, configuration, { encoding: 'utf-8', flag: 'wx' })
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code === 'EEXIST') {
+        throw new Error(
+          `Pixi configuration file already exists at ${configPath}. ` +
+            'Remove the existing file or do not use the `configuration` input.'
+        )
+      }
+      throw error
+    }
+    // only mark the config file as owned by this action after it was written successfully,
+    // so that the post step never removes a configuration it did not create
+    core.saveState('pixi-config-path', configPath)
+    core.info(`Pixi configuration written to ${configPath}`)
   })
 }
 
@@ -191,6 +235,7 @@ const run = async () => {
     core.saveState('pixi-bin-installed', 'true')
   }
   addPixiToPath()
+  await writePixiConfig()
   await pixiLogin()
   await pixiGlobalInstall()
   await generateInfo()

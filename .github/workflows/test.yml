@@ -1500,3 +1500,84 @@ jobs:
           echo "Unexpected success!"
           exit 1
         if: ${{ steps.test.outcome != 'failure' }}
+
+  configuration:
+    timeout-minutes: 10
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Move pixi.toml
+        run: mv test/default/* .
+      - uses: ./
+        with:
+          cache: false
+          configuration: |
+            # comments are preserved
+            run-post-link-scripts = "insecure"
+
+            [shell]
+            change-ps1 = false
+      - name: Check configuration file was written verbatim
+        shell: bash
+        run: |
+          cat ~/.pixi/config.toml
+          grep -q "# comments are preserved" ~/.pixi/config.toml
+          grep -q "^\[shell\]" ~/.pixi/config.toml
+          grep -q 'run-post-link-scripts = "insecure"' ~/.pixi/config.toml
+      - name: Check pixi picks up the configuration
+        shell: bash
+        run: pixi config list run-post-link-scripts | grep -q insecure
+      - run: pixi run python --version | grep -q 3.14
+        shell: bash
+
+  configuration-already-exists:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Move pixi.toml
+        run: mv test/default/* .
+      - name: Create existing configuration
+        run: |
+          mkdir -p ~/.pixi
+          echo 'run-post-link-scripts = "false"' > ~/.pixi/config.toml
+      - uses: ./
+        id: test
+        with:
+          cache: false
+          configuration: |
+            run-post-link-scripts = "insecure"
+        continue-on-error: true
+      - name: Fail on unexpected success
+        run: |
+          echo "Unexpected success!"
+          exit 1
+        if: ${{ steps.test.outcome != 'failure' }}
+      - name: Check existing configuration was not overwritten
+        run: grep -q 'run-post-link-scripts = "false"' ~/.pixi/config.toml
+
+  configuration-invalid-toml:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Move pixi.toml
+        run: mv test/default/* .
+      - uses: ./
+        id: test
+        with:
+          cache: false
+          configuration: |
+            this is not toml
+        continue-on-error: true
+      - name: Fail on unexpected success
+        run: |
+          echo "Unexpected success!"
+          exit 1
+        if: ${{ steps.test.outcome != 'failure' }}
+      - name: Check no configuration was written
+        run: test ! -e ~/.pixi/config.toml
