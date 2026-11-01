@@ -23,24 +23,24 @@
   "author": "Pavel Zwerschke <pavelzw@gmail.com>",
   "license": "BSD-3-Clause",
   "dependencies": {
-    "@actions/cache": "^6.2.0",
+    "@actions/cache": "^6.3.0",
     "@actions/core": "^3.0.1",
     "@actions/exec": "^3.0.0",
     "@actions/io": "^3.0.2",
     "@actions/tool-cache": "^4.0.0",
     "handlebars": "^4.7.10",
-    "smol-toml": "^1.9.0",
+    "smol-toml": "^1.9.1",
     "untildify": "^6.0.0",
     "which": "^7.0.0",
-    "zod": "^4.6.5"
+    "zod": "^4.6.7"
   },
   "devDependencies": {
-    "@types/node": "^26.6.2",
+    "@types/node": "^26.6.5",
     "@types/which": "^3.0.4",
-    "oxfmt": "^0.71.0",
-    "oxlint": "^1.86.0",
-    "oxlint-tsgolint": "^7.0.2003",
-    "tsup": "^8.5.1",
+    "oxfmt": "^0.74.0",
+    "oxlint": "^1.89.0",
+    "oxlint-tsgolint": "^7.0.2005",
+    "tsup": "^9.0.0",
     "typescript": "^7.0.2"
   }
 }
