@@ -1,3 +1,7 @@
+# Only install package versions that have been published for at least 7 days (in minutes).
+# Mirrors the dependabot cooldown and protects against freshly compromised releases.
+minimumReleaseAge: 10080
+
 allowBuilds:
   esbuild: true
 
