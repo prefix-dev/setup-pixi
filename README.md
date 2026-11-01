@@ -330,12 +330,12 @@ You can even run Python scripts like this:
   shell: pixi run python {0}
 ```
 
-If you want to use PowerShell, you need to specify `-Command` as well.
+If you want to use PowerShell, you need to read the script file and evaluate its content:
 
 ```yml
 - run: | # everything here will be run inside of the pixi environment
     python --version | Select-String "3.11"
-  shell: pixi run pwsh -Command {0} # pwsh works on all platforms
+  shell: pixi run pwsh -NoProfile -Command "Invoke-Expression (Get-Content -Raw '{0}')" # pwsh works on all platforms
 ```
 
 > [!NOTE]
