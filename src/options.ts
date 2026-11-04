@@ -7,7 +7,7 @@ import * as z from 'zod'
 import untildify from 'untildify'
 import { parse } from 'smol-toml'
 import which from 'which'
-import { DEFAULT_PIXI_URL_TEMPLATE } from './util'
+import { DEFAULT_PIXI_URL_TEMPLATE, NIGHTLY_VERSION_REGEX } from './util'
 
 type Inputs = Readonly<{
   pixiVersion?: string
@@ -495,8 +495,13 @@ const getOptions = () => {
   const inputs: Inputs = {
     pixiVersion: parseOrUndefined(
       'pixi-version',
-      z.union([z.literal('latest'), z.string().regex(/^v\d+\.\d+\.\d+$/)]),
-      'pixi-version must either be `latest` or a version string matching `vX.Y.Z`.'
+      z.union([
+        z.literal('latest'),
+        z.literal('nightly'),
+        z.string().regex(/^v\d+\.\d+\.\d+$/),
+        z.string().regex(NIGHTLY_VERSION_REGEX)
+      ]),
+      'pixi-version must either be `latest`, `nightly`, a version string matching `vX.Y.Z`, or a nightly version matching `vX.Y.Z-N-gSHA`.'
     ),
     pixiUrl: parseOrUndefined('pixi-url', z.string()),
     pixiUrlHeaders: parseOrUndefinedJSON('pixi-url-headers', z.record(z.string(), z.string())),
