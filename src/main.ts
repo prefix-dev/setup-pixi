@@ -11,11 +11,12 @@ import {
   DEFAULT_PIXI_URL_TEMPLATE,
   downloadPixiBinary,
   execute,
+  isNightlyVersion,
   pixiCmd,
   renderPixiUrl,
   resolveLatestPixiVersion
 } from './util'
-import { loadTrustedRoot, verifyPixiAttestation } from './attestation'
+import { loadTrustedRoot, PIXI_NIGHTLY_REPOSITORY, PIXI_REPOSITORY, verifyPixiAttestation } from './attestation'
 import { tryRestoreGlobalCache, tryRestoreProjectCache, saveGlobalCache, saveProjectCache } from './cache'
 import { activateEnvironment } from './activate'
 
@@ -28,10 +29,11 @@ const downloadPixi = async (source: PixiSource) => {
     trustedRoot?.catch(() => {})
 
     let version = source.version
-    if (version === 'latest' && source.urlTemplate === DEFAULT_PIXI_URL_TEMPLATE) {
-      // Pin `latest` to a concrete tag so that we download and verify the same release.
-      version = await resolveLatestPixiVersion()
-      core.info(`Resolved latest pixi version to ${version}`)
+    const channel = version === 'latest' || version === 'nightly' ? version : undefined
+    if (channel && source.urlTemplate === DEFAULT_PIXI_URL_TEMPLATE) {
+      // Pin `latest` and `nightly` to a concrete tag so that we download and verify the same release.
+      version = await resolveLatestPixiVersion(channel)
+      core.info(`Resolved ${channel} pixi version to ${version}`)
     }
     const url = renderPixiUrl(source.urlTemplate, version)
     core.debug('Installing pixi')
@@ -44,8 +46,9 @@ const downloadPixi = async (source: PixiSource) => {
       try {
         await verifyPixiAttestation({
           binaryPath: options.pixiBinPath,
-          // A custom `pixi-url` template may resolve `latest` to any release.
-          expectedTag: version === 'latest' ? undefined : version,
+          // A custom `pixi-url` template may resolve `latest` and `nightly` to any release.
+          expectedTag: version === 'latest' || version === 'nightly' ? undefined : version,
+          repository: isNightlyVersion(version) ? PIXI_NIGHTLY_REPOSITORY : PIXI_REPOSITORY,
           githubToken: verification.githubToken,
           trustedRoot,
           trustedRootSource: verification.trustedRootSource
@@ -225,6 +228,7 @@ const generateList = async () => {
   if (
     'version' in options.pixiSource &&
     options.pixiSource.version !== 'latest' &&
+    !isNightlyVersion(options.pixiSource.version) &&
     options.pixiSource.version < 'v0.13.0'
   ) {
     core.warning(
@@ -236,6 +240,7 @@ const generateList = async () => {
   if (
     'version' in options.pixiSource &&
     options.pixiSource.version !== 'latest' &&
+    !isNightlyVersion(options.pixiSource.version) &&
     options.pixiSource.version < 'v0.14.0'
   ) {
     if (options.frozen) core.warning('pixi versions < `v0.14.0` do not support the --frozen option for pixi list.')

@@ -9,12 +9,22 @@ import { HttpClient } from '@actions/http-client'
 import { fetch as undiciFetch } from 'undici'
 import { downloadTool, HTTPError } from '@actions/tool-cache'
 
-// setup-pixi resolves `latest` to a concrete release before rendering this template, see `resolveLatestPixiVersion`.
-export const DEFAULT_PIXI_URL_TEMPLATE = 'https://github.com/prefix-dev/pixi/releases/download/{{version}}/{{pixiFile}}'
+// Nightly builds are tagged with `git describe` output, e.g. `v0.84.0-10-ge4b92dc9f`.
+export const NIGHTLY_VERSION_REGEX = /^v\d+\.\d+\.\d+-\d+-g[0-9a-f]+$/
+const STABLE_VERSION_REGEX = /^v\d+\.\d+\.\d+$/
+
+export const isNightlyVersion = (version: string) => version === 'nightly' || NIGHTLY_VERSION_REGEX.test(version)
+
+// setup-pixi resolves `latest` and `nightly` to a concrete release before rendering this template,
+// see `resolveLatestPixiVersion`.
+export const DEFAULT_PIXI_URL_TEMPLATE = `\
+{{#if nightly~}}
+https://github.com/prefix-dev/pixi-nightly/releases/download/{{version}}/{{pixiFile}}
+{{~else~}}
+https://github.com/prefix-dev/pixi/releases/download/{{version}}/{{pixiFile}}
+{{~/if}}`
 
 export const USER_AGENT = `setup-pixi/${__SETUP_PIXI_VERSION__}`
-
-const PIXI_LATEST_RELEASE_URL = 'https://github.com/prefix-dev/pixi/releases/latest'
 
 const MAX_ATTEMPTS = 3
 
@@ -83,20 +93,23 @@ export const downloadPixiBinary = async (url: string, dest: string, headers?: No
 }
 
 /**
- * Resolves the tag of the latest pixi release from the redirect of the `releases/latest` page.
- * Downloading from the concrete tag afterwards ensures that the binary we verify belongs to the version we resolved,
- * even if a new release is published in between.
+ * Resolves the tag of the newest pixi release, or of the newest nightly build, from the redirect of the
+ * `releases/latest` page. Downloading from the concrete tag afterwards ensures that the binary we verify belongs to
+ * the version we resolved, even if a new release is published in between.
  */
-export const resolveLatestPixiVersion = async () => {
-  const response = await fetchWithRetry(PIXI_LATEST_RELEASE_URL, {
+export const resolveLatestPixiVersion = async (channel: 'latest' | 'nightly') => {
+  const repository = channel === 'nightly' ? 'prefix-dev/pixi-nightly' : 'prefix-dev/pixi'
+  const latestReleaseUrl = `https://github.com/${repository}/releases/latest`
+  const response = await fetchWithRetry(latestReleaseUrl, {
     redirect: 'manual',
     headers: { 'User-Agent': USER_AGENT }
   })
   const location = response.headers.get('location')
-  const version = location?.match(/\/releases\/tag\/(v\d+\.\d+\.\d+)$/)?.[1]
-  if (!version) {
+  const version = location?.match(/\/releases\/tag\/([^/]+)$/)?.[1]
+  const versionRegex = channel === 'nightly' ? NIGHTLY_VERSION_REGEX : STABLE_VERSION_REGEX
+  if (!version || !versionRegex.test(version)) {
     throw new Error(
-      `Could not resolve the latest pixi version: ${PIXI_LATEST_RELEASE_URL} returned HTTP ${response.status} with location ${location}`
+      `Could not resolve the ${channel} pixi version: ${latestReleaseUrl} returned HTTP ${response.status} with location ${location}`
     )
   }
   return version
@@ -178,7 +191,9 @@ const getArch = () => {
 }
 
 export const renderPixiUrl = (urlTemplate: string, version: string) => {
-  const latest = version == 'latest'
+  // `latest` and `nightly` both select the newest release of their channel.
+  const latest = version === 'latest' || version === 'nightly'
+  const nightly = isNightlyVersion(version)
   const arch = getArch()
   const platform = getPlatform()
   const pixiFile = `pixi-${arch}-${platform}${platform === 'pc-windows-msvc' ? '.exe' : ''}`
@@ -186,6 +201,7 @@ export const renderPixiUrl = (urlTemplate: string, version: string) => {
   return template({
     version,
     latest,
+    nightly,
     pixiFile
   })
 }

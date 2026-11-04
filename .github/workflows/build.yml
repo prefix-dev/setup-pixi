@@ -48,7 +48,7 @@ jobs:
         run: |
           set -euo pipefail
           latest_version="$(jq -r '.version' package.json)"
-          count_expected=28
+          count_expected=29
           count_actual="$(grep -c "setup-pixi@v$latest_version" README.md || true)"
           if [ "$count_actual" -ne "$count_expected" ]; then
             echo "::error file=README.md::Expected $count_expected mentions of \`setup-pixi@v$latest_version\` in README.md, but found $count_actual."
@@ -73,7 +73,7 @@ jobs:
           count_actual="$(grep -c "pixi-version: $latest_version" README.md || true)"
           if [ "$count_actual" -ne "$count_expected" ]; then
             echo "::error file=README.md::Expected $count_expected mentions of \`pixi-version: $latest_version\` in README.md, but found $count_actual."
-            sed -i "s/pixi-version: .*/pixi-version: $latest_version/" README.md
+            sed -i -E "s/pixi-version: v[0-9]+\.[0-9]+\.[0-9]+$/pixi-version: $latest_version/" README.md
             exit 1
           fi
         env:

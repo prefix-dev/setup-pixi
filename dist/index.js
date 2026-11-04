@@ -47512,9 +47512,15 @@ function _getGlobal(key, defaultValue) {
 }
 
 // src/util.ts
-var DEFAULT_PIXI_URL_TEMPLATE = "https://github.com/prefix-dev/pixi/releases/download/{{version}}/{{pixiFile}}";
+var NIGHTLY_VERSION_REGEX = /^v\d+\.\d+\.\d+-\d+-g[0-9a-f]+$/;
+var STABLE_VERSION_REGEX = /^v\d+\.\d+\.\d+$/;
+var isNightlyVersion = (version4) => version4 === "nightly" || NIGHTLY_VERSION_REGEX.test(version4);
+var DEFAULT_PIXI_URL_TEMPLATE = `{{#if nightly~}}
+https://github.com/prefix-dev/pixi-nightly/releases/download/{{version}}/{{pixiFile}}
+{{~else~}}
+https://github.com/prefix-dev/pixi/releases/download/{{version}}/{{pixiFile}}
+{{~/if}}`;
 var USER_AGENT = `setup-pixi/${"0.11.3"}`;
-var PIXI_LATEST_RELEASE_URL = "https://github.com/prefix-dev/pixi/releases/latest";
 var MAX_ATTEMPTS = 3;
 var sleep = (ms) => new Promise((resolve3) => setTimeout(resolve3, ms));
 var backoffMs = (attempt) => 2 ** attempt * 1e3 + Math.random() * 1e3;
@@ -47559,16 +47565,19 @@ var downloadPixiBinary = async (url2, dest, headers) => {
     }
   }
 };
-var resolveLatestPixiVersion = async () => {
-  const response = await fetchWithRetry(PIXI_LATEST_RELEASE_URL, {
+var resolveLatestPixiVersion = async (channel) => {
+  const repository = channel === "nightly" ? "prefix-dev/pixi-nightly" : "prefix-dev/pixi";
+  const latestReleaseUrl = `https://github.com/${repository}/releases/latest`;
+  const response = await fetchWithRetry(latestReleaseUrl, {
     redirect: "manual",
     headers: { "User-Agent": USER_AGENT }
   });
   const location = response.headers.get("location");
-  const version4 = location?.match(/\/releases\/tag\/(v\d+\.\d+\.\d+)$/)?.[1];
-  if (!version4) {
+  const version4 = location?.match(/\/releases\/tag\/([^/]+)$/)?.[1];
+  const versionRegex = channel === "nightly" ? NIGHTLY_VERSION_REGEX : STABLE_VERSION_REGEX;
+  if (!version4 || !versionRegex.test(version4)) {
     throw new Error(
-      `Could not resolve the latest pixi version: ${PIXI_LATEST_RELEASE_URL} returned HTTP ${response.status} with location ${location}`
+      `Could not resolve the ${channel} pixi version: ${latestReleaseUrl} returned HTTP ${response.status} with location ${location}`
     );
   }
   return version4;
@@ -47638,7 +47647,8 @@ var getArch = () => {
   }
 };
 var renderPixiUrl = (urlTemplate, version4) => {
-  const latest = version4 == "latest";
+  const latest = version4 === "latest" || version4 === "nightly";
+  const nightly = isNightlyVersion(version4);
   const arch2 = getArch();
   const platform2 = getPlatform();
   const pixiFile = `pixi-${arch2}-${platform2}${platform2 === "pc-windows-msvc" ? ".exe" : ""}`;
@@ -47646,6 +47656,7 @@ var renderPixiUrl = (urlTemplate, version4) => {
   return template({
     version: version4,
     latest,
+    nightly,
     pixiFile
   });
 };
@@ -47990,8 +48001,13 @@ var getOptions = () => {
   const inputs = {
     pixiVersion: parseOrUndefined(
       "pixi-version",
-      union([literal("latest"), string2().regex(/^v\d+\.\d+\.\d+$/)]),
-      "pixi-version must either be `latest` or a version string matching `vX.Y.Z`."
+      union([
+        literal("latest"),
+        literal("nightly"),
+        string2().regex(/^v\d+\.\d+\.\d+$/),
+        string2().regex(NIGHTLY_VERSION_REGEX)
+      ]),
+      "pixi-version must either be `latest`, `nightly`, a version string matching `vX.Y.Z`, or a nightly version matching `vX.Y.Z-N-gSHA`."
     ),
     pixiUrl: parseOrUndefined("pixi-url", string2()),
     pixiUrlHeaders: parseOrUndefinedJSON("pixi-url-headers", record(string2(), string2())),
@@ -48542,7 +48558,11 @@ var PIXI_REPOSITORY = {
   repositoryId: "633817517",
   ownerId: "111356225"
 };
-var FIRST_IMMUTABLE_PIXI_RELEASE = "v0.72.0";
+var PIXI_NIGHTLY_REPOSITORY = {
+  name: "prefix-dev/pixi-nightly",
+  repositoryId: "1352359115",
+  ownerId: "111356225"
+};
 var optOutHint = "To skip this check, set `verify-attestation: false`.";
 var loadTrustedRoot = async (source) => {
   if (source === "bundled") {
@@ -48570,8 +48590,8 @@ If this host is not reachable from your runner, set \`attestation-trusted-root: 
     await import_promises.default.rm(tufDir, { recursive: true, force: true });
   }
 };
-var fetchAttestations = async (digest, githubToken) => {
-  const url2 = `${GITHUB_API_URL}/repos/${PIXI_REPOSITORY.name}/attestations/sha256:${digest}?predicate_type=release`;
+var fetchAttestations = async (repository, digest, githubToken) => {
+  const url2 = `${GITHUB_API_URL}/repos/${repository.name}/attestations/sha256:${digest}?predicate_type=release`;
   debug(`Fetching attestations from ${url2}`);
   const response = await fetchWithRetry(url2, {
     headers: {
@@ -48583,7 +48603,7 @@ var fetchAttestations = async (digest, githubToken) => {
   });
   if (response.status === 404) {
     throw new Error(
-      `No release attestation found in ${PIXI_REPOSITORY.name} for the downloaded pixi binary (sha256:${digest}). Only immutable releases have attestations, which pixi publishes since ${FIRST_IMMUTABLE_PIXI_RELEASE}. ` + optOutHint
+      `No release attestation found in ${repository.name} for the downloaded pixi binary (sha256:${digest}). Only immutable releases have attestations; for prefix-dev/pixi, these are v0.72.0 and later. ` + optOutHint
     );
   }
   if (response.status === 401) {
@@ -48604,7 +48624,7 @@ ${optOutHint}`
   const body2 = await response.json();
   return (body2.attestations ?? []).map((a) => a.bundle).filter((b) => !!b);
 };
-var verifyBundle = (serializedBundle, verifier, digest, expectedTag) => {
+var verifyBundle = (serializedBundle, verifier, repository, digest, expectedTag) => {
   const bundle = (0, import_bundle.bundleFromJSON)(serializedBundle);
   verifier.verify((0, import_verify.toSignedEntity)(bundle), { subjectAlternativeName: RELEASE_ATTESTATION_SIGNER });
   if (bundle.content.$case !== "dsseEnvelope") {
@@ -48622,7 +48642,7 @@ var verifyBundle = (serializedBundle, verifier, digest, expectedTag) => {
     throw new Error(`unexpected predicate type ${statement.predicateType}`);
   }
   const predicate = statement.predicate ?? {};
-  if (predicate.repositoryId !== PIXI_REPOSITORY.repositoryId || predicate.ownerId !== PIXI_REPOSITORY.ownerId || predicate.repository?.toLowerCase() !== PIXI_REPOSITORY.name) {
+  if (predicate.repositoryId !== repository.repositoryId || predicate.ownerId !== repository.ownerId || predicate.repository?.toLowerCase() !== repository.name) {
     throw new Error(
       `attestation is for repository ${predicate.repository} (id ${predicate.repositoryId}, owner id ${predicate.ownerId})`
     );
@@ -48643,13 +48663,14 @@ var verifyBundle = (serializedBundle, verifier, digest, expectedTag) => {
 var verifyPixiAttestation = async ({
   binaryPath,
   expectedTag,
+  repository,
   githubToken,
   trustedRoot,
   trustedRootSource
 }) => {
   const digest = sha256(await import_promises.default.readFile(binaryPath));
   info(`Verifying release attestation for pixi binary sha256:${digest}`);
-  const bundles = await fetchAttestations(digest, githubToken);
+  const bundles = await fetchAttestations(repository, digest, githubToken);
   if (bundles.length === 0) {
     throw new Error(`GitHub returned no release attestation for sha256:${digest}. ${optOutHint}`);
   }
@@ -48661,8 +48682,8 @@ var verifyPixiAttestation = async ({
   const failures = [];
   for (const bundle of bundles) {
     try {
-      const tag = verifyBundle(bundle, verifier, digest, expectedTag);
-      info(`Verified: the pixi binary is an asset of the immutable ${PIXI_REPOSITORY.name} release ${tag}.`);
+      const tag = verifyBundle(bundle, verifier, repository, digest, expectedTag);
+      info(`Verified: the pixi binary is an asset of the immutable ${repository.name} release ${tag}.`);
       return tag;
     } catch (error3) {
       failures.push(error3.message);
@@ -91561,9 +91582,10 @@ var downloadPixi = async (source) => {
     trustedRoot?.catch(() => {
     });
     let version4 = source.version;
-    if (version4 === "latest" && source.urlTemplate === DEFAULT_PIXI_URL_TEMPLATE) {
-      version4 = await resolveLatestPixiVersion();
-      info(`Resolved latest pixi version to ${version4}`);
+    const channel = version4 === "latest" || version4 === "nightly" ? version4 : void 0;
+    if (channel && source.urlTemplate === DEFAULT_PIXI_URL_TEMPLATE) {
+      version4 = await resolveLatestPixiVersion(channel);
+      info(`Resolved ${channel} pixi version to ${version4}`);
     }
     const url2 = renderPixiUrl(source.urlTemplate, version4);
     debug("Installing pixi");
@@ -91575,8 +91597,9 @@ var downloadPixi = async (source) => {
       try {
         await verifyPixiAttestation({
           binaryPath: options.pixiBinPath,
-          // A custom `pixi-url` template may resolve `latest` to any release.
-          expectedTag: version4 === "latest" ? void 0 : version4,
+          // A custom `pixi-url` template may resolve `latest` and `nightly` to any release.
+          expectedTag: version4 === "latest" || version4 === "nightly" ? void 0 : version4,
+          repository: isNightlyVersion(version4) ? PIXI_NIGHTLY_REPOSITORY : PIXI_REPOSITORY,
           githubToken: verification.githubToken,
           trustedRoot,
           trustedRootSource: verification.trustedRootSource
@@ -91728,14 +91751,14 @@ var generateList = async () => {
     debug("Skipping pixi list.");
     return;
   }
-  if ("version" in options.pixiSource && options.pixiSource.version !== "latest" && options.pixiSource.version < "v0.13.0") {
+  if ("version" in options.pixiSource && options.pixiSource.version !== "latest" && !isNightlyVersion(options.pixiSource.version) && options.pixiSource.version < "v0.13.0") {
     warning(
       "pixi list is not supported for pixi versions < `v0.13.0`. Please set `pixi-version` to `v0.13.0` or later."
     );
     return;
   }
   let command = "list";
-  if ("version" in options.pixiSource && options.pixiSource.version !== "latest" && options.pixiSource.version < "v0.14.0") {
+  if ("version" in options.pixiSource && options.pixiSource.version !== "latest" && !isNightlyVersion(options.pixiSource.version) && options.pixiSource.version < "v0.14.0") {
     if (options.frozen) warning("pixi versions < `v0.14.0` do not support the --frozen option for pixi list.");
     if (options.locked) warning("pixi versions < `v0.14.0` do not support the --locked option for pixi list.");
   } else {

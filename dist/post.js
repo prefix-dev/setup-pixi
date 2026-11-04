@@ -35121,7 +35121,12 @@ var IS_WINDOWS3 = process.platform === "win32";
 var IS_MAC = process.platform === "darwin";
 
 // src/util.ts
-var DEFAULT_PIXI_URL_TEMPLATE = "https://github.com/prefix-dev/pixi/releases/download/{{version}}/{{pixiFile}}";
+var NIGHTLY_VERSION_REGEX = /^v\d+\.\d+\.\d+-\d+-g[0-9a-f]+$/;
+var DEFAULT_PIXI_URL_TEMPLATE = `{{#if nightly~}}
+https://github.com/prefix-dev/pixi-nightly/releases/download/{{version}}/{{pixiFile}}
+{{~else~}}
+https://github.com/prefix-dev/pixi/releases/download/{{version}}/{{pixiFile}}
+{{~/if}}`;
 var execute = (cmd) => {
   debug(`Executing: \`${cmd.toString()}\``);
   return exec(`"${cmd[0]}"`, cmd.slice(1), { cwd: options.workingDirectory });
@@ -35455,8 +35460,13 @@ var getOptions = () => {
   const inputs = {
     pixiVersion: parseOrUndefined(
       "pixi-version",
-      union([literal("latest"), string2().regex(/^v\d+\.\d+\.\d+$/)]),
-      "pixi-version must either be `latest` or a version string matching `vX.Y.Z`."
+      union([
+        literal("latest"),
+        literal("nightly"),
+        string2().regex(/^v\d+\.\d+\.\d+$/),
+        string2().regex(NIGHTLY_VERSION_REGEX)
+      ]),
+      "pixi-version must either be `latest`, `nightly`, a version string matching `vX.Y.Z`, or a nightly version matching `vX.Y.Z-N-gSHA`."
     ),
     pixiUrl: parseOrUndefined("pixi-url", string2()),
     pixiUrlHeaders: parseOrUndefinedJSON("pixi-url-headers", record(string2(), string2())),
