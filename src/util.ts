@@ -7,11 +7,24 @@ import { options } from './options'
 import Handlebars from 'handlebars'
 
 export const DEFAULT_PIXI_URL_TEMPLATE = `\
+{{#if nightly~}}
+{{#if latest~}}
+https://github.com/prefix-dev/pixi-nightly/releases/latest/download/{{pixiFile}}
+{{~else~}}
+https://github.com/prefix-dev/pixi-nightly/releases/download/{{version}}/{{pixiFile}}
+{{~/if}}
+{{~else~}}
 {{#if latest~}}
 https://github.com/prefix-dev/pixi/releases/latest/download/{{pixiFile}}
 {{~else~}}
 https://github.com/prefix-dev/pixi/releases/download/{{version}}/{{pixiFile}}
+{{~/if}}
 {{~/if}}`
+
+// Nightly builds are tagged with `git describe` output, e.g. `v0.84.0-10-ge4b92dc9f`.
+export const NIGHTLY_VERSION_REGEX = /^v\d+\.\d+\.\d+-\d+-g[0-9a-f]+$/
+
+export const isNightlyVersion = (version: string) => version === 'nightly' || NIGHTLY_VERSION_REGEX.test(version)
 
 export const getCondaArch = () => {
   const archDict: Record<string, string> = {
@@ -66,7 +79,9 @@ const getArch = () => {
 }
 
 export const renderPixiUrl = (urlTemplate: string, version: string) => {
-  const latest = version == 'latest'
+  // `latest` and `nightly` both select the newest release of their channel.
+  const latest = version === 'latest' || version === 'nightly'
+  const nightly = isNightlyVersion(version)
   const arch = getArch()
   const platform = getPlatform()
   const pixiFile = `pixi-${arch}-${platform}${platform === 'pc-windows-msvc' ? '.exe' : ''}`
@@ -74,6 +89,7 @@ export const renderPixiUrl = (urlTemplate: string, version: string) => {
   return template({
     version,
     latest,
+    nightly,
     pixiFile
   })
 }

@@ -7,7 +7,7 @@ import { downloadTool } from '@actions/tool-cache'
 import { parse } from 'smol-toml'
 import type { PixiSource } from './options'
 import { options } from './options'
-import { execute, pixiCmd, renderPixiUrl } from './util'
+import { execute, isNightlyVersion, pixiCmd, renderPixiUrl } from './util'
 import { tryRestoreGlobalCache, tryRestoreProjectCache, saveGlobalCache, saveProjectCache } from './cache'
 import { activateEnvironment } from './activate'
 
@@ -186,6 +186,7 @@ const generateList = async () => {
   if (
     'version' in options.pixiSource &&
     options.pixiSource.version !== 'latest' &&
+    !isNightlyVersion(options.pixiSource.version) &&
     options.pixiSource.version < 'v0.13.0'
   ) {
     core.warning(
@@ -197,6 +198,7 @@ const generateList = async () => {
   if (
     'version' in options.pixiSource &&
     options.pixiSource.version !== 'latest' &&
+    !isNightlyVersion(options.pixiSource.version) &&
     options.pixiSource.version < 'v0.14.0'
   ) {
     if (options.frozen) core.warning('pixi versions < `v0.14.0` do not support the --frozen option for pixi list.')

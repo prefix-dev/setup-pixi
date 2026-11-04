@@ -37486,11 +37486,21 @@ init_cjs_shims();
 var import_crypto = require("crypto");
 var import_os3 = __toESM(require("os"));
 var import_handlebars = __toESM(require_lib2());
-var DEFAULT_PIXI_URL_TEMPLATE = `{{#if latest~}}
+var DEFAULT_PIXI_URL_TEMPLATE = `{{#if nightly~}}
+{{#if latest~}}
+https://github.com/prefix-dev/pixi-nightly/releases/latest/download/{{pixiFile}}
+{{~else~}}
+https://github.com/prefix-dev/pixi-nightly/releases/download/{{version}}/{{pixiFile}}
+{{~/if}}
+{{~else~}}
+{{#if latest~}}
 https://github.com/prefix-dev/pixi/releases/latest/download/{{pixiFile}}
 {{~else~}}
 https://github.com/prefix-dev/pixi/releases/download/{{version}}/{{pixiFile}}
+{{~/if}}
 {{~/if}}`;
+var NIGHTLY_VERSION_REGEX = /^v\d+\.\d+\.\d+-\d+-g[0-9a-f]+$/;
+var isNightlyVersion = (version4) => version4 === "nightly" || NIGHTLY_VERSION_REGEX.test(version4);
 var getCondaArch = () => {
   const archDict = {
     "darwin-x64": "osx-64",
@@ -37539,7 +37549,8 @@ var getArch = () => {
   }
 };
 var renderPixiUrl = (urlTemplate, version4) => {
-  const latest = version4 == "latest";
+  const latest = version4 === "latest" || version4 === "nightly";
+  const nightly = isNightlyVersion(version4);
   const arch2 = getArch();
   const platform2 = getPlatform();
   const pixiFile = `pixi-${arch2}-${platform2}${platform2 === "pc-windows-msvc" ? ".exe" : ""}`;
@@ -37547,6 +37558,7 @@ var renderPixiUrl = (urlTemplate, version4) => {
   return template({
     version: version4,
     latest,
+    nightly,
     pixiFile
   });
 };
@@ -37882,8 +37894,13 @@ var getOptions = () => {
   const inputs = {
     pixiVersion: parseOrUndefined(
       "pixi-version",
-      union([literal("latest"), string2().regex(/^v\d+\.\d+\.\d+$/)]),
-      "pixi-version must either be `latest` or a version string matching `vX.Y.Z`."
+      union([
+        literal("latest"),
+        literal("nightly"),
+        string2().regex(/^v\d+\.\d+\.\d+$/),
+        string2().regex(NIGHTLY_VERSION_REGEX)
+      ]),
+      "pixi-version must either be `latest`, `nightly`, a version string matching `vX.Y.Z`, or a nightly version matching `vX.Y.Z-N-gSHA`."
     ),
     pixiUrl: parseOrUndefined("pixi-url", string2()),
     pixiUrlHeaders: parseOrUndefinedJSON("pixi-url-headers", record(string2(), string2())),
@@ -80983,14 +81000,14 @@ var generateList = async () => {
     debug("Skipping pixi list.");
     return;
   }
-  if ("version" in options.pixiSource && options.pixiSource.version !== "latest" && options.pixiSource.version < "v0.13.0") {
+  if ("version" in options.pixiSource && options.pixiSource.version !== "latest" && !isNightlyVersion(options.pixiSource.version) && options.pixiSource.version < "v0.13.0") {
     warning(
       "pixi list is not supported for pixi versions < `v0.13.0`. Please set `pixi-version` to `v0.13.0` or later."
     );
     return;
   }
   let command = "list";
-  if ("version" in options.pixiSource && options.pixiSource.version !== "latest" && options.pixiSource.version < "v0.14.0") {
+  if ("version" in options.pixiSource && options.pixiSource.version !== "latest" && !isNightlyVersion(options.pixiSource.version) && options.pixiSource.version < "v0.14.0") {
     if (options.frozen) warning("pixi versions < `v0.14.0` do not support the --frozen option for pixi list.");
     if (options.locked) warning("pixi versions < `v0.14.0` do not support the --locked option for pixi list.");
   } else {

@@ -525,6 +525,18 @@ Its content must be valid TOML and is written verbatim to `$PIXI_HOME/config.tom
       run-post-link-scripts = "insecure"
 ```
 
+### Nightly builds of pixi
+
+To test unreleased changes, you can install a development build of pixi from [prefix-dev/pixi-nightly](https://github.com/prefix-dev/pixi-nightly).
+A new build is published for every commit on pixi's `main` branch.
+Set `pixi-version` to `nightly` to get the newest one, or to a nightly tag such as `v0.84.0-10-ge4b92dc9f` to pin a specific build.
+
+```yml
+- uses: prefix-dev/setup-pixi@v0.11.3
+  with:
+    pixi-version: nightly
+```
+
 ### Download pixi from a custom URL
 
 You can also download pixi from a custom URL by setting the `pixi-url` input argument.
@@ -540,8 +552,9 @@ Optionally, you can combine this with the `pixi-url-headers` input argument to s
 The `pixi-url` input argument can also be a [Handlebars](https://handlebarsjs.com/) template string.
 It will be rendered with the following variables:
 
-- `version`: The version of pixi that is being installed (`latest` or a version like `v0.48.0`).
-- `latest`: A boolean indicating if the version is `latest`.
+- `version`: The version of pixi that is being installed (`latest`, `nightly`, a version like `v0.48.0`, or a nightly version like `v0.84.0-10-ge4b92dc9f`).
+- `latest`: A boolean indicating if the version is `latest` or `nightly`, i.e., the newest release should be installed.
+- `nightly`: A boolean indicating if the version is a nightly build (`nightly` or a nightly version like `v0.84.0-10-ge4b92dc9f`).
 - `pixiFile`: The name of the pixi binary to download, as determined by the system of the runner (e.g., `pixi-x86_64-unknown-linux-musl`).
 
 By default, `pixi-url` is equivalent to the following template:
@@ -550,10 +563,18 @@ By default, `pixi-url` is equivalent to the following template:
 - uses: prefix-dev/setup-pixi@v0.11.3
   with:
     pixi-url: |
+      {{#if nightly~}}
+      {{#if latest~}}
+      https://github.com/prefix-dev/pixi-nightly/releases/latest/download/{{pixiFile}}
+      {{~else~}}
+      https://github.com/prefix-dev/pixi-nightly/releases/download/{{version}}/{{pixiFile}}
+      {{~/if}}
+      {{~else~}}
       {{#if latest~}}
       https://github.com/prefix-dev/pixi/releases/latest/download/{{pixiFile}}
       {{~else~}}
       https://github.com/prefix-dev/pixi/releases/download/{{version}}/{{pixiFile}}
+      {{~/if}}
       {{~/if}}
 ```
 

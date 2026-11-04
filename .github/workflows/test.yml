@@ -150,6 +150,37 @@ jobs:
           locked: false
       - run: pixi --version | grep -q "pixi 0.1.0"
 
+  nightly-pixi-version:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: ./
+        with:
+          cache: false
+          pixi-version: nightly
+          run-install: false
+      # Nightly builds report a `git describe` version, e.g. `pixi 0.84.0-10-ge4b92dc9f`.
+      - run: pixi --version | grep -Eq '^pixi [0-9]+\.[0-9]+\.[0-9]+-[0-9]+-g[0-9a-f]+$'
+        shell: bash
+
+  pinned-nightly-pixi-version:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: ./
+        with:
+          cache: false
+          pixi-version: v0.84.0-10-ge4b92dc9f
+          run-install: false
+      - run: pixi --version | grep -q "pixi 0.84.0-10-ge4b92dc9f"
+        shell: bash
+
   old-lockfile:
     strategy:
       matrix:
