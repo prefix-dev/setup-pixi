@@ -21,13 +21,19 @@ const IN_TOTO_PAYLOAD_TYPE = 'application/vnd.in-toto+json'
 const RELEASE_PREDICATE_TYPE = 'https://in-toto.io/attestation/release/v0.2'
 
 // Compare IDs in addition to the name so that a renamed or re-registered repository can't pass as pixi.
-export const PIXI_REPOSITORY = {
+export type Repository = Readonly<{ name: string; repositoryId: string; ownerId: string }>
+
+export const PIXI_REPOSITORY: Repository = {
   name: 'prefix-dev/pixi',
   repositoryId: '633817517',
   ownerId: '111356225'
-} as const
+}
 
-export const FIRST_IMMUTABLE_PIXI_RELEASE = 'v0.72.0'
+export const PIXI_NIGHTLY_REPOSITORY: Repository = {
+  name: 'prefix-dev/pixi-nightly',
+  repositoryId: '1352359115',
+  ownerId: '111356225'
+}
 
 export type TrustedRootSource = 'tuf' | 'bundled'
 
@@ -75,8 +81,8 @@ export const loadTrustedRoot = async (source: TrustedRootSource): Promise<Truste
   }
 }
 
-const fetchAttestations = async (digest: string, githubToken: string | undefined) => {
-  const url = `${GITHUB_API_URL}/repos/${PIXI_REPOSITORY.name}/attestations/sha256:${digest}?predicate_type=release`
+const fetchAttestations = async (repository: Repository, digest: string, githubToken: string | undefined) => {
+  const url = `${GITHUB_API_URL}/repos/${repository.name}/attestations/sha256:${digest}?predicate_type=release`
   core.debug(`Fetching attestations from ${url}`)
   const response = await fetchWithRetry(url, {
     headers: {
@@ -88,8 +94,8 @@ const fetchAttestations = async (digest: string, githubToken: string | undefined
   })
   if (response.status === 404) {
     throw new Error(
-      `No release attestation found in ${PIXI_REPOSITORY.name} for the downloaded pixi binary (sha256:${digest}). ` +
-        `Only immutable releases have attestations, which pixi publishes since ${FIRST_IMMUTABLE_PIXI_RELEASE}. ` +
+      `No release attestation found in ${repository.name} for the downloaded pixi binary (sha256:${digest}). ` +
+        'Only immutable releases have attestations; for prefix-dev/pixi, these are v0.72.0 and later. ' +
         optOutHint
     )
   }
@@ -120,6 +126,7 @@ const fetchAttestations = async (digest: string, githubToken: string | undefined
 const verifyBundle = (
   serializedBundle: SerializedBundle,
   verifier: Verifier,
+  repository: Repository,
   digest: string,
   expectedTag: string | undefined
 ): string => {
@@ -143,9 +150,9 @@ const verifyBundle = (
   }
   const predicate = statement.predicate ?? {}
   if (
-    predicate.repositoryId !== PIXI_REPOSITORY.repositoryId ||
-    predicate.ownerId !== PIXI_REPOSITORY.ownerId ||
-    predicate.repository?.toLowerCase() !== PIXI_REPOSITORY.name
+    predicate.repositoryId !== repository.repositoryId ||
+    predicate.ownerId !== repository.ownerId ||
+    predicate.repository?.toLowerCase() !== repository.name
   ) {
     throw new Error(
       `attestation is for repository ${predicate.repository} (id ${predicate.repositoryId}, owner id ${predicate.ownerId})`
@@ -166,19 +173,21 @@ const verifyBundle = (
 }
 
 /**
- * Verifies that the pixi binary at `binaryPath` is an asset of an immutable prefix-dev/pixi release,
+ * Verifies that the pixi binary at `binaryPath` is an asset of an immutable release of `repository`,
  * using the release attestation GitHub creates for it.
  * If `expectedTag` is set, the attestation must be for exactly that release.
  */
 export const verifyPixiAttestation = async ({
   binaryPath,
   expectedTag,
+  repository,
   githubToken,
   trustedRoot,
   trustedRootSource
 }: {
   binaryPath: string
   expectedTag: string | undefined
+  repository: Repository
   githubToken: string | undefined
   trustedRoot: Promise<TrustedRoot>
   trustedRootSource: TrustedRootSource
@@ -186,7 +195,7 @@ export const verifyPixiAttestation = async ({
   const digest = sha256(await fs.readFile(binaryPath))
   core.info(`Verifying release attestation for pixi binary sha256:${digest}`)
 
-  const bundles = await fetchAttestations(digest, githubToken)
+  const bundles = await fetchAttestations(repository, digest, githubToken)
   if (bundles.length === 0) {
     throw new Error(`GitHub returned no release attestation for sha256:${digest}. ${optOutHint}`)
   }
@@ -201,8 +210,8 @@ export const verifyPixiAttestation = async ({
   const failures: string[] = []
   for (const bundle of bundles) {
     try {
-      const tag = verifyBundle(bundle, verifier, digest, expectedTag)
-      core.info(`Verified: the pixi binary is an asset of the immutable ${PIXI_REPOSITORY.name} release ${tag}.`)
+      const tag = verifyBundle(bundle, verifier, repository, digest, expectedTag)
+      core.info(`Verified: the pixi binary is an asset of the immutable ${repository.name} release ${tag}.`)
       return tag
     } catch (error) {
       failures.push((error as Error).message)
