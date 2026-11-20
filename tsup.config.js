@@ -1,4 +1,5 @@
 import { defineConfig } from 'tsup'
+import packageJson from './package.json' with { type: 'json' }
 
 export default defineConfig({
   entry: {
@@ -14,6 +15,9 @@ export default defineConfig({
   minify: false,
   // shim `import.meta.url` in CJS output; some deps (e.g. @azure/storage-common) rely on it
   shims: true,
+  define: {
+    __SETUP_PIXI_VERSION__: JSON.stringify(packageJson.version)
+  },
   outExtension() {
     return {
       js: '.js'
@@ -23,12 +27,18 @@ export default defineConfig({
   noExternal: [
     '@actions/core',
     '@actions/exec',
+    '@actions/http-client',
     '@actions/cache',
     '@actions/io',
     '@actions/tool-cache',
+    '@sigstore/bundle',
+    '@sigstore/protobuf-specs',
+    '@sigstore/tuf',
+    '@sigstore/verify',
     'handlebars',
     'untildify',
     'smol-toml',
+    'undici',
     'which',
     'zod'
   ]

@@ -549,12 +549,56 @@ By default, `pixi-url` is equivalent to the following template:
 ```yml
 - uses: prefix-dev/setup-pixi@v0.11.3
   with:
-    pixi-url: |
-      {{#if latest~}}
-      https://github.com/prefix-dev/pixi/releases/latest/download/{{pixiFile}}
-      {{~else~}}
-      https://github.com/prefix-dev/pixi/releases/download/{{version}}/{{pixiFile}}
-      {{~/if}}
+    pixi-url: https://github.com/prefix-dev/pixi/releases/download/{{version}}/{{pixiFile}}
+```
+
+With the default URL, setup-pixi resolves `latest` to the newest pixi release before it renders the template, so `version` is never `latest`.
+A custom `pixi-url` receives `latest` as is.
+
+### Verifying the pixi binary
+
+Releases of pixi are [immutable](https://docs.github.com/en/code-security/supply-chain-security/understanding-your-software-supply-chain/immutable-releases).
+For each asset of an immutable release, GitHub signs a release attestation.
+setup-pixi verifies the downloaded pixi binary against this attestation. It checks that:
+
+- the attestation is signed by GitHub,
+- the binary is an asset of a release of `prefix-dev/pixi`,
+- the release is the one you requested with `pixi-version`. If you use `latest`, setup-pixi resolves it to a concrete release first and checks against that.
+
+If the verification fails, setup-pixi deletes the downloaded binary and fails.
+This also applies if you download pixi from a mirror using `pixi-url`.
+
+Immutable releases can't be changed after they are published.
+If you pin setup-pixi to a commit SHA and `pixi-version` to an exact version, you always get the same pixi binary.
+Renovate updates `pixi-version` of setup-pixi out of the box.
+To protect yourself against a compromised new release, wait a few days before you update `pixi-version`, for example using Renovate's [`minimumReleaseAge`](https://docs.renovatebot.com/configuration-options/#minimumreleaseage).
+
+Verification needs access to `api.github.com` and `tuf-repo.github.com`.
+Each run makes one request to the GitHub API, authenticated with the workflow's `GITHUB_TOKEN` by default.
+On GitHub Enterprise Server, set `github-token` to a github.com token, otherwise you are subject to the GitHub API rate limit of 60 unauthenticated requests per hour.
+
+To verify the attestation, setup-pixi needs GitHub's trusted root.
+By default, setup-pixi fetches the current trusted root from GitHub's TUF repository at `tuf-repo.github.com`.
+If your runners can't reach this host, you can use the trusted root bundled with setup-pixi instead:
+
+```yml
+- uses: prefix-dev/setup-pixi@v0.11.3
+  with:
+    attestation-trusted-root: bundled
+```
+
+> [!NOTE]
+> GitHub rotates the keys for signing release attestations every few months.
+> The bundled trusted root can only verify releases that were signed with keys that existed when this version of setup-pixi was released.
+> If you use `attestation-trusted-root: bundled` and verification of a new pixi release fails, update setup-pixi.
+
+To install pixi without verifying it, for example a custom build, disable the verification:
+
+```yml
+- uses: prefix-dev/setup-pixi@v0.11.3
+  with:
+    pixi-url: https://pixi-mirror.example.com/custom-builds/pixi-x86_64-unknown-linux-musl
+    verify-attestation: false
 ```
 
 ### Setting inputs from environment variables

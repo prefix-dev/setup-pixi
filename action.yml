@@ -12,6 +12,22 @@ inputs:
     description: URL of pixi to install. Can be a Handlebars template receiving `version`, `latest`, and `pixiFile` as variables.
   pixi-url-headers:
     description: Headers to use when fetching the pixi binary from `pixi-url`. Should be a JSON string.
+  verify-attestation:
+    description: |
+      Whether to verify the release attestation of the downloaded pixi binary. Defaults to `true`.
+      The binary must be an asset of an immutable prefix-dev/pixi release (pixi v0.72.0 or later).
+      If `pixi-version` is set, the binary must belong to exactly that release.
+  attestation-trusted-root:
+    description: |
+      Where to get the trusted root for verifying release attestations from.
+      `tuf` (default) fetches the current trusted root from GitHub's TUF repository (https://tuf-repo.github.com).
+      `bundled` uses the trusted root bundled with setup-pixi, for runners that can't reach that host.
+      The bundled trusted root can't verify releases signed with keys that GitHub introduced after this version of setup-pixi was released.
+  github-token:
+    description: |
+      Token for the github.com API, used to fetch release attestations. Defaults to the workflow's `GITHUB_TOKEN` on github.com.
+      On GitHub Enterprise Server, set this to a github.com token to avoid the rate limit for unauthenticated requests.
+    default: ${{ github.server_url == 'https://github.com' && github.token || '' }}
   log-level:
     description: |
       Log level for the pixi CLI.

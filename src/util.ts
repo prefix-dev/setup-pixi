@@ -5,13 +5,125 @@ import type { ExecOptions } from '@actions/exec'
 import { exec, getExecOutput } from '@actions/exec'
 import { options } from './options'
 import Handlebars from 'handlebars'
+import { HttpClient } from '@actions/http-client'
+import { fetch as undiciFetch } from 'undici'
+import { downloadTool, HTTPError } from '@actions/tool-cache'
 
-export const DEFAULT_PIXI_URL_TEMPLATE = `\
-{{#if latest~}}
-https://github.com/prefix-dev/pixi/releases/latest/download/{{pixiFile}}
-{{~else~}}
-https://github.com/prefix-dev/pixi/releases/download/{{version}}/{{pixiFile}}
-{{~/if}}`
+// setup-pixi resolves `latest` to a concrete release before rendering this template, see `resolveLatestPixiVersion`.
+export const DEFAULT_PIXI_URL_TEMPLATE = 'https://github.com/prefix-dev/pixi/releases/download/{{version}}/{{pixiFile}}'
+
+export const USER_AGENT = `setup-pixi/${__SETUP_PIXI_VERSION__}`
+
+const PIXI_LATEST_RELEASE_URL = 'https://github.com/prefix-dev/pixi/releases/latest'
+
+const MAX_ATTEMPTS = 3
+
+export const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
+// Waits 2 s, then 4 s, plus up to 1 s of jitter so that parallel jobs don't retry in lockstep.
+const backoffMs = (attempt: number) => 2 ** attempt * 1000 + Math.random() * 1000
+
+const isRetryableResponse = (response: Response) =>
+  response.status >= 500 ||
+  response.status === 429 ||
+  (response.status === 403 &&
+    (response.headers.get('x-ratelimit-remaining') === '0' || response.headers.has('retry-after')))
+
+/**
+ * Like `fetch`, but retries network errors, server errors and rate limits, since GitHub occasionally answers with them.
+ * Returns the last response if all attempts fail, so that callers can report its status.
+ */
+export const fetchWithRetry = async (url: string, init: RequestInit): Promise<Response> => {
+  for (let attempt = 1; ; attempt++) {
+    let response: Response
+    try {
+      response = await fetch(url, init)
+    } catch (error) {
+      // `fetch` reports network errors as "fetch failed" with the reason in `cause`.
+      const reason = (((error as Error).cause as Error | undefined)?.message ?? (error as Error).message).replace(
+        /\.$/,
+        ''
+      )
+      if (attempt >= MAX_ATTEMPTS) {
+        throw new Error(`Request to ${url} failed: ${reason}`, { cause: error })
+      }
+      core.info(`Request to ${url} failed: ${reason}. Retrying.`)
+      await sleep(backoffMs(attempt))
+      continue
+    }
+    if (!isRetryableResponse(response) || attempt >= MAX_ATTEMPTS) {
+      return response
+    }
+    // GitHub sends `retry-after` in seconds for secondary rate limits.
+    const retryAfterMs = Number(response.headers.get('retry-after') ?? 0) * 1000
+    core.info(`Request to ${url} failed with HTTP ${response.status}. Retrying.`)
+    await sleep(Math.min(Math.max(retryAfterMs, backoffMs(attempt)), 60_000))
+  }
+}
+
+/**
+ * Downloads the pixi binary with `downloadTool`.
+ * `downloadTool` retries server errors itself, but GitHub also answers release downloads with transient 403s.
+ * We retry those only for github.com, because a 403 from a custom mirror usually means wrong credentials.
+ */
+export const downloadPixiBinary = async (url: string, dest: string, headers?: NodeJS.Dict<string>) => {
+  const isGitHubDownload = new URL(url).hostname === 'github.com'
+  for (let attempt = 1; ; attempt++) {
+    try {
+      return await downloadTool(url, dest, undefined, headers)
+    } catch (error) {
+      const isTransient = isGitHubDownload && error instanceof HTTPError && error.httpStatusCode === 403
+      if (!isTransient || attempt >= MAX_ATTEMPTS) {
+        throw new Error(`Downloading pixi from ${url} failed: ${(error as Error).message}`, { cause: error })
+      }
+      core.info(`Downloading pixi from ${url} failed with HTTP 403. Retrying.`)
+      await sleep(backoffMs(attempt))
+    }
+  }
+}
+
+/**
+ * Resolves the tag of the latest pixi release from the redirect of the `releases/latest` page.
+ * Downloading from the concrete tag afterwards ensures that the binary we verify belongs to the version we resolved,
+ * even if a new release is published in between.
+ */
+export const resolveLatestPixiVersion = async () => {
+  const response = await fetchWithRetry(PIXI_LATEST_RELEASE_URL, {
+    redirect: 'manual',
+    headers: { 'User-Agent': USER_AGENT }
+  })
+  const location = response.headers.get('location')
+  const version = location?.match(/\/releases\/tag\/(v\d+\.\d+\.\d+)$/)?.[1]
+  if (!version) {
+    throw new Error(
+      `Could not resolve the latest pixi version: ${PIXI_LATEST_RELEASE_URL} returned HTTP ${response.status} with location ${location}`
+    )
+  }
+  return version
+}
+
+/**
+ * Makes `fetch` respect the `HTTP(S)_PROXY` and `NO_PROXY` environment variables, like `@actions/tool-cache` does.
+ * This also covers the `fetch` calls in the TUF client.
+ * `undici.setGlobalDispatcher` is not enough because Node's built-in `fetch` doesn't reliably pick it up.
+ */
+export const configureFetchProxy = () => {
+  const httpClient = new HttpClient(USER_AGENT)
+  const builtinFetch = globalThis.fetch
+  const proxyAwareFetch = (input: string | URL | Request, init?: RequestInit) => {
+    const url = typeof input === 'string' ? input : input instanceof URL ? input.href : input.url
+    const dispatcher = httpClient.getAgentDispatcher(url)
+    if (!dispatcher) {
+      return builtinFetch(input, init)
+    }
+    core.debug(`Using proxy for ${url}`)
+    return undiciFetch(input as Parameters<typeof undiciFetch>[0], {
+      ...(init as Parameters<typeof undiciFetch>[1]),
+      dispatcher
+    }) as unknown as Promise<Response>
+  }
+  globalThis.fetch = proxyAwareFetch as typeof fetch
+}
 
 export const getCondaArch = () => {
   const archDict: Record<string, string> = {

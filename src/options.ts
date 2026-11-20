@@ -8,11 +8,15 @@ import untildify from 'untildify'
 import { parse } from 'smol-toml'
 import which from 'which'
 import { DEFAULT_PIXI_URL_TEMPLATE } from './util'
+import type { TrustedRootSource } from './attestation'
 
 type Inputs = Readonly<{
   pixiVersion?: string
   pixiUrl?: string
   pixiUrlHeaders?: NodeJS.Dict<string>
+  verifyAttestation?: boolean
+  attestationTrustedRoot?: TrustedRootSource
+  githubToken?: string
   logLevel?: LogLevel
   manifestPath?: string
   workingDirectory?: string
@@ -50,6 +54,11 @@ export interface PixiSource {
   urlTemplate: string
   headers?: NodeJS.Dict<string>
   version: string
+}
+
+export interface AttestationVerification {
+  trustedRootSource: TrustedRootSource
+  githubToken?: string
 }
 
 type Auth = {
@@ -91,6 +100,8 @@ interface GlobalCache {
 
 export type Options = Readonly<{
   pixiSource: PixiSource
+  // undefined if verification is disabled
+  attestationVerification?: AttestationVerification
   // main step: whether pixi needs to be downloaded; post step: whether this action downloaded pixi
   downloadPixi: boolean
   logLevel: LogLevel
@@ -122,6 +133,8 @@ export type AuthLogout = z.infer<typeof authLogoutSchema>
 
 const workloadIdentityExchangeSchema = z.enum(['token-exchange', 'prefix'])
 export type WorkloadIdentityExchange = z.infer<typeof workloadIdentityExchangeSchema>
+
+const trustedRootSourceSchema = z.enum(['tuf', 'bundled'])
 
 const pypiKeyringProviderSchema = z.enum(['disabled', 'subprocess'])
 export type PypiKeyringProvider = z.infer<typeof pypiKeyringProviderSchema>
@@ -197,6 +210,9 @@ const parseOrUndefinedMultilineList = <T>(key: string, schema: z.ZodType<T>): T[
 }
 
 const validateInputs = (inputs: Inputs): void => {
+  if (inputs.verifyAttestation === false && inputs.attestationTrustedRoot) {
+    throw new Error('Cannot use attestation-trusted-root when verify-attestation is false')
+  }
   if (inputs.pixiUrlHeaders && !inputs.pixiUrl) {
     throw new Error('You need to specify pixi-url when using pixi-url-headers')
   }
@@ -337,6 +353,14 @@ const inferOptions = (inputs: Inputs): Options => {
     version: inputs.pixiVersion ?? 'latest'
   }
 
+  const attestationVerification: AttestationVerification | undefined =
+    (inputs.verifyAttestation ?? true)
+      ? {
+          trustedRootSource: inputs.attestationTrustedRoot ?? 'tuf',
+          githubToken: inputs.githubToken
+        }
+      : undefined
+
   const { downloadPixi, pixiBinPath } = determinePixiInstallation(
     !!inputs.pixiVersion || !!inputs.pixiUrl,
     inputs.pixiBinPath
@@ -457,6 +481,7 @@ const inferOptions = (inputs: Inputs): Options => {
   return {
     globalEnvironments: inputs.globalEnvironments,
     pixiSource,
+    attestationVerification,
     pypiKeyringProvider,
     downloadPixi,
     logLevel,
@@ -500,6 +525,13 @@ const getOptions = () => {
     ),
     pixiUrl: parseOrUndefined('pixi-url', z.string()),
     pixiUrlHeaders: parseOrUndefinedJSON('pixi-url-headers', z.record(z.string(), z.string())),
+    verifyAttestation: parseOrUndefinedJSON('verify-attestation', z.boolean()),
+    attestationTrustedRoot: parseOrUndefined(
+      'attestation-trusted-root',
+      trustedRootSourceSchema,
+      'attestation-trusted-root must be one of `tuf`, `bundled`.'
+    ),
+    githubToken: parseOrUndefined('github-token', z.string()),
     logLevel: parseOrUndefined(
       'log-level',
       logLevelSchema,
@@ -543,6 +575,9 @@ const getOptions = () => {
     globalEnvironments: parseOrUndefinedMultilineList('global-environments', z.string()),
     postCleanup: parseOrUndefinedJSON('post-cleanup', z.boolean()),
     configuration: parseOrUndefined('configuration', z.string())
+  }
+  if (inputs.githubToken) {
+    core.setSecret(inputs.githubToken)
   }
   core.debug(`Inputs: ${JSON.stringify(inputs)}`)
   validateInputs(inputs)

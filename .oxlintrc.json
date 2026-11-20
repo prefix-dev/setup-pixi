@@ -9,7 +9,7 @@
     "typeCheck": true,
     "denyWarnings": true
   },
-  "ignorePatterns": ["dist"],
+  "ignorePatterns": ["dist", "scripts"],
   "rules": {
     "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     "typescript/no-explicit-any": "error",
