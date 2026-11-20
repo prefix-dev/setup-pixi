@@ -13783,7 +13783,7 @@ var require_fetch = __commonJS({
     function handleFetchDone(response) {
       finalizeAndReportTiming(response, "fetch");
     }
-    function fetch(input, init = void 0) {
+    function fetch2(input, init = void 0) {
       webidl.argumentLengthCheck(arguments, 1, "globalThis.fetch");
       let p = createDeferredPromise();
       let requestObject;
@@ -14740,7 +14740,7 @@ var require_fetch = __commonJS({
       }
     }
     module2.exports = {
-      fetch,
+      fetch: fetch2,
       Fetch,
       fetching,
       finalizeAndReportTiming
@@ -19289,7 +19289,7 @@ var require_undici = __commonJS({
     module2.exports.setGlobalDispatcher = setGlobalDispatcher;
     module2.exports.getGlobalDispatcher = getGlobalDispatcher;
     var fetchImpl = require_fetch().fetch;
-    module2.exports.fetch = async function fetch(init, options2 = void 0) {
+    module2.exports.fetch = async function fetch2(init, options2 = void 0) {
       try {
         return await fetchImpl(init, options2);
       } catch (err) {
@@ -26778,6 +26778,9 @@ var ExitCode;
   ExitCode2[ExitCode2["Success"] = 0] = "Success";
   ExitCode2[ExitCode2["Failure"] = 1] = "Failure";
 })(ExitCode || (ExitCode = {}));
+function setSecret(secret) {
+  issueCommand("add-mask", {}, secret);
+}
 function getInput(name, options2) {
   const val = process.env[`INPUT_${name.replace(/ /g, "_").toUpperCase()}`] || "";
   if (options2 && options2.required && !val) {
@@ -33058,11 +33061,8 @@ var import_which = __toESM(require_lib());
 // src/util.ts
 init_cjs_shims();
 var import_handlebars = __toESM(require_lib2());
-var DEFAULT_PIXI_URL_TEMPLATE = `{{#if latest~}}
-https://github.com/prefix-dev/pixi/releases/latest/download/{{pixiFile}}
-{{~else~}}
-https://github.com/prefix-dev/pixi/releases/download/{{version}}/{{pixiFile}}
-{{~/if}}`;
+var import_undici2 = __toESM(require_undici());
+var DEFAULT_PIXI_URL_TEMPLATE = "https://github.com/prefix-dev/pixi/releases/download/{{version}}/{{pixiFile}}";
 var execute = (cmd) => {
   debug(`Executing: \`${cmd.toString()}\``);
   return exec(`"${cmd[0]}"`, cmd.slice(1), { cwd: options.workingDirectory });
@@ -33098,6 +33098,7 @@ var pyprojectPath = "pyproject.toml";
 var logLevelSchema = _enum(["q", "default", "v", "vv", "vvv"]);
 var authLogoutSchema = _enum(["post", "after-install", "never"]);
 var workloadIdentityExchangeSchema = _enum(["token-exchange", "prefix"]);
+var trustedRootSourceSchema = _enum(["tuf", "bundled"]);
 var pypiKeyringProviderSchema = _enum(["disabled", "subprocess"]);
 var PATHS = {
   pixiBin: import_path.default.join(import_os3.default.homedir(), ".pixi", "bin", `pixi${import_os3.default.platform() === "win32" ? ".exe" : ""}`)
@@ -33154,6 +33155,9 @@ var parseOrUndefinedMultilineList = (key, schema) => {
   return input.split("\n").map((s) => schema.parse(s.trim())).filter((s) => s !== "");
 };
 var validateInputs = (inputs) => {
+  if (inputs.verifyAttestation === false && inputs.attestationTrustedRoot) {
+    throw new Error("Cannot use attestation-trusted-root when verify-attestation is false");
+  }
   if (inputs.pixiUrlHeaders && !inputs.pixiUrl) {
     throw new Error("You need to specify pixi-url when using pixi-url-headers");
   }
@@ -33264,6 +33268,10 @@ var inferOptions = (inputs) => {
     headers: inputs.pixiUrlHeaders,
     version: inputs.pixiVersion ?? "latest"
   };
+  const attestationVerification = inputs.verifyAttestation ?? true ? {
+    trustedRootSource: inputs.attestationTrustedRoot ?? "tuf",
+    githubToken: inputs.githubToken
+  } : void 0;
   const { downloadPixi, pixiBinPath } = determinePixiInstallation(
     !!inputs.pixiVersion || !!inputs.pixiUrl,
     inputs.pixiBinPath
@@ -33357,6 +33365,7 @@ var inferOptions = (inputs) => {
   return {
     globalEnvironments: inputs.globalEnvironments,
     pixiSource,
+    attestationVerification,
     pypiKeyringProvider,
     downloadPixi,
     logLevel,
@@ -33392,6 +33401,13 @@ var getOptions = () => {
     ),
     pixiUrl: parseOrUndefined("pixi-url", string2()),
     pixiUrlHeaders: parseOrUndefinedJSON("pixi-url-headers", record(string2(), string2())),
+    verifyAttestation: parseOrUndefinedJSON("verify-attestation", boolean2()),
+    attestationTrustedRoot: parseOrUndefined(
+      "attestation-trusted-root",
+      trustedRootSourceSchema,
+      "attestation-trusted-root must be one of `tuf`, `bundled`."
+    ),
+    githubToken: parseOrUndefined("github-token", string2()),
     logLevel: parseOrUndefined(
       "log-level",
       logLevelSchema,
@@ -33436,6 +33452,9 @@ var getOptions = () => {
     postCleanup: parseOrUndefinedJSON("post-cleanup", boolean2()),
     configuration: parseOrUndefined("configuration", string2())
   };
+  if (inputs.githubToken) {
+    setSecret(inputs.githubToken);
+  }
   debug(`Inputs: ${JSON.stringify(inputs)}`);
   validateInputs(inputs);
   const options2 = inferOptions(inputs);

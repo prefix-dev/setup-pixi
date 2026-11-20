@@ -7,18 +7,57 @@ import { downloadTool } from '@actions/tool-cache'
 import { parse } from 'smol-toml'
 import type { PixiSource } from './options'
 import { options } from './options'
-import { execute, pixiCmd, renderPixiUrl } from './util'
+import {
+  configureFetchProxy,
+  DEFAULT_PIXI_URL_TEMPLATE,
+  execute,
+  pixiCmd,
+  renderPixiUrl,
+  resolveLatestPixiVersion
+} from './util'
+import { loadTrustedRoot, verifyPixiAttestation } from './attestation'
 import { tryRestoreGlobalCache, tryRestoreProjectCache, saveGlobalCache, saveProjectCache } from './cache'
 import { activateEnvironment } from './activate'
 
 const downloadPixi = async (source: PixiSource) => {
-  const url = renderPixiUrl(source.urlTemplate, source.version)
   await core.group('Downloading Pixi', async () => {
+    const verification = options.attestationVerification
+    // Load the trusted root while the binary downloads; it doesn't depend on the binary.
+    const trustedRoot = verification ? loadTrustedRoot(verification.trustedRootSource) : undefined
+    // Avoid an unhandled rejection if the download fails first; the error is rethrown when awaited.
+    trustedRoot?.catch(() => {})
+
+    let version = source.version
+    if (version === 'latest' && source.urlTemplate === DEFAULT_PIXI_URL_TEMPLATE) {
+      // Pin `latest` to a concrete tag so that we download and verify the same release.
+      version = await resolveLatestPixiVersion()
+      core.info(`Resolved latest pixi version to ${version}`)
+    }
+    const url = renderPixiUrl(source.urlTemplate, version)
     core.debug('Installing pixi')
     core.debug(`Downloading pixi from ${url}`)
     core.debug(`Using headers: ${JSON.stringify(source.headers)}`)
     await fs.mkdir(path.dirname(options.pixiBinPath), { recursive: true })
     await downloadTool(url, options.pixiBinPath, undefined, source.headers)
+
+    if (verification && trustedRoot) {
+      try {
+        await verifyPixiAttestation({
+          binaryPath: options.pixiBinPath,
+          // A custom `pixi-url` template may resolve `latest` to any release.
+          expectedTag: version === 'latest' ? undefined : version,
+          githubToken: verification.githubToken,
+          trustedRoot,
+          trustedRootSource: verification.trustedRootSource
+        })
+      } catch (error) {
+        await fs.rm(options.pixiBinPath, { force: true })
+        throw error
+      }
+    } else {
+      core.info('Skipping release attestation verification because `verify-attestation` is false.')
+    }
+
     await fs.chmod(options.pixiBinPath, 0o755)
     core.info(`Pixi installed to ${options.pixiBinPath}`)
   })
@@ -229,6 +268,7 @@ const run = async () => {
   // persist the resolved binary path for the post step so it does not need to search PATH again
   core.saveState('pixi-bin-path', options.pixiBinPath)
   if (options.downloadPixi) {
+    configureFetchProxy()
     await downloadPixi(options.pixiSource)
     // only mark the binary as owned by this action after a successful download,
     // so that the post step never removes a binary it did not install

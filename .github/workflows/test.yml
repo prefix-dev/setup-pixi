@@ -146,6 +146,8 @@ jobs:
         with:
           cache: false
           pixi-version: v0.1.0
+          # releases before v0.72.0 have no release attestations
+          verify-attestation: false
           # pixi 0.1.0 doesn't support --locked
           locked: false
       - run: pixi --version | grep -q "pixi 0.1.0"
@@ -241,6 +243,7 @@ jobs:
         with:
           cache: false
           pixi-url: https://github.com/prefix-dev/pixi/releases/download/v0.14.0/pixi-x86_64-unknown-linux-musl
+          verify-attestation: false
       - run: pixi --version | grep -q "pixi 0.14.0"
 
   pixi-url-headers-bearer:
@@ -269,6 +272,7 @@ jobs:
         with:
           cache: false
           pixi-url: http://localhost:8080/pixi
+          verify-attestation: false
           pixi-url-headers: '{"Authorization": "Bearer wrongtoken"}'
         continue-on-error: true
       - name: Fail if wrong token did not fail
@@ -281,6 +285,7 @@ jobs:
         with:
           cache: false
           pixi-url: http://localhost:8080/pixi
+          verify-attestation: false
           pixi-url-headers: '{"Authorization": "Bearer s3cr3tT0k3nABC123"}'
       - run: pixi --version | grep -q "pixi 0.14.0"
 
@@ -297,6 +302,7 @@ jobs:
             https://github.com/prefix-dev/pixi/releases/download/{{version}}/{{pixiFile}}
             {{~/if}}
           run-install: false
+          verify-attestation: false
       - run: pixi --version | grep -q "pixi 0.14.0"
 
   pixi-url-custom-template-version:
@@ -312,6 +318,7 @@ jobs:
             https://github.com/prefix-dev/pixi/releases/download/{{version}}/{{pixiFile}}
             {{~/if}}
           run-install: false
+          verify-attestation: false
           pixi-version: v0.15.1
       - run: pixi --version | grep -q "pixi 0.15.1"
 
@@ -328,6 +335,7 @@ jobs:
             https://github.com/prefix-dev/pixi/releases/download/{{version}}/{{pixiFile}}
             {{~/if}}
           run-install: false
+          verify-attestation: false
           pixi-version: latest
       - run: pixi --version | grep -q "pixi 0.14.0"
 
@@ -1337,6 +1345,71 @@ jobs:
           # which pixi should be absolute
           which pixi | grep -q "^/"
 
+  attestation-bundled-trusted-root:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: ./
+        with:
+          pixi-version: v0.80.0
+          attestation-trusted-root: bundled
+          run-install: false
+      - run: pixi --version | grep -q "pixi 0.80.0"
+        shell: bash
+
+  attestation-custom-pixi-url:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      # pixi-url templates may resolve `latest` to any release, the attestation is accepted for any release tag
+      - uses: ./
+        with:
+          pixi-url: https://github.com/prefix-dev/pixi/releases/download/v0.80.0/{{pixiFile}}
+          run-install: false
+      - run: pixi --version | grep -q "pixi 0.80.0"
+
+  attestation-release-mismatch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      # the binary of v0.80.0 is attested for release v0.80.0, not for the requested v0.81.0
+      - uses: ./
+        id: test
+        with:
+          pixi-url: https://github.com/prefix-dev/pixi/releases/download/v0.80.0/{{pixiFile}}
+          pixi-version: v0.81.0
+          run-install: false
+        continue-on-error: true
+      - name: Fail on unexpected success
+        run: |
+          echo "Unexpected success!"
+          exit 1
+        if: ${{ steps.test.outcome != 'failure' }}
+      - name: Assert that the unverified binary was removed
+        run: test ! -e ~/.pixi/bin/pixi
+
+  attestation-missing:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      # releases before v0.72.0 are not immutable and have no release attestations
+      - uses: ./
+        id: test
+        with:
+          pixi-version: v0.71.0
+          run-install: false
+        continue-on-error: true
+      - name: Fail on unexpected success
+        run: |
+          echo "Unexpected success!"
+          exit 1
+        if: ${{ steps.test.outcome != 'failure' }}
+      - name: Assert that the unverified binary was removed
+        run: test ! -e ~/.pixi/bin/pixi
+
   env-variable-input-custom-pixi-url:
     runs-on: ubuntu-latest
     steps:
@@ -1346,6 +1419,7 @@ jobs:
       - uses: ./
         env:
           SETUP_PIXI_PIXI_URL: https://github.com/prefix-dev/pixi/releases/download/v0.14.0/pixi-x86_64-unknown-linux-musl
+          SETUP_PIXI_VERIFY_ATTESTATION: false
         with:
           cache: false
       - run: pixi --version | grep -q "pixi 0.14.0"
@@ -1362,6 +1436,7 @@ jobs:
         with:
           cache: false
           pixi-url: https://github.com/prefix-dev/pixi/releases/download/v0.49.0/pixi-x86_64-unknown-linux-musl
+          verify-attestation: false
       - run: pixi --version | grep -q "pixi 0.49.0"
 
   test-cache-fail-no-lockfile:

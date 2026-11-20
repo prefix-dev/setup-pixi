@@ -19,13 +19,11 @@ jobs:
 
       - name: Install pnpm
         uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
-        with:
-          version: 10
 
       - name: Install Node.js
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: 20
+          node-version-file: package.json
           cache: pnpm
 
       - name: Install dependencies
@@ -50,7 +48,7 @@ jobs:
         run: |
           set -euo pipefail
           latest_version="$(jq -r '.version' package.json)"
-          count_expected=26
+          count_expected=28
           count_actual="$(grep -c "setup-pixi@v$latest_version" README.md || true)"
           if [ "$count_actual" -ne "$count_expected" ]; then
             echo "::error file=README.md::Expected $count_expected mentions of \`setup-pixi@v$latest_version\` in README.md, but found $count_actual."
@@ -96,6 +94,48 @@ jobs:
           title: Reference latest Pixi version in README
           labels: ignore for release
 
+  update-bundled-trusted-root:
+    name: Update bundled trusted root
+    if: (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref_name == 'main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+
+      - name: Install Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: package.json
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Update trusted root from GitHub's TUF repository
+        run: pnpm update-trusted-root
+
+      - name: Rebuild the dist/ directory
+        run: pnpm build
+
+      - uses: octo-sts/action@f603d3be9d8dd9871a265776e625a27b00effe05 # v1.1.1
+        id: octo-sts
+        with:
+          scope: ${{ github.repository }}
+          identity: write
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        with:
+          token: ${{ steps.octo-sts.outputs.token }}
+          commit-message: Update bundled trusted root for release attestations
+          title: Update bundled trusted root for release attestations
+          branch: update-bundled-trusted-root
+
   check-dist:
     runs-on: ubuntu-latest
     steps:
@@ -103,13 +143,11 @@ jobs:
 
       - name: Install pnpm
         uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
-        with:
-          version: 10
 
       - name: Install Node.js
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: 20
+          node-version-file: package.json
           cache: pnpm
 
       - name: Install dependencies

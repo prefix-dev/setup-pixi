@@ -5,13 +5,58 @@ import type { ExecOptions } from '@actions/exec'
 import { exec, getExecOutput } from '@actions/exec'
 import { options } from './options'
 import Handlebars from 'handlebars'
+import { HttpClient } from '@actions/http-client'
+import { fetch as undiciFetch } from 'undici'
 
-export const DEFAULT_PIXI_URL_TEMPLATE = `\
-{{#if latest~}}
-https://github.com/prefix-dev/pixi/releases/latest/download/{{pixiFile}}
-{{~else~}}
-https://github.com/prefix-dev/pixi/releases/download/{{version}}/{{pixiFile}}
-{{~/if}}`
+// setup-pixi resolves `latest` to a concrete release before rendering this template, see `resolveLatestPixiVersion`.
+export const DEFAULT_PIXI_URL_TEMPLATE = 'https://github.com/prefix-dev/pixi/releases/download/{{version}}/{{pixiFile}}'
+
+export const USER_AGENT = `setup-pixi/${__SETUP_PIXI_VERSION__}`
+
+const PIXI_LATEST_RELEASE_URL = 'https://github.com/prefix-dev/pixi/releases/latest'
+
+/**
+ * Resolves the tag of the latest pixi release from the redirect of the `releases/latest` page.
+ * Downloading from the concrete tag afterwards ensures that the binary we verify belongs to the version we resolved,
+ * even if a new release is published in between.
+ */
+export const resolveLatestPixiVersion = async () => {
+  const response = await fetch(PIXI_LATEST_RELEASE_URL, {
+    redirect: 'manual',
+    headers: { 'User-Agent': USER_AGENT }
+  })
+  const location = response.headers.get('location')
+  const version = location?.match(/\/releases\/tag\/(v\d+\.\d+\.\d+)$/)?.[1]
+  if (!version) {
+    throw new Error(
+      `Could not resolve the latest pixi version: ${PIXI_LATEST_RELEASE_URL} returned HTTP ${response.status} with location ${location}`
+    )
+  }
+  return version
+}
+
+/**
+ * Makes `fetch` respect the `HTTP(S)_PROXY` and `NO_PROXY` environment variables, like `@actions/tool-cache` does.
+ * This also covers the `fetch` calls in the TUF client.
+ * `undici.setGlobalDispatcher` is not enough because Node's built-in `fetch` doesn't reliably pick it up.
+ */
+export const configureFetchProxy = () => {
+  const httpClient = new HttpClient(USER_AGENT)
+  const builtinFetch = globalThis.fetch
+  const proxyAwareFetch = (input: string | URL | Request, init?: RequestInit) => {
+    const url = typeof input === 'string' ? input : input instanceof URL ? input.href : input.url
+    const dispatcher = httpClient.getAgentDispatcher(url)
+    if (!dispatcher) {
+      return builtinFetch(input, init)
+    }
+    core.debug(`Using proxy for ${url}`)
+    return undiciFetch(input as Parameters<typeof undiciFetch>[0], {
+      ...(init as Parameters<typeof undiciFetch>[1]),
+      dispatcher
+    }) as unknown as Promise<Response>
+  }
+  globalThis.fetch = proxyAwareFetch as typeof fetch
+}
 
 export const getCondaArch = () => {
   const archDict: Record<string, string> = {

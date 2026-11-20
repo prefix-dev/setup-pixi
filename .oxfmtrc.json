@@ -6,5 +6,5 @@
   "trailingComma": "none",
   "semi": false,
   "sortPackageJson": false,
-  "ignorePatterns": ["dist", "pnpm-lock.yaml", "pixi.lock", "**/*.toml"]
+  "ignorePatterns": ["dist", "pnpm-lock.yaml", "pixi.lock", "**/*.toml", "src/trusted-root"]
 }
