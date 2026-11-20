@@ -9,7 +9,7 @@ import { getTrustedRoot } from '@sigstore/tuf'
 import { toSignedEntity, toTrustMaterial, Verifier } from '@sigstore/verify'
 import bundledTrustedRoot from './trusted-root/trusted_root.json'
 import bundledTufRoot from './trusted-root/tuf-root.json'
-import { sha256, USER_AGENT } from './util'
+import { fetchWithRetry, sha256, USER_AGENT } from './util'
 
 // GitHub creates a release attestation for every asset of an immutable release.
 // The attestation is signed by GitHub's own Sigstore instance, whose trust root is distributed via this TUF repository.
@@ -78,7 +78,7 @@ export const loadTrustedRoot = async (source: TrustedRootSource): Promise<Truste
 const fetchAttestations = async (digest: string, githubToken: string | undefined) => {
   const url = `${GITHUB_API_URL}/repos/${PIXI_REPOSITORY.name}/attestations/sha256:${digest}?predicate_type=release`
   core.debug(`Fetching attestations from ${url}`)
-  const response = await fetch(url, {
+  const response = await fetchWithRetry(url, {
     headers: {
       Accept: 'application/vnd.github+json',
       'X-GitHub-Api-Version': '2022-11-28',

@@ -3,13 +3,13 @@ import os from 'os'
 import path from 'path'
 import { exit } from 'process'
 import * as core from '@actions/core'
-import { downloadTool } from '@actions/tool-cache'
 import { parse } from 'smol-toml'
 import type { PixiSource } from './options'
 import { options } from './options'
 import {
   configureFetchProxy,
   DEFAULT_PIXI_URL_TEMPLATE,
+  downloadPixiBinary,
   execute,
   pixiCmd,
   renderPixiUrl,
@@ -38,7 +38,7 @@ const downloadPixi = async (source: PixiSource) => {
     core.debug(`Downloading pixi from ${url}`)
     core.debug(`Using headers: ${JSON.stringify(source.headers)}`)
     await fs.mkdir(path.dirname(options.pixiBinPath), { recursive: true })
-    await downloadTool(url, options.pixiBinPath, undefined, source.headers)
+    await downloadPixiBinary(url, options.pixiBinPath, source.headers)
 
     if (verification && trustedRoot) {
       try {
