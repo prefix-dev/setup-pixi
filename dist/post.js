@@ -13783,7 +13783,7 @@ var require_fetch = __commonJS({
     function handleFetchDone(response) {
       finalizeAndReportTiming(response, "fetch");
     }
-    function fetch(input, init = void 0) {
+    function fetch2(input, init = void 0) {
       webidl.argumentLengthCheck(arguments, 1, "globalThis.fetch");
       let p = createDeferredPromise();
       let requestObject;
@@ -14740,7 +14740,7 @@ var require_fetch = __commonJS({
       }
     }
     module2.exports = {
-      fetch,
+      fetch: fetch2,
       Fetch,
       fetching,
       finalizeAndReportTiming
@@ -19289,7 +19289,7 @@ var require_undici = __commonJS({
     module2.exports.setGlobalDispatcher = setGlobalDispatcher;
     module2.exports.getGlobalDispatcher = getGlobalDispatcher;
     var fetchImpl = require_fetch().fetch;
-    module2.exports.fetch = async function fetch(init, options2 = void 0) {
+    module2.exports.fetch = async function fetch2(init, options2 = void 0) {
       try {
         return await fetchImpl(init, options2);
       } catch (err) {
@@ -33257,17 +33257,19 @@ var determinePixiInstallation = (pixiUrlOrVersionSet, pixiBinPath) => {
   }
   return { downloadPixi: true, pixiBinPath: PATHS.pixiBin };
 };
+var readRequiresPixi = (manifestPath) => {
+  try {
+    const toml = parse2((0, import_fs2.readFileSync)(manifestPath, "utf-8"));
+    const pixi = import_path.default.basename(manifestPath) === pyprojectPath ? toml.tool?.pixi : toml;
+    const workspace = pixi?.workspace ?? pixi?.project;
+    const excludeNewer = workspace?.["exclude-newer"];
+    return { requiresPixi: workspace?.["requires-pixi"], excludeNewer: excludeNewer && String(excludeNewer) };
+  } catch {
+    return {};
+  }
+};
 var inferOptions = (inputs) => {
   const runInstall = inputs.runInstall ?? true;
-  const pixiSource = {
-    urlTemplate: inputs.pixiUrl ?? DEFAULT_PIXI_URL_TEMPLATE,
-    headers: inputs.pixiUrlHeaders,
-    version: inputs.pixiVersion ?? "latest"
-  };
-  const { downloadPixi, pixiBinPath } = determinePixiInstallation(
-    !!inputs.pixiVersion || !!inputs.pixiUrl,
-    inputs.pixiBinPath
-  );
   const logLevel = inputs.logLevel ?? (isDebug() ? "vv" : "default");
   const workingDirectory = inputs.workingDirectory ? import_path.default.resolve(untildify(inputs.workingDirectory)) : process.cwd();
   debug(`Working directory: ${workingDirectory}`);
@@ -33298,6 +33300,18 @@ var inferOptions = (inputs) => {
       );
     }
   }
+  const { requiresPixi, excludeNewer } = inputs.pixiVersion || inputs.pixiUrl ? {} : readRequiresPixi(manifestPath);
+  const pixiSource = {
+    urlTemplate: inputs.pixiUrl ?? DEFAULT_PIXI_URL_TEMPLATE,
+    headers: inputs.pixiUrlHeaders,
+    version: inputs.pixiVersion ?? "latest",
+    requiresPixi,
+    excludeNewer
+  };
+  const { downloadPixi, pixiBinPath } = determinePixiInstallation(
+    !!inputs.pixiVersion || !!inputs.pixiUrl || !!requiresPixi,
+    inputs.pixiBinPath
+  );
   const pixiLockFile = import_path.default.join(import_path.default.dirname(manifestPath), "pixi.lock");
   const lockFileAvailable = (0, import_fs2.existsSync)(pixiLockFile);
   debug(`lockFileAvailable: ${lockFileAvailable ? "yes" : "no"}`);

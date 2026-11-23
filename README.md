@@ -513,6 +513,17 @@ If you only want to install pixi and not install the current project, you can us
     run-install: false
 ```
 
+### Using `requires-pixi` from the manifest
+
+If neither `pixi-version` nor `pixi-url` is set and the manifest sets [`requires-pixi`](https://pixi.sh/latest/reference/pixi_manifest/#requires-pixi-optional), the action installs the newest pixi release that satisfies it.
+If the manifest also sets `exclude-newer`, releases published after that date are skipped, unless no older release satisfies `requires-pixi`.
+The releases are listed through the GitHub API; set the `GITHUB_TOKEN` environment variable to avoid its rate limits.
+
+```toml
+[workspace]
+requires-pixi = ">=0.44"
+```
+
 ### Global configuration
 
 You can set [global pixi configuration](https://pixi.sh/latest/reference/pixi_configuration/) using the `configuration` input.

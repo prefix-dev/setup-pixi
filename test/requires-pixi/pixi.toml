@@ -1,0 +1,7 @@
+[workspace]
+name = "requires-pixi"
+channels = ["conda-forge"]
+platforms = ["linux-64", "linux-aarch64", "osx-64", "osx-arm64", "win-64"]
+# v0.47.0 is the newest release matching the spec, but v0.45.0 is the newest one before exclude-newer
+requires-pixi = ">=0.44,<0.48"
+exclude-newer = "2025-04-10"
