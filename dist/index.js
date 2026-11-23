@@ -302,9 +302,9 @@ var require_tunnel2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/symbols.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/core/symbols.js
 var require_symbols = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/symbols.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/core/symbols.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     module2.exports = {
@@ -377,9 +377,9 @@ var require_symbols = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/errors.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/core/errors.js
 var require_errors = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/errors.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/core/errors.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var kUndiciError = /* @__PURE__ */ Symbol.for("undici.error.UND_ERR");
@@ -759,9 +759,9 @@ var require_errors = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/constants.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/core/constants.js
 var require_constants = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/constants.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/core/constants.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var headerNameLowerCasedRecord = {};
@@ -875,9 +875,9 @@ var require_constants = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/tree.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/core/tree.js
 var require_tree = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/tree.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/core/tree.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var {
@@ -1018,9 +1018,9 @@ var require_tree = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/util.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/core/util.js
 var require_util = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/util.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/core/util.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert6 = require("assert");
@@ -1525,9 +1525,9 @@ var require_util = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/diagnostics.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/core/diagnostics.js
 var require_diagnostics = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/diagnostics.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/core/diagnostics.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var diagnosticsChannel = require("diagnostics_channel");
@@ -1711,9 +1711,9 @@ var require_diagnostics = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/request.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/core/request.js
 var require_request = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/request.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/core/request.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var {
@@ -2111,9 +2111,9 @@ var require_request = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/dispatcher.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/dispatcher.js
 var require_dispatcher = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/dispatcher.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/dispatcher.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var EventEmitter4 = require("events");
@@ -2170,11 +2170,12 @@ var require_dispatcher = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/dispatcher-base.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/dispatcher-base.js
 var require_dispatcher_base = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/dispatcher-base.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/dispatcher-base.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
+    var buffer3 = require("buffer");
     var Dispatcher = require_dispatcher();
     var {
       ClientDestroyedError,
@@ -2186,6 +2187,7 @@ var require_dispatcher_base = __commonJS({
     var kOnClosed = /* @__PURE__ */ Symbol("onClosed");
     var kInterceptedDispatch = /* @__PURE__ */ Symbol("Intercepted Dispatch");
     var kWebSocketOptions = /* @__PURE__ */ Symbol("webSocketOptions");
+    var kEventSourceOptions = /* @__PURE__ */ Symbol("eventSourceOptions");
     var DispatcherBase = class extends Dispatcher {
       constructor(opts) {
         super();
@@ -2194,11 +2196,17 @@ var require_dispatcher_base = __commonJS({
         this[kClosed] = false;
         this[kOnClosed] = [];
         this[kWebSocketOptions] = opts?.webSocket ?? {};
+        this[kEventSourceOptions] = opts?.eventSource ?? {};
       }
       get webSocketOptions() {
         return {
           maxFragments: this[kWebSocketOptions].maxFragments ?? 131072,
           maxPayloadSize: this[kWebSocketOptions].maxPayloadSize ?? 128 * 1024 * 1024
+        };
+      }
+      get eventSourceOptions() {
+        return {
+          maxEventSize: this[kEventSourceOptions].maxEventSize ?? buffer3.kStringMaxLength
         };
       }
       get destroyed() {
@@ -2340,9 +2348,9 @@ var require_dispatcher_base = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/util/timers.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/util/timers.js
 var require_timers = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/util/timers.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/util/timers.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var fastNow = 0;
@@ -2574,9 +2582,9 @@ var require_timers = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/connect.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/core/connect.js
 var require_connect = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/connect.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/core/connect.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var net = require("net");
@@ -2755,9 +2763,9 @@ var require_connect = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/llhttp/utils.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/llhttp/utils.js
 var require_utils = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/llhttp/utils.js"(exports2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/llhttp/utils.js"(exports2) {
     "use strict";
     init_cjs_shims();
     Object.defineProperty(exports2, "__esModule", { value: true });
@@ -2776,9 +2784,9 @@ var require_utils = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/llhttp/constants.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/llhttp/constants.js
 var require_constants2 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/llhttp/constants.js"(exports2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/llhttp/constants.js"(exports2) {
     "use strict";
     init_cjs_shims();
     Object.defineProperty(exports2, "__esModule", { value: true });
@@ -3098,9 +3106,9 @@ var require_constants2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/llhttp/llhttp-wasm.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/llhttp/llhttp-wasm.js
 var require_llhttp_wasm = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/llhttp/llhttp-wasm.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/llhttp/llhttp-wasm.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { Buffer: Buffer3 } = require("buffer");
@@ -3108,9 +3116,9 @@ var require_llhttp_wasm = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/llhttp/llhttp_simd-wasm.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/llhttp/llhttp_simd-wasm.js
 var require_llhttp_simd_wasm = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/llhttp/llhttp_simd-wasm.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/llhttp/llhttp_simd-wasm.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { Buffer: Buffer3 } = require("buffer");
@@ -3118,9 +3126,9 @@ var require_llhttp_simd_wasm = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/constants.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/constants.js
 var require_constants3 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/constants.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/constants.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var corsSafeListedMethods = (
@@ -3337,9 +3345,9 @@ var require_constants3 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/global.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/global.js
 var require_global = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/global.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/global.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var globalOrigin = /* @__PURE__ */ Symbol.for("undici.globalOrigin.1");
@@ -3374,9 +3382,9 @@ var require_global = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/data-url.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/data-url.js
 var require_data_url = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/data-url.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/data-url.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert6 = require("assert");
@@ -3727,9 +3735,9 @@ var require_data_url = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/webidl.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/webidl.js
 var require_webidl = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/webidl.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/webidl.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { types: types2, inspect: inspect2 } = require("util");
@@ -4147,9 +4155,9 @@ var require_webidl = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/util.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/util.js
 var require_util2 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/util.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/util.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { Transform: Transform2 } = require("stream");
@@ -5028,9 +5036,9 @@ var require_util2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/symbols.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/symbols.js
 var require_symbols2 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/symbols.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/symbols.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     module2.exports = {
@@ -5043,9 +5051,9 @@ var require_symbols2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/file.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/file.js
 var require_file = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/file.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/file.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { Blob: Blob2, File: File2 } = require("buffer");
@@ -5107,9 +5115,9 @@ var require_file = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/formdata.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/formdata.js
 var require_formdata = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/formdata.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/formdata.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { isBlobLike, iteratorMixin } = require_util2();
@@ -5255,9 +5263,9 @@ var require_formdata = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/formdata-parser.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/formdata-parser.js
 var require_formdata_parser = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/formdata-parser.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/formdata-parser.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { isUSVString, bufferToLowerCasedHeaderName } = require_util();
@@ -5507,9 +5515,9 @@ var require_formdata_parser = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/body.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/body.js
 var require_body = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/body.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/body.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var util6 = require_util();
@@ -5822,9 +5830,9 @@ Content-Type: ${value.type || "application/octet-stream"}\r
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/client-h1.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/client-h1.js
 var require_client_h1 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/client-h1.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/client-h1.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert6 = require("assert");
@@ -6377,7 +6385,6 @@ var require_client_h1 = __commonJS({
       socket[kSocketUsed] = false;
       socket[kParser] = new Parser(client, socket, llhttpInstance);
       addListener(socket, "error", function(err) {
-        assert6(err.code !== "ERR_TLS_CERT_ALTNAME_INVALID");
         const parser = this[kParser];
         if (err.code === "ECONNRESET" && parser.statusCode && !parser.shouldKeepAlive) {
           const parserErr = parser.finish();
@@ -6954,9 +6961,9 @@ ${len.toString(16)}\r
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/client-h2.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/client-h2.js
 var require_client_h2 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/client-h2.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/client-h2.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert6 = require("assert");
@@ -7062,7 +7069,6 @@ var require_client_h2 = __commonJS({
       client[kHTTP2Session] = session;
       socket[kHTTP2Session] = session;
       util6.addListener(socket, "error", function(err) {
-        assert6(err.code !== "ERR_TLS_CERT_ALTNAME_INVALID");
         this[kError] = err;
         this[kClient][kOnError](err);
       });
@@ -7121,7 +7127,6 @@ var require_client_h2 = __commonJS({
       }
     }
     function onHttp2SessionError(err) {
-      assert6(err.code !== "ERR_TLS_CERT_ALTNAME_INVALID");
       this[kSocket][kError] = err;
       this[kClient][kOnError](err);
     }
@@ -7531,9 +7536,9 @@ var require_client_h2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/handler/redirect-handler.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/handler/redirect-handler.js
 var require_redirect_handler = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/handler/redirect-handler.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/handler/redirect-handler.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var util6 = require_util();
@@ -7691,9 +7696,9 @@ var require_redirect_handler = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/interceptor/redirect-interceptor.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/interceptor/redirect-interceptor.js
 var require_redirect_interceptor = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/interceptor/redirect-interceptor.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/interceptor/redirect-interceptor.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var RedirectHandler = require_redirect_handler();
@@ -7714,9 +7719,9 @@ var require_redirect_interceptor = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/client.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/client.js
 var require_client = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/client.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/client.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert6 = require("assert");
@@ -7818,9 +7823,10 @@ var require_client = __commonJS({
         // h2
         maxConcurrentStreams,
         allowH2,
-        webSocket
+        webSocket,
+        eventSource
       } = {}) {
-        super({ webSocket });
+        super({ webSocket, eventSource });
         if (keepAlive !== void 0) {
           throw new InvalidArgumentError("unsupported keepAlive, use pipelining=0 instead");
         }
@@ -8216,9 +8222,9 @@ var require_client = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/fixed-queue.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/fixed-queue.js
 var require_fixed_queue = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/fixed-queue.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/fixed-queue.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var kSize = 2048;
@@ -8274,9 +8280,9 @@ var require_fixed_queue = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/pool-stats.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/pool-stats.js
 var require_pool_stats = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/pool-stats.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/pool-stats.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { kFree, kConnected, kPending, kQueued, kRunning, kSize } = require_symbols();
@@ -8308,9 +8314,9 @@ var require_pool_stats = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/pool-base.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/pool-base.js
 var require_pool_base = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/pool-base.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/pool-base.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var DispatcherBase = require_dispatcher_base();
@@ -8464,9 +8470,9 @@ var require_pool_base = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/pool.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/pool.js
 var require_pool = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/pool.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/pool.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var {
@@ -8556,9 +8562,9 @@ var require_pool = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/balanced-pool.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/balanced-pool.js
 var require_balanced_pool = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/balanced-pool.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/balanced-pool.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var {
@@ -8701,9 +8707,9 @@ var require_balanced_pool = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/agent.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/agent.js
 var require_agent = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/agent.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/agent.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { InvalidArgumentError } = require_errors();
@@ -8724,7 +8730,7 @@ var require_agent = __commonJS({
       return opts && opts.connections === 1 ? new Client(origin, opts) : new Pool(origin, opts);
     }
     var Agent3 = class extends DispatcherBase {
-      constructor({ factory = defaultFactory, maxRedirections = 0, connect, ...options2 } = {}) {
+      constructor({ factory = defaultFactory, maxRedirections = 0, connect, tls, ...options2 } = {}) {
         if (typeof factory !== "function") {
           throw new InvalidArgumentError("factory must be a function.");
         }
@@ -8738,8 +8744,11 @@ var require_agent = __commonJS({
         if (connect && typeof connect !== "function") {
           connect = { ...connect };
         }
+        if (tls && typeof tls !== "function") {
+          tls = { ...tls };
+        }
         this[kInterceptors] = options2.interceptors?.Agent && Array.isArray(options2.interceptors.Agent) ? options2.interceptors.Agent : [createRedirectInterceptor({ maxRedirections })];
-        this[kOptions] = { ...util6.deepClone(options2), connect };
+        this[kOptions] = { ...util6.deepClone(options2), connect, tls };
         this[kOptions].interceptors = options2.interceptors ? { ...options2.interceptors } : void 0;
         this[kMaxRedirections] = maxRedirections;
         this[kFactory] = factory;
@@ -8799,9 +8808,9 @@ var require_agent = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/proxy-agent.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/proxy-agent.js
 var require_proxy_agent = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/proxy-agent.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/proxy-agent.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { kProxy, kClose, kDestroy, kDispatch, kInterceptors } = require_symbols();
@@ -9028,9 +9037,9 @@ var require_proxy_agent = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/env-http-proxy-agent.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/env-http-proxy-agent.js
 var require_env_http_proxy_agent = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/env-http-proxy-agent.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/env-http-proxy-agent.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var DispatcherBase = require_dispatcher_base();
@@ -9171,9 +9180,9 @@ var require_env_http_proxy_agent = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/handler/retry-handler.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/handler/retry-handler.js
 var require_retry_handler = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/handler/retry-handler.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/handler/retry-handler.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert6 = require("assert");
@@ -9521,9 +9530,9 @@ var require_retry_handler = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/retry-agent.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/retry-agent.js
 var require_retry_agent = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/retry-agent.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/retry-agent.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var Dispatcher = require_dispatcher();
@@ -9560,9 +9569,9 @@ var require_retry_agent = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/readable.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/readable.js
 var require_readable = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/readable.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/readable.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert6 = require("assert");
@@ -9854,9 +9863,9 @@ var require_readable = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/util.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/util.js
 var require_util3 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/util.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/util.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert6 = require("assert");
@@ -9917,9 +9926,9 @@ var require_util3 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/api-request.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/api-request.js
 var require_api_request = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/api-request.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/api-request.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert6 = require("assert");
@@ -10104,9 +10113,9 @@ var require_api_request = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/abort-signal.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/abort-signal.js
 var require_abort_signal = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/abort-signal.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/abort-signal.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { addAbortListener } = require_util();
@@ -10157,9 +10166,9 @@ var require_abort_signal = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/api-stream.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/api-stream.js
 var require_api_stream = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/api-stream.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/api-stream.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert6 = require("assert");
@@ -10331,9 +10340,9 @@ var require_api_stream = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/api-pipeline.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/api-pipeline.js
 var require_api_pipeline = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/api-pipeline.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/api-pipeline.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var {
@@ -10532,9 +10541,9 @@ var require_api_pipeline = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/api-upgrade.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/api-upgrade.js
 var require_api_upgrade = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/api-upgrade.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/api-upgrade.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { InvalidArgumentError, SocketError } = require_errors();
@@ -10625,9 +10634,9 @@ var require_api_upgrade = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/api-connect.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/api-connect.js
 var require_api_connect = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/api-connect.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/api-connect.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert6 = require("assert");
@@ -10716,9 +10725,9 @@ var require_api_connect = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/index.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/index.js
 var require_api = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/index.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/index.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     module2.exports.request = require_api_request();
@@ -10729,9 +10738,9 @@ var require_api = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-errors.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/mock-errors.js
 var require_mock_errors = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-errors.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/mock-errors.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { UndiciError } = require_errors();
@@ -10756,9 +10765,9 @@ var require_mock_errors = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-symbols.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/mock-symbols.js
 var require_mock_symbols = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-symbols.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/mock-symbols.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     module2.exports = {
@@ -10785,9 +10794,9 @@ var require_mock_symbols = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-utils.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/mock-utils.js
 var require_mock_utils = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-utils.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/mock-utils.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { MockNotMatchedError } = require_mock_errors();
@@ -11082,9 +11091,9 @@ var require_mock_utils = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-interceptor.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/mock-interceptor.js
 var require_mock_interceptor = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-interceptor.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/mock-interceptor.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { getResponseData, buildKey, addMockDispatch } = require_mock_utils();
@@ -11245,9 +11254,9 @@ var require_mock_interceptor = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-client.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/mock-client.js
 var require_mock_client = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-client.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/mock-client.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { promisify: promisify4 } = require("util");
@@ -11299,9 +11308,9 @@ var require_mock_client = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-pool.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/mock-pool.js
 var require_mock_pool = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-pool.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/mock-pool.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { promisify: promisify4 } = require("util");
@@ -11353,9 +11362,9 @@ var require_mock_pool = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/pluralizer.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/pluralizer.js
 var require_pluralizer = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/pluralizer.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/pluralizer.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var singulars = {
@@ -11385,9 +11394,9 @@ var require_pluralizer = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/pending-interceptors-formatter.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/pending-interceptors-formatter.js
 var require_pending_interceptors_formatter = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/pending-interceptors-formatter.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/pending-interceptors-formatter.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { Transform: Transform2 } = require("stream");
@@ -11427,9 +11436,9 @@ var require_pending_interceptors_formatter = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-agent.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/mock-agent.js
 var require_mock_agent = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-agent.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/mock-agent.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { kClients } = require_symbols();
@@ -11558,9 +11567,9 @@ ${pendingInterceptorsFormatter.format(pending)}
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/global.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/global.js
 var require_global2 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/global.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/global.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var globalDispatcher = /* @__PURE__ */ Symbol.for("undici.globalDispatcher.1");
@@ -11590,9 +11599,9 @@ var require_global2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/handler/decorator-handler.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/handler/decorator-handler.js
 var require_decorator_handler = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/handler/decorator-handler.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/handler/decorator-handler.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var _handler, _a4;
@@ -11632,9 +11641,9 @@ var require_decorator_handler = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/interceptor/redirect.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/interceptor/redirect.js
 var require_redirect = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/interceptor/redirect.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/interceptor/redirect.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var RedirectHandler = require_redirect_handler();
@@ -11659,9 +11668,9 @@ var require_redirect = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/interceptor/retry.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/interceptor/retry.js
 var require_retry = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/interceptor/retry.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/interceptor/retry.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var RetryHandler = require_retry_handler();
@@ -11684,9 +11693,9 @@ var require_retry = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/interceptor/dump.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/interceptor/dump.js
 var require_dump = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/interceptor/dump.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/interceptor/dump.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var util6 = require_util();
@@ -11793,9 +11802,9 @@ var require_dump = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/interceptor/dns.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/interceptor/dns.js
 var require_dns = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/interceptor/dns.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/interceptor/dns.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { isIP } = require("net");
@@ -12095,9 +12104,9 @@ var require_dns = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/headers.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/headers.js
 var require_headers = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/headers.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/headers.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { kConstruct } = require_symbols();
@@ -12544,9 +12553,9 @@ var require_headers = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/response.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/response.js
 var require_response = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/response.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/response.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { Headers: Headers2, HeadersList, fill, getHeadersGuard, setHeadersGuard, setHeadersList } = require_headers();
@@ -12944,9 +12953,9 @@ var require_response = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/dispatcher-weakref.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/dispatcher-weakref.js
 var require_dispatcher_weakref = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/dispatcher-weakref.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/dispatcher-weakref.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { kConnected, kSize } = require_symbols();
@@ -12987,9 +12996,9 @@ var require_dispatcher_weakref = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/request.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/request.js
 var require_request2 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/request.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/request.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { extractBody, mixinBody, cloneBody, bodyUnusable } = require_body();
@@ -13683,9 +13692,9 @@ var require_request2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/index.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/index.js
 var require_fetch = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/index.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/index.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var {
@@ -14544,8 +14553,9 @@ var require_fetch = __commonJS({
         }
       );
       response.body = { stream: stream3, source: null, length: null };
-      fetchParams.controller.onAborted = onAborted;
-      fetchParams.controller.on("terminated", onAborted);
+      if (!fetchParams.controller.resume) {
+        fetchParams.controller.on("terminated", onAborted);
+      }
       fetchParams.controller.resume = async () => {
         while (true) {
           let bytes;
@@ -14645,7 +14655,6 @@ var require_fetch = __commonJS({
                 headersList.append(bufferToLowerCasedHeaderName(rawHeaders[i]), rawHeaders[i + 1].toString("latin1"), true);
               }
               location = headersList.get("location", true);
-              this.body = new Readable7({ read: resume });
               const decoders = [];
               const willFollow = location && request.redirect === "follow" && redirectStatusSet.has(status);
               if (request.method !== "HEAD" && request.method !== "CONNECT" && !nullBodyStatus.includes(status) && !willFollow) {
@@ -14653,7 +14662,7 @@ var require_fetch = __commonJS({
                 const codings = contentEncoding ? contentEncoding.toLowerCase().split(",") : [];
                 const maxContentEncodings = 5;
                 if (codings.length > maxContentEncodings) {
-                  reject(new Error(`too many content-encodings in response: ${codings.length}, maximum allowed is ${maxContentEncodings}`));
+                  this.abort(new Error(`too many content-encodings in response: ${codings.length}, maximum allowed is ${maxContentEncodings}`));
                   return true;
                 }
                 for (let i = codings.length - 1; i >= 0; --i) {
@@ -14683,6 +14692,7 @@ var require_fetch = __commonJS({
                   }
                 }
               }
+              this.body = new Readable7({ read: resume });
               const onError = this.onError.bind(this);
               resolve3({
                 status,
@@ -14707,9 +14717,6 @@ var require_fetch = __commonJS({
             onComplete() {
               if (this.abort) {
                 fetchParams.controller.off("terminated", this.abort);
-              }
-              if (fetchParams.controller.onAborted) {
-                fetchParams.controller.off("terminated", fetchParams.controller.onAborted);
               }
               fetchParams.controller.ended = true;
               this.body.push(null);
@@ -14751,9 +14758,9 @@ var require_fetch = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fileapi/symbols.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fileapi/symbols.js
 var require_symbols3 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fileapi/symbols.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fileapi/symbols.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     module2.exports = {
@@ -14767,9 +14774,9 @@ var require_symbols3 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fileapi/progressevent.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fileapi/progressevent.js
 var require_progressevent = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fileapi/progressevent.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fileapi/progressevent.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { webidl } = require_webidl();
@@ -14836,9 +14843,9 @@ var require_progressevent = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fileapi/encoding.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fileapi/encoding.js
 var require_encoding = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fileapi/encoding.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fileapi/encoding.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     function getEncoding(label) {
@@ -15123,9 +15130,9 @@ var require_encoding = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fileapi/util.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fileapi/util.js
 var require_util4 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fileapi/util.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fileapi/util.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var {
@@ -15309,9 +15316,9 @@ var require_util4 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fileapi/filereader.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fileapi/filereader.js
 var require_filereader = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fileapi/filereader.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fileapi/filereader.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var {
@@ -15569,9 +15576,9 @@ var require_filereader = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cache/symbols.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/cache/symbols.js
 var require_symbols4 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cache/symbols.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/cache/symbols.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     module2.exports = {
@@ -15580,9 +15587,9 @@ var require_symbols4 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cache/util.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/cache/util.js
 var require_util5 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cache/util.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/cache/util.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert6 = require("assert");
@@ -15611,9 +15618,9 @@ var require_util5 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cache/cache.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/cache/cache.js
 var require_cache = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cache/cache.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/cache/cache.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { kConstruct } = require_symbols4();
@@ -16162,9 +16169,9 @@ var require_cache = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cache/cachestorage.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/cache/cachestorage.js
 var require_cachestorage = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cache/cachestorage.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/cache/cachestorage.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { kConstruct } = require_symbols4();
@@ -16276,9 +16283,9 @@ var require_cachestorage = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cookies/constants.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/cookies/constants.js
 var require_constants4 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cookies/constants.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/cookies/constants.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var maxAttributeValueSize = 1024;
@@ -16290,9 +16297,9 @@ var require_constants4 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cookies/util.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/cookies/util.js
 var require_util6 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cookies/util.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/cookies/util.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     function isCTLExcludingHtab(value) {
@@ -16499,9 +16506,9 @@ var require_util6 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cookies/parse.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/cookies/parse.js
 var require_parse = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cookies/parse.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/cookies/parse.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { maxNameValuePairSize, maxAttributeValueSize } = require_constants4();
@@ -16636,9 +16643,9 @@ var require_parse = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cookies/index.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/cookies/index.js
 var require_cookies = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cookies/index.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/cookies/index.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { parseSetCookie } = require_parse();
@@ -16766,9 +16773,9 @@ var require_cookies = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/events.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/events.js
 var require_events = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/events.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/events.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { webidl } = require_webidl();
@@ -17047,9 +17054,9 @@ var require_events = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/constants.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/constants.js
 var require_constants5 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/constants.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/constants.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var uid = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
@@ -17105,9 +17112,9 @@ var require_constants5 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/symbols.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/symbols.js
 var require_symbols5 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/symbols.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/symbols.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     module2.exports = {
@@ -17123,9 +17130,9 @@ var require_symbols5 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/util.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/util.js
 var require_util7 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/util.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/util.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { kReadyState, kController, kResponse, kBinaryType, kWebSocketURL } = require_symbols5();
@@ -17297,9 +17304,9 @@ var require_util7 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/frame.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/frame.js
 var require_frame = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/frame.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/frame.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { maxUnsigned16Bit } = require_constants5();
@@ -17375,9 +17382,9 @@ var require_frame = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/connection.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/connection.js
 var require_connection = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/connection.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/connection.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { uid, states, sentCloseFrameState, emptyBuffer, opcodes } = require_constants5();
@@ -17561,9 +17568,9 @@ var require_connection = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/permessage-deflate.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/permessage-deflate.js
 var require_permessage_deflate = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/permessage-deflate.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/permessage-deflate.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { createInflateRaw, Z_DEFAULT_WINDOWBITS } = require("zlib");
@@ -17648,9 +17655,9 @@ var require_permessage_deflate = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/receiver.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/receiver.js
 var require_receiver = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/receiver.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/receiver.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { Writable } = require("stream");
@@ -17826,6 +17833,16 @@ var require_receiver = __commonJS({
             if (isControlFrame(__privateGet(this, _info).opcode)) {
               __privateSet(this, _loop, this.parseControlFrame(body2));
               __privateSet(this, _state, parserStates.INFO);
+              const socket = this.ws[kResponse].socket;
+              if (__privateGet(this, _loop) && socket.writableNeedDrain) {
+                __privateSet(this, _loop, false);
+                socket.once("drain", () => {
+                  if (this.destroyed) return;
+                  __privateSet(this, _loop, true);
+                  this.run(callback);
+                });
+                return;
+              }
             } else {
               if (!__privateGet(this, _info).compressed) {
                 if (!this.writeFragments(body2)) {
@@ -18034,9 +18051,9 @@ var require_receiver = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/sender.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/sender.js
 var require_sender = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/sender.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/sender.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { WebsocketFrameSend } = require_frame();
@@ -18123,9 +18140,9 @@ var require_sender = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/websocket.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/websocket.js
 var require_websocket = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/websocket.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/websocket.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { webidl } = require_webidl();
@@ -18523,9 +18540,9 @@ var require_websocket = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/eventsource/util.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/eventsource/util.js
 var require_util8 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/eventsource/util.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/eventsource/util.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     function isValidLastEventId(value) {
@@ -18551,11 +18568,12 @@ var require_util8 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/eventsource/eventsource-stream.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/eventsource/eventsource-stream.js
 var require_eventsource_stream = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/eventsource/eventsource-stream.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/eventsource/eventsource-stream.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
+    var buffer3 = require("buffer");
     var { Transform: Transform2 } = require("stream");
     var { isASCIINumber, isValidLastEventId } = require_util8();
     var BOM = [239, 187, 191];
@@ -18563,24 +18581,28 @@ var require_eventsource_stream = __commonJS({
     var CR = 13;
     var COLON = 58;
     var SPACE = 32;
+    var defaultMaxEventSize = buffer3.kStringMaxLength;
     var DATA = Buffer.from("data");
     var EVENT = Buffer.from("event");
     var ID2 = Buffer.from("id");
     var RETRY = Buffer.from("retry");
-    function isASCIINumberBytes(buffer3, start) {
-      if (start >= buffer3.length) {
+    var minParserItems = 1024;
+    var maxParserItems = 131072;
+    var bytesPerParserItem = 128;
+    function isASCIINumberBytes(buffer4, start) {
+      if (start >= buffer4.length) {
         return false;
       }
-      for (let i = start; i < buffer3.length; i++) {
-        if (buffer3[i] < 48 || buffer3[i] > 57) {
+      for (let i = start; i < buffer4.length; i++) {
+        if (buffer4[i] < 48 || buffer4[i] > 57) {
           return false;
         }
       }
       return true;
     }
-    function isValidLastEventIdBytes(buffer3, start) {
-      for (let i = start; i < buffer3.length; i++) {
-        if (buffer3[i] === 0) {
+    function isValidLastEventIdBytes(buffer4, start) {
+      for (let i = start; i < buffer4.length; i++) {
+        if (buffer4[i] === 0) {
           return false;
         }
       }
@@ -18597,9 +18619,15 @@ var require_eventsource_stream = __commonJS({
       }
       return true;
     }
+    function createMaxEventSizeExceededError() {
+      const error3 = new Error("EventSource message size exceeded");
+      error3.aborted = false;
+      return error3;
+    }
     var EventSourceStream = class extends Transform2 {
       /**
        * @param {object} options
+       * @param {number} [options.maxEventSize]
        * @param {eventSourceSettings} options.eventSourceSettings
        * @param {Function} [options.push]
        */
@@ -18631,6 +18659,13 @@ var require_eventsource_stream = __commonJS({
         __publicField(this, "pos", 0);
         __publicField(this, "lineChunkIndex", 0);
         __publicField(this, "linePos", 0);
+        __publicField(this, "lineLength", 0);
+        __publicField(this, "eventSize", 0);
+        __publicField(this, "eventFieldSizes", { data: 0, event: 0, id: 0, retry: 0 });
+        __publicField(this, "dataLineCount", 0);
+        __publicField(this, "maxEventSize");
+        __publicField(this, "maxDataLines");
+        __publicField(this, "maxBufferedChunks");
         __publicField(this, "event", {
           data: void 0,
           event: void 0,
@@ -18638,6 +18673,10 @@ var require_eventsource_stream = __commonJS({
           retry: void 0
         });
         this.state = options2.eventSourceSettings || {};
+        this.maxEventSize = options2.maxEventSize ?? defaultMaxEventSize;
+        const parserItemLimit = this.maxEventSize > 0 ? Math.min(maxParserItems, Math.max(minParserItems, Math.floor(this.maxEventSize / bytesPerParserItem))) : 0;
+        this.maxDataLines = parserItemLimit;
+        this.maxBufferedChunks = parserItemLimit;
         if (options2.push) {
           this.push = options2.push;
         }
@@ -18651,6 +18690,10 @@ var require_eventsource_stream = __commonJS({
       _transform(chunk, _encoding, callback) {
         if (chunk.length === 0) {
           callback();
+          return;
+        }
+        if (this.maxEventSize > 0 && this.chunks.length >= this.maxBufferedChunks && chunk[0] !== LF && chunk[0] !== CR) {
+          callback(createMaxEventSizeExceededError());
           return;
         }
         this.chunks.push(chunk);
@@ -18689,18 +18732,32 @@ var require_eventsource_stream = __commonJS({
             if (byte === CR) {
               this.crlfCheck = true;
             }
-            this.parseLine(this.readLine(), this.event);
+            try {
+              this.parseLine(this.readLine(), this.event);
+            } catch (error3) {
+              callback(error3);
+              return;
+            }
             this.consumeCurrentByte();
             this.eventEndCheck = true;
             continue;
+          }
+          if (this.maxEventSize > 0 && ++this.lineLength > this.maxEventSize + 7) {
+            callback(createMaxEventSizeExceededError());
+            return;
           }
           this.advanceCursor();
         }
         callback();
       }
+      _destroy(error3, callback) {
+        this.chunks.length = 0;
+        this.clearEvent();
+        super._destroy(error3, callback);
+      }
       /**
        * @param {Buffer} line
-       * @param {EventStreamEvent} event
+       * @param {EventSourceStreamEvent} event
        */
       parseLine(line, event) {
         if (line.length === 0) {
@@ -18720,6 +18777,12 @@ var require_eventsource_stream = __commonJS({
           }
         }
         if (isFieldName(line, fieldLength, DATA)) {
+          if (this.maxEventSize > 0 && this.dataLineCount >= this.maxDataLines) {
+            throw createMaxEventSizeExceededError();
+          }
+          const valueBytes = line.length - valueStart;
+          const dataSize = this.eventFieldSizes.data + (event.data === void 0 ? 0 : 1) + valueBytes;
+          this.setEventFieldSize("data", dataSize);
           const value = line.toString("utf8", valueStart);
           if (event.data === void 0) {
             event.data = value;
@@ -18727,26 +18790,37 @@ var require_eventsource_stream = __commonJS({
             event.data += `
 ${value}`;
           }
+          this.dataLineCount++;
           return;
         }
         if (isFieldName(line, fieldLength, RETRY)) {
           if (isASCIINumberBytes(line, valueStart)) {
+            this.setEventFieldSize("retry", line.length - valueStart);
             event.retry = line.toString("utf8", valueStart);
           }
           return;
         }
         if (isFieldName(line, fieldLength, ID2)) {
           if (isValidLastEventIdBytes(line, valueStart)) {
+            this.setEventFieldSize("id", line.length - valueStart);
             event.id = line.toString("utf8", valueStart);
           }
           return;
         }
         if (isFieldName(line, fieldLength, EVENT)) {
-          const value = line.toString("utf8", valueStart);
-          if (value.length > 0) {
-            event.event = value;
+          if (valueStart < line.length) {
+            this.setEventFieldSize("event", line.length - valueStart);
+            event.event = line.toString("utf8", valueStart);
           }
         }
+      }
+      setEventFieldSize(field, size) {
+        const eventSize = this.eventSize - this.eventFieldSizes[field] + size;
+        if (this.maxEventSize > 0 && eventSize > this.maxEventSize) {
+          throw createMaxEventSizeExceededError();
+        }
+        this.eventSize = eventSize;
+        this.eventFieldSizes[field] = size;
       }
       /**
        * @param {EventSourceStreamEvent} event
@@ -18774,6 +18848,12 @@ ${value}`;
         this.event.event = void 0;
         this.event.id = void 0;
         this.event.retry = void 0;
+        this.eventSize = 0;
+        this.dataLineCount = 0;
+        this.eventFieldSizes.data = 0;
+        this.eventFieldSizes.event = 0;
+        this.eventFieldSizes.id = 0;
+        this.eventFieldSizes.retry = 0;
       }
       hasPendingEvent() {
         return this.event.data !== void 0 || this.event.event !== void 0 || this.event.id !== void 0 || this.event.retry !== void 0;
@@ -18798,13 +18878,15 @@ ${value}`;
       syncLineStartToCursor() {
         this.lineChunkIndex = this.chunkIndex;
         this.linePos = this.pos;
+        this.lineLength = 0;
         this.dropConsumedChunks();
       }
       dropConsumedChunks() {
-        while (this.lineChunkIndex > 0) {
-          this.chunks.shift();
-          this.lineChunkIndex--;
-          this.chunkIndex--;
+        if (this.lineChunkIndex > 0) {
+          const consumed = this.lineChunkIndex;
+          this.chunks.splice(0, consumed);
+          this.lineChunkIndex = 0;
+          this.chunkIndex -= consumed;
         }
         if (this.chunkIndex === this.chunks.length) {
           this.chunks.length = 0;
@@ -18892,9 +18974,9 @@ ${value}`;
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/eventsource/eventsource.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/eventsource/eventsource.js
 var require_eventsource = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/eventsource/eventsource.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/eventsource/eventsource.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { pipeline: pipeline3 } = require("stream");
@@ -18908,6 +18990,7 @@ var require_eventsource = __commonJS({
     var { delay: delay4 } = require_util8();
     var { kEnumerableProperty } = require_util();
     var { environmentSettingsObject } = require_util2();
+    var { getGlobalDispatcher } = require_global2();
     var experimentalWarned = false;
     var defaultReconnectionTime = 3e3;
     var CONNECTING = 0;
@@ -19113,6 +19196,7 @@ var require_eventsource = __commonJS({
         __privateGet(this, _state).origin = response.urlList[response.urlList.length - 1].origin;
         const eventSourceStream = new EventSourceStream({
           eventSourceSettings: __privateGet(this, _state),
+          maxEventSize: __privateGet(this, _dispatcher).eventSourceOptions?.maxEventSize,
           push: (event) => {
             this.dispatchEvent(createFastMessageEvent(
               event.type,
@@ -19188,7 +19272,8 @@ var require_eventsource = __commonJS({
       {
         key: "dispatcher",
         // undici only
-        converter: webidl.converters.any
+        converter: webidl.converters.any,
+        defaultValue: () => getGlobalDispatcher()
       }
     ]);
     module2.exports = {
@@ -19198,9 +19283,9 @@ var require_eventsource = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/index.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/index.js
 var require_undici = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/index.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/index.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var Client = require_client();
@@ -45990,13 +46075,13 @@ init_cjs_shims();
 // node_modules/.pnpm/@azure+core-xml@1.5.1/node_modules/@azure/core-xml/dist/esm/xml.js
 init_cjs_shims();
 
-// node_modules/.pnpm/fast-xml-parser@5.10.1/node_modules/fast-xml-parser/src/fxp.js
+// node_modules/.pnpm/fast-xml-parser@5.12.1/node_modules/fast-xml-parser/src/fxp.js
 init_cjs_shims();
 
-// node_modules/.pnpm/fast-xml-parser@5.10.1/node_modules/fast-xml-parser/src/validator.js
+// node_modules/.pnpm/fast-xml-parser@5.12.1/node_modules/fast-xml-parser/src/validator.js
 init_cjs_shims();
 
-// node_modules/.pnpm/fast-xml-parser@5.10.1/node_modules/fast-xml-parser/src/util.js
+// node_modules/.pnpm/fast-xml-parser@5.12.1/node_modules/fast-xml-parser/src/util.js
 init_cjs_shims();
 var nameStartChar = ":A-Za-z_\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD";
 var nameChar = nameStartChar + "\\-.\\d\\u00B7\\u0300-\\u036F\\u203F-\\u2040";
@@ -46038,7 +46123,7 @@ var DANGEROUS_PROPERTY_NAMES = [
 ];
 var criticalProperties = ["__proto__", "constructor", "prototype"];
 
-// node_modules/.pnpm/fast-xml-parser@5.10.1/node_modules/fast-xml-parser/src/validator.js
+// node_modules/.pnpm/fast-xml-parser@5.12.1/node_modules/fast-xml-parser/src/validator.js
 var defaultOptions = {
   allowBooleanAttributes: false,
   //A tag can have attributes without any value
@@ -46260,9 +46345,55 @@ function readAttributeStr(xmlData, i) {
     tagClosed
   };
 }
-var validAttrStrRegxp = new RegExp(`(\\s*)([^\\s=]+)(\\s*=)?(\\s*(['"])(([\\s\\S])*?)\\5)?`, "g");
+function scanAttributeTokens(attrStr) {
+  const tokens = [];
+  const len = attrStr.length;
+  let i = 0;
+  while (i < len) {
+    const tokenStart = i;
+    while (i < len && isWhiteSpace(attrStr[i])) i++;
+    if (i >= len) break;
+    if (attrStr[i] === "=") {
+      i++;
+      continue;
+    }
+    const leadingWs = attrStr.slice(tokenStart, i);
+    const nameStart = i;
+    while (i < len && !isWhiteSpace(attrStr[i]) && attrStr[i] !== "=") i++;
+    const name = attrStr.slice(nameStart, i);
+    let equalsGroup;
+    let j = i;
+    while (j < len && isWhiteSpace(attrStr[j])) j++;
+    if (j < len && attrStr[j] === "=") {
+      equalsGroup = attrStr.slice(i, j + 1);
+      i = j + 1;
+    }
+    let quoteChar;
+    let value;
+    let k = i;
+    while (k < len && isWhiteSpace(attrStr[k])) k++;
+    if (k < len && (attrStr[k] === '"' || attrStr[k] === "'")) {
+      const valueStart = k + 1;
+      const closeIdx = attrStr.indexOf(attrStr[k], valueStart);
+      if (closeIdx !== -1) {
+        quoteChar = attrStr[k];
+        value = attrStr.slice(valueStart, closeIdx);
+        i = closeIdx + 1;
+      }
+    }
+    const token = { startIndex: tokenStart };
+    token[1] = leadingWs;
+    token[2] = name;
+    token[3] = equalsGroup;
+    token[4] = quoteChar !== void 0 ? true : void 0;
+    token[5] = quoteChar;
+    token[6] = value;
+    tokens.push(token);
+  }
+  return tokens;
+}
 function validateAttributeString(attrStr, options2) {
-  const matches = getAllMatches(attrStr, validAttrStrRegxp);
+  const matches = scanAttributeTokens(attrStr);
   const attrNames = {};
   for (let i = 0; i < matches.length; i++) {
     if (matches[i][1].length === 0) {
@@ -46344,19 +46475,19 @@ function getPositionFromMatch(match3) {
   return match3.startIndex + match3[1].length;
 }
 
-// node_modules/.pnpm/fast-xml-parser@5.10.1/node_modules/fast-xml-parser/src/xmlparser/XMLParser.js
+// node_modules/.pnpm/fast-xml-parser@5.12.1/node_modules/fast-xml-parser/src/xmlparser/XMLParser.js
 init_cjs_shims();
 
-// node_modules/.pnpm/fast-xml-parser@5.10.1/node_modules/fast-xml-parser/src/xmlparser/OptionsBuilder.js
+// node_modules/.pnpm/fast-xml-parser@5.12.1/node_modules/fast-xml-parser/src/xmlparser/OptionsBuilder.js
 init_cjs_shims();
 
-// node_modules/.pnpm/@nodable+entities@3.0.0/node_modules/@nodable/entities/src/index.js
+// node_modules/.pnpm/@nodable+entities@3.1.0/node_modules/@nodable/entities/src/index.js
 init_cjs_shims();
 
-// node_modules/.pnpm/@nodable+entities@3.0.0/node_modules/@nodable/entities/src/EntityDecoder.js
+// node_modules/.pnpm/@nodable+entities@3.1.0/node_modules/@nodable/entities/src/EntityDecoder.js
 init_cjs_shims();
 
-// node_modules/.pnpm/@nodable+entities@3.0.0/node_modules/@nodable/entities/src/entities.js
+// node_modules/.pnpm/@nodable+entities@3.1.0/node_modules/@nodable/entities/src/entities.js
 init_cjs_shims();
 var CURRENCY = {
   cent: "\xA2",
@@ -46405,7 +46536,7 @@ var COMMON_HTML = {
   frac34: "\xBE"
 };
 
-// node_modules/.pnpm/@nodable+entities@3.0.0/node_modules/@nodable/entities/src/EntityDecoder.js
+// node_modules/.pnpm/@nodable+entities@3.1.0/node_modules/@nodable/entities/src/EntityDecoder.js
 var ENTITY_ACTION = Object.freeze({
   /** Resolve and expand the entity normally. */
   ALLOW: "allow",
@@ -46849,7 +46980,7 @@ var EntityDecoder = class {
   }
 };
 
-// node_modules/.pnpm/fast-xml-parser@5.10.1/node_modules/fast-xml-parser/src/xmlparser/OptionsBuilder.js
+// node_modules/.pnpm/fast-xml-parser@5.12.1/node_modules/fast-xml-parser/src/xmlparser/OptionsBuilder.js
 var defaultOnDangerousProperty = (name) => {
   if (DANGEROUS_PROPERTY_NAMES.includes(name)) {
     return "__" + name;
@@ -46984,10 +47115,10 @@ var buildOptions = function(options2) {
   return built;
 };
 
-// node_modules/.pnpm/fast-xml-parser@5.10.1/node_modules/fast-xml-parser/src/xmlparser/OrderedObjParser.js
+// node_modules/.pnpm/fast-xml-parser@5.12.1/node_modules/fast-xml-parser/src/xmlparser/OrderedObjParser.js
 init_cjs_shims();
 
-// node_modules/.pnpm/fast-xml-parser@5.10.1/node_modules/fast-xml-parser/src/xmlparser/xmlNode.js
+// node_modules/.pnpm/fast-xml-parser@5.12.1/node_modules/fast-xml-parser/src/xmlparser/xmlNode.js
 init_cjs_shims();
 var METADATA_SYMBOL;
 if (typeof Symbol !== "function") {
@@ -47012,8 +47143,17 @@ var XmlNode = class {
     } else {
       this.child.push({ [node2.tagname]: node2.child });
     }
+    this.addStartIndex(startIndex);
+  }
+  addStartIndex(startIndex) {
     if (startIndex !== void 0) {
       this.child[this.child.length - 1][METADATA_SYMBOL] = { startIndex };
+    }
+  }
+  addEndIndex(endIndex) {
+    const lastChild = this.child[this.child.length - 1];
+    if (lastChild !== void 0 && lastChild[METADATA_SYMBOL] !== void 0 && lastChild[METADATA_SYMBOL].endIndex === void 0) {
+      lastChild[METADATA_SYMBOL].endIndex = endIndex;
     }
   }
   /** symbol used for metadata */
@@ -47022,7 +47162,7 @@ var XmlNode = class {
   }
 };
 
-// node_modules/.pnpm/fast-xml-parser@5.10.1/node_modules/fast-xml-parser/src/xmlparser/DocTypeReader.js
+// node_modules/.pnpm/fast-xml-parser@5.12.1/node_modules/fast-xml-parser/src/xmlparser/DocTypeReader.js
 init_cjs_shims();
 
 // node_modules/.pnpm/xml-naming@0.3.0/node_modules/xml-naming/src/index.js
@@ -47053,8 +47193,29 @@ var getRegexes = (xmlVersion = "1.0", asciiOnly = false) => {
   return xmlVersion === "1.1" ? regexes11 : regexes10;
 };
 var qName = (str, { xmlVersion = "1.0", asciiOnly = false } = {}) => getRegexes(xmlVersion, asciiOnly).qName.test(str);
+var PRODUCTIONS = ["name", "ncName", "qName", "nmToken", "nmTokens"];
+var createValidator = (production, { xmlVersion = "1.0", asciiOnly = false, maxCacheSize = 2048 } = {}) => {
+  if (!PRODUCTIONS.includes(production)) {
+    throw new TypeError(
+      `Unknown production "${production}". Must be one of: ${PRODUCTIONS.join(", ")}`
+    );
+  }
+  const regex = getRegexes(xmlVersion, asciiOnly)[production];
+  let cache = /* @__PURE__ */ new Map();
+  const validator = (str) => {
+    const cached2 = cache.get(str);
+    if (cached2 !== void 0) return cached2;
+    const result = regex.test(str);
+    if (cache.size < maxCacheSize) cache.set(str, result);
+    return result;
+  };
+  validator.reset = () => {
+    cache = /* @__PURE__ */ new Map();
+  };
+  return validator;
+};
 
-// node_modules/.pnpm/fast-xml-parser@5.10.1/node_modules/fast-xml-parser/src/xmlparser/DocTypeReader.js
+// node_modules/.pnpm/fast-xml-parser@5.12.1/node_modules/fast-xml-parser/src/xmlparser/DocTypeReader.js
 var DocTypeReader = class {
   constructor(options2, xmlVersion) {
     this.suppressValidationErr = !options2;
@@ -47071,8 +47232,19 @@ var DocTypeReader = class {
       i = i + 9;
       let angleBracketsCount = 1;
       let hasBody = false, comment = false;
+      let quoteChar = null;
       let exp = "";
       for (; i < xmlData.length; i++) {
+        if (quoteChar !== null) {
+          if (xmlData[i] === quoteChar) quoteChar = null;
+          exp += xmlData[i];
+          continue;
+        }
+        if (!hasBody && !comment && (xmlData[i] === '"' || xmlData[i] === "'")) {
+          quoteChar = xmlData[i];
+          exp += xmlData[i];
+          continue;
+        }
         if (xmlData[i] === "<" && !comment) {
           if (hasBody && hasSeq(xmlData, "!ENTITY", i)) {
             i += 7;
@@ -47119,7 +47291,7 @@ var DocTypeReader = class {
           exp += xmlData[i];
         }
       }
-      if (angleBracketsCount !== 0) {
+      if (quoteChar !== null || angleBracketsCount !== 0) {
         throw new Error(`Unclosed DOCTYPE`);
       }
     } else {
@@ -47334,7 +47506,7 @@ function validateEntityName2(name, xmlVersion) {
     throw new Error(`Invalid entity name ${name}`);
 }
 
-// node_modules/.pnpm/strnum@2.4.1/node_modules/strnum/strnum.js
+// node_modules/.pnpm/strnum@2.5.1/node_modules/strnum/strnum.js
 init_cjs_shims();
 
 // node_modules/.pnpm/anynum@1.0.1/node_modules/anynum/anynum.js
@@ -47569,7 +47741,7 @@ function anynum(str) {
 }
 var anynum_default = anynum;
 
-// node_modules/.pnpm/strnum@2.4.1/node_modules/strnum/strnum.js
+// node_modules/.pnpm/strnum@2.5.1/node_modules/strnum/strnum.js
 var hexRegex = /^[-+]?0x[a-fA-F0-9]+$/;
 var binRegex = /^0b[01]+$/;
 var octRegex = /^0o[0-7]+$/;
@@ -47604,7 +47776,9 @@ function toNumber(str, options2 = {}) {
   } else if (options2.octal && octRegex.test(trimmedStr)) {
     return parse_int(trimmedStr, 8);
   } else if (!isFinite(trimmedStr)) {
-    return handleInfinity(str, Number(trimmedStr), options2);
+    const num = Number(trimmedStr);
+    if (Number.isNaN(num)) return str;
+    return handleInfinity(str, num, options2);
   } else if (trimmedStr.includes("e") || trimmedStr.includes("E")) {
     return resolveEnotation(str, trimmedStr, options2);
   } else {
@@ -47615,8 +47789,8 @@ function toNumber(str, options2 = {}) {
       let numTrimmedByZeros = trimZeros(match3[3]);
       const decimalAdjacentToLeadingZeros = sign ? (
         // 0., -00., 000.
-        str[leadingZeros.length + 1] === "."
-      ) : str[leadingZeros.length] === ".";
+        trimmedStr[leadingZeros.length + 1] === "."
+      ) : trimmedStr[leadingZeros.length] === ".";
       if (!options2.leadingZeros && (leadingZeros.length > 1 || leadingZeros.length === 1 && !decimalAdjacentToLeadingZeros)) {
         return str;
       } else {
@@ -47654,14 +47828,13 @@ function resolveEnotation(str, trimmedStr, options2) {
     const leadingZeros = notation[2];
     const eAdjacentToLeadingZeros = sign ? (
       // 0E.
-      str[leadingZeros.length + 1] === eChar
-    ) : str[leadingZeros.length] === eChar;
+      trimmedStr[leadingZeros.length + 1] === eChar
+    ) : trimmedStr[leadingZeros.length] === eChar;
     if (leadingZeros.length > 1 && eAdjacentToLeadingZeros) return str;
     else if (leadingZeros.length === 1 && (notation[3].startsWith(`.${eChar}`) || notation[3][0] === eChar)) {
       return Number(trimmedStr);
     } else if (leadingZeros.length > 0) {
       if (options2.leadingZeros && !eAdjacentToLeadingZeros) {
-        trimmedStr = (notation[1] || "") + notation[3];
         return Number(trimmedStr);
       } else return str;
     } else {
@@ -47673,7 +47846,9 @@ function resolveEnotation(str, trimmedStr, options2) {
 }
 function trimZeros(numStr) {
   if (numStr && numStr.indexOf(".") !== -1) {
-    numStr = numStr.replace(/0+$/, "");
+    let end = numStr.length;
+    while (end > 0 && numStr.charCodeAt(end - 1) === 48) end--;
+    numStr = numStr.slice(0, end);
     if (numStr === ".") numStr = "0";
     else if (numStr[0] === ".") numStr = "0" + numStr;
     else if (numStr[numStr.length - 1] === ".") numStr = numStr.substring(0, numStr.length - 1);
@@ -47705,7 +47880,7 @@ function handleInfinity(str, num, options2) {
   }
 }
 
-// node_modules/.pnpm/fast-xml-parser@5.10.1/node_modules/fast-xml-parser/src/ignoreAttributes.js
+// node_modules/.pnpm/fast-xml-parser@5.12.1/node_modules/fast-xml-parser/src/ignoreAttributes.js
 init_cjs_shims();
 function getIgnoreAttributesFn(ignoreAttributes) {
   if (typeof ignoreAttributes === "function") {
@@ -48583,10 +48758,10 @@ var Matcher = class {
   }
 };
 
-// node_modules/.pnpm/is-unsafe@2.0.0/node_modules/is-unsafe/src/index.js
+// node_modules/.pnpm/is-unsafe@2.0.3/node_modules/is-unsafe/src/index.js
 init_cjs_shims();
 
-// node_modules/.pnpm/is-unsafe@2.0.0/node_modules/is-unsafe/src/contexts/html.js
+// node_modules/.pnpm/is-unsafe@2.0.3/node_modules/is-unsafe/src/contexts/html.js
 init_cjs_shims();
 var HTML_PATTERNS = [
   {
@@ -48680,7 +48855,7 @@ var HTML_PATTERNS = [
 ];
 var html_default = HTML_PATTERNS;
 
-// node_modules/.pnpm/is-unsafe@2.0.0/node_modules/is-unsafe/src/contexts/xml.js
+// node_modules/.pnpm/is-unsafe@2.0.3/node_modules/is-unsafe/src/contexts/xml.js
 init_cjs_shims();
 var XML_PATTERNS = [
   {
@@ -48728,7 +48903,8 @@ var XML_PATTERNS = [
   {
     id: "xml-namespace-confusion",
     description: "xmlns: attribute injection \u2014 can redefine namespaces to confuse parsers",
-    pattern: /\bxmlns\s*(?::\w{1,40})?\s*=/i
+    // pattern: /\bxmlns\s*(?::\w{1,40})?\s*=/i,
+    pattern: /\bxmlns(?::\w{1,40})?\s*=/i
   },
   {
     id: "xml-comment-injection",
@@ -48748,7 +48924,7 @@ var XML_PATTERNS = [
 ];
 var xml_default = XML_PATTERNS;
 
-// node_modules/.pnpm/is-unsafe@2.0.0/node_modules/is-unsafe/src/contexts/svg.js
+// node_modules/.pnpm/is-unsafe@2.0.3/node_modules/is-unsafe/src/contexts/svg.js
 init_cjs_shims();
 var SVG_PATTERNS = [
   {
@@ -48821,7 +48997,7 @@ var SVG_PATTERNS = [
 ];
 var svg_default = SVG_PATTERNS;
 
-// node_modules/.pnpm/is-unsafe@2.0.0/node_modules/is-unsafe/src/contexts/sql.js
+// node_modules/.pnpm/is-unsafe@2.0.3/node_modules/is-unsafe/src/contexts/sql.js
 init_cjs_shims();
 var SQL_PATTERNS = [
   {
@@ -48904,7 +49080,7 @@ var SQL_PATTERNS = [
 ];
 var sql_default = SQL_PATTERNS;
 
-// node_modules/.pnpm/is-unsafe@2.0.0/node_modules/is-unsafe/src/contexts/shell.js
+// node_modules/.pnpm/is-unsafe@2.0.3/node_modules/is-unsafe/src/contexts/shell.js
 init_cjs_shims();
 var SHELL_PATTERNS = [
   {
@@ -49003,7 +49179,7 @@ var SHELL_PATTERNS = [
 ];
 var shell_default = SHELL_PATTERNS;
 
-// node_modules/.pnpm/is-unsafe@2.0.0/node_modules/is-unsafe/src/contexts/redos.js
+// node_modules/.pnpm/is-unsafe@2.0.3/node_modules/is-unsafe/src/contexts/redos.js
 init_cjs_shims();
 var REDOS_PATTERNS = [
   {
@@ -49053,7 +49229,7 @@ var REDOS_PATTERNS = [
 ];
 var redos_default = REDOS_PATTERNS;
 
-// node_modules/.pnpm/is-unsafe@2.0.0/node_modules/is-unsafe/src/contexts/nosql.js
+// node_modules/.pnpm/is-unsafe@2.0.3/node_modules/is-unsafe/src/contexts/nosql.js
 init_cjs_shims();
 var sep7 = `["'\\s]*:`;
 var NOSQL_PATTERNS = [
@@ -49144,7 +49320,7 @@ var NOSQL_PATTERNS = [
 ];
 var nosql_default = NOSQL_PATTERNS;
 
-// node_modules/.pnpm/is-unsafe@2.0.0/node_modules/is-unsafe/src/contexts/log.js
+// node_modules/.pnpm/is-unsafe@2.0.3/node_modules/is-unsafe/src/contexts/log.js
 init_cjs_shims();
 var LOG_PATTERNS = [
   // ─── CRLF / newline injection ─────────────────────────────────────────────
@@ -49219,7 +49395,7 @@ var LOG_PATTERNS = [
 ];
 var log_default = LOG_PATTERNS;
 
-// node_modules/.pnpm/is-unsafe@2.0.0/node_modules/is-unsafe/src/contexts/sql-strict.js
+// node_modules/.pnpm/is-unsafe@2.0.3/node_modules/is-unsafe/src/contexts/sql-strict.js
 init_cjs_shims();
 var SQL_STRICT_EXTRA = [
   {
@@ -49241,10 +49417,33 @@ var SQL_STRICT_EXTRA = [
 var SQL_STRICT_PATTERNS = [...sql_default, ...SQL_STRICT_EXTRA];
 var sql_strict_default = SQL_STRICT_PATTERNS;
 
-// node_modules/.pnpm/is-unsafe@2.0.0/node_modules/is-unsafe/src/index.js
+// node_modules/.pnpm/is-unsafe@2.0.3/node_modules/is-unsafe/src/util/decode-entities.js
+init_cjs_shims();
+var NAMED = Object.freeze({
+  colon: ":",
+  Tab: "	",
+  NewLine: "\n"
+});
+var ENTITY_RE = /&(?:#[xX]0*([0-9a-fA-F]{1,6});?|#0*([0-9]{1,7});?|([a-zA-Z][a-zA-Z0-9]{1,15});)/g;
+function decodeEntities(input) {
+  if (input.indexOf("&") === -1) return input;
+  return input.replace(ENTITY_RE, (match3, hex, dec, name) => {
+    if (name !== void 0) {
+      return Object.prototype.hasOwnProperty.call(NAMED, name) ? NAMED[name] : match3;
+    }
+    const cp2 = hex !== void 0 ? parseInt(hex, 16) : parseInt(dec, 10);
+    if (!Number.isFinite(cp2) || cp2 > 1114111) return match3;
+    return String.fromCodePoint(cp2);
+  });
+}
+
+// node_modules/.pnpm/is-unsafe@2.0.3/node_modules/is-unsafe/src/index.js
 html_default.label = "HTML";
 xml_default.label = "XML";
 svg_default.label = "SVG";
+html_default.decodeEntities = true;
+xml_default.decodeEntities = true;
+svg_default.decodeEntities = true;
 sql_default.label = "SQL";
 sql_strict_default.label = "SQL-STRICT";
 shell_default.label = "SHELL";
@@ -49295,10 +49494,16 @@ function normalise(context3) {
   if (Array.isArray(context3[0])) return { lists: context3, regex: null };
   return { lists: [context3], regex: null };
 }
+function decodedCopy(value, list) {
+  if (!list.decodeEntities) return null;
+  const decoded = decodeEntities(value);
+  return decoded === value ? null : decoded;
+}
 function matchList(value, list) {
   const label = list.label ?? "CUSTOM";
+  const decoded = decodedCopy(value, list);
   for (const rule of list) {
-    if (rule.pattern.test(value)) {
+    if (rule.pattern.test(value) || decoded !== null && rule.pattern.test(decoded)) {
       return { context: label, id: rule.id, description: rule.description, pattern: rule.pattern };
     }
   }
@@ -49315,7 +49520,7 @@ function isUnsafe(value, context3) {
   return false;
 }
 
-// node_modules/.pnpm/fast-xml-parser@5.10.1/node_modules/fast-xml-parser/src/xmlparser/OrderedObjParser.js
+// node_modules/.pnpm/fast-xml-parser@5.12.1/node_modules/fast-xml-parser/src/xmlparser/OrderedObjParser.js
 function extractRawAttributes(prefixedAttrs, options2) {
   if (!prefixedAttrs) return {};
   const attrs = options2.attributesGroupName ? prefixedAttrs[options2.attributesGroupName] : prefixedAttrs;
@@ -49440,7 +49645,10 @@ function resolveNameSpace(tagname) {
   }
   return tagname;
 }
-var attrsRegx = new RegExp(`([^\\s=]+)\\s*(=\\s*(['"])([\\s\\S]*?)\\3)?`, "gm");
+var attrsRegx = /([^\s=]+)\s*(=\s*(?:"([^"]*)"|'([^']*)'))?/gm;
+function attrValue(match3) {
+  return match3[3] !== void 0 ? match3[3] : match3[4];
+}
 function buildAttributesMap(attrStr, jPath, tagName, force = false) {
   const options2 = this.options;
   if (force === true || options2.ignoreAttributes !== true && typeof attrStr === "string") {
@@ -49452,7 +49660,7 @@ function buildAttributesMap(attrStr, jPath, tagName, force = false) {
     const rawAttrsForMatcher = {};
     for (let i = 0; i < len; i++) {
       const attrName = this.resolveNameSpace(matches[i][1]);
-      const oldVal = matches[i][4];
+      const oldVal = attrValue(matches[i]);
       if (attrName.length && oldVal !== void 0) {
         let val = oldVal;
         if (options2.trimValues) val = val.trim();
@@ -49476,7 +49684,7 @@ function buildAttributesMap(attrStr, jPath, tagName, force = false) {
           aName = options2.transformAttributeName(aName);
         }
         aName = sanitizeName(aName, options2);
-        if (matches[i][4] !== void 0) {
+        if (attrValue(matches[i]) !== void 0) {
           const oldVal = processedVals[i];
           const newVal = options2.attributeValueProcessor(attrName, oldVal, jPathStr);
           if (newVal === null || newVal === void 0) {
@@ -49503,7 +49711,14 @@ function buildAttributesMap(attrStr, jPath, tagName, force = false) {
   }
 }
 var parseXml = function(xmlData) {
-  xmlData = xmlData.replace(/\r\n?/g, "\n");
+  const options2 = this.options;
+  const crlfPositions = options2.captureMetaData ? [] : void 0;
+  xmlData = xmlData.replace(/\r\n?/g, options2.captureMetaData ? (newline, index) => {
+    if (newline.length === 2) {
+      crlfPositions.push(index - crlfPositions.length);
+    }
+    return "\n";
+  } : "\n");
   const xmlObj = new XmlNode("!xml");
   let currentNode = xmlObj;
   let textData = "";
@@ -49512,7 +49727,6 @@ var parseXml = function(xmlData) {
   this.entityExpansionCount = 0;
   this.currentExpandedLength = 0;
   this.doctypefound = false;
-  const options2 = this.options;
   const docTypeReader = new DocTypeReader(options2.processEntities);
   const xmlLen = xmlData.length;
   for (let i = 0; i < xmlLen; i++) {
@@ -49542,7 +49756,10 @@ var parseXml = function(xmlData) {
         }
         this.matcher.pop();
         this.isCurrentNodeStopNode = false;
-        currentNode = this.tagsNodeStack.pop();
+        currentNode = this.tagsNodeStack.pop() || xmlObj;
+        if (options2.captureMetaData && currentNode) {
+          currentNode.addEndIndex(getOriginalIndex(closeIndex + 1, crlfPositions));
+        }
         textData = "";
         i = closeIndex;
       } else if (c1 === 63) {
@@ -49562,7 +49779,11 @@ var parseXml = function(xmlData) {
           if (tagData.tagName !== tagData.tagExp && tagData.attrExpPresent && options2.ignoreAttributes !== true) {
             childNode[":@"] = attsMap;
           }
-          this.addChild(currentNode, childNode, this.readonlyMatcher, i);
+          const startIndex = options2.captureMetaData ? getOriginalIndex(i, crlfPositions) : i;
+          this.addChild(currentNode, childNode, this.readonlyMatcher, startIndex);
+          if (options2.captureMetaData) {
+            currentNode.addEndIndex(getOriginalIndex(tagData.closeIndex + 2, crlfPositions));
+          }
         }
         i = tagData.closeIndex + 1;
       } else if (c1 === 33 && xmlData.charCodeAt(i + 2) === 45 && xmlData.charCodeAt(i + 3) === 45) {
@@ -49643,7 +49864,7 @@ var parseXml = function(xmlData) {
         if (tagName !== xmlObj.tagname) {
           this.isCurrentNodeStopNode = this.isItStopNode();
         }
-        const startIndex = i;
+        const startIndex = options2.captureMetaData ? getOriginalIndex(i, crlfPositions) : i;
         if (this.isCurrentNodeStopNode) {
           let tagContent = "";
           if (isSelfClosing) {
@@ -49664,6 +49885,9 @@ var parseXml = function(xmlData) {
           this.matcher.pop();
           this.isCurrentNodeStopNode = false;
           this.addChild(currentNode, childNode, this.readonlyMatcher, startIndex);
+          if (options2.captureMetaData) {
+            currentNode.addEndIndex(getOriginalIndex(i + 1, crlfPositions));
+          }
         } else {
           if (isSelfClosing) {
             ({ tagName, tagExp } = transformTagName(options2.transformTagName, tagName, tagExp, options2));
@@ -49672,6 +49896,9 @@ var parseXml = function(xmlData) {
               childNode[":@"] = prefixedAttrs;
             }
             this.addChild(currentNode, childNode, this.readonlyMatcher, startIndex);
+            if (options2.captureMetaData) {
+              currentNode.addEndIndex(getOriginalIndex(closeIndex + 1, crlfPositions));
+            }
             this.matcher.pop();
             this.isCurrentNodeStopNode = false;
           } else if (options2.unpairedTagsSet.has(tagName)) {
@@ -49680,6 +49907,9 @@ var parseXml = function(xmlData) {
               childNode[":@"] = prefixedAttrs;
             }
             this.addChild(currentNode, childNode, this.readonlyMatcher, startIndex);
+            if (options2.captureMetaData) {
+              currentNode.addEndIndex(getOriginalIndex(result.closeIndex + 1, crlfPositions));
+            }
             this.matcher.pop();
             this.isCurrentNodeStopNode = false;
             i = result.closeIndex;
@@ -49706,6 +49936,16 @@ var parseXml = function(xmlData) {
   }
   return xmlObj.child;
 };
+function getOriginalIndex(index, crlfPositions) {
+  let low = 0;
+  let high = crlfPositions.length;
+  while (low < high) {
+    const middle = Math.floor((low + high) / 2);
+    if (crlfPositions[middle] < index) low = middle + 1;
+    else high = middle;
+  }
+  return index + low;
+}
 function addChild(currentNode, childNode, matcher, startIndex) {
   if (!this.options.captureMetaData) startIndex = void 0;
   const jPathOrMatcher = this.options.jPath ? matcher.toString() : matcher;
@@ -49760,7 +50000,6 @@ function isItStopNode() {
   return this.matcher.matchesAny(this.stopNodeExpressionsSet);
 }
 function tagExpWithClosingIndex(xmlData, i, closingChar = ">") {
-  let attrBoundary = 0;
   const len = xmlData.length;
   const closeCode0 = closingChar.charCodeAt(0);
   const closeCode1 = closingChar.length > 1 ? closingChar.charCodeAt(1) : -1;
@@ -49768,10 +50007,9 @@ function tagExpWithClosingIndex(xmlData, i, closingChar = ">") {
   let segmentStart = i;
   for (let index = i; index < len; index++) {
     const code = xmlData.charCodeAt(index);
-    if (attrBoundary) {
-      if (code === attrBoundary) attrBoundary = 0;
-    } else if (code === 34 || code === 39) {
-      attrBoundary = code;
+    if (code === 34 || code === 39) {
+      index = xmlData.indexOf(xmlData[index], index + 1);
+      if (index === -1) return;
     } else if (code === closeCode0) {
       if (closeCode1 !== -1) {
         if (xmlData.charCodeAt(index + 1) === closeCode1) {
@@ -49782,7 +50020,7 @@ function tagExpWithClosingIndex(xmlData, i, closingChar = ">") {
         result += xmlData.substring(segmentStart, index);
         return { data: result, index };
       }
-    } else if (code === 9 && !attrBoundary) {
+    } else if (code === 9) {
       result += xmlData.substring(segmentStart, index) + " ";
       segmentStart = index + 1;
     }
@@ -49832,6 +50070,8 @@ function readTagExp(xmlData, i, removeNSPrefix, closingChar = ">") {
 function readStopNodeData(xmlData, tagName, i) {
   const startIndex = i;
   let openTagCount = 1;
+  let lenient = false;
+  let nextGt = -1;
   const xmllen = xmlData.length;
   for (; i < xmllen; i++) {
     if (xmlData[i] === "<") {
@@ -49859,13 +50099,27 @@ function readStopNodeData(xmlData, tagName, i) {
         const closeIndex = findClosingIndex(xmlData, "]]>", i, "StopNode is not closed.") - 2;
         i = closeIndex;
       } else {
-        const tagData = readTagExp(xmlData, i, false);
+        const tagData = lenient ? void 0 : readTagExp(xmlData, i, false);
         if (tagData) {
-          const openTagName = tagData && tagData.tagName;
+          const openTagName = tagData.tagName;
           if (openTagName === tagName && tagData.tagExp[tagData.tagExp.length - 1] !== "/") {
             openTagCount++;
           }
           i = tagData.closeIndex;
+        } else {
+          lenient = true;
+          if (nextGt < i) {
+            nextGt = xmlData.indexOf(">", i);
+            if (nextGt === -1) return;
+          }
+          const nextLt = xmlData.indexOf("<", i + 1);
+          if (nextLt === -1 || nextLt > nextGt) {
+            const exp = xmlData.substring(i + 1, nextGt);
+            const sep9 = exp.search(/\s/);
+            const name = sep9 === -1 ? exp : exp.substring(0, sep9);
+            if (name === tagName && exp[exp.length - 1] !== "/") openTagCount++;
+            i = nextGt;
+          }
         }
       }
     }
@@ -49905,7 +50159,7 @@ function sanitizeName(name, options2) {
   return name;
 }
 
-// node_modules/.pnpm/fast-xml-parser@5.10.1/node_modules/fast-xml-parser/src/xmlparser/node2json.js
+// node_modules/.pnpm/fast-xml-parser@5.12.1/node_modules/fast-xml-parser/src/xmlparser/node2json.js
 init_cjs_shims();
 var METADATA_SYMBOL2 = XmlNode.getMetaDataSymbol();
 function stripAttributePrefix(attrs, prefix2) {
@@ -50018,7 +50272,7 @@ function isLeafTag(obj, options2) {
   return false;
 }
 
-// node_modules/.pnpm/fast-xml-parser@5.10.1/node_modules/fast-xml-parser/src/xmlparser/XMLParser.js
+// node_modules/.pnpm/fast-xml-parser@5.12.1/node_modules/fast-xml-parser/src/xmlparser/XMLParser.js
 var XMLParser = class {
   constructor(options2) {
     this.externalEntities = {};
@@ -50031,7 +50285,11 @@ var XMLParser = class {
    */
   parse(xmlData, validationOption) {
     if (typeof xmlData !== "string" && xmlData.toString) {
-      xmlData = xmlData.toString();
+      if (xmlData instanceof Uint8Array && !(typeof Buffer !== "undefined" && Buffer.isBuffer(xmlData))) {
+        xmlData = new TextDecoder("utf-8", { ignoreBOM: true }).decode(xmlData);
+      } else {
+        xmlData = xmlData.toString();
+      }
     } else if (typeof xmlData !== "string") {
       throw new Error("XML data is accepted in String or Bytes[] form.");
     }
@@ -50078,51 +50336,42 @@ var XMLParser = class {
   }
 };
 
-// node_modules/.pnpm/fast-xml-parser@5.10.1/node_modules/fast-xml-parser/src/xmlbuilder/json2xml.js
+// node_modules/.pnpm/fast-xml-parser@5.12.1/node_modules/fast-xml-parser/src/xmlbuilder/json2xml.js
 init_cjs_shims();
 
-// node_modules/.pnpm/fast-xml-builder@1.2.0/node_modules/fast-xml-builder/src/fxb.js
+// node_modules/.pnpm/fast-xml-builder@1.3.2/node_modules/fast-xml-builder/src/fxb.js
 init_cjs_shims();
 
-// node_modules/.pnpm/fast-xml-builder@1.2.0/node_modules/fast-xml-builder/src/orderedJs2Xml.js
+// node_modules/.pnpm/fast-xml-builder@1.3.2/node_modules/fast-xml-builder/src/orderedJs2Xml.js
 init_cjs_shims();
 
-// node_modules/.pnpm/fast-xml-builder@1.2.0/node_modules/fast-xml-builder/src/util.js
+// node_modules/.pnpm/fast-xml-builder@1.3.2/node_modules/fast-xml-builder/src/util.js
 init_cjs_shims();
+function valToStr(val) {
+  return typeof val === "number" && Object.is(val, -0) ? "-0" : String(val);
+}
 function safeComment(val) {
-  return String(val).replace(/--/g, "- -").replace(/--/g, "- -").replace(/-$/, "- ");
+  return valToStr(val).replace(/--/g, "- -").replace(/--/g, "- -").replace(/-$/, "- ");
 }
 function safeCdata(val) {
-  return String(val).replace(/\]\]>/g, "]]]]><![CDATA[>");
+  return valToStr(val).replace(/\]\]>/g, "]]]]><![CDATA[>");
 }
 function escapeAttribute(val) {
-  return String(val).replace(/"/g, "&quot;").replace(/'/g, "&apos;");
+  return valToStr(val).replace(/"/g, "&quot;").replace(/'/g, "&apos;");
+}
+function resolveName(name, isAttribute2, options2, matcher, validator) {
+  if (!options2.sanitizeName) return name;
+  const isPI = !isAttribute2 && name[0] === "?";
+  const bare = isPI ? name.slice(1) : name;
+  if (validator(bare)) return name;
+  const result = options2.sanitizeName(bare, { isAttribute: isAttribute2, matcher: matcher.readOnly() });
+  if (typeof result !== "string" || !validator(result)) {
+    throw new Error(`sanitizeName returned an invalid XML name for "${bare}"`);
+  }
+  return isPI ? "?" + result : result;
 }
 
-// node_modules/.pnpm/xml-naming@0.1.0/node_modules/xml-naming/src/index.js
-init_cjs_shims();
-var nameStartChar102 = ":A-Za-z_\xC0-\xD6\xD8-\xF6\xF8-\u02FF\u0370-\u037D\u037F-\u0486\u0488-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD";
-var nameChar102 = nameStartChar102 + "\\-\\.\\d\xB7\u0300-\u036F\u203F-\u2040";
-var nameStartChar112 = ":A-Za-z_\xC0-\u02FF\u0370-\u037D\u037F-\u0486\u0488-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\u{10000}-\u{EFFFF}";
-var nameChar112 = nameStartChar112 + "\\-\\.\\d\xB7\u0300-\u036F\u0487\u203F-\u2040";
-var buildRegexes2 = (startChar, char, flags = "") => {
-  const ncStart = startChar.replace(":", "");
-  const ncChar = char.replace(":", "");
-  const ncNamePat = `[${ncStart}][${ncChar}]*`;
-  return {
-    name: new RegExp(`^[${startChar}][${char}]*$`, flags),
-    ncName: new RegExp(`^${ncNamePat}$`, flags),
-    qName: new RegExp(`^${ncNamePat}(?::${ncNamePat})?$`, flags),
-    nmToken: new RegExp(`^[${char}]+$`, flags),
-    nmTokens: new RegExp(`^[${char}]+(?:\\s+[${char}]+)*$`, flags)
-  };
-};
-var regexes102 = buildRegexes2(nameStartChar102, nameChar102);
-var regexes112 = buildRegexes2(nameStartChar112, nameChar112, "u");
-var getRegexes2 = (xmlVersion = "1.0") => xmlVersion === "1.1" ? regexes112 : regexes102;
-var qName2 = (str, { xmlVersion = "1.0" } = {}) => getRegexes2(xmlVersion).qName.test(str);
-
-// node_modules/.pnpm/fast-xml-builder@1.2.0/node_modules/fast-xml-builder/src/orderedJs2Xml.js
+// node_modules/.pnpm/fast-xml-builder@1.3.2/node_modules/fast-xml-builder/src/orderedJs2Xml.js
 var EOL7 = "\n";
 function detectXmlVersionFromArray(jArray, options2) {
   if (!Array.isArray(jArray) || jArray.length === 0) return "1.0";
@@ -50136,11 +50385,6 @@ function detectXmlVersionFromArray(jArray, options2) {
     }
   }
   return "1.0";
-}
-function resolveTagName(name, isAttribute2, options2, matcher, xmlVersion) {
-  if (!options2.sanitizeName) return name;
-  if (qName2(name, { xmlVersion })) return name;
-  return options2.sanitizeName(name, { isAttribute: isAttribute2, matcher: matcher.readOnly() });
 }
 function toXml(jArray, options2) {
   let indentation = "";
@@ -50159,10 +50403,11 @@ function toXml(jArray, options2) {
     }
   }
   const xmlVersion = detectXmlVersionFromArray(jArray, options2);
+  const qNameValidator = createValidator("qName", { xmlVersion });
   const matcher = new Matcher();
-  return arrToStr(jArray, options2, indentation, matcher, stopNodeExpressions, xmlVersion);
+  return arrToStr(jArray, options2, indentation, matcher, stopNodeExpressions, qNameValidator);
 }
-function arrToStr(arr, options2, indentation, matcher, stopNodeExpressions, xmlVersion) {
+function arrToStr(arr, options2, indentation, matcher, stopNodeExpressions, qNameValidator) {
   let xmlStr = "";
   let isPreviousElementTag = false;
   if (options2.maxNestedTags && matcher.getDepth() > options2.maxNestedTags) {
@@ -50170,7 +50415,7 @@ function arrToStr(arr, options2, indentation, matcher, stopNodeExpressions, xmlV
   }
   if (!Array.isArray(arr)) {
     if (arr !== void 0 && arr !== null) {
-      let text = arr.toString();
+      let text = valToStr(arr);
       text = replaceEntitiesValue2(text, options2);
       return text;
     }
@@ -50180,8 +50425,8 @@ function arrToStr(arr, options2, indentation, matcher, stopNodeExpressions, xmlV
     const tagObj = arr[i];
     const rawTagName = propName2(tagObj);
     if (rawTagName === void 0) continue;
-    const isSpecialName = rawTagName === options2.textNodeName || rawTagName === options2.cdataPropName || rawTagName === options2.commentPropName || rawTagName[0] === "?";
-    const tagName = isSpecialName ? rawTagName : resolveTagName(rawTagName, false, options2, matcher, xmlVersion);
+    const isSpecialName = rawTagName === options2.textNodeName || rawTagName === options2.cdataPropName || rawTagName === options2.commentPropName;
+    const tagName = isSpecialName ? rawTagName : resolveName(rawTagName, false, options2, matcher, qNameValidator);
     const attrValues = extractAttributeValues(tagObj[":@"], options2);
     matcher.push(tagName, attrValues);
     const isStopNode = checkStopNode(matcher, stopNodeExpressions);
@@ -50191,6 +50436,7 @@ function arrToStr(arr, options2, indentation, matcher, stopNodeExpressions, xmlV
         tagText = options2.tagValueProcessor(tagName, tagText);
         tagText = replaceEntitiesValue2(tagText, options2);
       }
+      tagText = valToStr(tagText);
       if (isPreviousElementTag) {
         xmlStr += indentation;
       }
@@ -50216,7 +50462,7 @@ function arrToStr(arr, options2, indentation, matcher, stopNodeExpressions, xmlV
       matcher.pop();
       continue;
     } else if (tagName[0] === "?") {
-      const attStr2 = attr_to_str(tagObj[":@"], options2, isStopNode, matcher, xmlVersion);
+      const attStr2 = attr_to_str(tagObj[":@"], options2, isStopNode, matcher, qNameValidator);
       const tempInd = tagName === "?xml" ? "" : indentation;
       xmlStr += tempInd + `<${tagName}${attStr2}?>`;
       isPreviousElementTag = true;
@@ -50227,13 +50473,13 @@ function arrToStr(arr, options2, indentation, matcher, stopNodeExpressions, xmlV
     if (newIdentation !== "") {
       newIdentation += options2.indentBy;
     }
-    const attStr = attr_to_str(tagObj[":@"], options2, isStopNode, matcher, xmlVersion);
+    const attStr = attr_to_str(tagObj[":@"], options2, isStopNode, matcher, qNameValidator);
     const tagStart = indentation + `<${tagName}${attStr}`;
     let tagValue;
     if (isStopNode) {
-      tagValue = getRawContent2(tagObj[rawTagName], options2);
+      tagValue = getRawContent2(tagObj[rawTagName], options2, matcher.getDepth());
     } else {
-      tagValue = arrToStr(tagObj[rawTagName], options2, newIdentation, matcher, stopNodeExpressions, xmlVersion);
+      tagValue = arrToStr(tagObj[rawTagName], options2, newIdentation, matcher, stopNodeExpressions, qNameValidator);
     }
     if (options2.unpairedTags.indexOf(tagName) !== -1) {
       if (options2.suppressUnpairedNode) xmlStr += tagStart + ">";
@@ -50268,10 +50514,13 @@ function extractAttributeValues(attrMap, options2) {
   }
   return hasAttrs ? attrValues : null;
 }
-function getRawContent2(arr, options2) {
+function getRawContent2(arr, options2, depth = 0) {
+  if (options2.maxNestedTags && depth > options2.maxNestedTags) {
+    throw new Error("Maximum nested tags exceeded");
+  }
   if (!Array.isArray(arr)) {
     if (arr !== void 0 && arr !== null) {
-      return arr.toString();
+      return valToStr(arr);
     }
     return "";
   }
@@ -50280,7 +50529,7 @@ function getRawContent2(arr, options2) {
     const item = arr[i];
     const tagName = propName2(item);
     if (tagName === options2.textNodeName) {
-      content += item[tagName];
+      content += valToStr(item[tagName]);
     } else if (tagName === options2.cdataPropName) {
       content += item[tagName][0][options2.textNodeName];
     } else if (tagName === options2.commentPropName) {
@@ -50289,7 +50538,7 @@ function getRawContent2(arr, options2) {
       continue;
     } else if (tagName) {
       const attStr = attr_to_str_raw(item[":@"], options2);
-      const nestedContent = getRawContent2(item[tagName], options2);
+      const nestedContent = getRawContent2(item[tagName], options2, depth + 1);
       if (!nestedContent || nestedContent.length === 0) {
         content += `<${tagName}${attStr}/>`;
       } else {
@@ -50322,13 +50571,13 @@ function propName2(obj) {
     if (key !== ":@") return key;
   }
 }
-function attr_to_str(attrMap, options2, isStopNode, matcher, xmlVersion) {
+function attr_to_str(attrMap, options2, isStopNode, matcher, qNameValidator) {
   let attrStr = "";
   if (attrMap && !options2.ignoreAttributes) {
     for (let attr in attrMap) {
       if (!Object.prototype.hasOwnProperty.call(attrMap, attr)) continue;
       const cleanAttrName = attr.substr(options2.attributeNamePrefix.length);
-      const resolvedAttrName = isStopNode ? cleanAttrName : resolveTagName(cleanAttrName, true, options2, matcher, xmlVersion);
+      const resolvedAttrName = isStopNode ? cleanAttrName : resolveName(cleanAttrName, true, options2, matcher, qNameValidator);
       let attrVal;
       if (isStopNode) {
         attrVal = attrMap[attr];
@@ -50364,7 +50613,7 @@ function replaceEntitiesValue2(textValue, options2) {
   return textValue;
 }
 
-// node_modules/.pnpm/fast-xml-builder@1.2.0/node_modules/fast-xml-builder/src/ignoreAttributes.js
+// node_modules/.pnpm/fast-xml-builder@1.3.2/node_modules/fast-xml-builder/src/ignoreAttributes.js
 init_cjs_shims();
 function getIgnoreAttributesFn2(ignoreAttributes) {
   if (typeof ignoreAttributes === "function") {
@@ -50385,7 +50634,7 @@ function getIgnoreAttributesFn2(ignoreAttributes) {
   return () => false;
 }
 
-// node_modules/.pnpm/fast-xml-builder@1.2.0/node_modules/fast-xml-builder/src/fxb.js
+// node_modules/.pnpm/fast-xml-builder@1.3.2/node_modules/fast-xml-builder/src/fxb.js
 var defaultOptions3 = {
   attributeNamePrefix: "@_",
   attributesGroupName: false,
@@ -50483,11 +50732,6 @@ function detectXmlVersionFromObj(jObj, options2) {
   }
   return "1.0";
 }
-function resolveTagName2(name, isAttribute2, options2, matcher, xmlVersion) {
-  if (!options2.sanitizeName) return name;
-  if (qName2(name, { xmlVersion })) return name;
-  return options2.sanitizeName(name, { isAttribute: isAttribute2, matcher: matcher.readOnly() });
-}
 Builder.prototype.build = function(jObj) {
   if (this.options.preserveOrder) {
     return toXml(jObj, this.options);
@@ -50499,10 +50743,11 @@ Builder.prototype.build = function(jObj) {
     }
     const matcher = new Matcher();
     const xmlVersion = detectXmlVersionFromObj(jObj, this.options);
-    return this.j2x(jObj, 0, matcher, xmlVersion).val;
+    const qNameValidator = createValidator("qName", { xmlVersion });
+    return this.j2x(jObj, 0, matcher, qNameValidator).val;
   }
 };
-Builder.prototype.j2x = function(jObj, level, matcher, xmlVersion) {
+Builder.prototype.j2x = function(jObj, level, matcher, qNameValidator) {
   let attrStr = "";
   let val = "";
   if (this.options.maxNestedTags && matcher.getDepth() >= this.options.maxNestedTags) {
@@ -50512,8 +50757,8 @@ Builder.prototype.j2x = function(jObj, level, matcher, xmlVersion) {
   const isCurrentStopNode = this.checkStopNode(matcher);
   for (let key in jObj) {
     if (!Object.prototype.hasOwnProperty.call(jObj, key)) continue;
-    const isSpecialKey = key === this.options.textNodeName || key === this.options.cdataPropName || key === this.options.commentPropName || this.options.attributesGroupName && key === this.options.attributesGroupName || this.isAttribute(key) || key[0] === "?";
-    const resolvedKey = isSpecialKey ? key : resolveTagName2(key, false, this.options, matcher, xmlVersion);
+    const isSpecialKey = key === this.options.textNodeName || key === this.options.cdataPropName || key === this.options.commentPropName || this.options.attributesGroupName && key === this.options.attributesGroupName || this.isAttribute(key);
+    const resolvedKey = isSpecialKey ? key : resolveName(key, false, this.options, matcher, qNameValidator);
     if (typeof jObj[key] === "undefined") {
       if (this.isAttribute(key)) {
         val += "";
@@ -50533,18 +50778,18 @@ Builder.prototype.j2x = function(jObj, level, matcher, xmlVersion) {
     } else if (typeof jObj[key] !== "object") {
       const attr = this.isAttribute(key);
       if (attr && !this.ignoreAttributesFn(attr, jPath)) {
-        const resolvedAttr = resolveTagName2(attr, true, this.options, matcher, xmlVersion);
-        attrStr += this.buildAttrPairStr(resolvedAttr, "" + jObj[key], isCurrentStopNode);
+        const resolvedAttr = resolveName(attr, true, this.options, matcher, qNameValidator);
+        attrStr += this.buildAttrPairStr(resolvedAttr, valToStr(jObj[key]), isCurrentStopNode);
       } else if (!attr) {
         if (key === this.options.textNodeName) {
-          let newval = this.options.tagValueProcessor(key, "" + jObj[key]);
+          let newval = this.options.tagValueProcessor(key, valToStr(jObj[key]));
           val += this.replaceEntitiesValue(newval);
         } else {
           matcher.push(resolvedKey);
           const isStopNode = this.checkStopNode(matcher);
           matcher.pop();
           if (isStopNode) {
-            const textValue = "" + jObj[key];
+            const textValue = valToStr(jObj[key]);
             if (textValue === "") {
               val += this.indentate(level) + "<" + resolvedKey + this.closeTag(resolvedKey) + this.tagEndChar;
             } else {
@@ -50568,26 +50813,27 @@ Builder.prototype.j2x = function(jObj, level, matcher, xmlVersion) {
         } else if (typeof item === "object") {
           if (this.options.oneListGroup) {
             matcher.push(resolvedKey);
-            const result = this.j2x(item, level + 1, matcher, xmlVersion);
+            const result = this.j2x(item, level + 1, matcher, qNameValidator);
             matcher.pop();
             listTagVal += result.val;
             if (this.options.attributesGroupName && item.hasOwnProperty(this.options.attributesGroupName)) {
               listTagAttr += result.attrStr;
             }
           } else {
-            listTagVal += this.processTextOrObjNode(item, resolvedKey, level, matcher, xmlVersion);
+            listTagVal += this.processTextOrObjNode(item, resolvedKey, level, matcher, qNameValidator);
           }
         } else {
           if (this.options.oneListGroup) {
             let textValue = this.options.tagValueProcessor(resolvedKey, item);
             textValue = this.replaceEntitiesValue(textValue);
+            textValue = valToStr(textValue);
             listTagVal += textValue;
           } else {
             matcher.push(resolvedKey);
             const isStopNode = this.checkStopNode(matcher);
             matcher.pop();
             if (isStopNode) {
-              const textValue = "" + item;
+              const textValue = valToStr(item);
               if (textValue === "") {
                 listTagVal += this.indentate(level) + "<" + resolvedKey + this.closeTag(resolvedKey) + this.tagEndChar;
               } else {
@@ -50608,11 +50854,11 @@ Builder.prototype.j2x = function(jObj, level, matcher, xmlVersion) {
         const Ks = Object.keys(jObj[key]);
         const L = Ks.length;
         for (let j = 0; j < L; j++) {
-          const resolvedAttr = resolveTagName2(Ks[j], true, this.options, matcher, xmlVersion);
-          attrStr += this.buildAttrPairStr(resolvedAttr, "" + jObj[key][Ks[j]], isCurrentStopNode);
+          const resolvedAttr = resolveName(Ks[j], true, this.options, matcher, qNameValidator);
+          attrStr += this.buildAttrPairStr(resolvedAttr, valToStr(jObj[key][Ks[j]]), isCurrentStopNode);
         }
       } else {
-        val += this.processTextOrObjNode(jObj[key], resolvedKey, level, matcher, xmlVersion);
+        val += this.processTextOrObjNode(jObj[key], resolvedKey, level, matcher, qNameValidator);
       }
     }
   }
@@ -50620,24 +50866,24 @@ Builder.prototype.j2x = function(jObj, level, matcher, xmlVersion) {
 };
 Builder.prototype.buildAttrPairStr = function(attrName, val, isStopNode) {
   if (!isStopNode) {
-    val = this.options.attributeValueProcessor(attrName, "" + val);
+    val = this.options.attributeValueProcessor(attrName, valToStr(val));
     val = this.replaceEntitiesValue(val);
   }
   if (this.options.suppressBooleanAttributes && val === "true") {
     return " " + attrName;
   } else return " " + attrName + '="' + escapeAttribute(val) + '"';
 };
-function processTextOrObjNode(object, key, level, matcher, xmlVersion) {
+function processTextOrObjNode(object, key, level, matcher, qNameValidator) {
   const attrValues = this.extractAttributes(object);
   matcher.push(key, attrValues);
   const isStopNode = this.checkStopNode(matcher);
   if (isStopNode) {
-    const rawContent2 = this.buildRawContent(object);
+    const rawContent2 = this.buildRawContent(object, matcher.getDepth());
     const attrStr = this.buildAttributesForStopNode(object);
     matcher.pop();
     return this.buildObjectNode(rawContent2, key, attrStr, level);
   }
-  const result = this.j2x(object, level + 1, matcher, xmlVersion);
+  const result = this.j2x(object, level + 1, matcher, qNameValidator);
   matcher.pop();
   if (key[0] === "?") {
     return this.buildTextValNode("", key, result.attrStr, level, matcher);
@@ -50671,7 +50917,10 @@ Builder.prototype.extractAttributes = function(obj) {
   }
   return hasAttrs ? attrValues : null;
 };
-Builder.prototype.buildRawContent = function(obj) {
+Builder.prototype.buildRawContent = function(obj, depth = 0) {
+  if (this.options.maxNestedTags && depth >= this.options.maxNestedTags) {
+    throw new Error("Maximum nested tags exceeded");
+  }
   if (typeof obj === "string") {
     return obj;
   }
@@ -50694,7 +50943,7 @@ Builder.prototype.buildRawContent = function(obj) {
         if (typeof item === "string" || typeof item === "number") {
           content += `<${key}>${item}</${key}>`;
         } else if (typeof item === "object" && item !== null) {
-          const nestedContent = this.buildRawContent(item);
+          const nestedContent = this.buildRawContent(item, depth + 1);
           const nestedAttrs = this.buildAttributesForStopNode(item);
           if (nestedContent === "") {
             content += `<${key}${nestedAttrs}/>`;
@@ -50704,7 +50953,7 @@ Builder.prototype.buildRawContent = function(obj) {
         }
       }
     } else if (typeof value === "object" && value !== null) {
-      const nestedContent = this.buildRawContent(value);
+      const nestedContent = this.buildRawContent(value, depth + 1);
       const nestedAttrs = this.buildAttributesForStopNode(value);
       if (nestedContent === "") {
         content += `<${key}${nestedAttrs}/>`;
@@ -50729,7 +50978,7 @@ Builder.prototype.buildAttributesForStopNode = function(obj) {
       if (val === true && this.options.suppressBooleanAttributes) {
         attrStr += " " + cleanKey;
       } else {
-        attrStr += " " + cleanKey + '="' + val + '"';
+        attrStr += " " + cleanKey + '="' + escapeAttribute(val) + '"';
       }
     }
   } else {
@@ -50741,7 +50990,7 @@ Builder.prototype.buildAttributesForStopNode = function(obj) {
         if (val === true && this.options.suppressBooleanAttributes) {
           attrStr += " " + attr;
         } else {
-          attrStr += " " + attr + '="' + val + '"';
+          attrStr += " " + attr + '="' + escapeAttribute(val) + '"';
         }
       }
     }
@@ -50766,7 +51015,7 @@ Builder.prototype.buildObjectNode = function(val, key, attrStr, level) {
     if ((attrStr || attrStr === "") && val.indexOf("<") === -1) {
       return this.indentate(level) + "<" + key + attrStr + piClosingChar + ">" + val + tagEndExp;
     } else if (this.options.commentPropName !== false && key === this.options.commentPropName && piClosingChar.length === 0) {
-      return this.indentate(level) + `<!--${val}-->` + this.newLine;
+      return this.indentate(level) + `<!--${safeComment(val)}-->` + this.newLine;
     } else {
       return this.indentate(level) + "<" + key + attrStr + piClosingChar + this.tagEndChar + val + this.indentate(level) + tagEndExp;
     }
@@ -50804,6 +51053,7 @@ Builder.prototype.buildTextValNode = function(val, key, attrStr, level, matcher)
   } else {
     let textValue = this.options.tagValueProcessor(key, val);
     textValue = this.replaceEntitiesValue(textValue);
+    textValue = valToStr(textValue);
     if (textValue === "") {
       return this.indentate(level) + "<" + key + attrStr + this.closeTag(key) + this.tagEndChar;
     } else {
@@ -50831,10 +51081,10 @@ function isAttribute(name) {
   }
 }
 
-// node_modules/.pnpm/fast-xml-parser@5.10.1/node_modules/fast-xml-parser/src/xmlbuilder/json2xml.js
+// node_modules/.pnpm/fast-xml-parser@5.12.1/node_modules/fast-xml-parser/src/xmlbuilder/json2xml.js
 var json2xml_default = Builder;
 
-// node_modules/.pnpm/fast-xml-parser@5.10.1/node_modules/fast-xml-parser/src/fxp.js
+// node_modules/.pnpm/fast-xml-parser@5.12.1/node_modules/fast-xml-parser/src/fxp.js
 var XMLValidator = {
   validate: validate2
 };

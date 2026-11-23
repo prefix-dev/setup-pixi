@@ -299,9 +299,9 @@ var require_tunnel2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/symbols.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/core/symbols.js
 var require_symbols = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/symbols.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/core/symbols.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     module2.exports = {
@@ -374,9 +374,9 @@ var require_symbols = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/errors.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/core/errors.js
 var require_errors = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/errors.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/core/errors.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var kUndiciError = /* @__PURE__ */ Symbol.for("undici.error.UND_ERR");
@@ -756,9 +756,9 @@ var require_errors = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/constants.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/core/constants.js
 var require_constants = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/constants.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/core/constants.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var headerNameLowerCasedRecord = {};
@@ -872,9 +872,9 @@ var require_constants = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/tree.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/core/tree.js
 var require_tree = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/tree.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/core/tree.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var {
@@ -1015,9 +1015,9 @@ var require_tree = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/util.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/core/util.js
 var require_util = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/util.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/core/util.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert2 = require("assert");
@@ -1522,9 +1522,9 @@ var require_util = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/diagnostics.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/core/diagnostics.js
 var require_diagnostics = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/diagnostics.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/core/diagnostics.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var diagnosticsChannel = require("diagnostics_channel");
@@ -1708,9 +1708,9 @@ var require_diagnostics = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/request.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/core/request.js
 var require_request = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/request.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/core/request.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var {
@@ -2108,9 +2108,9 @@ var require_request = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/dispatcher.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/dispatcher.js
 var require_dispatcher = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/dispatcher.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/dispatcher.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var EventEmitter2 = require("events");
@@ -2167,11 +2167,12 @@ var require_dispatcher = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/dispatcher-base.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/dispatcher-base.js
 var require_dispatcher_base = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/dispatcher-base.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/dispatcher-base.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
+    var buffer = require("buffer");
     var Dispatcher = require_dispatcher();
     var {
       ClientDestroyedError,
@@ -2183,6 +2184,7 @@ var require_dispatcher_base = __commonJS({
     var kOnClosed = /* @__PURE__ */ Symbol("onClosed");
     var kInterceptedDispatch = /* @__PURE__ */ Symbol("Intercepted Dispatch");
     var kWebSocketOptions = /* @__PURE__ */ Symbol("webSocketOptions");
+    var kEventSourceOptions = /* @__PURE__ */ Symbol("eventSourceOptions");
     var DispatcherBase = class extends Dispatcher {
       constructor(opts) {
         super();
@@ -2191,11 +2193,17 @@ var require_dispatcher_base = __commonJS({
         this[kClosed] = false;
         this[kOnClosed] = [];
         this[kWebSocketOptions] = opts?.webSocket ?? {};
+        this[kEventSourceOptions] = opts?.eventSource ?? {};
       }
       get webSocketOptions() {
         return {
           maxFragments: this[kWebSocketOptions].maxFragments ?? 131072,
           maxPayloadSize: this[kWebSocketOptions].maxPayloadSize ?? 128 * 1024 * 1024
+        };
+      }
+      get eventSourceOptions() {
+        return {
+          maxEventSize: this[kEventSourceOptions].maxEventSize ?? buffer.kStringMaxLength
         };
       }
       get destroyed() {
@@ -2337,9 +2345,9 @@ var require_dispatcher_base = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/util/timers.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/util/timers.js
 var require_timers = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/util/timers.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/util/timers.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var fastNow = 0;
@@ -2571,9 +2579,9 @@ var require_timers = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/connect.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/core/connect.js
 var require_connect = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/core/connect.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/core/connect.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var net = require("net");
@@ -2752,9 +2760,9 @@ var require_connect = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/llhttp/utils.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/llhttp/utils.js
 var require_utils = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/llhttp/utils.js"(exports2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/llhttp/utils.js"(exports2) {
     "use strict";
     init_cjs_shims();
     Object.defineProperty(exports2, "__esModule", { value: true });
@@ -2773,9 +2781,9 @@ var require_utils = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/llhttp/constants.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/llhttp/constants.js
 var require_constants2 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/llhttp/constants.js"(exports2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/llhttp/constants.js"(exports2) {
     "use strict";
     init_cjs_shims();
     Object.defineProperty(exports2, "__esModule", { value: true });
@@ -3095,9 +3103,9 @@ var require_constants2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/llhttp/llhttp-wasm.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/llhttp/llhttp-wasm.js
 var require_llhttp_wasm = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/llhttp/llhttp-wasm.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/llhttp/llhttp-wasm.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { Buffer: Buffer2 } = require("buffer");
@@ -3105,9 +3113,9 @@ var require_llhttp_wasm = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/llhttp/llhttp_simd-wasm.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/llhttp/llhttp_simd-wasm.js
 var require_llhttp_simd_wasm = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/llhttp/llhttp_simd-wasm.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/llhttp/llhttp_simd-wasm.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { Buffer: Buffer2 } = require("buffer");
@@ -3115,9 +3123,9 @@ var require_llhttp_simd_wasm = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/constants.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/constants.js
 var require_constants3 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/constants.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/constants.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var corsSafeListedMethods = (
@@ -3334,9 +3342,9 @@ var require_constants3 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/global.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/global.js
 var require_global = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/global.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/global.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var globalOrigin = /* @__PURE__ */ Symbol.for("undici.globalOrigin.1");
@@ -3371,9 +3379,9 @@ var require_global = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/data-url.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/data-url.js
 var require_data_url = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/data-url.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/data-url.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert2 = require("assert");
@@ -3724,9 +3732,9 @@ var require_data_url = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/webidl.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/webidl.js
 var require_webidl = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/webidl.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/webidl.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { types, inspect } = require("util");
@@ -4144,9 +4152,9 @@ var require_webidl = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/util.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/util.js
 var require_util2 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/util.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/util.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { Transform } = require("stream");
@@ -5025,9 +5033,9 @@ var require_util2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/symbols.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/symbols.js
 var require_symbols2 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/symbols.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/symbols.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     module2.exports = {
@@ -5040,9 +5048,9 @@ var require_symbols2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/file.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/file.js
 var require_file = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/file.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/file.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { Blob: Blob2, File: File2 } = require("buffer");
@@ -5104,9 +5112,9 @@ var require_file = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/formdata.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/formdata.js
 var require_formdata = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/formdata.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/formdata.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { isBlobLike, iteratorMixin } = require_util2();
@@ -5252,9 +5260,9 @@ var require_formdata = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/formdata-parser.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/formdata-parser.js
 var require_formdata_parser = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/formdata-parser.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/formdata-parser.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { isUSVString, bufferToLowerCasedHeaderName } = require_util();
@@ -5504,9 +5512,9 @@ var require_formdata_parser = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/body.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/body.js
 var require_body = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/body.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/body.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var util = require_util();
@@ -5819,9 +5827,9 @@ Content-Type: ${value.type || "application/octet-stream"}\r
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/client-h1.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/client-h1.js
 var require_client_h1 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/client-h1.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/client-h1.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert2 = require("assert");
@@ -6374,7 +6382,6 @@ var require_client_h1 = __commonJS({
       socket[kSocketUsed] = false;
       socket[kParser] = new Parser(client, socket, llhttpInstance);
       addListener(socket, "error", function(err) {
-        assert2(err.code !== "ERR_TLS_CERT_ALTNAME_INVALID");
         const parser = this[kParser];
         if (err.code === "ECONNRESET" && parser.statusCode && !parser.shouldKeepAlive) {
           const parserErr = parser.finish();
@@ -6951,9 +6958,9 @@ ${len.toString(16)}\r
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/client-h2.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/client-h2.js
 var require_client_h2 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/client-h2.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/client-h2.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert2 = require("assert");
@@ -7059,7 +7066,6 @@ var require_client_h2 = __commonJS({
       client[kHTTP2Session] = session;
       socket[kHTTP2Session] = session;
       util.addListener(socket, "error", function(err) {
-        assert2(err.code !== "ERR_TLS_CERT_ALTNAME_INVALID");
         this[kError] = err;
         this[kClient][kOnError](err);
       });
@@ -7118,7 +7124,6 @@ var require_client_h2 = __commonJS({
       }
     }
     function onHttp2SessionError(err) {
-      assert2(err.code !== "ERR_TLS_CERT_ALTNAME_INVALID");
       this[kSocket][kError] = err;
       this[kClient][kOnError](err);
     }
@@ -7528,9 +7533,9 @@ var require_client_h2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/handler/redirect-handler.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/handler/redirect-handler.js
 var require_redirect_handler = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/handler/redirect-handler.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/handler/redirect-handler.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var util = require_util();
@@ -7688,9 +7693,9 @@ var require_redirect_handler = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/interceptor/redirect-interceptor.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/interceptor/redirect-interceptor.js
 var require_redirect_interceptor = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/interceptor/redirect-interceptor.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/interceptor/redirect-interceptor.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var RedirectHandler = require_redirect_handler();
@@ -7711,9 +7716,9 @@ var require_redirect_interceptor = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/client.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/client.js
 var require_client = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/client.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/client.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert2 = require("assert");
@@ -7815,9 +7820,10 @@ var require_client = __commonJS({
         // h2
         maxConcurrentStreams,
         allowH2,
-        webSocket
+        webSocket,
+        eventSource
       } = {}) {
-        super({ webSocket });
+        super({ webSocket, eventSource });
         if (keepAlive !== void 0) {
           throw new InvalidArgumentError("unsupported keepAlive, use pipelining=0 instead");
         }
@@ -8213,9 +8219,9 @@ var require_client = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/fixed-queue.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/fixed-queue.js
 var require_fixed_queue = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/fixed-queue.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/fixed-queue.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var kSize = 2048;
@@ -8271,9 +8277,9 @@ var require_fixed_queue = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/pool-stats.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/pool-stats.js
 var require_pool_stats = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/pool-stats.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/pool-stats.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { kFree, kConnected, kPending, kQueued, kRunning, kSize } = require_symbols();
@@ -8305,9 +8311,9 @@ var require_pool_stats = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/pool-base.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/pool-base.js
 var require_pool_base = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/pool-base.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/pool-base.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var DispatcherBase = require_dispatcher_base();
@@ -8461,9 +8467,9 @@ var require_pool_base = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/pool.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/pool.js
 var require_pool = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/pool.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/pool.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var {
@@ -8553,9 +8559,9 @@ var require_pool = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/balanced-pool.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/balanced-pool.js
 var require_balanced_pool = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/balanced-pool.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/balanced-pool.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var {
@@ -8698,9 +8704,9 @@ var require_balanced_pool = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/agent.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/agent.js
 var require_agent = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/agent.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/agent.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { InvalidArgumentError } = require_errors();
@@ -8721,7 +8727,7 @@ var require_agent = __commonJS({
       return opts && opts.connections === 1 ? new Client(origin, opts) : new Pool(origin, opts);
     }
     var Agent = class extends DispatcherBase {
-      constructor({ factory = defaultFactory, maxRedirections = 0, connect, ...options2 } = {}) {
+      constructor({ factory = defaultFactory, maxRedirections = 0, connect, tls, ...options2 } = {}) {
         if (typeof factory !== "function") {
           throw new InvalidArgumentError("factory must be a function.");
         }
@@ -8735,8 +8741,11 @@ var require_agent = __commonJS({
         if (connect && typeof connect !== "function") {
           connect = { ...connect };
         }
+        if (tls && typeof tls !== "function") {
+          tls = { ...tls };
+        }
         this[kInterceptors] = options2.interceptors?.Agent && Array.isArray(options2.interceptors.Agent) ? options2.interceptors.Agent : [createRedirectInterceptor({ maxRedirections })];
-        this[kOptions] = { ...util.deepClone(options2), connect };
+        this[kOptions] = { ...util.deepClone(options2), connect, tls };
         this[kOptions].interceptors = options2.interceptors ? { ...options2.interceptors } : void 0;
         this[kMaxRedirections] = maxRedirections;
         this[kFactory] = factory;
@@ -8796,9 +8805,9 @@ var require_agent = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/proxy-agent.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/proxy-agent.js
 var require_proxy_agent = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/proxy-agent.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/proxy-agent.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { kProxy, kClose, kDestroy, kDispatch, kInterceptors } = require_symbols();
@@ -9025,9 +9034,9 @@ var require_proxy_agent = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/env-http-proxy-agent.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/env-http-proxy-agent.js
 var require_env_http_proxy_agent = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/env-http-proxy-agent.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/env-http-proxy-agent.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var DispatcherBase = require_dispatcher_base();
@@ -9168,9 +9177,9 @@ var require_env_http_proxy_agent = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/handler/retry-handler.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/handler/retry-handler.js
 var require_retry_handler = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/handler/retry-handler.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/handler/retry-handler.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert2 = require("assert");
@@ -9518,9 +9527,9 @@ var require_retry_handler = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/retry-agent.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/retry-agent.js
 var require_retry_agent = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/dispatcher/retry-agent.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/dispatcher/retry-agent.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var Dispatcher = require_dispatcher();
@@ -9557,9 +9566,9 @@ var require_retry_agent = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/readable.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/readable.js
 var require_readable = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/readable.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/readable.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert2 = require("assert");
@@ -9851,9 +9860,9 @@ var require_readable = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/util.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/util.js
 var require_util3 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/util.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/util.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert2 = require("assert");
@@ -9914,9 +9923,9 @@ var require_util3 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/api-request.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/api-request.js
 var require_api_request = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/api-request.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/api-request.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert2 = require("assert");
@@ -10101,9 +10110,9 @@ var require_api_request = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/abort-signal.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/abort-signal.js
 var require_abort_signal = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/abort-signal.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/abort-signal.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { addAbortListener } = require_util();
@@ -10154,9 +10163,9 @@ var require_abort_signal = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/api-stream.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/api-stream.js
 var require_api_stream = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/api-stream.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/api-stream.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert2 = require("assert");
@@ -10328,9 +10337,9 @@ var require_api_stream = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/api-pipeline.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/api-pipeline.js
 var require_api_pipeline = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/api-pipeline.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/api-pipeline.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var {
@@ -10529,9 +10538,9 @@ var require_api_pipeline = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/api-upgrade.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/api-upgrade.js
 var require_api_upgrade = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/api-upgrade.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/api-upgrade.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { InvalidArgumentError, SocketError } = require_errors();
@@ -10622,9 +10631,9 @@ var require_api_upgrade = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/api-connect.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/api-connect.js
 var require_api_connect = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/api-connect.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/api-connect.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert2 = require("assert");
@@ -10713,9 +10722,9 @@ var require_api_connect = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/index.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/index.js
 var require_api = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/api/index.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/api/index.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     module2.exports.request = require_api_request();
@@ -10726,9 +10735,9 @@ var require_api = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-errors.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/mock-errors.js
 var require_mock_errors = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-errors.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/mock-errors.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { UndiciError } = require_errors();
@@ -10753,9 +10762,9 @@ var require_mock_errors = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-symbols.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/mock-symbols.js
 var require_mock_symbols = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-symbols.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/mock-symbols.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     module2.exports = {
@@ -10782,9 +10791,9 @@ var require_mock_symbols = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-utils.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/mock-utils.js
 var require_mock_utils = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-utils.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/mock-utils.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { MockNotMatchedError } = require_mock_errors();
@@ -11079,9 +11088,9 @@ var require_mock_utils = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-interceptor.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/mock-interceptor.js
 var require_mock_interceptor = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-interceptor.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/mock-interceptor.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { getResponseData, buildKey, addMockDispatch } = require_mock_utils();
@@ -11242,9 +11251,9 @@ var require_mock_interceptor = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-client.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/mock-client.js
 var require_mock_client = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-client.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/mock-client.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { promisify } = require("util");
@@ -11296,9 +11305,9 @@ var require_mock_client = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-pool.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/mock-pool.js
 var require_mock_pool = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-pool.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/mock-pool.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { promisify } = require("util");
@@ -11350,9 +11359,9 @@ var require_mock_pool = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/pluralizer.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/pluralizer.js
 var require_pluralizer = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/pluralizer.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/pluralizer.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var singulars = {
@@ -11382,9 +11391,9 @@ var require_pluralizer = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/pending-interceptors-formatter.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/pending-interceptors-formatter.js
 var require_pending_interceptors_formatter = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/pending-interceptors-formatter.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/pending-interceptors-formatter.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { Transform } = require("stream");
@@ -11424,9 +11433,9 @@ var require_pending_interceptors_formatter = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-agent.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/mock-agent.js
 var require_mock_agent = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/mock/mock-agent.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/mock/mock-agent.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { kClients } = require_symbols();
@@ -11555,9 +11564,9 @@ ${pendingInterceptorsFormatter.format(pending)}
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/global.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/global.js
 var require_global2 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/global.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/global.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var globalDispatcher = /* @__PURE__ */ Symbol.for("undici.globalDispatcher.1");
@@ -11587,9 +11596,9 @@ var require_global2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/handler/decorator-handler.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/handler/decorator-handler.js
 var require_decorator_handler = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/handler/decorator-handler.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/handler/decorator-handler.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var _handler, _a3;
@@ -11629,9 +11638,9 @@ var require_decorator_handler = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/interceptor/redirect.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/interceptor/redirect.js
 var require_redirect = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/interceptor/redirect.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/interceptor/redirect.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var RedirectHandler = require_redirect_handler();
@@ -11656,9 +11665,9 @@ var require_redirect = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/interceptor/retry.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/interceptor/retry.js
 var require_retry = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/interceptor/retry.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/interceptor/retry.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var RetryHandler = require_retry_handler();
@@ -11681,9 +11690,9 @@ var require_retry = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/interceptor/dump.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/interceptor/dump.js
 var require_dump = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/interceptor/dump.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/interceptor/dump.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var util = require_util();
@@ -11790,9 +11799,9 @@ var require_dump = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/interceptor/dns.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/interceptor/dns.js
 var require_dns = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/interceptor/dns.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/interceptor/dns.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { isIP } = require("net");
@@ -12092,9 +12101,9 @@ var require_dns = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/headers.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/headers.js
 var require_headers = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/headers.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/headers.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { kConstruct } = require_symbols();
@@ -12541,9 +12550,9 @@ var require_headers = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/response.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/response.js
 var require_response = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/response.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/response.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { Headers: Headers2, HeadersList, fill, getHeadersGuard, setHeadersGuard, setHeadersList } = require_headers();
@@ -12941,9 +12950,9 @@ var require_response = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/dispatcher-weakref.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/dispatcher-weakref.js
 var require_dispatcher_weakref = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/dispatcher-weakref.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/dispatcher-weakref.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { kConnected, kSize } = require_symbols();
@@ -12984,9 +12993,9 @@ var require_dispatcher_weakref = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/request.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/request.js
 var require_request2 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/request.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/request.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { extractBody, mixinBody, cloneBody, bodyUnusable } = require_body();
@@ -13680,9 +13689,9 @@ var require_request2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/index.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/index.js
 var require_fetch = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fetch/index.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fetch/index.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var {
@@ -14541,8 +14550,9 @@ var require_fetch = __commonJS({
         }
       );
       response.body = { stream, source: null, length: null };
-      fetchParams.controller.onAborted = onAborted;
-      fetchParams.controller.on("terminated", onAborted);
+      if (!fetchParams.controller.resume) {
+        fetchParams.controller.on("terminated", onAborted);
+      }
       fetchParams.controller.resume = async () => {
         while (true) {
           let bytes;
@@ -14642,7 +14652,6 @@ var require_fetch = __commonJS({
                 headersList.append(bufferToLowerCasedHeaderName(rawHeaders[i]), rawHeaders[i + 1].toString("latin1"), true);
               }
               location = headersList.get("location", true);
-              this.body = new Readable({ read: resume });
               const decoders = [];
               const willFollow = location && request.redirect === "follow" && redirectStatusSet.has(status);
               if (request.method !== "HEAD" && request.method !== "CONNECT" && !nullBodyStatus.includes(status) && !willFollow) {
@@ -14650,7 +14659,7 @@ var require_fetch = __commonJS({
                 const codings = contentEncoding ? contentEncoding.toLowerCase().split(",") : [];
                 const maxContentEncodings = 5;
                 if (codings.length > maxContentEncodings) {
-                  reject(new Error(`too many content-encodings in response: ${codings.length}, maximum allowed is ${maxContentEncodings}`));
+                  this.abort(new Error(`too many content-encodings in response: ${codings.length}, maximum allowed is ${maxContentEncodings}`));
                   return true;
                 }
                 for (let i = codings.length - 1; i >= 0; --i) {
@@ -14680,6 +14689,7 @@ var require_fetch = __commonJS({
                   }
                 }
               }
+              this.body = new Readable({ read: resume });
               const onError = this.onError.bind(this);
               resolve2({
                 status,
@@ -14704,9 +14714,6 @@ var require_fetch = __commonJS({
             onComplete() {
               if (this.abort) {
                 fetchParams.controller.off("terminated", this.abort);
-              }
-              if (fetchParams.controller.onAborted) {
-                fetchParams.controller.off("terminated", fetchParams.controller.onAborted);
               }
               fetchParams.controller.ended = true;
               this.body.push(null);
@@ -14748,9 +14755,9 @@ var require_fetch = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fileapi/symbols.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fileapi/symbols.js
 var require_symbols3 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fileapi/symbols.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fileapi/symbols.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     module2.exports = {
@@ -14764,9 +14771,9 @@ var require_symbols3 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fileapi/progressevent.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fileapi/progressevent.js
 var require_progressevent = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fileapi/progressevent.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fileapi/progressevent.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { webidl } = require_webidl();
@@ -14833,9 +14840,9 @@ var require_progressevent = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fileapi/encoding.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fileapi/encoding.js
 var require_encoding = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fileapi/encoding.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fileapi/encoding.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     function getEncoding(label) {
@@ -15120,9 +15127,9 @@ var require_encoding = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fileapi/util.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fileapi/util.js
 var require_util4 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fileapi/util.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fileapi/util.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var {
@@ -15306,9 +15313,9 @@ var require_util4 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fileapi/filereader.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fileapi/filereader.js
 var require_filereader = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/fileapi/filereader.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/fileapi/filereader.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var {
@@ -15566,9 +15573,9 @@ var require_filereader = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cache/symbols.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/cache/symbols.js
 var require_symbols4 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cache/symbols.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/cache/symbols.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     module2.exports = {
@@ -15577,9 +15584,9 @@ var require_symbols4 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cache/util.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/cache/util.js
 var require_util5 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cache/util.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/cache/util.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var assert2 = require("assert");
@@ -15608,9 +15615,9 @@ var require_util5 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cache/cache.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/cache/cache.js
 var require_cache = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cache/cache.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/cache/cache.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { kConstruct } = require_symbols4();
@@ -16159,9 +16166,9 @@ var require_cache = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cache/cachestorage.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/cache/cachestorage.js
 var require_cachestorage = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cache/cachestorage.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/cache/cachestorage.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { kConstruct } = require_symbols4();
@@ -16273,9 +16280,9 @@ var require_cachestorage = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cookies/constants.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/cookies/constants.js
 var require_constants4 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cookies/constants.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/cookies/constants.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var maxAttributeValueSize = 1024;
@@ -16287,9 +16294,9 @@ var require_constants4 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cookies/util.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/cookies/util.js
 var require_util6 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cookies/util.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/cookies/util.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     function isCTLExcludingHtab(value) {
@@ -16496,9 +16503,9 @@ var require_util6 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cookies/parse.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/cookies/parse.js
 var require_parse = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cookies/parse.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/cookies/parse.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { maxNameValuePairSize, maxAttributeValueSize } = require_constants4();
@@ -16633,9 +16640,9 @@ var require_parse = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cookies/index.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/cookies/index.js
 var require_cookies = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/cookies/index.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/cookies/index.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { parseSetCookie } = require_parse();
@@ -16763,9 +16770,9 @@ var require_cookies = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/events.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/events.js
 var require_events = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/events.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/events.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { webidl } = require_webidl();
@@ -17044,9 +17051,9 @@ var require_events = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/constants.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/constants.js
 var require_constants5 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/constants.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/constants.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var uid = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
@@ -17102,9 +17109,9 @@ var require_constants5 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/symbols.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/symbols.js
 var require_symbols5 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/symbols.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/symbols.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     module2.exports = {
@@ -17120,9 +17127,9 @@ var require_symbols5 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/util.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/util.js
 var require_util7 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/util.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/util.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { kReadyState, kController, kResponse, kBinaryType, kWebSocketURL } = require_symbols5();
@@ -17294,9 +17301,9 @@ var require_util7 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/frame.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/frame.js
 var require_frame = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/frame.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/frame.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { maxUnsigned16Bit } = require_constants5();
@@ -17372,9 +17379,9 @@ var require_frame = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/connection.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/connection.js
 var require_connection = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/connection.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/connection.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { uid, states, sentCloseFrameState, emptyBuffer, opcodes } = require_constants5();
@@ -17558,9 +17565,9 @@ var require_connection = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/permessage-deflate.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/permessage-deflate.js
 var require_permessage_deflate = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/permessage-deflate.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/permessage-deflate.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { createInflateRaw, Z_DEFAULT_WINDOWBITS } = require("zlib");
@@ -17645,9 +17652,9 @@ var require_permessage_deflate = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/receiver.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/receiver.js
 var require_receiver = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/receiver.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/receiver.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { Writable } = require("stream");
@@ -17823,6 +17830,16 @@ var require_receiver = __commonJS({
             if (isControlFrame(__privateGet(this, _info).opcode)) {
               __privateSet(this, _loop, this.parseControlFrame(body));
               __privateSet(this, _state, parserStates.INFO);
+              const socket = this.ws[kResponse].socket;
+              if (__privateGet(this, _loop) && socket.writableNeedDrain) {
+                __privateSet(this, _loop, false);
+                socket.once("drain", () => {
+                  if (this.destroyed) return;
+                  __privateSet(this, _loop, true);
+                  this.run(callback);
+                });
+                return;
+              }
             } else {
               if (!__privateGet(this, _info).compressed) {
                 if (!this.writeFragments(body)) {
@@ -18031,9 +18048,9 @@ var require_receiver = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/sender.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/sender.js
 var require_sender = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/sender.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/sender.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { WebsocketFrameSend } = require_frame();
@@ -18120,9 +18137,9 @@ var require_sender = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/websocket.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/websocket.js
 var require_websocket = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/websocket/websocket.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/websocket/websocket.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { webidl } = require_webidl();
@@ -18520,9 +18537,9 @@ var require_websocket = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/eventsource/util.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/eventsource/util.js
 var require_util8 = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/eventsource/util.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/eventsource/util.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     function isValidLastEventId(value) {
@@ -18548,11 +18565,12 @@ var require_util8 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/eventsource/eventsource-stream.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/eventsource/eventsource-stream.js
 var require_eventsource_stream = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/eventsource/eventsource-stream.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/eventsource/eventsource-stream.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
+    var buffer = require("buffer");
     var { Transform } = require("stream");
     var { isASCIINumber, isValidLastEventId } = require_util8();
     var BOM = [239, 187, 191];
@@ -18560,24 +18578,28 @@ var require_eventsource_stream = __commonJS({
     var CR = 13;
     var COLON = 58;
     var SPACE = 32;
+    var defaultMaxEventSize = buffer.kStringMaxLength;
     var DATA = Buffer.from("data");
     var EVENT = Buffer.from("event");
     var ID = Buffer.from("id");
     var RETRY = Buffer.from("retry");
-    function isASCIINumberBytes(buffer, start) {
-      if (start >= buffer.length) {
+    var minParserItems = 1024;
+    var maxParserItems = 131072;
+    var bytesPerParserItem = 128;
+    function isASCIINumberBytes(buffer2, start) {
+      if (start >= buffer2.length) {
         return false;
       }
-      for (let i = start; i < buffer.length; i++) {
-        if (buffer[i] < 48 || buffer[i] > 57) {
+      for (let i = start; i < buffer2.length; i++) {
+        if (buffer2[i] < 48 || buffer2[i] > 57) {
           return false;
         }
       }
       return true;
     }
-    function isValidLastEventIdBytes(buffer, start) {
-      for (let i = start; i < buffer.length; i++) {
-        if (buffer[i] === 0) {
+    function isValidLastEventIdBytes(buffer2, start) {
+      for (let i = start; i < buffer2.length; i++) {
+        if (buffer2[i] === 0) {
           return false;
         }
       }
@@ -18594,9 +18616,15 @@ var require_eventsource_stream = __commonJS({
       }
       return true;
     }
+    function createMaxEventSizeExceededError() {
+      const error3 = new Error("EventSource message size exceeded");
+      error3.aborted = false;
+      return error3;
+    }
     var EventSourceStream = class extends Transform {
       /**
        * @param {object} options
+       * @param {number} [options.maxEventSize]
        * @param {eventSourceSettings} options.eventSourceSettings
        * @param {Function} [options.push]
        */
@@ -18628,6 +18656,13 @@ var require_eventsource_stream = __commonJS({
         __publicField(this, "pos", 0);
         __publicField(this, "lineChunkIndex", 0);
         __publicField(this, "linePos", 0);
+        __publicField(this, "lineLength", 0);
+        __publicField(this, "eventSize", 0);
+        __publicField(this, "eventFieldSizes", { data: 0, event: 0, id: 0, retry: 0 });
+        __publicField(this, "dataLineCount", 0);
+        __publicField(this, "maxEventSize");
+        __publicField(this, "maxDataLines");
+        __publicField(this, "maxBufferedChunks");
         __publicField(this, "event", {
           data: void 0,
           event: void 0,
@@ -18635,6 +18670,10 @@ var require_eventsource_stream = __commonJS({
           retry: void 0
         });
         this.state = options2.eventSourceSettings || {};
+        this.maxEventSize = options2.maxEventSize ?? defaultMaxEventSize;
+        const parserItemLimit = this.maxEventSize > 0 ? Math.min(maxParserItems, Math.max(minParserItems, Math.floor(this.maxEventSize / bytesPerParserItem))) : 0;
+        this.maxDataLines = parserItemLimit;
+        this.maxBufferedChunks = parserItemLimit;
         if (options2.push) {
           this.push = options2.push;
         }
@@ -18648,6 +18687,10 @@ var require_eventsource_stream = __commonJS({
       _transform(chunk, _encoding, callback) {
         if (chunk.length === 0) {
           callback();
+          return;
+        }
+        if (this.maxEventSize > 0 && this.chunks.length >= this.maxBufferedChunks && chunk[0] !== LF && chunk[0] !== CR) {
+          callback(createMaxEventSizeExceededError());
           return;
         }
         this.chunks.push(chunk);
@@ -18686,18 +18729,32 @@ var require_eventsource_stream = __commonJS({
             if (byte === CR) {
               this.crlfCheck = true;
             }
-            this.parseLine(this.readLine(), this.event);
+            try {
+              this.parseLine(this.readLine(), this.event);
+            } catch (error3) {
+              callback(error3);
+              return;
+            }
             this.consumeCurrentByte();
             this.eventEndCheck = true;
             continue;
+          }
+          if (this.maxEventSize > 0 && ++this.lineLength > this.maxEventSize + 7) {
+            callback(createMaxEventSizeExceededError());
+            return;
           }
           this.advanceCursor();
         }
         callback();
       }
+      _destroy(error3, callback) {
+        this.chunks.length = 0;
+        this.clearEvent();
+        super._destroy(error3, callback);
+      }
       /**
        * @param {Buffer} line
-       * @param {EventStreamEvent} event
+       * @param {EventSourceStreamEvent} event
        */
       parseLine(line, event) {
         if (line.length === 0) {
@@ -18717,6 +18774,12 @@ var require_eventsource_stream = __commonJS({
           }
         }
         if (isFieldName(line, fieldLength, DATA)) {
+          if (this.maxEventSize > 0 && this.dataLineCount >= this.maxDataLines) {
+            throw createMaxEventSizeExceededError();
+          }
+          const valueBytes = line.length - valueStart;
+          const dataSize = this.eventFieldSizes.data + (event.data === void 0 ? 0 : 1) + valueBytes;
+          this.setEventFieldSize("data", dataSize);
           const value = line.toString("utf8", valueStart);
           if (event.data === void 0) {
             event.data = value;
@@ -18724,26 +18787,37 @@ var require_eventsource_stream = __commonJS({
             event.data += `
 ${value}`;
           }
+          this.dataLineCount++;
           return;
         }
         if (isFieldName(line, fieldLength, RETRY)) {
           if (isASCIINumberBytes(line, valueStart)) {
+            this.setEventFieldSize("retry", line.length - valueStart);
             event.retry = line.toString("utf8", valueStart);
           }
           return;
         }
         if (isFieldName(line, fieldLength, ID)) {
           if (isValidLastEventIdBytes(line, valueStart)) {
+            this.setEventFieldSize("id", line.length - valueStart);
             event.id = line.toString("utf8", valueStart);
           }
           return;
         }
         if (isFieldName(line, fieldLength, EVENT)) {
-          const value = line.toString("utf8", valueStart);
-          if (value.length > 0) {
-            event.event = value;
+          if (valueStart < line.length) {
+            this.setEventFieldSize("event", line.length - valueStart);
+            event.event = line.toString("utf8", valueStart);
           }
         }
+      }
+      setEventFieldSize(field, size) {
+        const eventSize = this.eventSize - this.eventFieldSizes[field] + size;
+        if (this.maxEventSize > 0 && eventSize > this.maxEventSize) {
+          throw createMaxEventSizeExceededError();
+        }
+        this.eventSize = eventSize;
+        this.eventFieldSizes[field] = size;
       }
       /**
        * @param {EventSourceStreamEvent} event
@@ -18771,6 +18845,12 @@ ${value}`;
         this.event.event = void 0;
         this.event.id = void 0;
         this.event.retry = void 0;
+        this.eventSize = 0;
+        this.dataLineCount = 0;
+        this.eventFieldSizes.data = 0;
+        this.eventFieldSizes.event = 0;
+        this.eventFieldSizes.id = 0;
+        this.eventFieldSizes.retry = 0;
       }
       hasPendingEvent() {
         return this.event.data !== void 0 || this.event.event !== void 0 || this.event.id !== void 0 || this.event.retry !== void 0;
@@ -18795,13 +18875,15 @@ ${value}`;
       syncLineStartToCursor() {
         this.lineChunkIndex = this.chunkIndex;
         this.linePos = this.pos;
+        this.lineLength = 0;
         this.dropConsumedChunks();
       }
       dropConsumedChunks() {
-        while (this.lineChunkIndex > 0) {
-          this.chunks.shift();
-          this.lineChunkIndex--;
-          this.chunkIndex--;
+        if (this.lineChunkIndex > 0) {
+          const consumed = this.lineChunkIndex;
+          this.chunks.splice(0, consumed);
+          this.lineChunkIndex = 0;
+          this.chunkIndex -= consumed;
         }
         if (this.chunkIndex === this.chunks.length) {
           this.chunks.length = 0;
@@ -18889,9 +18971,9 @@ ${value}`;
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/eventsource/eventsource.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/eventsource/eventsource.js
 var require_eventsource = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/lib/web/eventsource/eventsource.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/lib/web/eventsource/eventsource.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var { pipeline } = require("stream");
@@ -18905,6 +18987,7 @@ var require_eventsource = __commonJS({
     var { delay } = require_util8();
     var { kEnumerableProperty } = require_util();
     var { environmentSettingsObject } = require_util2();
+    var { getGlobalDispatcher } = require_global2();
     var experimentalWarned = false;
     var defaultReconnectionTime = 3e3;
     var CONNECTING = 0;
@@ -19110,6 +19193,7 @@ var require_eventsource = __commonJS({
         __privateGet(this, _state).origin = response.urlList[response.urlList.length - 1].origin;
         const eventSourceStream = new EventSourceStream({
           eventSourceSettings: __privateGet(this, _state),
+          maxEventSize: __privateGet(this, _dispatcher).eventSourceOptions?.maxEventSize,
           push: (event) => {
             this.dispatchEvent(createFastMessageEvent(
               event.type,
@@ -19185,7 +19269,8 @@ var require_eventsource = __commonJS({
       {
         key: "dispatcher",
         // undici only
-        converter: webidl.converters.any
+        converter: webidl.converters.any,
+        defaultValue: () => getGlobalDispatcher()
       }
     ]);
     module2.exports = {
@@ -19195,9 +19280,9 @@ var require_eventsource = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.29.0/node_modules/undici/index.js
+// node_modules/.pnpm/undici@6.29.1/node_modules/undici/index.js
 var require_undici = __commonJS({
-  "node_modules/.pnpm/undici@6.29.0/node_modules/undici/index.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.29.1/node_modules/undici/index.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
     var Client = require_client();
