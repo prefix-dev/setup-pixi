@@ -50,6 +50,9 @@ export interface PixiSource {
   urlTemplate: string
   headers?: NodeJS.Dict<string>
   version: string
+  // version spec from the manifest's `requires-pixi`, resolved against pixi's GitHub releases at download time
+  requiresPixi?: string
+  excludeNewer?: string
 }
 
 type Auth = {
@@ -329,18 +332,23 @@ const determinePixiInstallation = (pixiUrlOrVersionSet: boolean, pixiBinPath: st
   return { downloadPixi: true, pixiBinPath: PATHS.pixiBin }
 }
 
+type PixiWorkspace = { 'requires-pixi'?: string; 'exclude-newer'?: string | Date }
+type PixiManifest = { workspace?: PixiWorkspace; project?: PixiWorkspace }
+
+const readRequiresPixi = (manifestPath: string): { requiresPixi?: string; excludeNewer?: string } => {
+  try {
+    const toml = parse(readFileSync(manifestPath, 'utf-8')) as PixiManifest & { tool?: { pixi?: PixiManifest } }
+    const pixi = path.basename(manifestPath) === pyprojectPath ? toml.tool?.pixi : toml
+    const workspace = pixi?.workspace ?? pixi?.project
+    const excludeNewer = workspace?.['exclude-newer']
+    return { requiresPixi: workspace?.['requires-pixi'], excludeNewer: excludeNewer && String(excludeNewer) }
+  } catch {
+    return {}
+  }
+}
+
 const inferOptions = (inputs: Inputs): Options => {
   const runInstall = inputs.runInstall ?? true
-  const pixiSource: PixiSource = {
-    urlTemplate: inputs.pixiUrl ?? DEFAULT_PIXI_URL_TEMPLATE,
-    headers: inputs.pixiUrlHeaders,
-    version: inputs.pixiVersion ?? 'latest'
-  }
-
-  const { downloadPixi, pixiBinPath } = determinePixiInstallation(
-    !!inputs.pixiVersion || !!inputs.pixiUrl,
-    inputs.pixiBinPath
-  )
   const logLevel = inputs.logLevel ?? (core.isDebug() ? 'vv' : 'default')
 
   // Determine the working directory - resolve to absolute path if provided
@@ -381,6 +389,20 @@ const inferOptions = (inputs: Inputs): Options => {
       )
     }
   }
+
+  const { requiresPixi, excludeNewer } = inputs.pixiVersion || inputs.pixiUrl ? {} : readRequiresPixi(manifestPath)
+  const pixiSource: PixiSource = {
+    urlTemplate: inputs.pixiUrl ?? DEFAULT_PIXI_URL_TEMPLATE,
+    headers: inputs.pixiUrlHeaders,
+    version: inputs.pixiVersion ?? 'latest',
+    requiresPixi,
+    excludeNewer
+  }
+
+  const { downloadPixi, pixiBinPath } = determinePixiInstallation(
+    !!inputs.pixiVersion || !!inputs.pixiUrl || !!requiresPixi,
+    inputs.pixiBinPath
+  )
 
   const pixiLockFile = path.join(path.dirname(manifestPath), 'pixi.lock')
   const lockFileAvailable = existsSync(pixiLockFile)

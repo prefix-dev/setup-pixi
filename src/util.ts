@@ -78,6 +78,78 @@ export const renderPixiUrl = (urlTemplate: string, version: string) => {
   })
 }
 
+const parseVersion = (version: string) => version.replace(/^v/, '').split('.').map(Number)
+
+const compareVersions = (a: number[], b: number[]) => {
+  for (let i = 0; i < Math.max(a.length, b.length); i++) {
+    const diff = (a[i] ?? 0) - (b[i] ?? 0)
+    if (diff !== 0) return diff
+  }
+  return 0
+}
+
+const hasPrefix = (version: number[], prefix: number[]) => prefix.every((part, i) => (version[i] ?? 0) === part)
+
+// Supports the common subset of conda version specs: `,` (and), `|` (or), `==`, `!=`, `>=`, `>`, `<=`, `<`, `~=`, `=` and `.*`
+const satisfiesConstraint = (version: number[], constraint: string): boolean => {
+  if (constraint.trim() === '*') return true
+  const match = /^(==|!=|>=|<=|~=|>|<|=)?\s*v?([\d.]+?)(\.\*)?$/.exec(constraint.trim())
+  if (!match) throw new Error(`Unsupported requires-pixi constraint: \`${constraint}\``)
+  const [, operator = '==', raw, wildcard] = match
+  const target = parseVersion(raw)
+  const cmp = compareVersions(version, target)
+  if (wildcard || operator === '=') return hasPrefix(version, target) === (operator !== '!=')
+  switch (operator) {
+    case '==':
+      return cmp === 0
+    case '!=':
+      return cmp !== 0
+    case '>=':
+      return cmp >= 0
+    case '>':
+      return cmp > 0
+    case '<=':
+      return cmp <= 0
+    case '<':
+      return cmp < 0
+    default: // ~=
+      return cmp >= 0 && hasPrefix(version, target.slice(0, -1))
+  }
+}
+
+const satisfies = (version: string, spec: string) =>
+  spec
+    .split('|')
+    .some((alternative) => alternative.split(',').every((c) => satisfiesConstraint(parseVersion(version), c)))
+
+type Release = { tag_name: string; published_at: string; draft: boolean; prerelease: boolean }
+
+// Highest pixi release matching `spec`, ignoring releases published after `excludeNewer`
+// unless none of the older ones match, in which case the oldest matching release is used.
+export const resolveRequiresPixi = async (spec: string, excludeNewer?: string) => {
+  const token = process.env.GITHUB_TOKEN
+  const releases: Release[] = []
+  for (let page = 1; ; page++) {
+    const response = await fetch(`https://api.github.com/repos/prefix-dev/pixi/releases?per_page=100&page=${page}`, {
+      headers: token ? { Authorization: `Bearer ${token}` } : undefined
+    })
+    if (!response.ok) throw new Error(`Failed to list pixi releases: ${response.status} ${response.statusText}`)
+    const batch = (await response.json()) as Release[]
+    releases.push(...batch)
+    if (batch.length < 100) break
+  }
+  const matching = releases
+    .filter((r) => !r.draft && !r.prerelease && satisfies(r.tag_name, spec))
+    .sort((a, b) => compareVersions(parseVersion(b.tag_name), parseVersion(a.tag_name)))
+  if (matching.length === 0) throw new Error(`No pixi release satisfies requires-pixi \`${spec}\``)
+  const cutoff = excludeNewer ? new Date(excludeNewer) : undefined
+  const release =
+    matching.find((r) => !cutoff || Number.isNaN(cutoff.getTime()) || new Date(r.published_at) <= cutoff) ??
+    matching[matching.length - 1]
+  core.info(`Using pixi ${release.tag_name} to satisfy requires-pixi \`${spec}\``)
+  return release.tag_name
+}
+
 export const sha256 = (s: string | NodeJS.ArrayBufferView) => {
   return createHash('sha256').update(s).digest('hex')
 }

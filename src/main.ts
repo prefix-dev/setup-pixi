@@ -7,12 +7,15 @@ import { downloadTool } from '@actions/tool-cache'
 import { parse } from 'smol-toml'
 import type { PixiSource } from './options'
 import { options } from './options'
-import { execute, pixiCmd, renderPixiUrl } from './util'
+import { execute, pixiCmd, renderPixiUrl, resolveRequiresPixi } from './util'
 import { tryRestoreGlobalCache, tryRestoreProjectCache, saveGlobalCache, saveProjectCache } from './cache'
 import { activateEnvironment } from './activate'
 
 const downloadPixi = async (source: PixiSource) => {
-  const url = renderPixiUrl(source.urlTemplate, source.version)
+  const version = source.requiresPixi
+    ? await resolveRequiresPixi(source.requiresPixi, source.excludeNewer)
+    : source.version
+  const url = renderPixiUrl(source.urlTemplate, version)
   await core.group('Downloading Pixi', async () => {
     core.debug('Installing pixi')
     core.debug(`Downloading pixi from ${url}`)

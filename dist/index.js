@@ -13786,7 +13786,7 @@ var require_fetch = __commonJS({
     function handleFetchDone(response) {
       finalizeAndReportTiming(response, "fetch");
     }
-    function fetch(input, init = void 0) {
+    function fetch2(input, init = void 0) {
       webidl.argumentLengthCheck(arguments, 1, "globalThis.fetch");
       let p = createDeferredPromise();
       let requestObject;
@@ -14743,7 +14743,7 @@ var require_fetch = __commonJS({
       }
     }
     module2.exports = {
-      fetch,
+      fetch: fetch2,
       Fetch,
       fetching,
       finalizeAndReportTiming
@@ -19292,7 +19292,7 @@ var require_undici = __commonJS({
     module2.exports.setGlobalDispatcher = setGlobalDispatcher;
     module2.exports.getGlobalDispatcher = getGlobalDispatcher;
     var fetchImpl = require_fetch().fetch;
-    module2.exports.fetch = async function fetch(init, options2 = void 0) {
+    module2.exports.fetch = async function fetch2(init, options2 = void 0) {
       try {
         return await fetchImpl(init, options2);
       } catch (err) {
@@ -20802,7 +20802,7 @@ var require_satisfies = __commonJS({
     "use strict";
     init_cjs_shims();
     var Range = require_range();
-    var satisfies3 = (version4, range3, options2) => {
+    var satisfies4 = (version4, range3, options2) => {
       try {
         range3 = new Range(range3, options2);
       } catch (er) {
@@ -20810,7 +20810,7 @@ var require_satisfies = __commonJS({
       }
       return range3.test(version4);
     };
-    module2.exports = satisfies3;
+    module2.exports = satisfies4;
   }
 });
 
@@ -20971,7 +20971,7 @@ var require_outside = __commonJS({
     var Comparator = require_comparator();
     var { ANY } = Comparator;
     var Range = require_range();
-    var satisfies3 = require_satisfies();
+    var satisfies4 = require_satisfies();
     var gt2 = require_gt();
     var lt = require_lt();
     var lte2 = require_lte();
@@ -20998,7 +20998,7 @@ var require_outside = __commonJS({
         default:
           throw new TypeError('Must provide a hilo val of "<" or ">"');
       }
-      if (satisfies3(version4, range3, options2)) {
+      if (satisfies4(version4, range3, options2)) {
         return false;
       }
       for (let i = 0; i < range3.set.length; ++i) {
@@ -21074,7 +21074,7 @@ var require_simplify = __commonJS({
   "node_modules/.pnpm/semver@7.8.5/node_modules/semver/ranges/simplify.js"(exports2, module2) {
     "use strict";
     init_cjs_shims();
-    var satisfies3 = require_satisfies();
+    var satisfies4 = require_satisfies();
     var compare = require_compare();
     module2.exports = (versions, range3, options2) => {
       const set = [];
@@ -21082,7 +21082,7 @@ var require_simplify = __commonJS({
       let prev = null;
       const v = versions.sort((a, b) => compare(a, b, options2));
       for (const version4 of v) {
-        const included = satisfies3(version4, range3, options2);
+        const included = satisfies4(version4, range3, options2);
         if (included) {
           prev = version4;
           if (!first) {
@@ -21128,7 +21128,7 @@ var require_subset = __commonJS({
     var Range = require_range();
     var Comparator = require_comparator();
     var { ANY } = Comparator;
-    var satisfies3 = require_satisfies();
+    var satisfies4 = require_satisfies();
     var compare = require_compare();
     var subset = (sub, dom, options2 = {}) => {
       if (sub === dom) {
@@ -21197,14 +21197,14 @@ var require_subset = __commonJS({
         }
       }
       for (const eq of eqSet) {
-        if (gt2 && !satisfies3(eq, String(gt2), options2)) {
+        if (gt2 && !satisfies4(eq, String(gt2), options2)) {
           return null;
         }
-        if (lt && !satisfies3(eq, String(lt), options2)) {
+        if (lt && !satisfies4(eq, String(lt), options2)) {
           return null;
         }
         for (const c of dom) {
-          if (!satisfies3(eq, String(c), options2)) {
+          if (!satisfies4(eq, String(c), options2)) {
             return false;
           }
         }
@@ -21318,7 +21318,7 @@ var require_semver2 = __commonJS({
     var truncate = require_truncate();
     var Comparator = require_comparator();
     var Range = require_range();
-    var satisfies3 = require_satisfies();
+    var satisfies4 = require_satisfies();
     var toComparators = require_to_comparators();
     var maxSatisfying = require_max_satisfying();
     var minSatisfying = require_min_satisfying();
@@ -21357,7 +21357,7 @@ var require_semver2 = __commonJS({
       truncate,
       Comparator,
       Range,
-      satisfies: satisfies3,
+      satisfies: satisfies4,
       toComparators,
       maxSatisfying,
       minSatisfying,
@@ -37550,6 +37550,60 @@ var renderPixiUrl = (urlTemplate, version4) => {
     pixiFile
   });
 };
+var parseVersion = (version4) => version4.replace(/^v/, "").split(".").map(Number);
+var compareVersions = (a, b) => {
+  for (let i = 0; i < Math.max(a.length, b.length); i++) {
+    const diff = (a[i] ?? 0) - (b[i] ?? 0);
+    if (diff !== 0) return diff;
+  }
+  return 0;
+};
+var hasPrefix = (version4, prefix2) => prefix2.every((part, i) => (version4[i] ?? 0) === part);
+var satisfiesConstraint = (version4, constraint) => {
+  if (constraint.trim() === "*") return true;
+  const match3 = /^(==|!=|>=|<=|~=|>|<|=)?\s*v?([\d.]+?)(\.\*)?$/.exec(constraint.trim());
+  if (!match3) throw new Error(`Unsupported requires-pixi constraint: \`${constraint}\``);
+  const [, operator = "==", raw, wildcard] = match3;
+  const target = parseVersion(raw);
+  const cmp = compareVersions(version4, target);
+  if (wildcard || operator === "=") return hasPrefix(version4, target) === (operator !== "!=");
+  switch (operator) {
+    case "==":
+      return cmp === 0;
+    case "!=":
+      return cmp !== 0;
+    case ">=":
+      return cmp >= 0;
+    case ">":
+      return cmp > 0;
+    case "<=":
+      return cmp <= 0;
+    case "<":
+      return cmp < 0;
+    default:
+      return cmp >= 0 && hasPrefix(version4, target.slice(0, -1));
+  }
+};
+var satisfies3 = (version4, spec) => spec.split("|").some((alternative) => alternative.split(",").every((c) => satisfiesConstraint(parseVersion(version4), c)));
+var resolveRequiresPixi = async (spec, excludeNewer) => {
+  const token = process.env.GITHUB_TOKEN;
+  const releases = [];
+  for (let page = 1; ; page++) {
+    const response = await fetch(`https://api.github.com/repos/prefix-dev/pixi/releases?per_page=100&page=${page}`, {
+      headers: token ? { Authorization: `Bearer ${token}` } : void 0
+    });
+    if (!response.ok) throw new Error(`Failed to list pixi releases: ${response.status} ${response.statusText}`);
+    const batch = await response.json();
+    releases.push(...batch);
+    if (batch.length < 100) break;
+  }
+  const matching = releases.filter((r) => !r.draft && !r.prerelease && satisfies3(r.tag_name, spec)).sort((a, b) => compareVersions(parseVersion(b.tag_name), parseVersion(a.tag_name)));
+  if (matching.length === 0) throw new Error(`No pixi release satisfies requires-pixi \`${spec}\``);
+  const cutoff = excludeNewer ? new Date(excludeNewer) : void 0;
+  const release = matching.find((r) => !cutoff || Number.isNaN(cutoff.getTime()) || new Date(r.published_at) <= cutoff) ?? matching[matching.length - 1];
+  info(`Using pixi ${release.tag_name} to satisfy requires-pixi \`${spec}\``);
+  return release.tag_name;
+};
 var sha256 = (s) => {
   return (0, import_crypto.createHash)("sha256").update(s).digest("hex");
 };
@@ -37752,17 +37806,19 @@ var determinePixiInstallation = (pixiUrlOrVersionSet, pixiBinPath) => {
   }
   return { downloadPixi: true, pixiBinPath: PATHS.pixiBin };
 };
+var readRequiresPixi = (manifestPath) => {
+  try {
+    const toml = parse((0, import_fs2.readFileSync)(manifestPath, "utf-8"));
+    const pixi = import_path.default.basename(manifestPath) === pyprojectPath ? toml.tool?.pixi : toml;
+    const workspace = pixi?.workspace ?? pixi?.project;
+    const excludeNewer = workspace?.["exclude-newer"];
+    return { requiresPixi: workspace?.["requires-pixi"], excludeNewer: excludeNewer && String(excludeNewer) };
+  } catch {
+    return {};
+  }
+};
 var inferOptions = (inputs) => {
   const runInstall = inputs.runInstall ?? true;
-  const pixiSource = {
-    urlTemplate: inputs.pixiUrl ?? DEFAULT_PIXI_URL_TEMPLATE,
-    headers: inputs.pixiUrlHeaders,
-    version: inputs.pixiVersion ?? "latest"
-  };
-  const { downloadPixi: downloadPixi2, pixiBinPath } = determinePixiInstallation(
-    !!inputs.pixiVersion || !!inputs.pixiUrl,
-    inputs.pixiBinPath
-  );
   const logLevel = inputs.logLevel ?? (isDebug() ? "vv" : "default");
   const workingDirectory = inputs.workingDirectory ? import_path.default.resolve(untildify(inputs.workingDirectory)) : process.cwd();
   debug(`Working directory: ${workingDirectory}`);
@@ -37793,6 +37849,18 @@ var inferOptions = (inputs) => {
       );
     }
   }
+  const { requiresPixi, excludeNewer } = inputs.pixiVersion || inputs.pixiUrl ? {} : readRequiresPixi(manifestPath);
+  const pixiSource = {
+    urlTemplate: inputs.pixiUrl ?? DEFAULT_PIXI_URL_TEMPLATE,
+    headers: inputs.pixiUrlHeaders,
+    version: inputs.pixiVersion ?? "latest",
+    requiresPixi,
+    excludeNewer
+  };
+  const { downloadPixi: downloadPixi2, pixiBinPath } = determinePixiInstallation(
+    !!inputs.pixiVersion || !!inputs.pixiUrl || !!requiresPixi,
+    inputs.pixiBinPath
+  );
   const pixiLockFile = import_path.default.join(import_path.default.dirname(manifestPath), "pixi.lock");
   const lockFileAvailable = (0, import_fs2.existsSync)(pixiLockFile);
   debug(`lockFileAvailable: ${lockFileAvailable ? "yes" : "no"}`);
@@ -80836,7 +80904,8 @@ var activateEnvironment = async (environment) => {
 
 // src/main.ts
 var downloadPixi = async (source) => {
-  const url2 = renderPixiUrl(source.urlTemplate, source.version);
+  const version4 = source.requiresPixi ? await resolveRequiresPixi(source.requiresPixi, source.excludeNewer) : source.version;
+  const url2 = renderPixiUrl(source.urlTemplate, version4);
   await group("Downloading Pixi", async () => {
     debug("Installing pixi");
     debug(`Downloading pixi from ${url2}`);

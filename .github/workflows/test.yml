@@ -1191,6 +1191,16 @@ jobs:
           cache: true
           manifest-path: test/pyproject-manifest/pyproject.toml
 
+  requires-pixi:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: ./
+        with:
+          manifest-path: test/requires-pixi/pixi.toml
+          run-install: false
+      - run: pixi --version | grep -q 'pixi 0.45.0'
+
   environment-activation-unix:
     strategy:
       matrix:
